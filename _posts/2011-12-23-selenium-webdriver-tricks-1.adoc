@@ -1,0 +1,80 @@
+---
+tags:
+- java
+- webdriver
+- xpath
+- how-to
+- selenium
+---
+= WebDriver tricks - part 1
+
+Finally decided to start series (i hope) of blog posts describing tricks that could help developers 
+to write more robust Selenium / WebDriver tests. Here are two of them.
+This information is all covered by Selenium JavaDocs. But if you're good programmer - will you ever read JavaDocs ? :)
+
+== Trick 
+
+* *Q*: How to find element by XPath expression under certain node of HTML tree and not from HTML tree root ?
+* *A*: You should prefix your XPath expression with `.//` (dot in the beginning)
+
+Having HTML 
+
+[source,html]
+----
+<html>
+   <body>
+    <div id="panel1">
+       <div>
+          <span class="myClass">ITEM1</span>
+       </div>
+    </div>
+    <div id="panel2">
+       <div>
+         <span class="myClass">ITEM2</span>
+       </div>
+    </div>
+  </body>
+</html>
+----
+ 
+Java test below illustrates the difference
+
+[source,java]
+----
+WebElement panel2 = webDriver.findElement(By.id("panel2"));
+
+WebElement el1 = panel2.findElement(By.xpath("//span[@class = 'myClass']"));
+WebElement el2 = panel2.findElement(By.xpath(".//span[@class = 'myClass']"));
+
+assert el1.getText().equals("ITEM1");
+assert el2.getText().equals("ITEM2");
+----
+XPath expression `//span[@class = 'myClass']` makes WebDriver to look for element using HTML root as starting point 
+even if we call `findElement()` not at `webDriver` variable. 
+From other hand using XPath starting from dot, i.e. `.//span[@class = 'myClass']` 
+instructs WebDriver to use *panel2* as starting point.
+
+== Trick
+
+* Q: How to check that certain element doesn't exist in HTML tree.
+* A: There's common *anti-pattern* frequently used by developers.
+
+[source, java]
+----
+WebElement notExist = null;
+try {
+    notExist = webDriver.findElement(By.xpath("//div[@id='iAmNotHere']"));
+} catch (NoSuchElementException e) {
+}
+assert notExist == null;
+----
+ 
+This approach has enough disadvantages and best practices violations. We ain't gonna cover them here ;)
+Instead we can use much simpler code to achieve the same result.
+
+[source,java]
+----
+assert webDriver.findElements(By.xpath("//div[@id='iAmNotHere']")).size() == 0;
+----
+
+== P.S.: Let's start read JavaDocs before writing code :)

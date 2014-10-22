@@ -1,0 +1,47 @@
+---
+tags:
+- java
+- firefox
+- debug
+- webdriver
+- selenium
+- screenshot
+---
+= WebDriver tricks - part 2
+
+Have you ever heard about WebDriver's feature of capturing screenshots ? 
+Now you know it can do it too ! Today we faced a problem of debugging WebDriver tests of remote continuous integration server. 
+Since locally tests passed but failed on TeamCity we had a need to get some more debug info. 
+After playing around with capturing API i've created utility class that is capturing browser screen and stores image 
+into folder named as test class with image filename equals to running test method.
+For instance, you have class `com.MyUnstableWebTest` and method `whenSmthHappensThenDoAction`. 
+When the utility method is called - image file with slightly the same as below name gonna be created.
+
+Example name: `/webtest-screenshot/com.MyUnstableWebTest/whenSmthHappensThenDoAction.png`
+
+Here's sources of utility in `Groovy`. Please note that was tested only with `FireFox` web driver
+[source,groovy]
+----
+package com.webtest
+ 
+import org.apache.commons.io.FileUtils
+import org.openqa.selenium.OutputType
+import org.openqa.selenium.TakesScreenshot
+import org.openqa.selenium.WebDriver
+ 
+class ScreenshotUtils {
+	static storeScreenshot(WebDriver webDriver, 
+			def debugInfo = System.currentTimeMillis()) {
+		def webTest = Thread.currentThread().stackTrace.find {
+            it.className.endsWith("WebTest")
+        }
+        if (!webTest) throw new IllegalStateException("Called outside of WebTest")
+ 
+        byte[] srcFile = ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BYTES)
+        FileUtils.writeByteArrayToFile(
+            new File("./webtest-screenshot/${webTest.className}/${webTest.methodName}_${debugInfo}.png"), 
+			srcFile
+		)
+    }
+}
+----

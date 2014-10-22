@@ -1,0 +1,56 @@
+---
+layout: post
+author: Evgeny Shepelyuk
+tags:
+- java
+- mvc
+- web
+---
+
+= Three steps to follow MVC while building Java Web application
+
+== Step #1
+
+=== DO
+
+Always process URL (POST forms, link clicking etc) by servlet / action bean and never by JSP
+
+=== WHY 
+
+`ActionBeans` (whatever certain framework call those classes) and rarely servlets are `controllers` intended for processing user input. 
+JSPs are `view` engine dedicated to rendering representation of software to client.
+Separating user input processing and HTML rendering prevents you from temptation of creating huge,
+multi-purpose, untestable JSPs that are mixing business and representation logic and violating MVC pattern.
+
+== Step #2
+
+=== DO
+
+Render views by forwarding to JSP located only under `/WEB-INF/${JSP folder}`
+
+=== WHY
+
+Views should be accessible only by design of software and never directly. 
+Putting JSPs within root directory of project brings security issues regarding unwanted access to them from clients.
+Also practice of hiding all JSPs under `/WEB-INF` reduces possibility of URL being processed by JSP and not controller and help us to follow *step #1*.
+
+== Step #3
+
+=== DO
+
+Pass model from controller to view only by using request attributes or flash scope
+
+=== WHY
+
+All other ways of view being able to access some data are too limited or insecure. 
+Using request parameters directly within view can be the option for malicious user to pass invalid data. 
+Using session for storing information is causing memory consumption and requires mechanisms to clear unused data after expiration.
+Cookies depends on browser, limited in size and not very friendly to use. 
+From the other hand - request attributes lacks all those drawback and propose clean 
+decoupling of controller responsibility (update model) and view responsibility (read model). 
+Flash scope becomes very handy when it comes to `Redirect After Post` pattern where request attributes can't be used.
+
+== PS: 
+
+All modern _action-based_ frameworks are using steps described below to achieve their goals. 
+But if you using some old fashioned code or don't use any framework at all - you still can achieve good clean and easy to use MVC.

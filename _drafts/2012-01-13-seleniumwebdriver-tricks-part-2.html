@@ -1,0 +1,18 @@
+---
+layout: post
+title: Selenium/WebDriver tricks - part 2
+date: '2012-01-13T16:48:00.000+02:00'
+author: Evgeny Shepelyuk
+tags:
+- java
+- firefox
+- debug
+- webdriver
+- selenium
+- screenshot
+modified_time: '2012-07-04T00:58:23.631+03:00'
+blogger_id: tag:blogger.com,1999:blog-4998424779235998349.post-7693228509213041168
+blogger_orig_url: http://eshepelyuk.blogspot.com/2012/01/seleniumwebdriver-tricks-part-2.html
+---
+
+Have you ever heard about WebDriver's feature of capturing screenshots ? Now you know it can do it too !<br /><br />Today we faced a problem of debugging WebDriver tests of remote continuous integration server. Since locally tests passed but failed on TeamCity we had a need to get some more debug info. After playing around with capturing API i've created utility class that is capturing browser screen and stores image into folder named as test class with image filename equals to running test method.<br /><br />For instance, you have class <span style="font-family: &quot;Courier New&quot;, &quot;Courier&quot;, monospace;">com</span>.<span style="font-family: &quot;Courier New&quot;, &quot;Courier&quot;, monospace;">MyUnstableWebTest</span><i> </i>and method&nbsp;<span style="font-family: &quot;Courier New&quot;, &quot;Courier&quot;, monospace;">whenSmthHappensThenDoAction</span>. When the utility method is called - image file with slightly the same as below name gonna be created.<br />Example name: <i><span style="font-family: &quot;Courier New&quot;, &quot;Courier&quot;, monospace;">.</span></i><span style="font-family: &quot;Courier New&quot;, &quot;Courier&quot;, monospace;">/webtest-screenshot/com.MyUnstableWebTest/whenSmthHappensThenDoAction.png</span><br /><br />Here's sources of utility in <i>Groovy. </i><br />Please note that was tested only with FireFox web driver<i><br /></i><br /><br /><pre class="brush:groovy"><br />package com.webtest<br /><br />import org.apache.commons.io.FileUtils<br />import org.openqa.selenium.OutputType<br />import org.openqa.selenium.TakesScreenshot<br />import org.openqa.selenium.WebDriver<br /><br />class ScreenshotUtils {<br />    static storeScreenshot(WebDriver webDriver, <br />                           def debugInfo = System.currentTimeMillis()) {<br />        def webTest = Thread.currentThread().stackTrace.find {<br />            it.className.endsWith("WebTest")<br />        }<br />        if (!webTest) throw new IllegalStateException("Called outside of WebTest")<br /><br />        byte[] srcFile = ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BYTES)<br />        FileUtils.writeByteArrayToFile(<br />            new File("./webtest-screenshot/${webTest.className}/${webTest.methodName}_${debugInfo}.png")<br />            , srcFile)<br />    }<br />}<br /></pre>

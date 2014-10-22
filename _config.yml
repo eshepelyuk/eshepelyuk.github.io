@@ -1,0 +1,24 @@
+# Site settings
+title: JK's blog
+email: eshepelyk@gmail.com
+description: > # this means to ignore newlines until "baseurl:"
+  Simple blog for some thoughts to be shared. Mostly about Java programming.
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://eshepelyuk.github.io" # the base hostname & protocol for your site
+twitter_username: eshepelyk
+github_username:  eshepelyk
+
+asciidoctor:
+  attributes:
+    - hardbreaks!
+    - source-highlighter=coderay
+
+defaults:
+  -
+    scope:
+      path: "" # an empty string here means all files in the project
+      type: "posts" # previously `post` in Jekyll 2.2.
+    values:
+      comments: true
+
+disqus_shortname: eshepelyukblog
