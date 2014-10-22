@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JK&#39;s blog</title>
+    <description>Simple blog for some thoughts to be shared. Mostly about Java programming.
+</description>
+    <link>http://eshepelyuk.github.io/</link>
+    <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Wed, 22 Oct 2014 23:47:01 +0300</pubDate>
+    <lastBuildDate>Wed, 22 Oct 2014 23:47:01 +0300</lastBuildDate>
+    <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>WebDriver tricks - part 2</title>
+        <description>&lt;h1&gt;WebDriver tricks - part 2&lt;/h1&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Have you ever heard about WebDriver&amp;#8217;s feature of capturing screenshots ?
+Now you know it can do it too ! Today we faced a problem of debugging WebDriver tests of remote continuous integration server.
+Since locally tests passed but failed on TeamCity we had a need to get some more debug info.
+After playing around with capturing API i&amp;#8217;ve created utility class that is capturing browser screen and stores image
+into folder named as test class with image filename equals to running test method.
+For instance, you have class &lt;code&gt;com.MyUnstableWebTest&lt;/code&gt; and method &lt;code&gt;whenSmthHappensThenDoAction&lt;/code&gt;.
+When the utility method is called - image file with slightly the same as below name gonna be created.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Example name: &lt;code&gt;/webtest-screenshot/com.MyUnstableWebTest/whenSmthHappensThenDoAction.png&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Here&amp;#8217;s sources of utility in &lt;code&gt;Groovy&lt;/code&gt;. Please note that was tested only with &lt;code&gt;FireFox&lt;/code&gt; web driver&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;package&lt;/span&gt; com.webtest
+
+&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;include&quot;&gt;org.apache.commons.io.FileUtils&lt;/span&gt;
+&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;include&quot;&gt;org.openqa.selenium.OutputType&lt;/span&gt;
+&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;include&quot;&gt;org.openqa.selenium.TakesScreenshot&lt;/span&gt;
+&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;include&quot;&gt;org.openqa.selenium.WebDriver&lt;/span&gt;
+
+&lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;ScreenshotUtils&lt;/span&gt; {
+        &lt;span class=&quot;directive&quot;&gt;static&lt;/span&gt; storeScreenshot(WebDriver webDriver,
+                        &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; debugInfo = &lt;span class=&quot;predefined-type&quot;&gt;System&lt;/span&gt;.currentTimeMillis()) {
+                &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; webTest = &lt;span class=&quot;predefined-type&quot;&gt;Thread&lt;/span&gt;.currentThread().stackTrace.find {
+            &lt;span class=&quot;local-variable&quot;&gt;it&lt;/span&gt;.className.endsWith(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;WebTest&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)
+        }
+        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (!webTest) &lt;span class=&quot;keyword&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;exception&quot;&gt;IllegalStateException&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;Called outside of WebTest&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)
+
+        &lt;span class=&quot;type&quot;&gt;byte&lt;/span&gt;&lt;span class=&quot;type&quot;&gt;[]&lt;/span&gt; srcFile = ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BYTES)
+        FileUtils.writeByteArrayToFile(
+            &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;File&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;./webtest-screenshot/&lt;/span&gt;&lt;span class=&quot;inline&quot;&gt;&lt;span class=&quot;inline-delimiter&quot;&gt;${&lt;/span&gt;webTest.className&lt;span class=&quot;inline-delimiter&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;inline&quot;&gt;&lt;span class=&quot;inline-delimiter&quot;&gt;${&lt;/span&gt;webTest.methodName&lt;span class=&quot;inline-delimiter&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;inline&quot;&gt;&lt;span class=&quot;inline-delimiter&quot;&gt;${&lt;/span&gt;debugInfo&lt;span class=&quot;inline-delimiter&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;.png&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;),
+                        srcFile
+                )
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
+        <pubDate>Fri, 13 Jan 2012 00:00:00 +0200</pubDate>
+        <link>http://eshepelyuk.github.io/2012/01/13/seleniumwebdriver-tricks-part-2.html</link>
+        <guid isPermaLink="true">http://eshepelyuk.github.io/2012/01/13/seleniumwebdriver-tricks-part-2.html</guid>
+        
+        <category>java</category>
+        
+        <category>firefox</category>
+        
+        <category>debug</category>
+        
+        <category>webdriver</category>
+        
+        <category>selenium</category>
+        
+        <category>screenshot</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>WebDriver tricks - part 1</title>
+        <description>&lt;h1&gt;WebDriver tricks - part 1&lt;/h1&gt;
+&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Finally decided to start series (i hope) of blog posts describing tricks that could help developers
+to write more robust Selenium / WebDriver tests. Here are two of them.
+This information is all covered by Selenium JavaDocs. But if you&amp;#8217;re good programmer - will you ever read JavaDocs ? :)&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;trick&quot;&gt;Trick&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Q&lt;/strong&gt;: How to find element by XPath expression under certain node of HTML tree and not from HTML tree root ?&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;A&lt;/strong&gt;: You should prefix your XPath expression with &lt;code&gt;.//&lt;/code&gt; (dot in the beginning)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Having HTML&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;html&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;tag&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;id&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;panel1&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;gt;&lt;/span&gt;
+       &lt;span class=&quot;tag&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;
+          &lt;span class=&quot;tag&quot;&gt;&amp;lt;span&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;myClass&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;gt;&lt;/span&gt;ITEM1&lt;span class=&quot;tag&quot;&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;
+       &lt;span class=&quot;tag&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;id&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;panel2&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;gt;&lt;/span&gt;
+       &lt;span class=&quot;tag&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;
+         &lt;span class=&quot;tag&quot;&gt;&amp;lt;span&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;myClass&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;gt;&lt;/span&gt;ITEM2&lt;span class=&quot;tag&quot;&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;
+       &lt;span class=&quot;tag&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;tag&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Java test below illustrates the difference&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;WebElement panel2 = webDriver.findElement(By.id(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;panel2&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;));
+
+WebElement el1 = panel2.findElement(By.xpath(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;//span[@class = &#39;myClass&#39;]&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;));
+WebElement el2 = panel2.findElement(By.xpath(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;.//span[@class = &#39;myClass&#39;]&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;));
+
+&lt;span class=&quot;keyword&quot;&gt;assert&lt;/span&gt; el1.getText().equals(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;ITEM1&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;);
+&lt;span class=&quot;keyword&quot;&gt;assert&lt;/span&gt; el2.getText().equals(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;ITEM2&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;);&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;XPath expression &lt;code&gt;//span[@class = &#39;myClass&#39;]&lt;/code&gt; makes WebDriver to look for element using HTML root as starting point
+even if we call &lt;code&gt;findElement()&lt;/code&gt; not at &lt;code&gt;webDriver&lt;/code&gt; variable.
+From other hand using XPath starting from dot, i.e. &lt;code&gt;.//span[@class = &#39;myClass&#39;]&lt;/code&gt;
+instructs WebDriver to use &lt;strong&gt;panel2&lt;/strong&gt; as starting point.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;trick-2&quot;&gt;Trick&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Q: How to check that certain element doesn&amp;#8217;t exist in HTML tree.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A: There&amp;#8217;s common &lt;strong&gt;anti-pattern&lt;/strong&gt; frequently used by developers.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;WebElement notExist = &lt;span class=&quot;predefined-constant&quot;&gt;null&lt;/span&gt;;
+&lt;span class=&quot;keyword&quot;&gt;try&lt;/span&gt; {
+    notExist = webDriver.findElement(By.xpath(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;//div[@id=&#39;iAmNotHere&#39;]&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;));
+} &lt;span class=&quot;keyword&quot;&gt;catch&lt;/span&gt; (&lt;span class=&quot;exception&quot;&gt;NoSuchElementException&lt;/span&gt; e) {
+}
+&lt;span class=&quot;keyword&quot;&gt;assert&lt;/span&gt; notExist == &lt;span class=&quot;predefined-constant&quot;&gt;null&lt;/span&gt;;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This approach has enough disadvantages and best practices violations. We ain&amp;#8217;t gonna cover them here ;)
+Instead we can use much simpler code to achieve the same result.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;assert&lt;/span&gt; webDriver.findElements(By.xpath(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;//div[@id=&#39;iAmNotHere&#39;]&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)).size() == &lt;span class=&quot;integer&quot;&gt;0&lt;/span&gt;;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;p-s-let-s-start-read-javadocs-before-writing-code&quot;&gt;P.S.: Let&amp;#8217;s start read JavaDocs before writing code :)&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;</description>
+        <pubDate>Fri, 23 Dec 2011 00:00:00 +0200</pubDate>
+        <link>http://eshepelyuk.github.io/2011/12/23/selenium-webdriver-tricks-1.html</link>
+        <guid isPermaLink="true">http://eshepelyuk.github.io/2011/12/23/selenium-webdriver-tricks-1.html</guid>
+        
+        <category>java</category>
+        
+        <category>webdriver</category>
+        
+        <category>xpath</category>
+        
+        <category>how-to</category>
+        
+        <category>selenium</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Three steps to follow MVC while building Java Web application</title>
+        <description>&lt;h1&gt;Three steps to follow MVC while building Java Web application&lt;/h1&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;step-1&quot;&gt;Step #1&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;do&quot;&gt;DO&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Always process URL (POST forms, link clicking etc) by servlet / action bean and never by JSP&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;why&quot;&gt;WHY&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;code&gt;ActionBeans&lt;/code&gt; (whatever certain framework call those classes) and rarely servlets are &lt;code&gt;controllers&lt;/code&gt; intended for processing user input.
+JSPs are &lt;code&gt;view&lt;/code&gt; engine dedicated to rendering representation of software to client.
+Separating user input processing and HTML rendering prevents you from temptation of creating huge,
+multi-purpose, untestable JSPs that are mixing business and representation logic and violating MVC pattern.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;step-2&quot;&gt;Step #2&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;do-2&quot;&gt;DO&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Render views by forwarding to JSP located only under &lt;code&gt;/WEB-INF/${JSP folder}&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;why-2&quot;&gt;WHY&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Views should be accessible only by design of software and never directly.
+Putting JSPs within root directory of project brings security issues regarding unwanted access to them from clients.
+Also practice of hiding all JSPs under &lt;code&gt;/WEB-INF&lt;/code&gt; reduces possibility of URL being processed by JSP and not controller and help us to follow &lt;strong&gt;step #1&lt;/strong&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;step-3&quot;&gt;Step #3&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;do-3&quot;&gt;DO&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Pass model from controller to view only by using request attributes or flash scope&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;why-3&quot;&gt;WHY&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;All other ways of view being able to access some data are too limited or insecure.
+Using request parameters directly within view can be the option for malicious user to pass invalid data.
+Using session for storing information is causing memory consumption and requires mechanisms to clear unused data after expiration.
+Cookies depends on browser, limited in size and not very friendly to use.
+From the other hand - request attributes lacks all those drawback and propose clean
+decoupling of controller responsibility (update model) and view responsibility (read model).
+Flash scope becomes very handy when it comes to &lt;code&gt;Redirect After Post&lt;/code&gt; pattern where request attributes can&amp;#8217;t be used.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;ps&quot;&gt;PS:&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;All modern &lt;em&gt;action-based&lt;/em&gt; frameworks are using steps described below to achieve their goals.
+But if you using some old fashioned code or don&amp;#8217;t use any framework at all - you still can achieve good clean and easy to use MVC.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
+        <pubDate>Mon, 12 Dec 2011 00:00:00 +0200</pubDate>
+        <link>http://eshepelyuk.github.io/2011/12/12/three-steps-to-follow-mvc-while.html</link>
+        <guid isPermaLink="true">http://eshepelyuk.github.io/2011/12/12/three-steps-to-follow-mvc-while.html</guid>
+        
+        <category>java</category>
+        
+        <category>mvc</category>
+        
+        <category>web</category>
+        
+        
+      </item>
+    
+  </channel>
+</rss>

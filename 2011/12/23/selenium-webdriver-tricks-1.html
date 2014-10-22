@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>WebDriver tricks - part 1</title>
+    <meta name="description" content="Simple blog for some thoughts to be shared. Mostly about Java programming.
+">
+
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="canonical" href="http://eshepelyuk.github.io/2011/12/23/selenium-webdriver-tricks-1.html">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">JK's blog</a>
+	
+    <nav class="site-nav">
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+	</div>
+	
+   <div class="wrapper">
+	<p class="text">Simple blog for some thoughts to be shared. Mostly about Java programming.
+</p>
+  </div>
+  
+	
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">WebDriver tricks - part 1</h1>
+    <p class="post-meta">Dec 23, 2011</p>
+  </header>
+
+  <article class="post-content">
+    <h1>WebDriver tricks - part 1</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Finally decided to start series (i hope) of blog posts describing tricks that could help developers
+to write more robust Selenium / WebDriver tests. Here are two of them.
+This information is all covered by Selenium JavaDocs. But if you&#8217;re good programmer - will you ever read JavaDocs ? :)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="trick">Trick</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Q</strong>: How to find element by XPath expression under certain node of HTML tree and not from HTML tree root ?</p>
+</li>
+<li>
+<p><strong>A</strong>: You should prefix your XPath expression with <code>.//</code> (dot in the beginning)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Having HTML</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;html&gt;</span>
+   <span class="tag">&lt;body&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">panel1</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+       <span class="tag">&lt;div&gt;</span>
+          <span class="tag">&lt;span</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">myClass</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>ITEM1<span class="tag">&lt;/span&gt;</span>
+       <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">panel2</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+       <span class="tag">&lt;div&gt;</span>
+         <span class="tag">&lt;span</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">myClass</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>ITEM2<span class="tag">&lt;/span&gt;</span>
+       <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Java test below illustrates the difference</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">WebElement panel2 = webDriver.findElement(By.id(<span class="string"><span class="delimiter">&quot;</span><span class="content">panel2</span><span class="delimiter">&quot;</span></span>));
+
+WebElement el1 = panel2.findElement(By.xpath(<span class="string"><span class="delimiter">&quot;</span><span class="content">//span[@class = 'myClass']</span><span class="delimiter">&quot;</span></span>));
+WebElement el2 = panel2.findElement(By.xpath(<span class="string"><span class="delimiter">&quot;</span><span class="content">.//span[@class = 'myClass']</span><span class="delimiter">&quot;</span></span>));
+
+<span class="keyword">assert</span> el1.getText().equals(<span class="string"><span class="delimiter">&quot;</span><span class="content">ITEM1</span><span class="delimiter">&quot;</span></span>);
+<span class="keyword">assert</span> el2.getText().equals(<span class="string"><span class="delimiter">&quot;</span><span class="content">ITEM2</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>XPath expression <code>//span[@class = 'myClass']</code> makes WebDriver to look for element using HTML root as starting point
+even if we call <code>findElement()</code> not at <code>webDriver</code> variable.
+From other hand using XPath starting from dot, i.e. <code>.//span[@class = 'myClass']</code>
+instructs WebDriver to use <strong>panel2</strong> as starting point.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="trick-2">Trick</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Q: How to check that certain element doesn&#8217;t exist in HTML tree.</p>
+</li>
+<li>
+<p>A: There&#8217;s common <strong>anti-pattern</strong> frequently used by developers.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">WebElement notExist = <span class="predefined-constant">null</span>;
+<span class="keyword">try</span> {
+    notExist = webDriver.findElement(By.xpath(<span class="string"><span class="delimiter">&quot;</span><span class="content">//div[@id='iAmNotHere']</span><span class="delimiter">&quot;</span></span>));
+} <span class="keyword">catch</span> (<span class="exception">NoSuchElementException</span> e) {
+}
+<span class="keyword">assert</span> notExist == <span class="predefined-constant">null</span>;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This approach has enough disadvantages and best practices violations. We ain&#8217;t gonna cover them here ;)
+Instead we can use much simpler code to achieve the same result.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">assert</span> webDriver.findElements(By.xpath(<span class="string"><span class="delimiter">&quot;</span><span class="content">//div[@id='iAmNotHere']</span><span class="delimiter">&quot;</span></span>)).size() == <span class="integer">0</span>;</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="p-s-let-s-start-read-javadocs-before-writing-code">P.S.: Let&#8217;s start read JavaDocs before writing code :)</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+  </article>
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+	var disqus_shortname = 'eshepelyukblog'; // required: replace example with your forum shortname
+	var disqus_url = 'http://localhost:4000/2011/12/23/selenium-webdriver-tricks-1.html'; 
+	
+	/* * * DON'T EDIT BELOW THIS LINE * * */
+	(function() {
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>JK's blog</li>
+          <li><a href="mailto:eshepelyk@gmail.com">eshepelyk@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+			<i class="fa fa-github-square fa-lg"></i>
+            <a href="https://github.com/eshepelyk">
+              <span class="username">eshepelyk</span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+			<i class="fa fa-twitter-square fa-lg"></i>
+            <a href="https://twitter.com/eshepelyk">
+              <span class="username">eshepelyk</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">Simple blog for some thoughts to be shared. Mostly about Java programming.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Three steps to follow MVC while building Java Web application</title>
+    <meta name="description" content="Simple blog for some thoughts to be shared. Mostly about Java programming.
+">
+
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="canonical" href="http://eshepelyuk.github.io/2011/12/12/three-steps-to-follow-mvc-while.html">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">JK's blog</a>
+	
+    <nav class="site-nav">
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+	</div>
+	
+   <div class="wrapper">
+	<p class="text">Simple blog for some thoughts to be shared. Mostly about Java programming.
+</p>
+  </div>
+  
+	
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Three steps to follow MVC while building Java Web application</h1>
+    <p class="post-meta">Dec 12, 2011 • Evgeny Shepelyuk</p>
+  </header>
+
+  <article class="post-content">
+    <h1>Three steps to follow MVC while building Java Web application</h1>
+<div class="sect1">
+<h2 id="step-1">Step #1</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="do">DO</h3>
+<div class="paragraph">
+<p>Always process URL (POST forms, link clicking etc) by servlet / action bean and never by JSP</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="why">WHY</h3>
+<div class="paragraph">
+<p><code>ActionBeans</code> (whatever certain framework call those classes) and rarely servlets are <code>controllers</code> intended for processing user input.
+JSPs are <code>view</code> engine dedicated to rendering representation of software to client.
+Separating user input processing and HTML rendering prevents you from temptation of creating huge,
+multi-purpose, untestable JSPs that are mixing business and representation logic and violating MVC pattern.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="step-2">Step #2</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="do-2">DO</h3>
+<div class="paragraph">
+<p>Render views by forwarding to JSP located only under <code>/WEB-INF/${JSP folder}</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="why-2">WHY</h3>
+<div class="paragraph">
+<p>Views should be accessible only by design of software and never directly.
+Putting JSPs within root directory of project brings security issues regarding unwanted access to them from clients.
+Also practice of hiding all JSPs under <code>/WEB-INF</code> reduces possibility of URL being processed by JSP and not controller and help us to follow <strong>step #1</strong>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="step-3">Step #3</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="do-3">DO</h3>
+<div class="paragraph">
+<p>Pass model from controller to view only by using request attributes or flash scope</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="why-3">WHY</h3>
+<div class="paragraph">
+<p>All other ways of view being able to access some data are too limited or insecure.
+Using request parameters directly within view can be the option for malicious user to pass invalid data.
+Using session for storing information is causing memory consumption and requires mechanisms to clear unused data after expiration.
+Cookies depends on browser, limited in size and not very friendly to use.
+From the other hand - request attributes lacks all those drawback and propose clean
+decoupling of controller responsibility (update model) and view responsibility (read model).
+Flash scope becomes very handy when it comes to <code>Redirect After Post</code> pattern where request attributes can&#8217;t be used.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="ps">PS:</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>All modern <em>action-based</em> frameworks are using steps described below to achieve their goals.
+But if you using some old fashioned code or don&#8217;t use any framework at all - you still can achieve good clean and easy to use MVC.</p>
+</div>
+</div>
+</div>
+  </article>
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+	var disqus_shortname = 'eshepelyukblog'; // required: replace example with your forum shortname
+	var disqus_url = 'http://localhost:4000/2011/12/12/three-steps-to-follow-mvc-while.html'; 
+	
+	/* * * DON'T EDIT BELOW THIS LINE * * */
+	(function() {
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>JK's blog</li>
+          <li><a href="mailto:eshepelyk@gmail.com">eshepelyk@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+			<i class="fa fa-github-square fa-lg"></i>
+            <a href="https://github.com/eshepelyk">
+              <span class="username">eshepelyk</span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+			<i class="fa fa-twitter-square fa-lg"></i>
+            <a href="https://twitter.com/eshepelyk">
+              <span class="username">eshepelyk</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">Simple blog for some thoughts to be shared. Mostly about Java programming.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
