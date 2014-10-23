@@ -1,0 +1,64 @@
+---
+tags:
+- java
+- webdriver
+- how-to
+- selenium
+---
+= WebDriver tricks - part 3
+
+== Intro
+It's common case for dynamic pages to show / hide some elements basing on user's actions. 
+But covering them with stable WebDriver tests could be sometimes cumbersome. 
+I'll try to explain couple of techniques helping to deal with that sort of web pages. 
+
+== Case #1
+First approach I'd like to describe is rendering all the elements on page load but set CSS `display` property to `none` 
+and later set it to empty or `block` to make element visible.
+
+In this case we can't just check visibility by using `webDriver.findElement(...)` since it will return valid element but we don't know if it visible or not. 
+Fortunately `WebElement` interface has method `isDisplayed()`, however obvious solution `webDriver.findElement(...).isDisplayed()`
+could be erroneous because JavaScript code that changes element visibility works with delays. 
+To overcome such problems we can use `WebDriverWait` class.
+
+[source,java]
+----
+WebDriverWait webDriverWait = new WebDriverWait(webDriver, 10L);
+WebElement visibleElement = webDriverWait.until(new Function<Webdriver, WebElement>() {
+	@Override
+	public WebElement apply(WebDriver webDriver) {
+		WebElement we = webDriver.findElement(...);
+		return we.isDisplayed() ? we : null;
+	}
+});
+----
+
+The code periodically finds element and checks its visibility. 
+When element exist and visible it will be returned by `until(..)` method.
+To check if element is invisible at the moment we can use similar approach just negating the condition in the function body
+
+== Case #2
+There's another option for dealing with show/hide certain parts of the page. 
+Your code can create required HTML on the fly while showing and remove elements from DOM while hiding. 
+To check element visibility we can use approach described above. But for checking if the part of the page is not shown to customer 
+we can't use that because there's no elements in DOM and if we try to use `findElement(...)` we will get the exception.
+
+Issue could be solved by using `WebDriverWait` `findElements(...)` method that doesn't throw an exception but return empty list if no elements found. 
+
+[source,java]
+----
+WebDriverWait webDriverWait = new WebDriverWait(webDriver, 10L);
+webDriverWait.until(new Predicate<WebDriver>() {
+	@Override
+	public boolean apply(WebDriver webDriver) {
+		return webDriver.findElements(...).size() == 0;
+	}
+});
+----
+
+Code periodically searches for elements matching criteria and return true when no elements found. 
+
+== P.S.
+
+It could save your time and make your code cleaner if you put code samples from above as static methods into utility class.
+This allows you to easily reuse such functionality while writing WebDriver tests for your pages.

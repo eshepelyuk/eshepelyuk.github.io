@@ -1,6 +1,4 @@
 ---
-layout: post
-author: Evgeny Shepelyuk
 tags:
 - java
 - mvc
