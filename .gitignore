@@ -1,1 +1,6 @@
 _site/
+.sass_cache/
+Gemfile
+Gemfile.lock
+build.sh
+
