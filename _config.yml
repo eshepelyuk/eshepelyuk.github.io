@@ -22,3 +22,5 @@ defaults:
       comments: true
 
 disqus_shortname: eshepelyukblog
+
+exclude: ['Gemfile.lock', 'Gemfile']
