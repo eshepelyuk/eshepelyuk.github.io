@@ -6,8 +6,8 @@
 </description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 23 Oct 2014 17:54:01 +0000</pubDate>
-    <lastBuildDate>Thu, 23 Oct 2014 17:54:01 +0000</lastBuildDate>
+    <pubDate>Thu, 23 Oct 2014 18:11:55 +0000</pubDate>
+    <lastBuildDate>Thu, 23 Oct 2014 18:11:55 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -186,6 +186,99 @@ This allows you to easily reuse such functionality while writing WebDriver tests
         <category>how-to</category>
         
         <category>selenium</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>CodingDojoCnUa #2 results</title>
+        <description>&lt;h1&gt;CodingDojoCnUa #2 results&lt;/h1&gt;
+&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;On 5th of February our small Cherhihiv community made 2nd &lt;em&gt;СodingDojo&lt;/em&gt;.
+This time it was dedicated to &lt;code&gt;JavaScript&lt;/code&gt; programming.
+We tried to code some &lt;em&gt;Design Patterns&lt;/em&gt; in new language.
+What we attained during 2 two 1 our long session is following patterns implemented&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;olist arabic&quot;&gt;
+&lt;ol class=&quot;arabic&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;Singleton, yeah yeah yeah :)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Factory method&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Template method v1 (prototype hierarchy)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Template method v2 (runtime meta-programming)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Decorator&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;What we found very good during retrospection is usage of &lt;em&gt;TimeBox&lt;/em&gt; policy for changing pilot/co-pilot,
+we used 7 minutes limited time box and &lt;code&gt;IntelliJ IDEA&lt;/code&gt; &lt;code&gt;Pomodoro&lt;/code&gt; plugin was helpful on this.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;During programming we all suffered of our Java mindset.
+Even plain looking into Wikipedia description and attempt to re-implement &lt;code&gt;Java&lt;/code&gt; code samples in &lt;code&gt;JavaScript&lt;/code&gt; were damaging our brains :)
+Lack of interfaces (as in &lt;code&gt;Java&lt;/code&gt;) and completely different approach of creating class hierarchy slowed down our development speed.
+Another issue was immense scope of our &lt;em&gt;Dojo&lt;/em&gt;. Certain targets (patterns) were chosen only at the beginning of session and it was a challenge
+to create domain object for certain patterns without detailed design session for which we have no time.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;what-we-decided-to-do-next&quot;&gt;What we decided to do next&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;olist arabic&quot;&gt;
+&lt;ol class=&quot;arabic&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;Pick up and implement some Kata to have more certainty on what we wanna achieve&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Increase time box to 10 minutes, let&amp;#8217;s see if helps&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Get some cookies and drinks to not starve during session :)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;my-personal-observations&quot;&gt;My personal observations&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The easiest part was &lt;code&gt;Jasmine&lt;/code&gt;. This BDD tool was adopted seamlessly by all of us since TDD tools and practices are familiar to us from &lt;code&gt;Java&lt;/code&gt; world
+and &lt;code&gt;Jasmine&lt;/code&gt; is very similar.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The hardest was start thinking again in higher level OOP terms, not in their equivalents in &lt;code&gt;Java&lt;/code&gt;.
+All those interfaces, classes limited to the same named file and other limitation imposed by &lt;code&gt;Java&lt;/code&gt; were hard to overcome.
+Considering present of duck typing in JavaScript we get rid of interfaces, abstract classes and class hierarchy at all.
+Another uncommon point was API concentrated in module not in class as in &lt;code&gt;Java&lt;/code&gt; it it was also a bit frustrating from the beginning.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;But anyway the coolest thing was our success in short and stressful session as well as knowledge obtained.
+I think attitude to &lt;code&gt;JavaScript&lt;/code&gt; should change a bit towards paying more respect for this amazing and underestimated language (my IMO though).&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
+        <pubDate>Mon, 06 Feb 2012 00:00:00 +0000</pubDate>
+        <link>http://eshepelyuk.github.io/2012/02/06/codingdojocnua-2-results.html</link>
+        <guid isPermaLink="true">http://eshepelyuk.github.io/2012/02/06/codingdojocnua-2-results.html</guid>
+        
+        <category>javascript</category>
+        
+        <category>coding dojo</category>
+        
+        <category>design pattern</category>
         
         
       </item>
