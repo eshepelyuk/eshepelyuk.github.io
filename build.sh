@@ -16,6 +16,6 @@ git config user.name "Evgeny Shepelyuk"
 git add .
 git status
 git commit -a -m 'jekyll'
-git push
+git push origin master
 
  
