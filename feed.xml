@@ -6,9 +6,106 @@
 </description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 23 Oct 2014 13:03:52 +0000</pubDate>
-    <lastBuildDate>Thu, 23 Oct 2014 13:03:52 +0000</lastBuildDate>
+    <pubDate>Thu, 23 Oct 2014 17:24:07 +0000</pubDate>
+    <lastBuildDate>Thu, 23 Oct 2014 17:24:07 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>WebDriver tricks - part 3</title>
+        <description>&lt;h1&gt;WebDriver tricks - part 3&lt;/h1&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;intro&quot;&gt;Intro&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It&amp;#8217;s common case for dynamic pages to show / hide some elements basing on user&amp;#8217;s actions.
+But covering them with stable WebDriver tests could be sometimes cumbersome.
+I&amp;#8217;ll try to explain couple of techniques helping to deal with that sort of web pages.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;case-1&quot;&gt;Case #1&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;First approach I&amp;#8217;d like to describe is rendering all the elements on page load but set CSS &lt;code&gt;display&lt;/code&gt; property to &lt;code&gt;none&lt;/code&gt;
+and later set it to empty or &lt;code&gt;block&lt;/code&gt; to make element visible.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In this case we can&amp;#8217;t just check visibility by using &lt;code&gt;webDriver.findElement(&amp;#8230;&amp;#8203;)&lt;/code&gt; since it will return valid element but we don&amp;#8217;t know if it visible or not.
+Fortunately &lt;code&gt;WebElement&lt;/code&gt; interface has method &lt;code&gt;isDisplayed()&lt;/code&gt;, however obvious solution &lt;code&gt;webDriver.findElement(&amp;#8230;&amp;#8203;).isDisplayed()&lt;/code&gt;
+could be erroneous because JavaScript code that changes element visibility works with delays.
+To overcome such problems we can use &lt;code&gt;WebDriverWait&lt;/code&gt; class.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;WebDriverWait webDriverWait = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; WebDriverWait(webDriver, &lt;span class=&quot;integer&quot;&gt;10L&lt;/span&gt;);
+WebElement visibleElement = webDriverWait.until(&lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; Function&amp;lt;Webdriver, WebElement&amp;gt;() {
+        &lt;span class=&quot;annotation&quot;&gt;@Override&lt;/span&gt;
+        &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; WebElement apply(WebDriver webDriver) {
+                WebElement we = webDriver.findElement(...);
+                &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; we.isDisplayed() ? we : &lt;span class=&quot;predefined-constant&quot;&gt;null&lt;/span&gt;;
+        }
+});&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The code periodically finds element and checks its visibility.
+When element exist and visible it will be returned by &lt;code&gt;until(..)&lt;/code&gt; method.
+To check if element is invisible at the moment we can use similar approach just negating the condition in the function body&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;case-2&quot;&gt;Case #2&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There&amp;#8217;s another option for dealing with show/hide certain parts of the page.
+Your code can create required HTML on the fly while showing and remove elements from DOM while hiding.
+To check element visibility we can use approach described above. But for checking if the part of the page is not shown to customer
+we can&amp;#8217;t use that because there&amp;#8217;s no elements in DOM and if we try to use &lt;code&gt;findElement(&amp;#8230;&amp;#8203;)&lt;/code&gt; we will get the exception.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Issue could be solved by using &lt;code&gt;WebDriverWait&lt;/code&gt; &lt;code&gt;findElements(&amp;#8230;&amp;#8203;)&lt;/code&gt; method that doesn&amp;#8217;t throw an exception but return empty list if no elements found.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;WebDriverWait webDriverWait = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; WebDriverWait(webDriver, &lt;span class=&quot;integer&quot;&gt;10L&lt;/span&gt;);
+webDriverWait.until(&lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;Predicate&lt;/span&gt;&amp;lt;WebDriver&amp;gt;() {
+        &lt;span class=&quot;annotation&quot;&gt;@Override&lt;/span&gt;
+        &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;boolean&lt;/span&gt; apply(WebDriver webDriver) {
+                &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; webDriver.findElements(...).size() == &lt;span class=&quot;integer&quot;&gt;0&lt;/span&gt;;
+        }
+});&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Code periodically searches for elements matching criteria and return true when no elements found.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;p-s&quot;&gt;P.S.&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It could save your time and make your code cleaner if you put code samples from above as static methods into utility class.
+This allows you to easily reuse such functionality while writing WebDriver tests for your pages.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
+        <pubDate>Wed, 11 Jul 2012 00:00:00 +0000</pubDate>
+        <link>http://eshepelyuk.github.io/2012/07/11/seleniumwebdriver-tricks-part-3.html</link>
+        <guid isPermaLink="true">http://eshepelyuk.github.io/2012/07/11/seleniumwebdriver-tricks-part-3.html</guid>
+        
+        <category>java</category>
+        
+        <category>webdriver</category>
+        
+        <category>how-to</category>
+        
+        <category>selenium</category>
+        
+        
+      </item>
     
       <item>
         <title>WebDriver tricks - part 2</title>

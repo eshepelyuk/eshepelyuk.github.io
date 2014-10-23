@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>WebDriver tricks - part 3</title>
+    <meta name="description" content="Simple blog for some thoughts to be shared. Mostly about Java programming.
+">
+
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="canonical" href="http://eshepelyuk.github.io/2012/07/11/seleniumwebdriver-tricks-part-3.html">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">JK's blog</a>
+	
+    <nav class="site-nav">
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+	</div>
+	
+   <div class="wrapper">
+	<p class="text">Simple blog for some thoughts to be shared. Mostly about Java programming.
+</p>
+  </div>
+  
+	
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">WebDriver tricks - part 3</h1>
+    <p class="post-meta">Jul 11, 2012</p>
+  </header>
+
+  <article class="post-content">
+    <h1>WebDriver tricks - part 3</h1>
+<div class="sect1">
+<h2 id="intro">Intro</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It&#8217;s common case for dynamic pages to show / hide some elements basing on user&#8217;s actions.
+But covering them with stable WebDriver tests could be sometimes cumbersome.
+I&#8217;ll try to explain couple of techniques helping to deal with that sort of web pages.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="case-1">Case #1</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>First approach I&#8217;d like to describe is rendering all the elements on page load but set CSS <code>display</code> property to <code>none</code>
+and later set it to empty or <code>block</code> to make element visible.</p>
+</div>
+<div class="paragraph">
+<p>In this case we can&#8217;t just check visibility by using <code>webDriver.findElement(&#8230;&#8203;)</code> since it will return valid element but we don&#8217;t know if it visible or not.
+Fortunately <code>WebElement</code> interface has method <code>isDisplayed()</code>, however obvious solution <code>webDriver.findElement(&#8230;&#8203;).isDisplayed()</code>
+could be erroneous because JavaScript code that changes element visibility works with delays.
+To overcome such problems we can use <code>WebDriverWait</code> class.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">WebDriverWait webDriverWait = <span class="keyword">new</span> WebDriverWait(webDriver, <span class="integer">10L</span>);
+WebElement visibleElement = webDriverWait.until(<span class="keyword">new</span> Function&lt;Webdriver, WebElement&gt;() {
+        <span class="annotation">@Override</span>
+        <span class="directive">public</span> WebElement apply(WebDriver webDriver) {
+                WebElement we = webDriver.findElement(...);
+                <span class="keyword">return</span> we.isDisplayed() ? we : <span class="predefined-constant">null</span>;
+        }
+});</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code periodically finds element and checks its visibility.
+When element exist and visible it will be returned by <code>until(..)</code> method.
+To check if element is invisible at the moment we can use similar approach just negating the condition in the function body</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="case-2">Case #2</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There&#8217;s another option for dealing with show/hide certain parts of the page.
+Your code can create required HTML on the fly while showing and remove elements from DOM while hiding.
+To check element visibility we can use approach described above. But for checking if the part of the page is not shown to customer
+we can&#8217;t use that because there&#8217;s no elements in DOM and if we try to use <code>findElement(&#8230;&#8203;)</code> we will get the exception.</p>
+</div>
+<div class="paragraph">
+<p>Issue could be solved by using <code>WebDriverWait</code> <code>findElements(&#8230;&#8203;)</code> method that doesn&#8217;t throw an exception but return empty list if no elements found.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">WebDriverWait webDriverWait = <span class="keyword">new</span> WebDriverWait(webDriver, <span class="integer">10L</span>);
+webDriverWait.until(<span class="keyword">new</span> <span class="predefined-type">Predicate</span>&lt;WebDriver&gt;() {
+        <span class="annotation">@Override</span>
+        <span class="directive">public</span> <span class="type">boolean</span> apply(WebDriver webDriver) {
+                <span class="keyword">return</span> webDriver.findElements(...).size() == <span class="integer">0</span>;
+        }
+});</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Code periodically searches for elements matching criteria and return true when no elements found.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="p-s">P.S.</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It could save your time and make your code cleaner if you put code samples from above as static methods into utility class.
+This allows you to easily reuse such functionality while writing WebDriver tests for your pages.</p>
+</div>
+</div>
+</div>
+  </article>
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+	var disqus_shortname = 'eshepelyukblog'; // required: replace example with your forum shortname
+	var disqus_url = 'http://localhost:4000/2012/07/11/seleniumwebdriver-tricks-part-3.html'; 
+	
+	/* * * DON'T EDIT BELOW THIS LINE * * */
+	(function() {
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>JK's blog</li>
+          <li><a href="mailto:eshepelyk@gmail.com">eshepelyk@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+			<i class="fa fa-github-square fa-lg"></i>
+            <a href="https://github.com/eshepelyuk">
+              <span class="username">eshepelyuk</span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+			<i class="fa fa-twitter-square fa-lg"></i>
+            <a href="https://twitter.com/eshepelyuk">
+              <span class="username">eshepelyuk</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">Simple blog for some thoughts to be shared. Mostly about Java programming.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
