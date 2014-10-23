@@ -1,0 +1,44 @@
+---
+---
+= WebDriver workshop at Softengi, Chernihiv
+
+Today we've been doing small workshop dedicated to learning basics of writing functional test using `WebDriver`
+with couple of guys from Chernihiv's Softengi office. The agenda was quite brief 
+
+. Doing some sort of _Prepared Kata_. It was Google search page example with entering query and clicking suggestions provided.
+. Refactoring of code created
+. Break and retrospection of what had been achieved
+. More coding to complete the task (checking search results returned by Google) 
+. Quick review of successes :)
+
+== Few lesson learnt from point #5: 
+
+* Hell yeah, i know `Hamcrest` matchers :) and able to use complex combinations of them for assertion, but ...
+* `Hamcrest` matchers are too verbose for complex collection operation, so ...
+* I'd recommend to write `WebDriver` tests using `Groovy`, because it allows better collection processing and other syntax sugar as well
+* http://en.wikipedia.org/wiki/KISS_principle[KISS principle] must be 1st think when designing API. _Architect attitude_ most of the times leads to non required over complication of resulting code.
+* Uncertainty in goals, i.e. tasks definition make people to be bound to pick up very different approaches. 
+Developers need communication and pair working during whole coding process :)
+ 
+Unfortunately we were out of time, so planned _CodingDojo_ was not done today. 
+But in general we achieved all planned goals: got hand dirty in WebDriver and understanding basic principles of creating tests.
+
+Below are some of retrospection points after 1st phase of workshop, i.e. _Prepared Kata_.
+Could be helpful to summarize general approaches while creating `WebDriver` tests
+
+* `WebDriver` tests are about loading pages, finding elements in `DOM tree`, generating click or input actions and assert changes to `DOM tree`
+* Usage of `PageObject` pattern is essential for creating robust and readable tests. 
+Pattern improves code re-usability and encapsulation of DOM structure manipulations. 
+After pattern adoption tests tends to turn themselves into classic BDD _given/when/then_ stories.
+* Page or screen should be considered as a set of services provided to a client and `PageObjects` 
+should reflect this by using human readable names for method naming
+* Navigation between pages could be represented as returning new _PageObject_ instances while calling method of initial _PageObject_
+Web pages are having latency feature. One have to wait before asserting changes made to DOM tree. 
+Especially with high usage of `AJAX` one always should consider necessity of delays between performing the action and asserting its outcome
+* Waits should be performed using `WebDriver`'s `FluentWait` and `WebDriverWait` classes, not `Thread.sleep(...)` or similar. 
+This reduces delays while running tests making code waiting only when needed for element to appear
+* Tests should assert changes happened to UI. If there's no changes after some action performed 
+it means either this action is useless and should be removed from screen or screen requires to be adopted for showing a message after action completed
+* Vanilla _TDD (tests before code)_ doesn't work well with `WebDriver` tests, but it’s still playing important part
+* Special build scrips should be created for _Continuous Integration_ of `WebDriver` tests. 
+Scripts should perform checkout, start web server, run tests and stop server
