@@ -6,8 +6,8 @@
 </description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 22 Oct 2014 23:54:49 +0300</pubDate>
-    <lastBuildDate>Wed, 22 Oct 2014 23:54:49 +0300</lastBuildDate>
+    <pubDate>Thu, 23 Oct 2014 12:46:53 +0000</pubDate>
+    <lastBuildDate>Thu, 23 Oct 2014 12:46:53 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -54,7 +54,7 @@ When the utility method is called - image file with slightly the same as below n
 }&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description>
-        <pubDate>Fri, 13 Jan 2012 00:00:00 +0200</pubDate>
+        <pubDate>Fri, 13 Jan 2012 00:00:00 +0000</pubDate>
         <link>http://eshepelyuk.github.io/2012/01/13/seleniumwebdriver-tricks-part-2.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2012/01/13/seleniumwebdriver-tricks-part-2.html</guid>
         
@@ -181,7 +181,7 @@ Instead we can use much simpler code to achieve the same result.&lt;/p&gt;
 
 &lt;/div&gt;
 &lt;/div&gt;</description>
-        <pubDate>Fri, 23 Dec 2011 00:00:00 +0200</pubDate>
+        <pubDate>Fri, 23 Dec 2011 00:00:00 +0000</pubDate>
         <link>http://eshepelyuk.github.io/2011/12/23/selenium-webdriver-tricks-1.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2011/12/23/selenium-webdriver-tricks-1.html</guid>
         
@@ -272,7 +272,7 @@ But if you using some old fashioned code or don&amp;#8217;t use any framework at
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description>
-        <pubDate>Mon, 12 Dec 2011 00:00:00 +0200</pubDate>
+        <pubDate>Mon, 12 Dec 2011 00:00:00 +0000</pubDate>
         <link>http://eshepelyuk.github.io/2011/12/12/three-steps-to-follow-mvc-while.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2011/12/12/three-steps-to-follow-mvc-while.html</guid>
         
