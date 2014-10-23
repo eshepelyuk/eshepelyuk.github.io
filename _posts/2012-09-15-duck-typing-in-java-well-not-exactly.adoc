@@ -1,0 +1,168 @@
+---
+tags:
+- java
+- groovy
+- duck typing
+---
+= Duck typing in Java ? Well, not exactly
+
+What is it all about ? According to Wikipedia duck typing is
+
+[quote, Wikipedia]
+____
+style of dynamic typing in which an object's methods and properties determine the valid semantics, 
+rather than its inheritance from a particular class or implementation of a specific interface
+____
+
+In simpler words 
+
+[quote]
+When I see a bird that walks like a duck and swims like a duck and quacks like a duck, I call that bird a duck
+
+In languages with dynamic typing this feature allows creating function that are not checking type of passed object 
+but instead rely on existence of particular methods/properties within it and throws runtime exception when those properties not found. 
+For instance, in `Groovy` we could have a function for printing out info about an entity 
+
+[source,groovy]
+----
+def printEntity = {entity ->
+  println "id: ${entity.id}, name: ${entity.name}"
+}
+----
+
+Let's say we have following class 
+[source,groovy]
+----
+class Entity {
+  Long id
+  String name
+}
+----
+
+So we can invoke our function
+----
+printEntity(new Entity(id: 10L, name: 'MyName1'))
+id: 10, name: MyName1
+----
+
+But the same time we could pass map as argument 
+----
+printEntity(['id':10L, 'name':'MyName2'])
+id: 10, name: MyName2
+----
+
+Using metaprogramming magic we could write even following
+[source,groovy]
+----
+class Ghost {
+ def propertyMissing(String name) {
+  if (name == 'id') {
+   return -1L
+  } else if (name == 'name') {
+   return "StubName"
+  }
+ }
+}
+----
+
+And we will be still able to call our function
+----
+printEntity(new Ghost())
+id: -1, name: StubName
+----
+
+== Welcome to the real world
+
+Fortunately this concept can be used not only for languages with dynamic typing but for ones with more strict typing model, as `Java`. 
+Wikipedia has good http://en.wikipedia.org/wiki/Duck_typing#In_Java[example, window="_blank"] of duck typing implementation in `Java`
+using `Proxy` class. 
+
+Well, you'd say, what is the practical usage of this, except feeling oneself the wisest guru :) 
+Let me show some real life task that was solved in Java using _Duck Typing_ technique.
+
+From the beginning we had simple report generator that queries DB of products and outputs id and name of certain entity. 
+
+|====
+|id|name
+
+|123|Phone #1
+|222|Book #2
+|====
+
+But then customer says: 
+[quote]
+____
+I'd like to also have link to the entity detail page at our site. 
+Beautiful, SEO friendly link. Could you do it to me ?
+____
+
+"Sure ", I said. After digging our codebase I've discovered cool function `generateSeoUrl()` that does the job. 
+The function takes one argument of type `Entity`, which is interface. 
+So my intention was to observe implementations of `Entity` and try to use one of them for SEO URL creation in the report generator. 
+How surprised was I after discovering that all of them are part of some self made _ORM_ tool 
+and their constructors query DB to get the entire information about product.
+
+So if I were using `Entity` implementations I had to deal with one extra query per row of my report and this is unacceptable 
+since report was comprised of huge number of rows. So I decided to try other approach and implement `Entity` interface, 
+overriding methods that are used by `generateSeoUrl()`. 
+I clicked my IDE shortcut and got surprised again. `Entity` had *50 (!!!)* methods. 
+Well, I already knew that only `getEntityId()` and `getName()` are used by `generateSeoUrl()` function, 
+but then again, having new class with 50 empty methods just to override 2 of them doing useful action seemed not good idea for me. 
+Thus I've decided stop trying coding and start to think :) 
+Extend some of the `Entity` implementation to prevent querying DB or copy + paste `generateSeoUrl()` and adopt it for my needs 
+were the options but still it was not beautiful. Especially when I reminded duck typing. 
+I said to myself, we have a function that takes instance of `Entity` but only uses two method of this interface, 
+so to complete my task I need something that looks like `Entity` and able to handle `getEntityId` and `getName()` methods.
+
+Since `entityId` and `name`  were already present in data used for generating my report I could reuse them in my new class to stub data for `getEntityId()` and `getName()`. 
+To achieve duck typing we need to create `Proxy` that also implements `InvocationHandler` interface 
+and static method to retrieve instance of `Proxy`. Final code of my class looks like
+
+[source,java]
+----
+public class ReportEntitySupport implements InvocationHandler {
+    public static Entity newInstance(Long entityId, String name) {
+        return (Entity) Proxy.newProxyInstance(
+                Product.class.getClassLoader(),
+                Product.class.getInterfaces(),
+                new ReportEntitySupport(entityId, name)
+        );
+    }
+ 
+    private final String name;
+    private final Long entityId;
+ 
+    private ReportEntitySupport(Long entityId, String name) {
+        this.name = name;
+        this.entityId = entityId;
+    }
+ 
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        if (method.getName().equals("getName")) {
+            return this.name;
+        } else if (method.getName().equals("getEntityId")) {
+            return this.entityId;
+        }
+        return null;
+    }
+}
+----
+
+So how to use it ?
+
+Inside my report generator while iterating over `ResultSet` I'm using following 
+[source,java]
+----
+Long entityId = ...;	//retrieve entityId from ResultSet
+String name = ...; 		//retrieve name from ResultSet
+
+Entity entity = ReportEntitySupport.newIntance(entityId, name);
+String seoUrl = generateSeoUrl(entity);
+...
+----
+
+== P.S.
+
+This post just illustrates that some uncommon for Java language concepts could be successfully applied 
+for completing real life tasks improving your programming skills and making your code more beautiful.
