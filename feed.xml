@@ -6,8 +6,8 @@
 </description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 23 Oct 2014 18:11:55 +0000</pubDate>
-    <lastBuildDate>Thu, 23 Oct 2014 18:11:55 +0000</lastBuildDate>
+    <pubDate>Thu, 23 Oct 2014 18:34:39 +0000</pubDate>
+    <lastBuildDate>Thu, 23 Oct 2014 18:34:39 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -279,6 +279,110 @@ I think attitude to &lt;code&gt;JavaScript&lt;/code&gt; should change a bit towa
         <category>coding dojo</category>
         
         <category>design pattern</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>CodingDojoCnUa #2 agenda and tools</title>
+        <description>&lt;h1&gt;CodingDojoCnUa #2 agenda and tools&lt;/h1&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;intro&quot;&gt;Intro&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;On 5th of February we are going to have 2nd &lt;em&gt;CodingDojo&lt;/em&gt; meeting dedicated to improve our &lt;code&gt;JavaScript&lt;/code&gt; skills.
+The purpose of our gathering will be implementation of design patterns using &lt;code&gt;JavaScript&lt;/code&gt; language.
+The good list of patterns could be found &lt;a href=&quot;http://en.wikipedia.org/wiki/Software_design_pattern&quot; target=&quot;_blank&quot;&gt;Wikipedia page&lt;/a&gt;.
+Please read the list before meeting :)&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Links below are also good starting point for exploring &lt;code&gt;JavaScript&lt;/code&gt;.
+At least skim reading of links below is required before Dojo.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;http://bonsaiden.github.com/JavaScript-Garden&quot; target=&quot;_blank&quot;&gt;JavaScript Garden - General Guide&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.addyosmani.com/resources/essentialjsdesignpatterns/book&quot; target=&quot;_blank&quot;&gt;Some Design Patterns already implemented&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;agenda&quot;&gt;Agenda&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We&amp;#8217;re going to pair-program using TDD while implementing few of &lt;em&gt;Software Design Patterns&lt;/em&gt;.
+At our previous retro we&amp;#8217;ve chosen to use timeboxing for changing pilot/co-pilot.
+Let&amp;#8217;s consider our participants gonna change every 5-7 minutes.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table class=&quot;tableblock frame-all grid-all spread&quot;&gt;
+&lt;colgroup&gt;
+&lt;col style=&quot;width: 25%;&quot;&gt;
+&lt;col style=&quot;width: 75%;&quot;&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th class=&quot;tableblock halign-left valign-top&quot;&gt;Time&lt;/th&gt;
+&lt;th class=&quot;tableblock halign-left valign-top&quot;&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;10:30&lt;/p&gt;&lt;/td&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;Start and intro. Decide what exactly we gonna do, so-called &lt;em&gt;Design Session&lt;/em&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;10:50&lt;/p&gt;&lt;/td&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;1st coding session start&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;11:50&lt;/p&gt;&lt;/td&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;Break and &lt;em&gt;how it&amp;#8217;s going&lt;/em&gt; discussion, maybe lunch ?&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;12:20&lt;/p&gt;&lt;/td&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;2nd &lt;em&gt;Design Session&lt;/em&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;12:30&lt;/p&gt;&lt;/td&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;2nd coding session begin&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;13:30&lt;/p&gt;&lt;/td&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;Retro&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;14:00&lt;/p&gt;&lt;/td&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;End&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Exact agenda timings are subject to change depending on our progress during Dojo.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;tools-we-gonna-use&quot;&gt;Tools we gonna use&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We will be using &lt;code&gt;NodeJS&lt;/code&gt; as our &lt;code&gt;JavaScript&lt;/code&gt;, &lt;code&gt;Jasmine&lt;/code&gt; as &lt;em&gt;TDD/BDD&lt;/em&gt; framework and &lt;code&gt;IntelliJ IDEA&lt;/code&gt;.
+Although &lt;code&gt;NodeJS&lt;/code&gt; is rich featured server-side framework we are intended to use it only as JS interpreter.
+More docs could be found at &lt;a href=&quot;http://nodejs.org&quot; target=&quot;_blank&quot;&gt;NodeJS&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;code&gt;Jasmine&lt;/code&gt; &lt;em&gt;BDD&lt;/em&gt; framework for testing in &lt;code&gt;JavaScript&lt;/code&gt;. It has support for test suites, human friendly assertions,
+basic mocking support so its good choice for beginners like us :). Find more on their &lt;a href=&quot;https://github.com/pivotal/jasmine/wiki&quot; target=&quot;_blank&quot;&gt;Docs page&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
+        <pubDate>Sat, 28 Jan 2012 00:00:00 +0000</pubDate>
+        <link>http://eshepelyuk.github.io/2012/01/28/codingdojocnua-2-agenda-and-tools.html</link>
+        <guid isPermaLink="true">http://eshepelyuk.github.io/2012/01/28/codingdojocnua-2-agenda-and-tools.html</guid>
         
         
       </item>
