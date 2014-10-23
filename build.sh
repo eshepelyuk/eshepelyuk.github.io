@@ -7,5 +7,11 @@ cp -R _site/* ../eshepelyuk.github.io.master
 cd ../eshepelyuk.github.io.master
 ls -la .
 git status
-#git push origin master
+rm -rf Gemfile Gemfile.lock build.sh
+ls -la .
+git status
+git add .
+git ci -a -m 'jekyll'
+git push
+
  
