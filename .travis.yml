@@ -2,7 +2,9 @@ language: ruby
 script: "./build.sh"
 branches:
   only:
-    - jekyll
+  - jekyll
 rvm:
-  - 2.1.2
-
+- 2.1.2
+env:
+  global:
+    secure: Pnk72ttFi44AEOQACDGo7vydWo6oS26nasGMoTz/txK+Het+eBB3rCZvCvCybiKfcFeaSVS7ErA3AjCFhShcVcvQUphqGAb6CYtgnlUO12jCOknzvBg7CDeLEoAVDJyQtIGKHnEYHfR0A/X5xxHH/REdZlCe+kkY04FaSP22S1k=
