@@ -1,0 +1,50 @@
+---
+tags: 
+modified_time: '2012-01-28T19:56:11.835+02:00'
+blogger_id: tag:blogger.com,1999:blog-4998424779235998349.post-8489979169501210283
+blogger_orig_url: http://eshepelyuk.blogspot.com/2012/01/codingdojocnua-2-agenda-and-tools.html
+---
+= CodingDojoCnUa #2 agenda and tools
+
+== Intro
+
+On 5th of February we are going to have 2nd _CodingDojo_ meeting dedicated to improve our `JavaScript` skills. 
+The purpose of our gathering will be implementation of design patterns using `JavaScript` language.
+The good list of patterns could be found http://en.wikipedia.org/wiki/Software_design_pattern[Wikipedia page, window="_blank"].
+Please read the list before meeting :)
+
+Links below are also good starting point for exploring `JavaScript`. 
+At least skim reading of links below is required before Dojo.
+
+* http://bonsaiden.github.com/JavaScript-Garden[JavaScript Garden - General Guide, window="_blank"]
+* http://www.addyosmani.com/resources/essentialjsdesignpatterns/book[Some Design Patterns already implemented, window="_blank"] 
+
+== Agenda
+
+We're going to pair-program using TDD while implementing few of _Software Design Patterns_.
+At our previous retro we've chosen to use timeboxing for changing pilot/co-pilot. 
+Let's consider our participants gonna change every 5-7 minutes.
+
+[cols="1,3"]
+|===
+|Time|Description
+
+|10:30|Start and intro. Decide what exactly we gonna do, so-called _Design Session_
+|10:50|1st coding session start
+|11:50|Break and _how it's going_ discussion, maybe lunch ?
+|12:20|2nd _Design Session_
+|12:30|2nd coding session begin
+|13:30|Retro
+|14:00|End
+|===
+
+Exact agenda timings are subject to change depending on our progress during Dojo.
+
+== Tools we gonna use
+
+We will be using `NodeJS` as our `JavaScript`, `Jasmine` as _TDD/BDD_ framework and `IntelliJ IDEA`.
+Although `NodeJS` is rich featured server-side framework we are intended to use it only as JS interpreter.
+More docs could be found at http://nodejs.org[NodeJS, window="_blank"] 
+
+`Jasmine` _BDD_ framework for testing in `JavaScript`. It has support for test suites, human friendly assertions, 
+basic mocking support so its good choice for beginners like us :). Find more on their https://github.com/pivotal/jasmine/wiki[Docs page, window="_blank"]
