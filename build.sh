@@ -9,8 +9,12 @@ ls -la .
 git status
 rm -rf Gemfile Gemfile.lock build.sh
 ls -la .
-git status
+
+git config user.email "eshepelyuk@gmail.com"
+git config user.name "Evgeny Shepelyuk"
+
 git add .
+git status
 git commit -a -m 'jekyll'
 git push
 
