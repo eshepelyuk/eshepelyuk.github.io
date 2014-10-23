@@ -6,20 +6,9 @@
 </description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 23 Oct 2014 12:53:15 +0000</pubDate>
-    <lastBuildDate>Thu, 23 Oct 2014 12:53:15 +0000</lastBuildDate>
+    <pubDate>Thu, 23 Oct 2014 13:03:52 +0000</pubDate>
+    <lastBuildDate>Thu, 23 Oct 2014 13:03:52 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
-    
-      <item>
-        <title>QWEQWE</title>
-        <description>&lt;h1&gt;QWEQWE&lt;/h1&gt;
-</description>
-        <pubDate>Wed, 01 Jan 2014 00:00:00 +0000</pubDate>
-        <link>http://eshepelyuk.github.io/2014/01/01/testtest.html</link>
-        <guid isPermaLink="true">http://eshepelyuk.github.io/2014/01/01/testtest.html</guid>
-        
-        
-      </item>
     
       <item>
         <title>WebDriver tricks - part 2</title>
@@ -210,8 +199,8 @@ Instead we can use much simpler code to achieve the same result.&lt;/p&gt;
       </item>
     
       <item>
-        <title>@@@Three steps to follow MVC while building Java Web application@@@</title>
-        <description>&lt;h1&gt;@@@Three steps to follow MVC while building Java Web application@@@&lt;/h1&gt;
+        <title>Three steps to follow MVC while building Java Web application</title>
+        <description>&lt;h1&gt;Three steps to follow MVC while building Java Web application&lt;/h1&gt;
 &lt;div class=&quot;sect1&quot;&gt;
 &lt;h2 id=&quot;step-1&quot;&gt;Step #1&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
