@@ -1,0 +1,6 @@
+language: ruby
+script: "./build.sh"
+branches:
+  only:
+    - jekyll
+
