@@ -3,4 +3,7 @@ script: "./build.sh"
 branches:
   only:
     - jekyll
+install: gem install jekyll asciidoctor
+rvm:
+  - 2.1.2
 
