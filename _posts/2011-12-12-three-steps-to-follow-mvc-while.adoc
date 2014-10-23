@@ -9,12 +9,9 @@ tags:
 
 == Step #1
 
-=== DO
-
+DO::
 Always process URL (POST forms, link clicking etc) by servlet / action bean and never by JSP
-
-=== WHY 
-
+WHY::
 `ActionBeans` (whatever certain framework call those classes) and rarely servlets are `controllers` intended for processing user input. 
 JSPs are `view` engine dedicated to rendering representation of software to client.
 Separating user input processing and HTML rendering prevents you from temptation of creating huge,
@@ -22,24 +19,18 @@ multi-purpose, untestable JSPs that are mixing business and representation logic
 
 == Step #2
 
-=== DO
-
+DO::
 Render views by forwarding to JSP located only under `/WEB-INF/${JSP folder}`
-
-=== WHY
-
+WHY::
 Views should be accessible only by design of software and never directly. 
 Putting JSPs within root directory of project brings security issues regarding unwanted access to them from clients.
 Also practice of hiding all JSPs under `/WEB-INF` reduces possibility of URL being processed by JSP and not controller and help us to follow *step #1*.
 
 == Step #3
 
-=== DO
-
+DO::
 Pass model from controller to view only by using request attributes or flash scope
-
-=== WHY
-
+WHY::
 All other ways of view being able to access some data are too limited or insecure. 
 Using request parameters directly within view can be the option for malicious user to pass invalid data. 
 Using session for storing information is causing memory consumption and requires mechanisms to clear unused data after expiration.
