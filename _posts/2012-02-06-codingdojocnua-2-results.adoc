@@ -1,0 +1,46 @@
+---
+tags:
+- javascript
+- coding dojo
+- design pattern
+---
+= CodingDojoCnUa #2 results
+
+On 5th of February our small Cherhihiv community made 2nd _СodingDojo_. 
+This time it was dedicated to `JavaScript` programming. 
+We tried to code some _Design Patterns_ in new language. 
+What we attained during 2 two 1 our long session is following patterns implemented
+
+. Singleton, yeah yeah yeah :)
+. Factory method
+. Template method v1 (prototype hierarchy)
+. Template method v2 (runtime meta-programming)
+. Decorator
+
+What we found very good during retrospection is usage of _TimeBox_ policy for changing pilot/co-pilot, 
+we used 7 minutes limited time box and `IntelliJ IDEA` `Pomodoro` plugin was helpful on this.
+
+During programming we all suffered of our Java mindset. 
+Even plain looking into Wikipedia description and attempt to re-implement `Java` code samples in `JavaScript` were damaging our brains :) 
+Lack of interfaces (as in `Java`) and completely different approach of creating class hierarchy slowed down our development speed. 
+Another issue was immense scope of our _Dojo_. Certain targets (patterns) were chosen only at the beginning of session and it was a challenge 
+to create domain object for certain patterns without detailed design session for which we have no time.
+
+== What we decided to do next
+
+. Pick up and implement some Kata to have more certainty on what we wanna achieve
+. Increase time box to 10 minutes, let's see if helps
+. Get some cookies and drinks to not starve during session :)
+
+== My personal observations
+
+The easiest part was `Jasmine`. This BDD tool was adopted seamlessly by all of us since TDD tools and practices are familiar to us from `Java` world 
+and `Jasmine` is very similar. 
+
+The hardest was start thinking again in higher level OOP terms, not in their equivalents in `Java`. 
+All those interfaces, classes limited to the same named file and other limitation imposed by `Java` were hard to overcome. 
+Considering present of duck typing in JavaScript we get rid of interfaces, abstract classes and class hierarchy at all. 
+Another uncommon point was API concentrated in module not in class as in `Java` it it was also a bit frustrating from the beginning.
+
+But anyway the coolest thing was our success in short and stressful session as well as knowledge obtained. 
+I think attitude to `JavaScript` should change a bit towards paying more respect for this amazing and underestimated language (my IMO though).
