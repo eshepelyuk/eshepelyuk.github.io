@@ -23,4 +23,4 @@ defaults:
 
 disqus_shortname: eshepelyukblog
 
-exclude: ['Gemfile.lock', 'Gemfile']
+exclude: ['Gemfile.lock', 'Gemfile', 'build.sh']

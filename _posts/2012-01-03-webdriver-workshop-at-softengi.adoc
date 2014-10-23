@@ -11,9 +11,9 @@ with couple of guys from Chernihiv's Softengi office. The agenda was quite brief
 . More coding to complete the task (checking search results returned by Google) 
 . Quick review of successes :)
 
-== Few lesson learnt from point #5: 
+== Lessons learnt
 
-* Hell yeah, i know `Hamcrest` matchers :) and able to use complex combinations of them for assertion, but ...
+* Hell yeah, I know `Hamcrest` matchers :) and able to use complex combinations of them for assertion, but ...
 * `Hamcrest` matchers are too verbose for complex collection operation, so ...
 * I'd recommend to write `WebDriver` tests using `Groovy`, because it allows better collection processing and other syntax sugar as well
 * http://en.wikipedia.org/wiki/KISS_principle[KISS principle] must be 1st think when designing API. _Architect attitude_ most of the times leads to non required over complication of resulting code.
