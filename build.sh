@@ -1,5 +1,7 @@
 #/bin/bash
 set -e
+echo "-------------"
+ls -la .
 jekyll build
 git checkout -B master
 git reset --hard
