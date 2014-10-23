@@ -6,9 +6,92 @@
 </description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 23 Oct 2014 17:29:29 +0000</pubDate>
-    <lastBuildDate>Thu, 23 Oct 2014 17:29:29 +0000</lastBuildDate>
+    <pubDate>Thu, 23 Oct 2014 17:52:12 +0000</pubDate>
+    <lastBuildDate>Thu, 23 Oct 2014 17:52:12 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>CodingDojoCnUa #6</title>
+        <description>&lt;h1&gt;CodingDojoCnUa #6&lt;/h1&gt;
+&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Today, 28th of July, our CodingDojoCnUa community successfully conducted 6th Coding Dojo.
+We met at Chernihiv&amp;#8217;s office of SysIQ, as few times before.
+The subject of our session was &lt;code&gt;RomanNumerals&lt;/code&gt; kata - description can be found by &lt;a href=&quot;http://codingdojo.org/cgi-bin/wiki.pl?KataRomanNumerals&quot;&gt;HERE&lt;/a&gt;.
+Main thing distinguishing this Dojo from previous ones was splitting the attendees into two separate teams
+that were working on their own without shared &lt;em&gt;Design Session&lt;/em&gt;.
+Each team was responsible for figuring out own implementation and eventually produced working code together with unit tests.
+Both implementation can be found at GitHub&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/eshepelyuk/CodingDojoCnUa/tree/master/Dojo6/teamA&quot; target=&quot;_blank&quot;&gt;Code for TeamA&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/eshepelyuk/CodingDojoCnUa/tree/master/Dojo6/teamB&quot; target=&quot;_blank&quot;&gt;Code for TeamB&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;what-we-ve-discovered&quot;&gt;What we&amp;#8217;ve discovered&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;First things to mention that team provided completely different solutions to the same problem.
+Relative simplicity of Kata seemed to help coders to split task into smaller parts thus supporting true incremental development,
+concentrating on providing small slices of functionality after creating failed test.
+Unlike previous times there were no attempts to create &lt;code&gt;God Functions&lt;/code&gt; immediately after start of Dojo.
+Although longer Design Sessions are essential to make team move faster and effectively with incremental development.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Second main observation is that few peoples who don&amp;#8217;t use TDD on daily basis realized that this approach
+could significantly affect original design of algorithm and even imposes final design.
+On retrospective meeting one of us described this impression&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+People saw TDD in action.
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;3rd and the shortest - &lt;code&gt;CoffeeScript&lt;/code&gt; tastes better each time you try it :)&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;what-we-re-gonna-try-next-time&quot;&gt;What we&amp;#8217;re gonna try next time ?&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Apparently largest negative issue raised on retro was isolation of members within own team and lack of inter-team communication.
+Attendees suggested various options, even tackle more complicated task than kata,
+like some sort of network game, and go through complete process of application development.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;But finally we agreed on just to exchange team members in the middle of next Dojo
+to see if this is helpful for coding and / or brings more fun to the event :)&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Some photos &lt;a href=&quot;http://www.facebook.com/media/set/?set=oa.378960365504429&amp;amp;type=1&quot; target=&quot;_blank&quot;&gt;@Facebook&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
+        <pubDate>Sat, 28 Jul 2012 00:00:00 +0000</pubDate>
+        <link>http://eshepelyuk.github.io/2012/07/28/codingdojocnua-6.html</link>
+        <guid isPermaLink="true">http://eshepelyuk.github.io/2012/07/28/codingdojocnua-6.html</guid>
+        
+        <category>roman numerals</category>
+        
+        <category>coffeescript</category>
+        
+        <category>coding dojo</category>
+        
+        <category>kata</category>
+        
+        
+      </item>
     
       <item>
         <title>WebDriver tricks - part 3</title>
