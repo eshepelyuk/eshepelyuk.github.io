@@ -11,7 +11,7 @@ rm -rf Gemfile Gemfile.lock build.sh
 ls -la .
 git status
 git add .
-git ci -a -m 'jekyll'
+git commit -a -m 'jekyll'
 git push
 
  
