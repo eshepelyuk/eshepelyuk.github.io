@@ -6,8 +6,8 @@
 </description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 23 Oct 2014 20:21:32 +0000</pubDate>
-    <lastBuildDate>Thu, 23 Oct 2014 20:21:32 +0000</lastBuildDate>
+    <pubDate>Thu, 23 Oct 2014 20:30:11 +0000</pubDate>
+    <lastBuildDate>Thu, 23 Oct 2014 20:30:11 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -926,54 +926,53 @@ Instead we can use much simpler code to achieve the same result.&lt;/p&gt;
 &lt;div class=&quot;sect1&quot;&gt;
 &lt;h2 id=&quot;step-1&quot;&gt;Step #1&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;do&quot;&gt;DO&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;DO&lt;/dt&gt;
+&lt;dd&gt;
 &lt;p&gt;Always process URL (POST forms, link clicking etc) by servlet / action bean and never by JSP&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;why&quot;&gt;WHY&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;WHY&lt;/dt&gt;
+&lt;dd&gt;
 &lt;p&gt;&lt;code&gt;ActionBeans&lt;/code&gt; (whatever certain framework call those classes) and rarely servlets are &lt;code&gt;controllers&lt;/code&gt; intended for processing user input.
 JSPs are &lt;code&gt;view&lt;/code&gt; engine dedicated to rendering representation of software to client.
 Separating user input processing and HTML rendering prevents you from temptation of creating huge,
 multi-purpose, untestable JSPs that are mixing business and representation logic and violating MVC pattern.&lt;/p&gt;
-&lt;/div&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
 &lt;h2 id=&quot;step-2&quot;&gt;Step #2&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;do-2&quot;&gt;DO&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;DO&lt;/dt&gt;
+&lt;dd&gt;
 &lt;p&gt;Render views by forwarding to JSP located only under &lt;code&gt;/WEB-INF/${JSP folder}&lt;/code&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;why-2&quot;&gt;WHY&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;WHY&lt;/dt&gt;
+&lt;dd&gt;
 &lt;p&gt;Views should be accessible only by design of software and never directly.
 Putting JSPs within root directory of project brings security issues regarding unwanted access to them from clients.
 Also practice of hiding all JSPs under &lt;code&gt;/WEB-INF&lt;/code&gt; reduces possibility of URL being processed by JSP and not controller and help us to follow &lt;strong&gt;step #1&lt;/strong&gt;.&lt;/p&gt;
-&lt;/div&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
 &lt;h2 id=&quot;step-3&quot;&gt;Step #3&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;do-3&quot;&gt;DO&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;DO&lt;/dt&gt;
+&lt;dd&gt;
 &lt;p&gt;Pass model from controller to view only by using request attributes or flash scope&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect2&quot;&gt;
-&lt;h3 id=&quot;why-3&quot;&gt;WHY&lt;/h3&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;WHY&lt;/dt&gt;
+&lt;dd&gt;
 &lt;p&gt;All other ways of view being able to access some data are too limited or insecure.
 Using request parameters directly within view can be the option for malicious user to pass invalid data.
 Using session for storing information is causing memory consumption and requires mechanisms to clear unused data after expiration.
@@ -981,7 +980,8 @@ Cookies depends on browser, limited in size and not very friendly to use.
 From the other hand - request attributes lacks all those drawback and propose clean
 decoupling of controller responsibility (update model) and view responsibility (read model).
 Flash scope becomes very handy when it comes to &lt;code&gt;Redirect After Post&lt;/code&gt; pattern where request attributes can&amp;#8217;t be used.&lt;/p&gt;
-&lt;/div&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;

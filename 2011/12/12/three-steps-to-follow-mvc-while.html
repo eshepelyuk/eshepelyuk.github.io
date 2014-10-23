@@ -59,54 +59,53 @@
 <div class="sect1">
 <h2 id="step-1">Step #1</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="do">DO</h3>
-<div class="paragraph">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">DO</dt>
+<dd>
 <p>Always process URL (POST forms, link clicking etc) by servlet / action bean and never by JSP</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="why">WHY</h3>
-<div class="paragraph">
+</dd>
+<dt class="hdlist1">WHY</dt>
+<dd>
 <p><code>ActionBeans</code> (whatever certain framework call those classes) and rarely servlets are <code>controllers</code> intended for processing user input.
 JSPs are <code>view</code> engine dedicated to rendering representation of software to client.
 Separating user input processing and HTML rendering prevents you from temptation of creating huge,
 multi-purpose, untestable JSPs that are mixing business and representation logic and violating MVC pattern.</p>
-</div>
+</dd>
+</dl>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="step-2">Step #2</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="do-2">DO</h3>
-<div class="paragraph">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">DO</dt>
+<dd>
 <p>Render views by forwarding to JSP located only under <code>/WEB-INF/${JSP folder}</code></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="why-2">WHY</h3>
-<div class="paragraph">
+</dd>
+<dt class="hdlist1">WHY</dt>
+<dd>
 <p>Views should be accessible only by design of software and never directly.
 Putting JSPs within root directory of project brings security issues regarding unwanted access to them from clients.
 Also practice of hiding all JSPs under <code>/WEB-INF</code> reduces possibility of URL being processed by JSP and not controller and help us to follow <strong>step #1</strong>.</p>
-</div>
+</dd>
+</dl>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="step-3">Step #3</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="do-3">DO</h3>
-<div class="paragraph">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">DO</dt>
+<dd>
 <p>Pass model from controller to view only by using request attributes or flash scope</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="why-3">WHY</h3>
-<div class="paragraph">
+</dd>
+<dt class="hdlist1">WHY</dt>
+<dd>
 <p>All other ways of view being able to access some data are too limited or insecure.
 Using request parameters directly within view can be the option for malicious user to pass invalid data.
 Using session for storing information is causing memory consumption and requires mechanisms to clear unused data after expiration.
@@ -114,7 +113,8 @@ Cookies depends on browser, limited in size and not very friendly to use.
 From the other hand - request attributes lacks all those drawback and propose clean
 decoupling of controller responsibility (update model) and view responsibility (read model).
 Flash scope becomes very handy when it comes to <code>Redirect After Post</code> pattern where request attributes can&#8217;t be used.</p>
-</div>
+</dd>
+</dl>
 </div>
 </div>
 </div>
