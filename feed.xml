@@ -6,8 +6,8 @@
 </description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 23 Oct 2014 18:34:39 +0000</pubDate>
-    <lastBuildDate>Thu, 23 Oct 2014 18:34:39 +0000</lastBuildDate>
+    <pubDate>Thu, 23 Oct 2014 19:01:31 +0000</pubDate>
+    <lastBuildDate>Thu, 23 Oct 2014 19:01:31 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -446,6 +446,112 @@ When the utility method is called - image file with slightly the same as below n
         <category>selenium</category>
         
         <category>screenshot</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>WebDriver workshop at Softengi, Chernihiv</title>
+        <description>&lt;h1&gt;WebDriver workshop at Softengi, Chernihiv&lt;/h1&gt;
+&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Today we&amp;#8217;ve been doing small workshop dedicated to learning basics of writing functional test using &lt;code&gt;WebDriver&lt;/code&gt;
+with couple of guys from Chernihiv&amp;#8217;s Softengi office. The agenda was quite brief&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;olist arabic&quot;&gt;
+&lt;ol class=&quot;arabic&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;Doing some sort of &lt;em&gt;Prepared Kata&lt;/em&gt;. It was Google search page example with entering query and clicking suggestions provided.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Refactoring of code created&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Break and retrospection of what had been achieved&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;More coding to complete the task (checking search results returned by Google)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Quick review of successes :)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;few-lesson-learnt-from-point-5&quot;&gt;Few lesson learnt from point #5:&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Hell yeah, i know &lt;code&gt;Hamcrest&lt;/code&gt; matchers :) and able to use complex combinations of them for assertion, but &amp;#8230;&amp;#8203;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;Hamcrest&lt;/code&gt; matchers are too verbose for complex collection operation, so &amp;#8230;&amp;#8203;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;I&amp;#8217;d recommend to write &lt;code&gt;WebDriver&lt;/code&gt; tests using &lt;code&gt;Groovy&lt;/code&gt;, because it allows better collection processing and other syntax sugar as well&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/KISS_principle&quot;&gt;KISS principle&lt;/a&gt; must be 1st think when designing API. &lt;em&gt;Architect attitude&lt;/em&gt; most of the times leads to non required over complication of resulting code.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Uncertainty in goals, i.e. tasks definition make people to be bound to pick up very different approaches.
+Developers need communication and pair working during whole coding process :)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Unfortunately we were out of time, so planned &lt;em&gt;CodingDojo&lt;/em&gt; was not done today.
+But in general we achieved all planned goals: got hand dirty in WebDriver and understanding basic principles of creating tests.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Below are some of retrospection points after 1st phase of workshop, i.e. &lt;em&gt;Prepared Kata&lt;/em&gt;.
+Could be helpful to summarize general approaches while creating &lt;code&gt;WebDriver&lt;/code&gt; tests&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;WebDriver&lt;/code&gt; tests are about loading pages, finding elements in &lt;code&gt;DOM tree&lt;/code&gt;, generating click or input actions and assert changes to &lt;code&gt;DOM tree&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Usage of &lt;code&gt;PageObject&lt;/code&gt; pattern is essential for creating robust and readable tests.
+Pattern improves code re-usability and encapsulation of DOM structure manipulations.
+After pattern adoption tests tends to turn themselves into classic BDD &lt;em&gt;given/when/then&lt;/em&gt; stories.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Page or screen should be considered as a set of services provided to a client and &lt;code&gt;PageObjects&lt;/code&gt;
+should reflect this by using human readable names for method naming&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Navigation between pages could be represented as returning new &lt;em&gt;PageObject&lt;/em&gt; instances while calling method of initial &lt;em&gt;PageObject&lt;/em&gt;
+Web pages are having latency feature. One have to wait before asserting changes made to DOM tree.
+Especially with high usage of &lt;code&gt;AJAX&lt;/code&gt; one always should consider necessity of delays between performing the action and asserting its outcome&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Waits should be performed using &lt;code&gt;WebDriver&amp;#8217;s `FluentWait&lt;/code&gt; and &lt;code&gt;WebDriverWait&lt;/code&gt; classes, not &lt;code&gt;Thread.sleep(&amp;#8230;&amp;#8203;)&lt;/code&gt; or similar.
+This reduces delays while running tests making code waiting only when needed for element to appear&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Tests should assert changes happened to UI. If there&amp;#8217;s no changes after some action performed
+it means either this action is useless and should be removed from screen or screen requires to be adopted for showing a message after action completed&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Vanilla &lt;em&gt;TDD (tests before code)&lt;/em&gt; doesn&amp;#8217;t work well with &lt;code&gt;WebDriver&lt;/code&gt; tests, but it’s still playing important part&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Special build scrips should be created for &lt;em&gt;Continuous Integration&lt;/em&gt; of &lt;code&gt;WebDriver&lt;/code&gt; tests.
+Scripts should perform checkout, start web server, run tests and stop server&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
+        <pubDate>Tue, 03 Jan 2012 00:00:00 +0000</pubDate>
+        <link>http://eshepelyuk.github.io/2012/01/03/webdriver-workshop-at-softengi.html</link>
+        <guid isPermaLink="true">http://eshepelyuk.github.io/2012/01/03/webdriver-workshop-at-softengi.html</guid>
         
         
       </item>
