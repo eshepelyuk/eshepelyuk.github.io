@@ -2,6 +2,9 @@
 set -e
 jekyll build
 git checkout -B master
+git reset --hard
+git status
+echo "-------------"
 ls -la _site
 echo "-------------"
 ls -la .
