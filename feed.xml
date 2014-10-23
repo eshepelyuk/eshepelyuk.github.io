@@ -6,9 +6,248 @@
 </description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 23 Oct 2014 19:01:31 +0000</pubDate>
-    <lastBuildDate>Thu, 23 Oct 2014 19:01:31 +0000</lastBuildDate>
+    <pubDate>Thu, 23 Oct 2014 20:04:54 +0000</pubDate>
+    <lastBuildDate>Thu, 23 Oct 2014 20:04:54 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Duck typing in Java ? Well, not exactly</title>
+        <description>&lt;h1&gt;Duck typing in Java ? Well, not exactly&lt;/h1&gt;
+&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;What is it all about ? According to Wikipedia duck typing is&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;style of dynamic typing in which an object&amp;#8217;s methods and properties determine the valid semantics,
+rather than its inheritance from a particular class or implementation of a specific interface&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;div class=&quot;attribution&quot;&gt;
+&amp;#8212; Wikipedia
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In simpler words&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+When I see a bird that walks like a duck and swims like a duck and quacks like a duck, I call that bird a duck
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In languages with dynamic typing this feature allows creating function that are not checking type of passed object
+but instead rely on existence of particular methods/properties within it and throws runtime exception when those properties not found.
+For instance, in &lt;code&gt;Groovy&lt;/code&gt; we could have a function for printing out info about an entity&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; printEntity = {entity -&amp;gt;
+  println &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;id: &lt;/span&gt;&lt;span class=&quot;inline&quot;&gt;&lt;span class=&quot;inline-delimiter&quot;&gt;${&lt;/span&gt;entity.id&lt;span class=&quot;inline-delimiter&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;, name: &lt;/span&gt;&lt;span class=&quot;inline&quot;&gt;&lt;span class=&quot;inline-delimiter&quot;&gt;${&lt;/span&gt;entity.name&lt;span class=&quot;inline-delimiter&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Let&amp;#8217;s say we have following class&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;Entity&lt;/span&gt; {
+  &lt;span class=&quot;predefined-type&quot;&gt;Long&lt;/span&gt; id
+  &lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; name
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;So we can invoke our function&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;printEntity(new Entity(id: 10L, name: &#39;MyName1&#39;))
+id: 10, name: MyName1&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;But the same time we could pass map as argument&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;printEntity([&#39;id&#39;:10L, &#39;name&#39;:&#39;MyName2&#39;])
+id: 10, name: MyName2&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Using metaprogramming magic we could write even following&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;Ghost&lt;/span&gt; {
+ &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;function&quot;&gt;propertyMissing&lt;/span&gt;(&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; name) {
+  &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (name == &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&#39;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;) {
+   &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; -&lt;span class=&quot;integer&quot;&gt;1L&lt;/span&gt;
+  } &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (name == &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&#39;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;) {
+   &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;StubName&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+  }
+ }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;And we will be still able to call our function&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;printEntity(new Ghost())
+id: -1, name: StubName&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;welcome-to-the-real-world&quot;&gt;Welcome to the real world&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Fortunately this concept can be used not only for languages with dynamic typing but for ones with more strict typing model, as &lt;code&gt;Java&lt;/code&gt;.
+Wikipedia has good &lt;a href=&quot;http://en.wikipedia.org/wiki/Duck_typing#In_Java&quot; target=&quot;_blank&quot;&gt;example&lt;/a&gt; of duck typing implementation in &lt;code&gt;Java&lt;/code&gt;
+using &lt;code&gt;Proxy&lt;/code&gt; class.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Well, you&amp;#8217;d say, what is the practical usage of this, except feeling oneself the wisest guru :)
+Let me show some real life task that was solved in Java using &lt;em&gt;Duck Typing&lt;/em&gt; technique.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;From the beginning we had simple report generator that queries DB of products and outputs id and name of certain entity.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table class=&quot;tableblock frame-all grid-all spread&quot;&gt;
+&lt;colgroup&gt;
+&lt;col style=&quot;width: 50%;&quot;&gt;
+&lt;col style=&quot;width: 50%;&quot;&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th class=&quot;tableblock halign-left valign-top&quot;&gt;id&lt;/th&gt;
+&lt;th class=&quot;tableblock halign-left valign-top&quot;&gt;name&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;123&lt;/p&gt;&lt;/td&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;Phone #1&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;222&lt;/p&gt;&lt;/td&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;Book #2&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;But then customer says:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I&amp;#8217;d like to also have link to the entity detail page at our site.
+Beautiful, SEO friendly link. Could you do it to me ?&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&quot;Sure &quot;, I said. After digging our codebase I&amp;#8217;ve discovered cool function &lt;code&gt;generateSeoUrl()&lt;/code&gt; that does the job.
+The function takes one argument of type &lt;code&gt;Entity&lt;/code&gt;, which is interface.
+So my intention was to observe implementations of &lt;code&gt;Entity&lt;/code&gt; and try to use one of them for SEO URL creation in the report generator.
+How surprised was I after discovering that all of them are part of some self made &lt;em&gt;ORM&lt;/em&gt; tool
+and their constructors query DB to get the entire information about product.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;So if I were using &lt;code&gt;Entity&lt;/code&gt; implementations I had to deal with one extra query per row of my report and this is unacceptable
+since report was comprised of huge number of rows. So I decided to try other approach and implement &lt;code&gt;Entity&lt;/code&gt; interface,
+overriding methods that are used by &lt;code&gt;generateSeoUrl()&lt;/code&gt;.
+I clicked my IDE shortcut and got surprised again. &lt;code&gt;Entity&lt;/code&gt; had &lt;strong&gt;50 (!!!)&lt;/strong&gt; methods.
+Well, I already knew that only &lt;code&gt;getEntityId()&lt;/code&gt; and &lt;code&gt;getName()&lt;/code&gt; are used by &lt;code&gt;generateSeoUrl()&lt;/code&gt; function,
+but then again, having new class with 50 empty methods just to override 2 of them doing useful action seemed not good idea for me.
+Thus I&amp;#8217;ve decided stop trying coding and start to think :)
+Extend some of the &lt;code&gt;Entity&lt;/code&gt; implementation to prevent querying DB or copy + paste &lt;code&gt;generateSeoUrl()&lt;/code&gt; and adopt it for my needs
+were the options but still it was not beautiful. Especially when I reminded duck typing.
+I said to myself, we have a function that takes instance of &lt;code&gt;Entity&lt;/code&gt; but only uses two method of this interface,
+so to complete my task I need something that looks like &lt;code&gt;Entity&lt;/code&gt; and able to handle &lt;code&gt;getEntityId&lt;/code&gt; and &lt;code&gt;getName()&lt;/code&gt; methods.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Since &lt;code&gt;entityId&lt;/code&gt; and &lt;code&gt;name&lt;/code&gt;  were already present in data used for generating my report I could reuse them in my new class to stub data for &lt;code&gt;getEntityId()&lt;/code&gt; and &lt;code&gt;getName()&lt;/code&gt;.
+To achieve duck typing we need to create &lt;code&gt;Proxy&lt;/code&gt; that also implements &lt;code&gt;InvocationHandler&lt;/code&gt; interface
+and static method to retrieve instance of &lt;code&gt;Proxy&lt;/code&gt;. Final code of my class looks like&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;ReportEntitySupport&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;InvocationHandler&lt;/span&gt; {
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;Entity&lt;/span&gt; newInstance(&lt;span class=&quot;predefined-type&quot;&gt;Long&lt;/span&gt; entityId, &lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; name) {
+        &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; (&lt;span class=&quot;predefined-type&quot;&gt;Entity&lt;/span&gt;) &lt;span class=&quot;predefined-type&quot;&gt;Proxy&lt;/span&gt;.newProxyInstance(
+                Product.class.getClassLoader(),
+                Product.class.getInterfaces(),
+                &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; ReportEntitySupport(entityId, name)
+        );
+    }
+
+    &lt;span class=&quot;directive&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; name;
+    &lt;span class=&quot;directive&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;Long&lt;/span&gt; entityId;
+
+    &lt;span class=&quot;directive&quot;&gt;private&lt;/span&gt; ReportEntitySupport(&lt;span class=&quot;predefined-type&quot;&gt;Long&lt;/span&gt; entityId, &lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; name) {
+        &lt;span class=&quot;local-variable&quot;&gt;this&lt;/span&gt;.name = name;
+        &lt;span class=&quot;local-variable&quot;&gt;this&lt;/span&gt;.entityId = entityId;
+    }
+
+    &lt;span class=&quot;annotation&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;Object&lt;/span&gt; invoke(&lt;span class=&quot;predefined-type&quot;&gt;Object&lt;/span&gt; proxy, &lt;span class=&quot;predefined-type&quot;&gt;Method&lt;/span&gt; method, &lt;span class=&quot;predefined-type&quot;&gt;Object&lt;/span&gt;&lt;span class=&quot;type&quot;&gt;[]&lt;/span&gt; args) &lt;span class=&quot;directive&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;Throwable&lt;/span&gt; {
+        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (method.getName().equals(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;getName&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)) {
+            &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;local-variable&quot;&gt;this&lt;/span&gt;.name;
+        } &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (method.getName().equals(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;getEntityId&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)) {
+            &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;local-variable&quot;&gt;this&lt;/span&gt;.entityId;
+        }
+        &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;predefined-constant&quot;&gt;null&lt;/span&gt;;
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;So how to use it ?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Inside my report generator while iterating over &lt;code&gt;ResultSet&lt;/code&gt; I&amp;#8217;m using following&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;predefined-type&quot;&gt;Long&lt;/span&gt; entityId = ...;        &lt;span class=&quot;comment&quot;&gt;//retrieve entityId from ResultSet&lt;/span&gt;
+&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; name = ...;                 &lt;span class=&quot;comment&quot;&gt;//retrieve name from ResultSet&lt;/span&gt;
+
+&lt;span class=&quot;predefined-type&quot;&gt;Entity&lt;/span&gt; entity = ReportEntitySupport.newIntance(entityId, name);
+&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; seoUrl = generateSeoUrl(entity);
+...&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;p-s&quot;&gt;P.S.&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This post just illustrates that some uncommon for Java language concepts could be successfully applied
+for completing real life tasks improving your programming skills and making your code more beautiful.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
+        <pubDate>Sat, 15 Sep 2012 00:00:00 +0000</pubDate>
+        <link>http://eshepelyuk.github.io/2012/09/15/duck-typing-in-java-well-not-exactly.html</link>
+        <guid isPermaLink="true">http://eshepelyuk.github.io/2012/09/15/duck-typing-in-java-well-not-exactly.html</guid>
+        
+        <category>java</category>
+        
+        <category>groovy</category>
+        
+        <category>duck typing</category>
+        
+        
+      </item>
     
       <item>
         <title>CodingDojoCnUa #6</title>
@@ -481,12 +720,12 @@ with couple of guys from Chernihiv&amp;#8217;s Softengi office. The agenda was q
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;few-lesson-learnt-from-point-5&quot;&gt;Few lesson learnt from point #5:&lt;/h2&gt;
+&lt;h2 id=&quot;lessons-learnt&quot;&gt;Lessons learnt&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;ulist&quot;&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;Hell yeah, i know &lt;code&gt;Hamcrest&lt;/code&gt; matchers :) and able to use complex combinations of them for assertion, but &amp;#8230;&amp;#8203;&lt;/p&gt;
+&lt;p&gt;Hell yeah, I know &lt;code&gt;Hamcrest&lt;/code&gt; matchers :) and able to use complex combinations of them for assertion, but &amp;#8230;&amp;#8203;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;code&gt;Hamcrest&lt;/code&gt; matchers are too verbose for complex collection operation, so &amp;#8230;&amp;#8203;&lt;/p&gt;

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Duck typing in Java ? Well, not exactly</title>
+    <meta name="description" content="Simple blog for some thoughts to be shared. Mostly about Java programming.
+">
+
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="canonical" href="http://eshepelyuk.github.io/2012/09/15/duck-typing-in-java-well-not-exactly.html">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">JK's blog</a>
+	
+    <nav class="site-nav">
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+	</div>
+	
+   <div class="wrapper">
+	<p class="text">Simple blog for some thoughts to be shared. Mostly about Java programming.
+</p>
+  </div>
+  
+	
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Duck typing in Java ? Well, not exactly</h1>
+    <p class="post-meta">Sep 15, 2012</p>
+  </header>
+
+  <article class="post-content">
+    <h1>Duck typing in Java ? Well, not exactly</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>What is it all about ? According to Wikipedia duck typing is</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>style of dynamic typing in which an object&#8217;s methods and properties determine the valid semantics,
+rather than its inheritance from a particular class or implementation of a specific interface</p>
+</div>
+</blockquote>
+<div class="attribution">
+&#8212; Wikipedia
+</div>
+</div>
+<div class="paragraph">
+<p>In simpler words</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+When I see a bird that walks like a duck and swims like a duck and quacks like a duck, I call that bird a duck
+</blockquote>
+</div>
+<div class="paragraph">
+<p>In languages with dynamic typing this feature allows creating function that are not checking type of passed object
+but instead rely on existence of particular methods/properties within it and throws runtime exception when those properties not found.
+For instance, in <code>Groovy</code> we could have a function for printing out info about an entity</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">def</span> printEntity = {entity -&gt;
+  println <span class="string"><span class="delimiter">&quot;</span><span class="content">id: </span><span class="inline"><span class="inline-delimiter">${</span>entity.id<span class="inline-delimiter">}</span></span><span class="content">, name: </span><span class="inline"><span class="inline-delimiter">${</span>entity.name<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s say we have following class</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="type">class</span> <span class="class">Entity</span> {
+  <span class="predefined-type">Long</span> id
+  <span class="predefined-type">String</span> name
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>So we can invoke our function</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>printEntity(new Entity(id: 10L, name: 'MyName1'))
+id: 10, name: MyName1</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>But the same time we could pass map as argument</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>printEntity(['id':10L, 'name':'MyName2'])
+id: 10, name: MyName2</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Using metaprogramming magic we could write even following</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="type">class</span> <span class="class">Ghost</span> {
+ <span class="keyword">def</span> <span class="function">propertyMissing</span>(<span class="predefined-type">String</span> name) {
+  <span class="keyword">if</span> (name == <span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span>) {
+   <span class="keyword">return</span> -<span class="integer">1L</span>
+  } <span class="keyword">else</span> <span class="keyword">if</span> (name == <span class="string"><span class="delimiter">'</span><span class="content">name</span><span class="delimiter">'</span></span>) {
+   <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">StubName</span><span class="delimiter">&quot;</span></span>
+  }
+ }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And we will be still able to call our function</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>printEntity(new Ghost())
+id: -1, name: StubName</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="welcome-to-the-real-world">Welcome to the real world</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Fortunately this concept can be used not only for languages with dynamic typing but for ones with more strict typing model, as <code>Java</code>.
+Wikipedia has good <a href="http://en.wikipedia.org/wiki/Duck_typing#In_Java" target="_blank">example</a> of duck typing implementation in <code>Java</code>
+using <code>Proxy</code> class.</p>
+</div>
+<div class="paragraph">
+<p>Well, you&#8217;d say, what is the practical usage of this, except feeling oneself the wisest guru :)
+Let me show some real life task that was solved in Java using <em>Duck Typing</em> technique.</p>
+</div>
+<div class="paragraph">
+<p>From the beginning we had simple report generator that queries DB of products and outputs id and name of certain entity.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">id</th>
+<th class="tableblock halign-left valign-top">name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">123</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Phone #1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">222</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Book #2</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>But then customer says:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>I&#8217;d like to also have link to the entity detail page at our site.
+Beautiful, SEO friendly link. Could you do it to me ?</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>"Sure ", I said. After digging our codebase I&#8217;ve discovered cool function <code>generateSeoUrl()</code> that does the job.
+The function takes one argument of type <code>Entity</code>, which is interface.
+So my intention was to observe implementations of <code>Entity</code> and try to use one of them for SEO URL creation in the report generator.
+How surprised was I after discovering that all of them are part of some self made <em>ORM</em> tool
+and their constructors query DB to get the entire information about product.</p>
+</div>
+<div class="paragraph">
+<p>So if I were using <code>Entity</code> implementations I had to deal with one extra query per row of my report and this is unacceptable
+since report was comprised of huge number of rows. So I decided to try other approach and implement <code>Entity</code> interface,
+overriding methods that are used by <code>generateSeoUrl()</code>.
+I clicked my IDE shortcut and got surprised again. <code>Entity</code> had <strong>50 (!!!)</strong> methods.
+Well, I already knew that only <code>getEntityId()</code> and <code>getName()</code> are used by <code>generateSeoUrl()</code> function,
+but then again, having new class with 50 empty methods just to override 2 of them doing useful action seemed not good idea for me.
+Thus I&#8217;ve decided stop trying coding and start to think :)
+Extend some of the <code>Entity</code> implementation to prevent querying DB or copy + paste <code>generateSeoUrl()</code> and adopt it for my needs
+were the options but still it was not beautiful. Especially when I reminded duck typing.
+I said to myself, we have a function that takes instance of <code>Entity</code> but only uses two method of this interface,
+so to complete my task I need something that looks like <code>Entity</code> and able to handle <code>getEntityId</code> and <code>getName()</code> methods.</p>
+</div>
+<div class="paragraph">
+<p>Since <code>entityId</code> and <code>name</code>  were already present in data used for generating my report I could reuse them in my new class to stub data for <code>getEntityId()</code> and <code>getName()</code>.
+To achieve duck typing we need to create <code>Proxy</code> that also implements <code>InvocationHandler</code> interface
+and static method to retrieve instance of <code>Proxy</code>. Final code of my class looks like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">ReportEntitySupport</span> <span class="directive">implements</span> <span class="predefined-type">InvocationHandler</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">Entity</span> newInstance(<span class="predefined-type">Long</span> entityId, <span class="predefined-type">String</span> name) {
+        <span class="keyword">return</span> (<span class="predefined-type">Entity</span>) <span class="predefined-type">Proxy</span>.newProxyInstance(
+                Product.class.getClassLoader(),
+                Product.class.getInterfaces(),
+                <span class="keyword">new</span> ReportEntitySupport(entityId, name)
+        );
+    }
+
+    <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">String</span> name;
+    <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">Long</span> entityId;
+
+    <span class="directive">private</span> ReportEntitySupport(<span class="predefined-type">Long</span> entityId, <span class="predefined-type">String</span> name) {
+        <span class="local-variable">this</span>.name = name;
+        <span class="local-variable">this</span>.entityId = entityId;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="predefined-type">Object</span> invoke(<span class="predefined-type">Object</span> proxy, <span class="predefined-type">Method</span> method, <span class="predefined-type">Object</span><span class="type">[]</span> args) <span class="directive">throws</span> <span class="predefined-type">Throwable</span> {
+        <span class="keyword">if</span> (method.getName().equals(<span class="string"><span class="delimiter">&quot;</span><span class="content">getName</span><span class="delimiter">&quot;</span></span>)) {
+            <span class="keyword">return</span> <span class="local-variable">this</span>.name;
+        } <span class="keyword">else</span> <span class="keyword">if</span> (method.getName().equals(<span class="string"><span class="delimiter">&quot;</span><span class="content">getEntityId</span><span class="delimiter">&quot;</span></span>)) {
+            <span class="keyword">return</span> <span class="local-variable">this</span>.entityId;
+        }
+        <span class="keyword">return</span> <span class="predefined-constant">null</span>;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>So how to use it ?</p>
+</div>
+<div class="paragraph">
+<p>Inside my report generator while iterating over <code>ResultSet</code> I&#8217;m using following</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Long</span> entityId = ...;        <span class="comment">//retrieve entityId from ResultSet</span>
+<span class="predefined-type">String</span> name = ...;                 <span class="comment">//retrieve name from ResultSet</span>
+
+<span class="predefined-type">Entity</span> entity = ReportEntitySupport.newIntance(entityId, name);
+<span class="predefined-type">String</span> seoUrl = generateSeoUrl(entity);
+...</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="p-s">P.S.</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This post just illustrates that some uncommon for Java language concepts could be successfully applied
+for completing real life tasks improving your programming skills and making your code more beautiful.</p>
+</div>
+</div>
+</div>
+  </article>
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+	var disqus_shortname = 'eshepelyukblog'; // required: replace example with your forum shortname
+	var disqus_url = 'http://localhost:4000/2012/09/15/duck-typing-in-java-well-not-exactly.html'; 
+	
+	/* * * DON'T EDIT BELOW THIS LINE * * */
+	(function() {
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>JK's blog</li>
+          <li><a href="mailto:eshepelyk@gmail.com">eshepelyk@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+			<i class="fa fa-github-square fa-lg"></i>
+            <a href="https://github.com/eshepelyuk">
+              <span class="username">eshepelyuk</span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+			<i class="fa fa-twitter-square fa-lg"></i>
+            <a href="https://twitter.com/eshepelyuk">
+              <span class="username">eshepelyuk</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">Simple blog for some thoughts to be shared. Mostly about Java programming.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
