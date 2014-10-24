@@ -25,13 +25,13 @@ I'm assuming readers could be unfamiliar with AngularJS, but, still, the applica
 
 == Implementation
 
-::First let's create Grails application
+First let's create Grails application::
 `grails create-app testApp`
 
-::After application is created let's change folder and all subsequent commands should be executed there
+After application is created let's change folder and all subsequent commands should be executed there::
 `cd testApp`
 
-::`Grails` already has plugin that support on-the fly conversion of your `CoffeeScript` files into `JavaScript`. To install it type following 
+`Grails` already has plugin that support on-the fly conversion of your `CoffeeScript` files into `JavaScript`. To install it type following::
 `grails install-plugin coffeescript-resources`
 
 ::After plugin installed we are going to create empty file for our `CoffeeScript` sources at `web-app/cs/angularIndex.coffee`
