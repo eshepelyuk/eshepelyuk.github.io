@@ -6,8 +6,8 @@
 </description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 24 Oct 2014 12:22:15 +0000</pubDate>
-    <lastBuildDate>Fri, 24 Oct 2014 12:22:15 +0000</lastBuildDate>
+    <pubDate>Fri, 24 Oct 2014 12:37:13 +0000</pubDate>
+    <lastBuildDate>Fri, 24 Oct 2014 12:37:13 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -736,17 +736,21 @@ This makes it hard for Java-boys (as me) to jump into. So purpose of this short 
 &lt;div class=&quot;sect1&quot;&gt;
 &lt;h2 id=&quot;implementation&quot;&gt;Implementation&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;::First let&amp;#8217;s create Grails application
-&lt;code&gt;grails create-app testApp&lt;/code&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;::After application is created let&amp;#8217;s change folder and all subsequent commands should be executed there
-&lt;code&gt;cd testApp&lt;/code&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;::`Grails` already has plugin that support on-the fly conversion of your &lt;code&gt;CoffeeScript&lt;/code&gt; files into &lt;code&gt;JavaScript&lt;/code&gt;. To install it type following
-&lt;code&gt;grails install-plugin coffeescript-resources&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;First let&amp;#8217;s create Grails application&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;&lt;code&gt;grails create-app testApp&lt;/code&gt;&lt;/p&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;After application is created let&amp;#8217;s change folder and all subsequent commands should be executed there&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;&lt;code&gt;cd testApp&lt;/code&gt;&lt;/p&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;&lt;code&gt;Grails&lt;/code&gt; already has plugin that support on-the fly conversion of your &lt;code&gt;CoffeeScript&lt;/code&gt; files into &lt;code&gt;JavaScript&lt;/code&gt;. To install it type following&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;&lt;code&gt;grails install-plugin coffeescript-resources&lt;/code&gt;&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;::After plugin installed we are going to create empty file for our &lt;code&gt;CoffeeScript&lt;/code&gt; sources at &lt;code&gt;web-app/cs/angularIndex.coffee&lt;/code&gt;&lt;/p&gt;
