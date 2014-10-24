@@ -1,0 +1,58 @@
+---
+tags:
+- javascript
+- angularjs
+- coffeescript
+- mvc
+- how-to
+- grails
+- web
+- groovy
+---
+= Grails + AngularJS + CoffeeScript
+
+== Intro
+
+Responsive design is a must for modern web-applications. Today this is attempted to achieve by using JavaScript MVC frameworks.
+But more often than not those frameworks originate from `Rails`, `NodeJS` and other non-Java communities.
+This makes it hard for Java-boys (as me) to jump into. So purpose of this short tutorial is to explain in few easy steps how to start with JS MVC framework and `CoffeeScript` on `Grails`.
+
+In this certain case `AngularJS` is my personal choice taken up after playing around with few other libraries but principles described below should work for other frameworks.
+
+Our intention will be to write one-page application having single input field and what's typed there is immediately reflected below in span tag.
+
+I'm assuming readers could be unfamiliar with AngularJS, but, still, the application is really simple and should be easy to read.
+
+== Implementation
+
+::First let's create Grails application
+`grails create-app testApp`
+
+::After application is created let's change folder and all subsequent commands should be executed there
+`cd testApp`
+
+::`Grails` already has plugin that support on-the fly conversion of your `CoffeeScript` files into `JavaScript`. To install it type following 
+`grails install-plugin coffeescript-resources`
+
+::After plugin installed we are going to create empty file for our `CoffeeScript` sources at `web-app/cs/angularIndex.coffee`
+
+<a href="http://3.bp.blogspot.com/-rR5xBqW985w/T_X32lu_g1I/AAAAAAAABXo/HR2vPbyGHgI/s1600/2.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="140" src="http://3.bp.blogspot.com/-rR5xBqW985w/T_X32lu_g1I/AAAAAAAABXo/HR2vPbyGHgI/s320/2.jpg" width="320" />
+
+::What's great about Grails - is the fact that it abounds with plugins. `AngularJS` library can be installed by typing 
+`grails install-plugin angularjs-resources`
+
+::Thanks to great `resources`  plugin `JavaScript` files management is quite easy in `Grails`.
+
+{source, groovy}
+.grails-app/conf/MyResources.groovy
+----
+----
+
+Code above declares resource for our AngularJS module written in `CoffeeScript`
+
+<div class="separator" style="clear: both; text-align: center;"><a href="http://2.bp.blogspot.com/-spuDAAAxpPE/T_X4Cg8IDYI/AAAAAAAABXw/Zk1mc6dVu6M/s1600/1.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
+<img border="0" height="159" src="http://2.bp.blogspot.com/-spuDAAAxpPE/T_X4Cg8IDYI/AAAAAAAABXw/Zk1mc6dVu6M/s320/1.jpg" width="320" /></a></div></li><li>
+
+Next we need controller to serve starting point HTML with AngularJS module. We can do it with following command <br /><pre class="brush:plain">grails create-controller AngularIndex</pre></li><li>
+Also we need manually create Grails view for index action of our controller.  For this we have to create new file <code>grails-app/views/angularIndex/index.gsp</code> with following content<br /><pre class="brush:html">&lt;!DOCTYPE html&gt;<br />&lt;html&gt;<br />&lt;head&gt;<br />    &lt;r:require modules="angularIndex"/&gt;<br />    &lt;r:layoutResources/&gt;<br />&lt;/head&gt;<br />&lt;body ng-app="MyApp"&gt;<br />&lt;div ng-controller="MyCtrl"&gt;<br />    What typed reflected below&lt;br&gt;<br />    &lt;input type="text" ng-model="myText"/&gt;&lt;br&gt;<br />    &lt;span&gt;&lt;b&gt;{{ "{{" }}myText}}&lt;/b&gt;&lt;/span&gt;<br />&lt;/div&gt;<br />&lt;/body&gt;<br />&lt;r:layoutResources/&gt;<br />&lt;/html&gt;<br /></pre></li><li>Last step is to create AngularJS module in CoffeeScript. For this we have to fill <code>web-app/cs/angularIndex.coffee</code> created before with following content<br /><pre class="brush:coffee">app = angular.module "MyApp", []<br />app.controller "MyCtrl", ($scope) -&gt;<br />  $scope.myText = "INITIAL"<br /></pre></li><li>Let's run application <pre class="brush:plain">grails run-app</pre><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://4.bp.blogspot.com/-ykO25vN8GYY/T_X4Ve0NcDI/AAAAAAAABX4/nDn_mJUvaIE/s1600/7.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://4.bp.blogspot.com/-ykO25vN8GYY/T_X4Ve0NcDI/AAAAAAAABX4/nDn_mJUvaIE/s1600/7.jpg" /></a></div></li></ol><span style="font-size: large;">P.S.</span> <br /><br />Please notice that setup described above shouldn't be considered for production usage. You probably need minification, zipping resources, etc - but then again it can be good starting point for research, prototyping and similar activities towards developing modern front-ends.<br /><br /><span style="font-size: large;">Links</span><br /><br />AngularJS -&nbsp;<a href="http://angularjs.org/" target="_blank">http://angularjs.org/</a><br />CoffeeScript -&nbsp;<a href="http://coffeescript.org/" target="_blank">http://coffeescript.org/</a><br />Grails -&nbsp;<a href="http://grails.org/" target="_blank">http://grails.org/</a>
