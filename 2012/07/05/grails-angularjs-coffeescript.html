@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Grails + AngularJS + CoffeeScript</title>
+    <meta name="description" content="Simple blog for some thoughts to be shared. Mostly about Java programming.
+">
+
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="canonical" href="http://eshepelyuk.github.io/2012/07/05/grails-angularjs-coffeescript.html">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">JK's blog</a>
+	
+    <nav class="site-nav">
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+	</div>
+	
+   <div class="wrapper">
+	<p class="text">Simple blog for some thoughts to be shared. Mostly about Java programming.
+</p>
+  </div>
+  
+	
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Grails + AngularJS + CoffeeScript</h1>
+    <p class="post-meta">Jul 5, 2012</p>
+  </header>
+
+  <article class="post-content">
+    <h1>Grails + AngularJS + CoffeeScript</h1>
+<div class="sect1">
+<h2 id="intro">Intro</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Responsive design is a must for modern web-applications. Today this is attempted to achieve by using JavaScript MVC frameworks.
+But more often than not those frameworks originate from <code>Rails</code>, <code>NodeJS</code> and other non-Java communities.
+This makes it hard for Java-boys (as me) to jump into. So purpose of this short tutorial is to explain in few easy steps how to start with JS MVC framework and <code>CoffeeScript</code> on <code>Grails</code>.</p>
+</div>
+<div class="paragraph">
+<p>In this certain case <code>AngularJS</code> is my personal choice taken up after playing around with few other libraries but principles described below should work for other frameworks.</p>
+</div>
+<div class="paragraph">
+<p>Our intention will be to write one-page application having single input field and what&#8217;s typed there is immediately reflected below in span tag.</p>
+</div>
+<div class="paragraph">
+<p>I&#8217;m assuming readers could be unfamiliar with AngularJS, but, still, the application is really simple and should be easy to read.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="implementation">Implementation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>::First let&#8217;s create Grails application
+<code>grails create-app testApp</code></p>
+</div>
+<div class="paragraph">
+<p>::After application is created let&#8217;s change folder and all subsequent commands should be executed there
+<code>cd testApp</code></p>
+</div>
+<div class="paragraph">
+<p>::`Grails` already has plugin that support on-the fly conversion of your <code>CoffeeScript</code> files into <code>JavaScript</code>. To install it type following
+<code>grails install-plugin coffeescript-resources</code></p>
+</div>
+<div class="paragraph">
+<p>::After plugin installed we are going to create empty file for our <code>CoffeeScript</code> sources at <code>web-app/cs/angularIndex.coffee</code></p>
+</div>
+<div class="paragraph">
+<p>&lt;a href="http://3.bp.blogspot.com/-rR5xBqW985w/T_X32lu_g1I/AAAAAAAABXo/HR2vPbyGHgI/s1600/2.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"&gt;
+&lt;img border="0" height="140" src="http://3.bp.blogspot.com/-rR5xBqW985w/T_X32lu_g1I/AAAAAAAABXo/HR2vPbyGHgI/s320/2.jpg" width="320" /&gt;</p>
+</div>
+<div class="paragraph">
+<p>::What&#8217;s great about Grails - is the fact that it abounds with plugins. <code>AngularJS</code> library can be installed by typing
+<code>grails install-plugin angularjs-resources</code></p>
+</div>
+<div class="paragraph">
+<p>::Thanks to great <code>resources</code>  plugin <code>JavaScript</code> files management is quite easy in <code>Grails</code>.</p>
+</div>
+<div class="paragraph">
+<p>{source, groovy}
+.grails-app/conf/MyResources.groovy</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Code above declares resource for our AngularJS module written in <code>CoffeeScript</code></p>
+</div>
+<div class="paragraph">
+<p>&lt;div class="separator" style="clear: both; text-align: center;"&gt;&lt;a href="http://2.bp.blogspot.com/-spuDAAAxpPE/T_X4Cg8IDYI/AAAAAAAABXw/Zk1mc6dVu6M/s1600/1.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"&gt;
+&lt;img border="0" height="159" src="http://2.bp.blogspot.com/-spuDAAAxpPE/T_X4Cg8IDYI/AAAAAAAABXw/Zk1mc6dVu6M/s320/1.jpg" width="320" /&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;&lt;li&gt;</p>
+</div>
+<div class="paragraph">
+<p>Next we need controller to serve starting point HTML with AngularJS module. We can do it with following command &lt;br /&gt;&lt;pre class="brush:plain"&gt;grails create-controller AngularIndex&lt;/pre&gt;&lt;/li&gt;&lt;li&gt;
+Also we need manually create Grails view for index action of our controller.  For this we have to create new file &lt;code&gt;grails-app/views/angularIndex/index.gsp&lt;/code&gt; with following content&lt;br /&gt;&lt;pre class="brush:html"&gt;&lt;!DOCTYPE html&gt;&lt;br /&gt;&lt;html&gt;&lt;br /&gt;&lt;head&gt;&lt;br /&gt;    &lt;r:require modules="angularIndex"/&gt;&lt;br /&gt;    &lt;r:layoutResources/&gt;&lt;br /&gt;&lt;/head&gt;&lt;br /&gt;&lt;body ng-app="MyApp"&gt;&lt;br /&gt;&lt;div ng-controller="MyCtrl"&gt;&lt;br /&gt;    What typed reflected below&lt;br&gt;&lt;br /&gt;    &lt;input type="text" ng-model="myText"/&gt;&lt;br&gt;&lt;br /&gt;    &lt;span&gt;&lt;b&gt;{{myText}}&lt;/b&gt;&lt;/span&gt;&lt;br /&gt;&lt;/div&gt;&lt;br /&gt;&lt;/body&gt;&lt;br /&gt;&lt;r:layoutResources/&gt;&lt;br /&gt;&lt;/html&gt;&lt;br /&gt;&lt;/pre&gt;&lt;/li&gt;&lt;li&gt;Last step is to create AngularJS module in CoffeeScript. For this we have to fill &lt;code&gt;web-app/cs/angularIndex.coffee&lt;/code&gt; created before with following content&lt;br /&gt;&lt;pre class="brush:coffee"&gt;app = angular.module "MyApp", []&lt;br /&gt;app.controller "MyCtrl", ($scope) -&gt;&lt;br /&gt;  $scope.myText = "INITIAL"&lt;br /&gt;&lt;/pre&gt;&lt;/li&gt;&lt;li&gt;Let&#8217;s run application &lt;pre class="brush:plain"&gt;grails run-app&lt;/pre&gt;&lt;br /&gt;&lt;div class="separator" style="clear: both; text-align: center;"&gt;&lt;a href="http://4.bp.blogspot.com/-ykO25vN8GYY/T_X4Ve0NcDI/AAAAAAAABX4/nDn_mJUvaIE/s1600/7.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"&gt;&lt;img border="0" src="http://4.bp.blogspot.com/-ykO25vN8GYY/T_X4Ve0NcDI/AAAAAAAABX4/nDn_mJUvaIE/s1600/7.jpg" /&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;&lt;/ol&gt;&lt;span style="font-size: large;"&gt;P.S.&lt;/span&gt; &lt;br /&gt;&lt;br /&gt;Please notice that setup described above shouldn&#8217;t be considered for production usage. You probably need minification, zipping resources, etc - but then again it can be good starting point for research, prototyping and similar activities towards developing modern front-ends.&lt;br /&gt;&lt;br /&gt;&lt;span style="font-size: large;"&gt;Links&lt;/span&gt;&lt;br /&gt;&lt;br /&gt;AngularJS -&nbsp;&lt;a href="http://angularjs.org/" target="_blank"&gt;<a href="http://angularjs.org/&lt;/a&gt;&lt;br" class="bare">http://angularjs.org/&lt;/a&gt;&lt;br</a> /&gt;CoffeeScript -&nbsp;&lt;a href="http://coffeescript.org/" target="_blank"&gt;<a href="http://coffeescript.org/&lt;/a&gt;&lt;br" class="bare">http://coffeescript.org/&lt;/a&gt;&lt;br</a> /&gt;Grails -&nbsp;&lt;a href="http://grails.org/" target="_blank"&gt;<a href="http://grails.org/&lt;/a&gt" class="bare">http://grails.org/&lt;/a&gt</a>;</p>
+</div>
+</div>
+</div>
+  </article>
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+	var disqus_shortname = 'eshepelyukblog'; // required: replace example with your forum shortname
+	
+	/* * * DON'T EDIT BELOW THIS LINE * * */
+	(function() {
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>JK's blog</li>
+          <li><a href="mailto:eshepelyk@gmail.com">eshepelyk@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+			<i class="fa fa-github-square fa-lg"></i>
+            <a href="https://github.com/eshepelyuk">
+              <span class="username">eshepelyuk</span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+			<i class="fa fa-twitter-square fa-lg"></i>
+            <a href="https://twitter.com/eshepelyuk">
+              <span class="username">eshepelyuk</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">Simple blog for some thoughts to be shared. Mostly about Java programming.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
