@@ -6,8 +6,8 @@
 </description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 24 Oct 2014 12:58:21 +0000</pubDate>
-    <lastBuildDate>Fri, 24 Oct 2014 12:58:21 +0000</lastBuildDate>
+    <pubDate>Fri, 24 Oct 2014 14:37:38 +0000</pubDate>
+    <lastBuildDate>Fri, 24 Oct 2014 14:37:38 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -752,8 +752,7 @@ This makes it hard for Java-boys (as me) to jump into. So purpose of this short 
 &lt;/dd&gt;
 &lt;dt class=&quot;hdlist1&quot;&gt;After plugin installed we are going to create empty file for our &lt;code&gt;CoffeeScript&lt;/code&gt; sources at &lt;code&gt;web-app/cs/angularIndex.coffee&lt;/code&gt;&lt;/dt&gt;
 &lt;dd&gt;
-&lt;p&gt;&amp;lt;a href=&quot;http://3.bp.blogspot.com/-rR5xBqW985w/T_X32lu_g1I/AAAAAAAABXo/HR2vPbyGHgI/s1600/2.jpg&quot; imageanchor=&quot;1&quot; style=&quot;margin-left: 1em; margin-right: 1em;&quot;&amp;gt;
-&amp;lt;img border=&quot;0&quot; height=&quot;140&quot; src=&quot;http://3.bp.blogspot.com/-rR5xBqW985w/T_X32lu_g1I/AAAAAAAABXo/HR2vPbyGHgI/s320/2.jpg&quot; width=&quot;320&quot; /&amp;gt;&lt;/p&gt;
+&lt;p&gt;image::1.jpg[QWEQWE]&lt;/p&gt;
 &lt;/dd&gt;
 &lt;dt class=&quot;hdlist1&quot;&gt;What&amp;#8217;s great about Grails - is the fact that it abounds with plugins. &lt;code&gt;AngularJS&lt;/code&gt; library can be installed by typing&lt;/dt&gt;
 &lt;dd&gt;
