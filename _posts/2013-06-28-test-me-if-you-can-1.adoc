@@ -146,6 +146,7 @@ This is how resulting test XML configuration will look like
 
 And the test modified accordingly.
 [source,java]
+.UserBalanceServiceImplTest.java
 ----
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:/springtest/springockito/testApplicationContext.xml")
