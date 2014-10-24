@@ -6,8 +6,8 @@
 </description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 24 Oct 2014 06:49:40 +0000</pubDate>
-    <lastBuildDate>Fri, 24 Oct 2014 06:49:40 +0000</lastBuildDate>
+    <pubDate>Fri, 24 Oct 2014 06:57:05 +0000</pubDate>
+    <lastBuildDate>Fri, 24 Oct 2014 06:57:05 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -62,7 +62,7 @@ First intention could be creating mocks in &lt;code&gt;setUp&lt;/code&gt; sectio
 &lt;table&gt;
 &lt;tr&gt;
 &lt;td class=&quot;icon&quot;&gt;
-&lt;div class=&quot;title&quot;&gt;Warning&lt;/div&gt;
+&lt;i class=&quot;fa icon-warning&quot; title=&quot;Warning&quot;&gt;&lt;/i&gt;
 &lt;/td&gt;
 &lt;td class=&quot;content&quot;&gt;
 You&amp;#8217;re overriding behavior of container for your test, so there&amp;#8217;s no guarantee it will work the same way for real services on real environment.
@@ -158,7 +158,7 @@ You&amp;#8217;re overriding behavior of container for your test, so there&amp;#8
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;As expected after test run we will have &lt;code&gt;UnsupportedOperationException&lt;/code&gt;. Our intention is to replace &lt;code&gt;BankService&lt;/code&gt; with mock and tune its behavior.
 It&amp;#8217;s possible to use &lt;code&gt;Mockito&lt;/code&gt; directly as factory bean
-but there&amp;#8217;s better alternative - &lt;a href=&quot;https://bitbucket.org/kubek2k/springockito/wiki/Home&quot;&gt;Springockito framework window=&quot;_blank&quot;&lt;/a&gt;.
+but there&amp;#8217;s better alternative - &lt;a href=&quot;https://bitbucket.org/kubek2k/springockito/wiki/Home&quot; target=&quot;_blank&quot;&gt;Springockito framework&lt;/a&gt;.
 Please take a look before proceed :)&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
@@ -211,7 +211,7 @@ This is how resulting test XML configuration will look like&lt;/p&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;You may notice appearance of &lt;code&gt;setUp&lt;/code&gt; method for setting up the mock behavior and new &lt;code&gt;@Profile&lt;/code&gt; annotation.
 The annotation activates our profile &lt;code&gt;springTest&lt;/code&gt; so bean mocked with &lt;code&gt;Springockito&lt;/code&gt; will be injected where necessary.
-When run this we will have test passed since spring injected mock that we&amp;#8217;ve configured and not the external service.&lt;/p&gt;
+On running this the test will pass, because &lt;code&gt;Spring&lt;/code&gt; injected &lt;code&gt;Mockito&lt;/code&gt; mock that we&amp;#8217;ve configured in test XML and not the external service instance.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -220,7 +220,7 @@ When run this we will have test passed since spring injected mock that we&amp;#8
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;It could be the end of the story be we could still go deeper on the problem.
-&lt;code&gt;Springockito&lt;/code&gt; creator has another framework &lt;a href=&quot;https://bitbucket.org/kubek2k/springockito/wiki/springockito-annotations&quot;&gt;springockito-annotations&lt;/a&gt;.
+&lt;code&gt;Springockito&lt;/code&gt; creator has another framework &lt;a href=&quot;https://bitbucket.org/kubek2k/springockito/wiki/springockito-annotations&quot; target=&quot;_blank&quot;&gt;Springockito Annotations&lt;/a&gt;.
 The framework allows mock injection using annotation within test classes.
 Please skim read it before proceed :)
 After some modification code of our test will look this way.&lt;/p&gt;

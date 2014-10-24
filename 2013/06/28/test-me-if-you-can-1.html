@@ -105,7 +105,7 @@ First intention could be creating mocks in <code>setUp</code> section of the tes
 <table>
 <tr>
 <td class="icon">
-<div class="title">Warning</div>
+<i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
 You&#8217;re overriding behavior of container for your test, so there&#8217;s no guarantee it will work the same way for real services on real environment.
@@ -201,7 +201,7 @@ You&#8217;re overriding behavior of container for your test, so there&#8217;s no
 <div class="paragraph">
 <p>As expected after test run we will have <code>UnsupportedOperationException</code>. Our intention is to replace <code>BankService</code> with mock and tune its behavior.
 It&#8217;s possible to use <code>Mockito</code> directly as factory bean
-but there&#8217;s better alternative - <a href="https://bitbucket.org/kubek2k/springockito/wiki/Home">Springockito framework window="_blank"</a>.
+but there&#8217;s better alternative - <a href="https://bitbucket.org/kubek2k/springockito/wiki/Home" target="_blank">Springockito framework</a>.
 Please take a look before proceed :)</p>
 </div>
 <div class="paragraph">
@@ -254,7 +254,7 @@ This is how resulting test XML configuration will look like</p>
 <div class="paragraph">
 <p>You may notice appearance of <code>setUp</code> method for setting up the mock behavior and new <code>@Profile</code> annotation.
 The annotation activates our profile <code>springTest</code> so bean mocked with <code>Springockito</code> will be injected where necessary.
-When run this we will have test passed since spring injected mock that we&#8217;ve configured and not the external service.</p>
+On running this the test will pass, because <code>Spring</code> injected <code>Mockito</code> mock that we&#8217;ve configured in test XML and not the external service instance.</p>
 </div>
 </div>
 </div>
@@ -263,7 +263,7 @@ When run this we will have test passed since spring injected mock that we&#8217;
 <div class="sectionbody">
 <div class="paragraph">
 <p>It could be the end of the story be we could still go deeper on the problem.
-<code>Springockito</code> creator has another framework <a href="https://bitbucket.org/kubek2k/springockito/wiki/springockito-annotations">springockito-annotations</a>.
+<code>Springockito</code> creator has another framework <a href="https://bitbucket.org/kubek2k/springockito/wiki/springockito-annotations" target="_blank">Springockito Annotations</a>.
 The framework allows mock injection using annotation within test classes.
 Please skim read it before proceed :)
 After some modification code of our test will look this way.</p>
