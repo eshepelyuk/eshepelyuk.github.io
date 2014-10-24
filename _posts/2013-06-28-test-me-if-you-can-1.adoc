@@ -146,7 +146,7 @@ This is how resulting test XML configuration will look like
 
 And the test modified accordingly.
 [source,java]
-.UserBalanceServiceImplTest.java
+.UserBalanceServiceImplProfileTest.java
 ----
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:/springtest/springockito/testApplicationContext.xml")
@@ -180,6 +180,7 @@ The framework allows mock injection using annotation within test classes.
 Please skim read it before proceed :)
 After some modification code of our test will look this way.
 [source, java]
+.UserBalanceServiceImplAnnotationTest
 ----
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = SpringockitoContextLoader.class, 
