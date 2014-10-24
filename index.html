@@ -9,10 +9,7 @@ layout: page
         <h2>
           <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
         </h2>
-        <span class="post-meta">
-			{{ post.date | date: "%b %-d, %Y" }}
-			{% if post.tags %}<i class="fa fa-tags fa-2x">&nbsp;{{ post.tags | join: ', ' }}{% endif %}</i>
-		</span>
+        {% include post-meta.html post=post %}
       </li>
     {% endfor %}
   </ul>
