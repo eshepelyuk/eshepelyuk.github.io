@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 24 Oct 2014 21:53:34 +0000</pubDate>
-    <lastBuildDate>Fri, 24 Oct 2014 21:53:34 +0000</lastBuildDate>
+    <pubDate>Fri, 24 Oct 2014 22:06:24 +0000</pubDate>
+    <lastBuildDate>Fri, 24 Oct 2014 22:06:24 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -703,9 +703,7 @@ This allows you to easily reuse such functionality while writing WebDriver tests
         
         <category>webdriver</category>
         
-        <category>how-to</category>
-        
-        <category>selenium</category>
+        <category>howto</category>
         
         
       </item>
@@ -887,7 +885,7 @@ towards developing modern front-ends.&lt;/p&gt;
         
         <category>mvc</category>
         
-        <category>how-to</category>
+        <category>howto</category>
         
         <category>grails</category>
         
@@ -1092,6 +1090,10 @@ basic mocking support so its good choice for beginners like us :). Find more on 
         <link>http://eshepelyuk.github.io/2012/01/28/codingdojocnua-2-agenda-and-tools.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2012/01/28/codingdojocnua-2-agenda-and-tools.html</guid>
         
+        <category>coding dojo</category>
+        
+        <category>howto</category>
+        
         
       </item>
     
@@ -1147,13 +1149,7 @@ When the utility method is called - image file with slightly the same as below n
         
         <category>firefox</category>
         
-        <category>debug</category>
-        
         <category>webdriver</category>
-        
-        <category>selenium</category>
-        
-        <category>screenshot</category>
         
         
       </item>
@@ -1260,6 +1256,10 @@ Scripts should perform checkout, start web server, run tests and stop server&lt;
         <pubDate>Tue, 03 Jan 2012 00:00:00 +0000</pubDate>
         <link>http://eshepelyuk.github.io/2012/01/03/webdriver-workshop-at-softengi.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2012/01/03/webdriver-workshop-at-softengi.html</guid>
+        
+        <category>webdriver</category>
+        
+        <category>coding dojo</category>
         
         
       </item>
@@ -1382,9 +1382,7 @@ Instead we can use much simpler code to achieve the same result.&lt;/p&gt;
         
         <category>xpath</category>
         
-        <category>how-to</category>
-        
-        <category>selenium</category>
+        <category>howto</category>
         
         
       </item>
