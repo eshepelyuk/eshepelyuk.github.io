@@ -1,0 +1,170 @@
+---
+tags:
+- java
+- tdd
+- spring
+- mockito
+---
+= Test Me If You Can (#1)
+
+== The purpose of this post series 
+
+During my career I often observed people who claim that they are not writing tests because "can't cover" integration between components. 
+Well, I believe most of such people just don't know some simply techniques or don't have time to dig them out because of stress at their work place. 
+The lack of such knowledge results into neglecting of integration tests and thus worse software, more bugs and disappointed customer.
+
+So I've decided to share some practices collected during last couple of years that are revealing mystery surrounding integration testing. 
+The series will be concentrated around Spring framework, that I'm most familiar with. Let's start :)<
+
+== Better integration test for Spring based projects
+
+Tools: `Spring`, `JUnit`, `Mockito`
+
+Imagine the situation with `Spring` based project that's integrating an external service, e.g. some bank web services. 
+Issues related to writing test cases and running them within CI for such code are usually the same
+
+* price per transaction, each time test executed - customer pays
+* tests requests can be interpreted as suspicious traffic, account blocked - tests failures
+* when using non production environments for tests, it can be unstable - again, tests failures
+
+Usually such problems can be solved by mocking such external service while testing single class that using it, 
+but when it comes to the need for test larger business flow - you need to run your tests again many components 
+and made them managed by your container - `Spring`.
+Luckily `Spring` has great http://static.springsource.org/spring/docs/3.2.x/spring-framework-reference/html/testing.html[test framework, window="_blank"] 
+allowing injection of beans from production configuration, but one needs to mock external services himself. 
+First intention could be creating mocks in `setUp` section of the test and re-inject beans previously injected by `Spring`, but think more about it
+
+WARNING: You're overriding behavior of container for your test, so there's no guarantee it will work the same way for real services on real environment.
+
+Instead we have not to mock our external services and then re-inject them into corresponding beans, but *make `Spring` inject mocks in place of particular beans
+, required for our test goals*. Let's illustrate this with code.
+
+My sample project comprises `BankService` representing external service and `UserBalanceService` - our service working with `BankService`. 
+`UserBalanceService` is quite simple wrapper - just making conversion from `String` to `Double
+
+[source,java]
+.BankService.java
+----
+public interface BankService {
+    String getBalanceByEmail(String email);
+}
+----
+
+[source,java]
+.BankServiceImpl.java
+----
+public class BankServiceImpl implements BankService {
+    @Override
+    public String getBalanceByEmail(String email) {
+        throw new UnsupportedOperationException("Operation failed due to external exception");
+    }
+}
+----
+
+[source,java]
+.UserBalanceService.java
+----
+interface UserBalanceService {
+    Double getAccountBalance(String email);
+}
+----
+
+[source,java]
+.UserBalanceServiceImpl.java
+----
+public class UserBalanceServiceImpl implements UserBalanceService {
+    @Autowired
+    private BankService bankService;
+    @Override
+    public Double getAccountBalance(String email) {
+        return Double.valueOf(bankService.getBalanceByEmail(email));
+    }
+}
+----
+
+And the `Spring` dependency XML configuration wiring everything together
+
+[source,xml]
+.applicationContext.xml
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="bankService" class="ua.eshepelyuk.blog.springtest.springockito.BankServiceImpl"/>
+    <bean id="userBalanceService" class="ua.eshepelyuk.blog.springtest.springockito.UserBalanceServiceImpl"/>
+</beans>
+----
+
+Our test will look like
+
+[source,java]
+.UserBalanceServiceImplTest.java
+----
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "classpath:/springtest/springockito/applicationContext.xml")
+public class UserBalanceServiceImplProfileTest {
+    @Autowired
+    private UserBalanceService userBalanceService;
+    @Autowired
+    private BankService bankService;
+    @Test
+    public void shouldReturnMockedBalance() {
+        Double balance = userBalanceService.getAccountBalance("user@bank.com");
+        assertEquals(balance, Double.valueOf(123.45D));
+    }
+}
+----
+
+
+As expected after test run we will have `UnsupportedOperationException`. Our intention is to replace `BankService` with mock and tune its behavior. 
+It's possible to use `Mockito` directly as factory bean 
+but there's better alternative - https://bitbucket.org/kubek2k/springockito/wiki/Home[Springockito framework window="_blank"]. 
+Please take a look before proceed :)
+
+The remaining question is how to instruct `Spring` to inject mocks instead of real beans, 
+Prior to version 3.1 there were no alternatives except creating brand new XML configuration for using it in test. 
+But with introduction of http://blog.springsource.com/2011/02/11/spring-framework-3-1-m1-released[Bean Definition Profiles, window="_blank"]
+we now able to create more elegant solution for this, although we still need separate XML for test purposes. 
+This is how resulting test XML configuration will look like
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mockito="http://www.mockito.org/spring/mockito"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.mockito.org/spring/mockito https://bitbucket.org/kubek2k/springockito/raw/tip/springockito/src/main/resources/spring/mockito.xsd">
+    <import resource="classpath:/springtest/springockito/applicationContext.xml"/>
+    <beans profile="springTest">
+        <mockito:mock id="bankService" class="ua.eshepelyuk.blog.springtest.springockito.BankService"/>
+    </beans>
+</beans>
+----
+
+And the test modified accordingly.
+[source,java]
+----
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "classpath:/springtest/springockito/testApplicationContext.xml")
+@ActiveProfiles(profiles = {"springTest"})
+public class UserBalanceServiceImplProfileTest {
+    @Autowired
+    private UserBalanceService userBalanceService;
+    @Autowired
+    private BankService bankService;
+    @Before
+    public void setUp() throws Exception {
+        Mockito.when(bankService.getBalanceByEmail("user@bank.com")).thenReturn(String.valueOf(123.45D));
+    }
+    @Test
+    public void shouldReturnMockedBalance() {
+        Double balance = userBalanceService.getAccountBalance("user@bank.com");
+        assertEquals(balance, Double.valueOf(123.45D));
+    }
+}
+----
+
+You may notice appearance of `setUp` method for setting up the mock behavior and new `@Profile` annotation. 
+The annotation activates our profile `springTest` so bean mocked with <span style="font-family: &quot;Courier New&quot;, Courier, monospace;">Springockito </span>will be injected where necessary. When run this we will have test passed since spring injected mock that we've configured and not the external service.<br /><br /><span style="font-size: large;">Don't stop on the way to perfectness</span><br /><br />It could be the end of the story be we could still go deeper on the problem. <span style="font-family: &quot;Courier New&quot;, Courier, monospace;">Springockito </span>creator has another framework <span style="font-family: &quot;Courier New&quot;, Courier, monospace;"><a href="https://bitbucket.org/kubek2k/springockito/wiki/springockito-annotations" target="_blank">springockito-annotations</a></span> . The framework allows mock injection using annotation within test classes. Please skim read it before proceed :)<br /><br />After some modification code of our test will look this way.<br /><pre class="brush: java; highlight: [2,8]">@RunWith(SpringJUnit4ClassRunner.class)<br />@ContextConfiguration(loader = SpringockitoContextLoader.class, <br />    locations = "classpath:/springtest/springockito/applicationContext.xml")<br />public class UserBalanceServiceImplAnnotationTest {<br />    @Autowired<br />    private UserBalanceService userBalanceService;<br />    @Autowired<br />    @ReplaceWithMock<br />    private BankService bankService;<br />    @Before<br />    public void setUp() throws Exception {<br />        Mockito.when(bankService.getBalanceByEmail("user@bank.com")).thenReturn(String.valueOf(valueOf(123.45D)));<br />    }<br />    @Test<br />    public void shouldReturnMockedBalance() {<br />        Double balance = userBalanceService.getAccountBalance("user@bank.com");<br />        assertEquals(balance, valueOf(123.45D));<br />    }<br />}</pre><br />Please note that no new XML configuration required. We're using production XML config and just override single bean using <span style="font-family: &quot;Courier New&quot;, Courier, monospace;">@ReplaceWithMock&nbsp;</span><span style="font-family: inherit;">annotation. Later we can customize the mock in </span><span style="font-family: &quot;Courier New&quot;, Courier, monospace;">setUp</span><span style="font-family: inherit;"> method.</span><br /><br /><span style="font-size: large;">P.S.</span><br /><br /><span style="font-family: &quot;Courier New&quot;, Courier, monospace;">Springockito-annotations</span> project has one great advantage - it provides test code only based dependency override mechanism. Neither additional XML, nor production code modifications for test purposes. Unlike <span style="font-family: &quot;Courier New&quot;, Courier, monospace;">springockito-annotations</span> the XML based &nbsp;approach makes creation of test specific XML mandatory always. So I strongly recommend iusing <span style="font-family: &quot;Courier New&quot;, Courier, monospace;">Springockito-annotations</span> project for your integration tests, so they won't affect your production code design and won't produce additional artifacts - i.e. configuration files.<br /><br /><span style="font-size: large;">P.P.S.</span><br />Writing integration tests for Spring is easy ! Project can be found on <a href="https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCan1" target="_blank">my GitHub</a>
