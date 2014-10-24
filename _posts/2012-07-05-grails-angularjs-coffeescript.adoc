@@ -42,7 +42,7 @@ What's great about Grails - is the fact that it abounds with plugins. `AngularJS
 `grails install-plugin angularjs-resources`
 
 Thanks to great `resources`  plugin `JavaScript` files management is quite easy in `Grails`::
-{source, groovy}
+[source,groovy]
 .grails-app/conf/MyResources.groovy
 ----
 modules = {
@@ -52,6 +52,7 @@ modules = {
     }
 }
 ----
+
 Code above declares resource for our AngularJS module written in `CoffeeScript`
 <div class="separator" style="clear: both; text-align: center;"><a href="http://2.bp.blogspot.com/-spuDAAAxpPE/T_X4Cg8IDYI/AAAAAAAABXw/Zk1mc6dVu6M/s1600/1.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
 <img border="0" height="159" src="http://2.bp.blogspot.com/-spuDAAAxpPE/T_X4Cg8IDYI/AAAAAAAABXw/Zk1mc6dVu6M/s320/1.jpg" width="320" /></a></div></li><li>
@@ -101,6 +102,6 @@ towards developing modern front-ends.
 
 === Links 
 
-* href="http://angularjs.org/"[AngularJS, window="_blank"]
+* http://angularjs.org/[AngularJS, window="_blank"]
 * http://coffeescript.org/[CoffeeScript, window="_blank"]
 * http://grails.org/[Grails, window="_blank"]
