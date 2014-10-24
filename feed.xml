@@ -6,8 +6,8 @@
 </description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 24 Oct 2014 14:56:23 +0000</pubDate>
-    <lastBuildDate>Fri, 24 Oct 2014 14:56:23 +0000</lastBuildDate>
+    <pubDate>Fri, 24 Oct 2014 15:01:35 +0000</pubDate>
+    <lastBuildDate>Fri, 24 Oct 2014 15:01:35 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -752,13 +752,13 @@ This makes it hard for Java-boys (as me) to jump into. So purpose of this short 
 &lt;/dd&gt;
 &lt;dt class=&quot;hdlist1&quot;&gt;After plugin installed we are going to create empty file for our &lt;code&gt;CoffeeScript&lt;/code&gt; sources at &lt;code&gt;web-app/cs/angularIndex.coffee&lt;/code&gt;&lt;/dt&gt;
 &lt;dd&gt;
-&lt;p&gt;qweqwe&lt;/p&gt;
+&lt;p&gt;qq&lt;/p&gt;
 &lt;/dd&gt;
 &lt;/dl&gt;
 &lt;/div&gt;
 &lt;div class=&quot;imageblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;/assets/images/1.jpg&quot; alt=&quot;QWEQWE&quot;&gt;
+&lt;img src=&quot;/assets/images/2.jpg&quot; alt=&quot;2&quot;&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;dlist&quot;&gt;
@@ -782,9 +782,12 @@ This makes it hard for Java-boys (as me) to jump into. So purpose of this short 
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Code above declares resource for our AngularJS module written in &lt;code&gt;CoffeeScript&lt;/code&gt;
-&amp;lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: center;&quot;&amp;gt;&amp;lt;a href=&quot;http://2.bp.blogspot.com/-spuDAAAxpPE/T_X4Cg8IDYI/AAAAAAAABXw/Zk1mc6dVu6M/s1600/1.jpg&quot; imageanchor=&quot;1&quot; style=&quot;margin-left: 1em; margin-right: 1em;&quot;&amp;gt;
-&amp;lt;img border=&quot;0&quot; height=&quot;159&quot; src=&quot;http://2.bp.blogspot.com/-spuDAAAxpPE/T_X4Cg8IDYI/AAAAAAAABXw/Zk1mc6dVu6M/s320/1.jpg&quot; width=&quot;320&quot; /&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/li&amp;gt;&amp;lt;li&amp;gt;&lt;/p&gt;
+&lt;p&gt;Code above declares resource for our AngularJS module written in &lt;code&gt;CoffeeScript&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;/assets/images/1.jpg&quot; alt=&quot;1&quot;&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;dlist&quot;&gt;
 &lt;dl&gt;
@@ -836,10 +839,14 @@ app.controller &amp;quot;MyCtrl&amp;quot;, ($scope) -&amp;gt;
 &lt;dl&gt;
 &lt;dt class=&quot;hdlist1&quot;&gt;Let&amp;#8217;s run application&lt;/dt&gt;
 &lt;dd&gt;
-&lt;p&gt;&lt;code&gt;grails run-app&lt;/code&gt;
-&amp;lt;a href=&quot;http://4.bp.blogspot.com/-ykO25vN8GYY/T_X4Ve0NcDI/AAAAAAAABX4/nDn_mJUvaIE/s1600/7.jpg&quot; imageanchor=&quot;1&quot; style=&quot;margin-left: 1em; margin-right: 1em;&quot;&amp;gt;&amp;lt;img border=&quot;0&quot; src=&quot;http://4.bp.blogspot.com/-ykO25vN8GYY/T_X4Ve0NcDI/AAAAAAAABX4/nDn_mJUvaIE/s1600/7.jpg&quot; /&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/li&amp;gt;&amp;lt;/ol&amp;gt;&amp;lt;span style=&quot;font-size: large;&quot;&amp;gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;grails run-app&lt;/code&gt;&lt;/p&gt;
 &lt;/dd&gt;
 &lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;/assets/images/3.jpg&quot; alt=&quot;3&quot;&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
