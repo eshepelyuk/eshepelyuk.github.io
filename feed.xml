@@ -6,9 +6,228 @@
 </description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 23 Oct 2014 20:46:21 +0000</pubDate>
-    <lastBuildDate>Thu, 23 Oct 2014 20:46:21 +0000</lastBuildDate>
+    <pubDate>Fri, 24 Oct 2014 05:48:46 +0000</pubDate>
+    <lastBuildDate>Fri, 24 Oct 2014 05:48:46 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Test Me If You Can (#1)</title>
+        <description>&lt;h1&gt;Test Me If You Can (#1)&lt;/h1&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;the-purpose-of-this-post-series&quot;&gt;The purpose of this post series&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;During my career I often observed people who claim that they are not writing tests because &quot;can&amp;#8217;t cover&quot; integration between components.
+Well, I believe most of such people just don&amp;#8217;t know some simply techniques or don&amp;#8217;t have time to dig them out because of stress at their work place.
+The lack of such knowledge results into neglecting of integration tests and thus worse software, more bugs and disappointed customer.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;So I&amp;#8217;ve decided to share some practices collected during last couple of years that are revealing mystery surrounding integration testing.
+The series will be concentrated around Spring framework, that I&amp;#8217;m most familiar with. Let&amp;#8217;s start :)&amp;lt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;better-integration-test-for-spring-based-projects&quot;&gt;Better integration test for Spring based projects&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Tools: &lt;code&gt;Spring&lt;/code&gt;, &lt;code&gt;JUnit&lt;/code&gt;, &lt;code&gt;Mockito&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Imagine the situation with &lt;code&gt;Spring&lt;/code&gt; based project that&amp;#8217;s integrating an external service, e.g. some bank web services.
+Issues related to writing test cases and running them within CI for such code are usually the same&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;price per transaction, each time test executed - customer pays&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;tests requests can be interpreted as suspicious traffic, account blocked - tests failures&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;when using non production environments for tests, it can be unstable - again, tests failures&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Usually such problems can be solved by mocking such external service while testing single class that using it,
+but when it comes to the need for test larger business flow - you need to run your tests again many components
+and made them managed by your container - &lt;code&gt;Spring&lt;/code&gt;.
+Luckily &lt;code&gt;Spring&lt;/code&gt; has great &lt;a href=&quot;http://static.springsource.org/spring/docs/3.2.x/spring-framework-reference/html/testing.html&quot; target=&quot;_blank&quot;&gt;test framework&lt;/a&gt;
+allowing injection of beans from production configuration, but one needs to mock external services himself.
+First intention could be creating mocks in &lt;code&gt;setUp&lt;/code&gt; section of the test and re-inject beans previously injected by &lt;code&gt;Spring&lt;/code&gt;, but think more about it&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;admonitionblock warning&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;Warning&lt;/div&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+You&amp;#8217;re overriding behavior of container for your test, so there&amp;#8217;s no guarantee it will work the same way for real services on real environment.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Instead we have not to mock our external services and then re-inject them into corresponding beans, but &lt;strong&gt;make &lt;code&gt;Spring&lt;/code&gt; inject mocks in place of particular beans
+, required for our test goals&lt;/strong&gt;. Let&amp;#8217;s illustrate this with code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;My sample project comprises &lt;code&gt;BankService&lt;/code&gt; representing external service and &lt;code&gt;UserBalanceService&lt;/code&gt; - our service working with &lt;code&gt;BankService&lt;/code&gt;.
+&lt;code&gt;UserBalanceService&lt;/code&gt; is quite simple wrapper - just making conversion from &lt;code&gt;String&lt;/code&gt; to `Double&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;BankService.java&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;BankService&lt;/span&gt; {
+    &lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; getBalanceByEmail(&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; email);
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;BankServiceImpl.java&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;BankServiceImpl&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;implements&lt;/span&gt; BankService {
+    &lt;span class=&quot;annotation&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; getBalanceByEmail(&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; email) {
+        &lt;span class=&quot;keyword&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;exception&quot;&gt;UnsupportedOperationException&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;Operation failed due to external exception&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;);
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;UserBalanceService.java&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;type&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;UserBalanceService&lt;/span&gt; {
+    &lt;span class=&quot;predefined-type&quot;&gt;Double&lt;/span&gt; getAccountBalance(&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; email);
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;UserBalanceServiceImpl.java&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;UserBalanceServiceImpl&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;implements&lt;/span&gt; UserBalanceService {
+    &lt;span class=&quot;annotation&quot;&gt;@Autowired&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;private&lt;/span&gt; BankService bankService;
+    &lt;span class=&quot;annotation&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;Double&lt;/span&gt; getAccountBalance(&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; email) {
+        &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;Double&lt;/span&gt;.valueOf(bankService.getBalanceByEmail(email));
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;And the &lt;code&gt;Spring&lt;/code&gt; dependency XML configuration wiring everything together&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;applicationContext.xml&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;preprocessor&quot;&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;beans&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;xmlns&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;http://www.springframework.org/schema/beans&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+       &lt;span class=&quot;attribute-name&quot;&gt;xmlns:xsi&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;http://www.w3.org/2001/XMLSchema-instance&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+       &lt;span class=&quot;attribute-name&quot;&gt;xsi:schemaLocation&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;http://www.springframework.org/schema/beans&lt;/span&gt;
+       &lt;span class=&quot;content&quot;&gt;http://www.springframework.org/schema/beans/spring-beans.xsd&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;&amp;lt;bean&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;id&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;bankService&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;ua.eshepelyuk.blog.springtest.springockito.BankServiceImpl&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;&amp;lt;bean&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;id&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;userBalanceService&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;ua.eshepelyuk.blog.springtest.springockito.UserBalanceServiceImpl&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;/beans&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Our test will look like&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;UserBalanceServiceImplTest.java&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;annotation&quot;&gt;@RunWith&lt;/span&gt;(SpringJUnit4ClassRunner.class)
+&lt;span class=&quot;annotation&quot;&gt;@ContextConfiguration&lt;/span&gt;(locations = &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;classpath:/springtest/springockito/applicationContext.xml&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)
+&lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;UserBalanceServiceImplProfileTest&lt;/span&gt; {
+    &lt;span class=&quot;annotation&quot;&gt;@Autowired&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;private&lt;/span&gt; UserBalanceService userBalanceService;
+    &lt;span class=&quot;annotation&quot;&gt;@Autowired&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;private&lt;/span&gt; BankService bankService;
+    &lt;span class=&quot;annotation&quot;&gt;@Test&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; shouldReturnMockedBalance() {
+        &lt;span class=&quot;predefined-type&quot;&gt;Double&lt;/span&gt; balance = userBalanceService.getAccountBalance(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;user@bank.com&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;);
+        assertEquals(balance, &lt;span class=&quot;predefined-type&quot;&gt;Double&lt;/span&gt;.valueOf(&lt;span class=&quot;float&quot;&gt;123.45D&lt;/span&gt;));
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As expected after test run we will have &lt;code&gt;UnsupportedOperationException&lt;/code&gt;. Our intention is to replace &lt;code&gt;BankService&lt;/code&gt; with mock and tune its behavior.
+It&amp;#8217;s possible to use &lt;code&gt;Mockito&lt;/code&gt; directly as factory bean
+but there&amp;#8217;s better alternative - &lt;a href=&quot;https://bitbucket.org/kubek2k/springockito/wiki/Home&quot;&gt;Springockito framework window=&quot;_blank&quot;&lt;/a&gt;.
+Please take a look before proceed :)&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The remaining question is how to instruct &lt;code&gt;Spring&lt;/code&gt; to inject mocks instead of real beans,
+Prior to version 3.1 there were no alternatives except creating brand new XML configuration for using it in test.
+But with introduction of &lt;a href=&quot;http://blog.springsource.com/2011/02/11/spring-framework-3-1-m1-released&quot; target=&quot;_blank&quot;&gt;Bean Definition Profiles&lt;/a&gt;
+we now able to create more elegant solution for this, although we still need separate XML for test purposes.
+This is how resulting test XML configuration will look like&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;preprocessor&quot;&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;beans&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;xmlns&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;http://www.springframework.org/schema/beans&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+       &lt;span class=&quot;attribute-name&quot;&gt;xmlns:xsi&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;http://www.w3.org/2001/XMLSchema-instance&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+       &lt;span class=&quot;attribute-name&quot;&gt;xmlns:mockito&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;http://www.mockito.org/spring/mockito&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+       &lt;span class=&quot;attribute-name&quot;&gt;xsi:schemaLocation&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&lt;/span&gt;
+       &lt;span class=&quot;content&quot;&gt;http://www.mockito.org/spring/mockito https://bitbucket.org/kubek2k/springockito/raw/tip/springockito/src/main/resources/spring/mockito.xsd&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;&amp;lt;import&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;resource&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;classpath:/springtest/springockito/applicationContext.xml&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;&amp;lt;beans&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;profile&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;springTest&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;tag&quot;&gt;&amp;lt;mockito:mock&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;id&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;bankService&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;ua.eshepelyuk.blog.springtest.springockito.BankService&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;&amp;lt;/beans&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;/beans&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;And the test modified accordingly.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;annotation&quot;&gt;@RunWith&lt;/span&gt;(SpringJUnit4ClassRunner.class)
+&lt;span class=&quot;annotation&quot;&gt;@ContextConfiguration&lt;/span&gt;(locations = &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;classpath:/springtest/springockito/testApplicationContext.xml&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)
+&lt;span class=&quot;annotation&quot;&gt;@ActiveProfiles&lt;/span&gt;(profiles = {&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;springTest&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;})
+&lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;UserBalanceServiceImplProfileTest&lt;/span&gt; {
+    &lt;span class=&quot;annotation&quot;&gt;@Autowired&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;private&lt;/span&gt; UserBalanceService userBalanceService;
+    &lt;span class=&quot;annotation&quot;&gt;@Autowired&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;private&lt;/span&gt; BankService bankService;
+    &lt;span class=&quot;annotation&quot;&gt;@Before&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; setUp() &lt;span class=&quot;directive&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;exception&quot;&gt;Exception&lt;/span&gt; {
+        Mockito.when(bankService.getBalanceByEmail(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;user@bank.com&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)).thenReturn(&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt;.valueOf(&lt;span class=&quot;float&quot;&gt;123.45D&lt;/span&gt;));
+    }
+    &lt;span class=&quot;annotation&quot;&gt;@Test&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; shouldReturnMockedBalance() {
+        &lt;span class=&quot;predefined-type&quot;&gt;Double&lt;/span&gt; balance = userBalanceService.getAccountBalance(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;user@bank.com&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;);
+        assertEquals(balance, &lt;span class=&quot;predefined-type&quot;&gt;Double&lt;/span&gt;.valueOf(&lt;span class=&quot;float&quot;&gt;123.45D&lt;/span&gt;));
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You may notice appearance of &lt;code&gt;setUp&lt;/code&gt; method for setting up the mock behavior and new &lt;code&gt;@Profile&lt;/code&gt; annotation.
+The annotation activates our profile &lt;code&gt;springTest&lt;/code&gt; so bean mocked with &amp;lt;span style=&quot;font-family: &amp;quot;Courier New&amp;quot;, Courier, monospace;&quot;&amp;gt;Springockito &amp;lt;/span&amp;gt;will be injected where necessary. When run this we will have test passed since spring injected mock that we&amp;#8217;ve configured and not the external service.&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;span style=&quot;font-size: large;&quot;&amp;gt;Don&amp;#8217;t stop on the way to perfectness&amp;lt;/span&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;It could be the end of the story be we could still go deeper on the problem. &amp;lt;span style=&quot;font-family: &amp;quot;Courier New&amp;quot;, Courier, monospace;&quot;&amp;gt;Springockito &amp;lt;/span&amp;gt;creator has another framework &amp;lt;span style=&quot;font-family: &amp;quot;Courier New&amp;quot;, Courier, monospace;&quot;&amp;gt;&amp;lt;a href=&quot;https://bitbucket.org/kubek2k/springockito/wiki/springockito-annotations&quot; target=&quot;_blank&quot;&amp;gt;springockito-annotations&amp;lt;/a&amp;gt;&amp;lt;/span&amp;gt; . The framework allows mock injection using annotation within test classes. Please skim read it before proceed :)&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;After some modification code of our test will look this way.&amp;lt;br /&amp;gt;&amp;lt;pre class=&quot;brush: java; highlight: [2,8]&quot;&amp;gt;@RunWith(SpringJUnit4ClassRunner.class)&amp;lt;br /&amp;gt;@ContextConfiguration(loader = SpringockitoContextLoader.class, &amp;lt;br /&amp;gt;    locations = &quot;classpath:/springtest/springockito/applicationContext.xml&quot;)&amp;lt;br /&amp;gt;public class UserBalanceServiceImplAnnotationTest {&amp;lt;br /&amp;gt;    @Autowired&amp;lt;br /&amp;gt;    private UserBalanceService userBalanceService;&amp;lt;br /&amp;gt;    @Autowired&amp;lt;br /&amp;gt;    @ReplaceWithMock&amp;lt;br /&amp;gt;    private BankService bankService;&amp;lt;br /&amp;gt;    @Before&amp;lt;br /&amp;gt;    public void setUp() throws Exception {&amp;lt;br /&amp;gt;        Mockito.when(bankService.getBalanceByEmail(&quot;&lt;a href=&quot;mailto:user@bank.com&quot;&gt;user@bank.com&lt;/a&gt;&quot;)).thenReturn(String.valueOf(valueOf(123.45D)));&amp;lt;br /&amp;gt;    }&amp;lt;br /&amp;gt;    @Test&amp;lt;br /&amp;gt;    public void shouldReturnMockedBalance() {&amp;lt;br /&amp;gt;        Double balance = userBalanceService.getAccountBalance(&quot;&lt;a href=&quot;mailto:user@bank.com&quot;&gt;user@bank.com&lt;/a&gt;&quot;);&amp;lt;br /&amp;gt;        assertEquals(balance, valueOf(123.45D));&amp;lt;br /&amp;gt;    }&amp;lt;br /&amp;gt;}&amp;lt;/pre&amp;gt;&amp;lt;br /&amp;gt;Please note that no new XML configuration required. We&amp;#8217;re using production XML config and just override single bean using &amp;lt;span style=&quot;font-family: &amp;quot;Courier New&amp;quot;, Courier, monospace;&quot;&amp;gt;@ReplaceWithMock&amp;nbsp;&amp;lt;/span&amp;gt;&amp;lt;span style=&quot;font-family: inherit;&quot;&amp;gt;annotation. Later we can customize the mock in &amp;lt;/span&amp;gt;&amp;lt;span style=&quot;font-family: &amp;quot;Courier New&amp;quot;, Courier, monospace;&quot;&amp;gt;setUp&amp;lt;/span&amp;gt;&amp;lt;span style=&quot;font-family: inherit;&quot;&amp;gt; method.&amp;lt;/span&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;span style=&quot;font-size: large;&quot;&amp;gt;P.S.&amp;lt;/span&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;span style=&quot;font-family: &amp;quot;Courier New&amp;quot;, Courier, monospace;&quot;&amp;gt;Springockito-annotations&amp;lt;/span&amp;gt; project has one great advantage - it provides test code only based dependency override mechanism. Neither additional XML, nor production code modifications for test purposes. Unlike &amp;lt;span style=&quot;font-family: &amp;quot;Courier New&amp;quot;, Courier, monospace;&quot;&amp;gt;springockito-annotations&amp;lt;/span&amp;gt; the XML based &amp;nbsp;approach makes creation of test specific XML mandatory always. So I strongly recommend iusing &amp;lt;span style=&quot;font-family: &amp;quot;Courier New&amp;quot;, Courier, monospace;&quot;&amp;gt;Springockito-annotations&amp;lt;/span&amp;gt; project for your integration tests, so they won&amp;#8217;t affect your production code design and won&amp;#8217;t produce additional artifacts - i.e. configuration files.&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;span style=&quot;font-size: large;&quot;&amp;gt;P.P.S.&amp;lt;/span&amp;gt;&amp;lt;br /&amp;gt;Writing integration tests for Spring is easy ! Project can be found on &amp;lt;a href=&quot;https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCan1&quot; target=&quot;_blank&quot;&amp;gt;my GitHub&amp;lt;/a&amp;gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
+        <pubDate>Fri, 28 Jun 2013 00:00:00 +0000</pubDate>
+        <link>http://eshepelyuk.github.io/2013/06/28/test-me-if-you-can-1.html</link>
+        <guid isPermaLink="true">http://eshepelyuk.github.io/2013/06/28/test-me-if-you-can-1.html</guid>
+        
+        <category>java</category>
+        
+        <category>tdd</category>
+        
+        <category>spring</category>
+        
+        <category>mockito</category>
+        
+        
+      </item>
     
       <item>
         <title>Duck typing in Java ? Well, not exactly</title>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Test Me If You Can (#1)</title>
+    <meta name="description" content="Simple blog for some thoughts to be shared. Mostly about Java programming.
+">
+
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="canonical" href="http://eshepelyuk.github.io/2013/06/28/test-me-if-you-can-1.html">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">JK's blog</a>
+	
+    <nav class="site-nav">
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+	</div>
+	
+   <div class="wrapper">
+	<p class="text">Simple blog for some thoughts to be shared. Mostly about Java programming.
+</p>
+  </div>
+  
+	
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Test Me If You Can (#1)</h1>
+    <p class="post-meta">Jun 28, 2013</p>
+  </header>
+
+  <article class="post-content">
+    <h1>Test Me If You Can (#1)</h1>
+<div class="sect1">
+<h2 id="the-purpose-of-this-post-series">The purpose of this post series</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>During my career I often observed people who claim that they are not writing tests because "can&#8217;t cover" integration between components.
+Well, I believe most of such people just don&#8217;t know some simply techniques or don&#8217;t have time to dig them out because of stress at their work place.
+The lack of such knowledge results into neglecting of integration tests and thus worse software, more bugs and disappointed customer.</p>
+</div>
+<div class="paragraph">
+<p>So I&#8217;ve decided to share some practices collected during last couple of years that are revealing mystery surrounding integration testing.
+The series will be concentrated around Spring framework, that I&#8217;m most familiar with. Let&#8217;s start :)&lt;</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="better-integration-test-for-spring-based-projects">Better integration test for Spring based projects</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Tools: <code>Spring</code>, <code>JUnit</code>, <code>Mockito</code></p>
+</div>
+<div class="paragraph">
+<p>Imagine the situation with <code>Spring</code> based project that&#8217;s integrating an external service, e.g. some bank web services.
+Issues related to writing test cases and running them within CI for such code are usually the same</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>price per transaction, each time test executed - customer pays</p>
+</li>
+<li>
+<p>tests requests can be interpreted as suspicious traffic, account blocked - tests failures</p>
+</li>
+<li>
+<p>when using non production environments for tests, it can be unstable - again, tests failures</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Usually such problems can be solved by mocking such external service while testing single class that using it,
+but when it comes to the need for test larger business flow - you need to run your tests again many components
+and made them managed by your container - <code>Spring</code>.
+Luckily <code>Spring</code> has great <a href="http://static.springsource.org/spring/docs/3.2.x/spring-framework-reference/html/testing.html" target="_blank">test framework</a>
+allowing injection of beans from production configuration, but one needs to mock external services himself.
+First intention could be creating mocks in <code>setUp</code> section of the test and re-inject beans previously injected by <code>Spring</code>, but think more about it</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+You&#8217;re overriding behavior of container for your test, so there&#8217;s no guarantee it will work the same way for real services on real environment.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Instead we have not to mock our external services and then re-inject them into corresponding beans, but <strong>make <code>Spring</code> inject mocks in place of particular beans
+, required for our test goals</strong>. Let&#8217;s illustrate this with code.</p>
+</div>
+<div class="paragraph">
+<p>My sample project comprises <code>BankService</code> representing external service and <code>UserBalanceService</code> - our service working with <code>BankService</code>.
+<code>UserBalanceService</code> is quite simple wrapper - just making conversion from <code>String</code> to `Double</p>
+</div>
+<div class="listingblock">
+<div class="title">BankService.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">BankService</span> {
+    <span class="predefined-type">String</span> getBalanceByEmail(<span class="predefined-type">String</span> email);
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">BankServiceImpl.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">BankServiceImpl</span> <span class="directive">implements</span> BankService {
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="predefined-type">String</span> getBalanceByEmail(<span class="predefined-type">String</span> email) {
+        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">UnsupportedOperationException</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Operation failed due to external exception</span><span class="delimiter">&quot;</span></span>);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">UserBalanceService.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="type">interface</span> <span class="class">UserBalanceService</span> {
+    <span class="predefined-type">Double</span> getAccountBalance(<span class="predefined-type">String</span> email);
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">UserBalanceServiceImpl.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">UserBalanceServiceImpl</span> <span class="directive">implements</span> UserBalanceService {
+    <span class="annotation">@Autowired</span>
+    <span class="directive">private</span> BankService bankService;
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="predefined-type">Double</span> getAccountBalance(<span class="predefined-type">String</span> email) {
+        <span class="keyword">return</span> <span class="predefined-type">Double</span>.valueOf(bankService.getBalanceByEmail(email));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the <code>Spring</code> dependency XML configuration wiring everything together</p>
+</div>
+<div class="listingblock">
+<div class="title">applicationContext.xml</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="preprocessor">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="tag">&lt;beans</span> <span class="attribute-name">xmlns</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.springframework.org/schema/beans</span><span class="delimiter">&quot;</span></span>
+       <span class="attribute-name">xmlns:xsi</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.w3.org/2001/XMLSchema-instance</span><span class="delimiter">&quot;</span></span>
+       <span class="attribute-name">xsi:schemaLocation</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.springframework.org/schema/beans</span>
+       <span class="content">http://www.springframework.org/schema/beans/spring-beans.xsd</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    <span class="tag">&lt;bean</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bankService</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">ua.eshepelyuk.blog.springtest.springockito.BankServiceImpl</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+    <span class="tag">&lt;bean</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">userBalanceService</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">ua.eshepelyuk.blog.springtest.springockito.UserBalanceServiceImpl</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/beans&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Our test will look like</p>
+</div>
+<div class="listingblock">
+<div class="title">UserBalanceServiceImplTest.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@RunWith</span>(SpringJUnit4ClassRunner.class)
+<span class="annotation">@ContextConfiguration</span>(locations = <span class="string"><span class="delimiter">&quot;</span><span class="content">classpath:/springtest/springockito/applicationContext.xml</span><span class="delimiter">&quot;</span></span>)
+<span class="directive">public</span> <span class="type">class</span> <span class="class">UserBalanceServiceImplProfileTest</span> {
+    <span class="annotation">@Autowired</span>
+    <span class="directive">private</span> UserBalanceService userBalanceService;
+    <span class="annotation">@Autowired</span>
+    <span class="directive">private</span> BankService bankService;
+    <span class="annotation">@Test</span>
+    <span class="directive">public</span> <span class="type">void</span> shouldReturnMockedBalance() {
+        <span class="predefined-type">Double</span> balance = userBalanceService.getAccountBalance(<span class="string"><span class="delimiter">&quot;</span><span class="content">user@bank.com</span><span class="delimiter">&quot;</span></span>);
+        assertEquals(balance, <span class="predefined-type">Double</span>.valueOf(<span class="float">123.45D</span>));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As expected after test run we will have <code>UnsupportedOperationException</code>. Our intention is to replace <code>BankService</code> with mock and tune its behavior.
+It&#8217;s possible to use <code>Mockito</code> directly as factory bean
+but there&#8217;s better alternative - <a href="https://bitbucket.org/kubek2k/springockito/wiki/Home">Springockito framework window="_blank"</a>.
+Please take a look before proceed :)</p>
+</div>
+<div class="paragraph">
+<p>The remaining question is how to instruct <code>Spring</code> to inject mocks instead of real beans,
+Prior to version 3.1 there were no alternatives except creating brand new XML configuration for using it in test.
+But with introduction of <a href="http://blog.springsource.com/2011/02/11/spring-framework-3-1-m1-released" target="_blank">Bean Definition Profiles</a>
+we now able to create more elegant solution for this, although we still need separate XML for test purposes.
+This is how resulting test XML configuration will look like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="preprocessor">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="tag">&lt;beans</span> <span class="attribute-name">xmlns</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.springframework.org/schema/beans</span><span class="delimiter">&quot;</span></span>
+       <span class="attribute-name">xmlns:xsi</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.w3.org/2001/XMLSchema-instance</span><span class="delimiter">&quot;</span></span>
+       <span class="attribute-name">xmlns:mockito</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.mockito.org/spring/mockito</span><span class="delimiter">&quot;</span></span>
+       <span class="attribute-name">xsi:schemaLocation</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd</span>
+       <span class="content">http://www.mockito.org/spring/mockito https://bitbucket.org/kubek2k/springockito/raw/tip/springockito/src/main/resources/spring/mockito.xsd</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    <span class="tag">&lt;import</span> <span class="attribute-name">resource</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">classpath:/springtest/springockito/applicationContext.xml</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+    <span class="tag">&lt;beans</span> <span class="attribute-name">profile</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">springTest</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+        <span class="tag">&lt;mockito:mock</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bankService</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">ua.eshepelyuk.blog.springtest.springockito.BankService</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+    <span class="tag">&lt;/beans&gt;</span>
+<span class="tag">&lt;/beans&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the test modified accordingly.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@RunWith</span>(SpringJUnit4ClassRunner.class)
+<span class="annotation">@ContextConfiguration</span>(locations = <span class="string"><span class="delimiter">&quot;</span><span class="content">classpath:/springtest/springockito/testApplicationContext.xml</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@ActiveProfiles</span>(profiles = {<span class="string"><span class="delimiter">&quot;</span><span class="content">springTest</span><span class="delimiter">&quot;</span></span>})
+<span class="directive">public</span> <span class="type">class</span> <span class="class">UserBalanceServiceImplProfileTest</span> {
+    <span class="annotation">@Autowired</span>
+    <span class="directive">private</span> UserBalanceService userBalanceService;
+    <span class="annotation">@Autowired</span>
+    <span class="directive">private</span> BankService bankService;
+    <span class="annotation">@Before</span>
+    <span class="directive">public</span> <span class="type">void</span> setUp() <span class="directive">throws</span> <span class="exception">Exception</span> {
+        Mockito.when(bankService.getBalanceByEmail(<span class="string"><span class="delimiter">&quot;</span><span class="content">user@bank.com</span><span class="delimiter">&quot;</span></span>)).thenReturn(<span class="predefined-type">String</span>.valueOf(<span class="float">123.45D</span>));
+    }
+    <span class="annotation">@Test</span>
+    <span class="directive">public</span> <span class="type">void</span> shouldReturnMockedBalance() {
+        <span class="predefined-type">Double</span> balance = userBalanceService.getAccountBalance(<span class="string"><span class="delimiter">&quot;</span><span class="content">user@bank.com</span><span class="delimiter">&quot;</span></span>);
+        assertEquals(balance, <span class="predefined-type">Double</span>.valueOf(<span class="float">123.45D</span>));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You may notice appearance of <code>setUp</code> method for setting up the mock behavior and new <code>@Profile</code> annotation.
+The annotation activates our profile <code>springTest</code> so bean mocked with &lt;span style="font-family: &quot;Courier New&quot;, Courier, monospace;"&gt;Springockito &lt;/span&gt;will be injected where necessary. When run this we will have test passed since spring injected mock that we&#8217;ve configured and not the external service.&lt;br /&gt;&lt;br /&gt;&lt;span style="font-size: large;"&gt;Don&#8217;t stop on the way to perfectness&lt;/span&gt;&lt;br /&gt;&lt;br /&gt;It could be the end of the story be we could still go deeper on the problem. &lt;span style="font-family: &quot;Courier New&quot;, Courier, monospace;"&gt;Springockito &lt;/span&gt;creator has another framework &lt;span style="font-family: &quot;Courier New&quot;, Courier, monospace;"&gt;&lt;a href="https://bitbucket.org/kubek2k/springockito/wiki/springockito-annotations" target="_blank"&gt;springockito-annotations&lt;/a&gt;&lt;/span&gt; . The framework allows mock injection using annotation within test classes. Please skim read it before proceed :)&lt;br /&gt;&lt;br /&gt;After some modification code of our test will look this way.&lt;br /&gt;&lt;pre class="brush: java; highlight: [2,8]"&gt;@RunWith(SpringJUnit4ClassRunner.class)&lt;br /&gt;@ContextConfiguration(loader = SpringockitoContextLoader.class, &lt;br /&gt;    locations = "classpath:/springtest/springockito/applicationContext.xml")&lt;br /&gt;public class UserBalanceServiceImplAnnotationTest {&lt;br /&gt;    @Autowired&lt;br /&gt;    private UserBalanceService userBalanceService;&lt;br /&gt;    @Autowired&lt;br /&gt;    @ReplaceWithMock&lt;br /&gt;    private BankService bankService;&lt;br /&gt;    @Before&lt;br /&gt;    public void setUp() throws Exception {&lt;br /&gt;        Mockito.when(bankService.getBalanceByEmail("<a href="mailto:user@bank.com">user@bank.com</a>")).thenReturn(String.valueOf(valueOf(123.45D)));&lt;br /&gt;    }&lt;br /&gt;    @Test&lt;br /&gt;    public void shouldReturnMockedBalance() {&lt;br /&gt;        Double balance = userBalanceService.getAccountBalance("<a href="mailto:user@bank.com">user@bank.com</a>");&lt;br /&gt;        assertEquals(balance, valueOf(123.45D));&lt;br /&gt;    }&lt;br /&gt;}&lt;/pre&gt;&lt;br /&gt;Please note that no new XML configuration required. We&#8217;re using production XML config and just override single bean using &lt;span style="font-family: &quot;Courier New&quot;, Courier, monospace;"&gt;@ReplaceWithMock&nbsp;&lt;/span&gt;&lt;span style="font-family: inherit;"&gt;annotation. Later we can customize the mock in &lt;/span&gt;&lt;span style="font-family: &quot;Courier New&quot;, Courier, monospace;"&gt;setUp&lt;/span&gt;&lt;span style="font-family: inherit;"&gt; method.&lt;/span&gt;&lt;br /&gt;&lt;br /&gt;&lt;span style="font-size: large;"&gt;P.S.&lt;/span&gt;&lt;br /&gt;&lt;br /&gt;&lt;span style="font-family: &quot;Courier New&quot;, Courier, monospace;"&gt;Springockito-annotations&lt;/span&gt; project has one great advantage - it provides test code only based dependency override mechanism. Neither additional XML, nor production code modifications for test purposes. Unlike &lt;span style="font-family: &quot;Courier New&quot;, Courier, monospace;"&gt;springockito-annotations&lt;/span&gt; the XML based &nbsp;approach makes creation of test specific XML mandatory always. So I strongly recommend iusing &lt;span style="font-family: &quot;Courier New&quot;, Courier, monospace;"&gt;Springockito-annotations&lt;/span&gt; project for your integration tests, so they won&#8217;t affect your production code design and won&#8217;t produce additional artifacts - i.e. configuration files.&lt;br /&gt;&lt;br /&gt;&lt;span style="font-size: large;"&gt;P.P.S.&lt;/span&gt;&lt;br /&gt;Writing integration tests for Spring is easy ! Project can be found on &lt;a href="https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCan1" target="_blank"&gt;my GitHub&lt;/a&gt;</p>
+</div>
+</div>
+</div>
+  </article>
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+	var disqus_shortname = 'eshepelyukblog'; // required: replace example with your forum shortname
+	
+	/* * * DON'T EDIT BELOW THIS LINE * * */
+	(function() {
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>JK's blog</li>
+          <li><a href="mailto:eshepelyk@gmail.com">eshepelyk@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+			<i class="fa fa-github-square fa-lg"></i>
+            <a href="https://github.com/eshepelyuk">
+              <span class="username">eshepelyuk</span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+			<i class="fa fa-twitter-square fa-lg"></i>
+            <a href="https://twitter.com/eshepelyuk">
+              <span class="username">eshepelyuk</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">Simple blog for some thoughts to be shared. Mostly about Java programming.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
