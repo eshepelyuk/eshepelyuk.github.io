@@ -6,8 +6,8 @@
 </description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 24 Oct 2014 14:50:27 +0000</pubDate>
-    <lastBuildDate>Fri, 24 Oct 2014 14:50:27 +0000</lastBuildDate>
+    <pubDate>Fri, 24 Oct 2014 14:54:34 +0000</pubDate>
+    <lastBuildDate>Fri, 24 Oct 2014 14:54:34 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -758,7 +758,7 @@ This makes it hard for Java-boys (as me) to jump into. So purpose of this short 
 &lt;/div&gt;
 &lt;div class=&quot;imageblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;1.jpg&quot; alt=&quot;QWEQWE&quot;&gt;
+&lt;img src=&quot;assets/images/1.jpg&quot; alt=&quot;QWEQWE&quot;&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;dlist&quot;&gt;
