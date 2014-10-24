@@ -6,8 +6,8 @@
 </description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 24 Oct 2014 07:00:50 +0000</pubDate>
-    <lastBuildDate>Fri, 24 Oct 2014 07:00:50 +0000</lastBuildDate>
+    <pubDate>Fri, 24 Oct 2014 07:03:08 +0000</pubDate>
+    <lastBuildDate>Fri, 24 Oct 2014 07:03:08 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -188,6 +188,7 @@ This is how resulting test XML configuration will look like&lt;/p&gt;
 &lt;p&gt;And the test modified accordingly.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;UserBalanceServiceImplTest.java&lt;/div&gt;
 &lt;div class=&quot;content&quot;&gt;
 &lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;annotation&quot;&gt;@RunWith&lt;/span&gt;(SpringJUnit4ClassRunner.class)
 &lt;span class=&quot;annotation&quot;&gt;@ContextConfiguration&lt;/span&gt;(locations = &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;classpath:/springtest/springockito/testApplicationContext.xml&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)
