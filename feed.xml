@@ -6,8 +6,8 @@
 </description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 24 Oct 2014 05:48:46 +0000</pubDate>
-    <lastBuildDate>Fri, 24 Oct 2014 05:48:46 +0000</lastBuildDate>
+    <pubDate>Fri, 24 Oct 2014 06:49:40 +0000</pubDate>
+    <lastBuildDate>Fri, 24 Oct 2014 06:49:40 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -210,7 +210,67 @@ This is how resulting test XML configuration will look like&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;You may notice appearance of &lt;code&gt;setUp&lt;/code&gt; method for setting up the mock behavior and new &lt;code&gt;@Profile&lt;/code&gt; annotation.
-The annotation activates our profile &lt;code&gt;springTest&lt;/code&gt; so bean mocked with &amp;lt;span style=&quot;font-family: &amp;quot;Courier New&amp;quot;, Courier, monospace;&quot;&amp;gt;Springockito &amp;lt;/span&amp;gt;will be injected where necessary. When run this we will have test passed since spring injected mock that we&amp;#8217;ve configured and not the external service.&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;span style=&quot;font-size: large;&quot;&amp;gt;Don&amp;#8217;t stop on the way to perfectness&amp;lt;/span&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;It could be the end of the story be we could still go deeper on the problem. &amp;lt;span style=&quot;font-family: &amp;quot;Courier New&amp;quot;, Courier, monospace;&quot;&amp;gt;Springockito &amp;lt;/span&amp;gt;creator has another framework &amp;lt;span style=&quot;font-family: &amp;quot;Courier New&amp;quot;, Courier, monospace;&quot;&amp;gt;&amp;lt;a href=&quot;https://bitbucket.org/kubek2k/springockito/wiki/springockito-annotations&quot; target=&quot;_blank&quot;&amp;gt;springockito-annotations&amp;lt;/a&amp;gt;&amp;lt;/span&amp;gt; . The framework allows mock injection using annotation within test classes. Please skim read it before proceed :)&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;After some modification code of our test will look this way.&amp;lt;br /&amp;gt;&amp;lt;pre class=&quot;brush: java; highlight: [2,8]&quot;&amp;gt;@RunWith(SpringJUnit4ClassRunner.class)&amp;lt;br /&amp;gt;@ContextConfiguration(loader = SpringockitoContextLoader.class, &amp;lt;br /&amp;gt;    locations = &quot;classpath:/springtest/springockito/applicationContext.xml&quot;)&amp;lt;br /&amp;gt;public class UserBalanceServiceImplAnnotationTest {&amp;lt;br /&amp;gt;    @Autowired&amp;lt;br /&amp;gt;    private UserBalanceService userBalanceService;&amp;lt;br /&amp;gt;    @Autowired&amp;lt;br /&amp;gt;    @ReplaceWithMock&amp;lt;br /&amp;gt;    private BankService bankService;&amp;lt;br /&amp;gt;    @Before&amp;lt;br /&amp;gt;    public void setUp() throws Exception {&amp;lt;br /&amp;gt;        Mockito.when(bankService.getBalanceByEmail(&quot;&lt;a href=&quot;mailto:user@bank.com&quot;&gt;user@bank.com&lt;/a&gt;&quot;)).thenReturn(String.valueOf(valueOf(123.45D)));&amp;lt;br /&amp;gt;    }&amp;lt;br /&amp;gt;    @Test&amp;lt;br /&amp;gt;    public void shouldReturnMockedBalance() {&amp;lt;br /&amp;gt;        Double balance = userBalanceService.getAccountBalance(&quot;&lt;a href=&quot;mailto:user@bank.com&quot;&gt;user@bank.com&lt;/a&gt;&quot;);&amp;lt;br /&amp;gt;        assertEquals(balance, valueOf(123.45D));&amp;lt;br /&amp;gt;    }&amp;lt;br /&amp;gt;}&amp;lt;/pre&amp;gt;&amp;lt;br /&amp;gt;Please note that no new XML configuration required. We&amp;#8217;re using production XML config and just override single bean using &amp;lt;span style=&quot;font-family: &amp;quot;Courier New&amp;quot;, Courier, monospace;&quot;&amp;gt;@ReplaceWithMock&amp;nbsp;&amp;lt;/span&amp;gt;&amp;lt;span style=&quot;font-family: inherit;&quot;&amp;gt;annotation. Later we can customize the mock in &amp;lt;/span&amp;gt;&amp;lt;span style=&quot;font-family: &amp;quot;Courier New&amp;quot;, Courier, monospace;&quot;&amp;gt;setUp&amp;lt;/span&amp;gt;&amp;lt;span style=&quot;font-family: inherit;&quot;&amp;gt; method.&amp;lt;/span&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;span style=&quot;font-size: large;&quot;&amp;gt;P.S.&amp;lt;/span&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;span style=&quot;font-family: &amp;quot;Courier New&amp;quot;, Courier, monospace;&quot;&amp;gt;Springockito-annotations&amp;lt;/span&amp;gt; project has one great advantage - it provides test code only based dependency override mechanism. Neither additional XML, nor production code modifications for test purposes. Unlike &amp;lt;span style=&quot;font-family: &amp;quot;Courier New&amp;quot;, Courier, monospace;&quot;&amp;gt;springockito-annotations&amp;lt;/span&amp;gt; the XML based &amp;nbsp;approach makes creation of test specific XML mandatory always. So I strongly recommend iusing &amp;lt;span style=&quot;font-family: &amp;quot;Courier New&amp;quot;, Courier, monospace;&quot;&amp;gt;Springockito-annotations&amp;lt;/span&amp;gt; project for your integration tests, so they won&amp;#8217;t affect your production code design and won&amp;#8217;t produce additional artifacts - i.e. configuration files.&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;span style=&quot;font-size: large;&quot;&amp;gt;P.P.S.&amp;lt;/span&amp;gt;&amp;lt;br /&amp;gt;Writing integration tests for Spring is easy ! Project can be found on &amp;lt;a href=&quot;https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCan1&quot; target=&quot;_blank&quot;&amp;gt;my GitHub&amp;lt;/a&amp;gt;&lt;/p&gt;
+The annotation activates our profile &lt;code&gt;springTest&lt;/code&gt; so bean mocked with &lt;code&gt;Springockito&lt;/code&gt; will be injected where necessary.
+When run this we will have test passed since spring injected mock that we&amp;#8217;ve configured and not the external service.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;don-t-stop-on-the-way-to-perfectness&quot;&gt;Don&amp;#8217;t stop on the way to perfectness&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It could be the end of the story be we could still go deeper on the problem.
+&lt;code&gt;Springockito&lt;/code&gt; creator has another framework &lt;a href=&quot;https://bitbucket.org/kubek2k/springockito/wiki/springockito-annotations&quot;&gt;springockito-annotations&lt;/a&gt;.
+The framework allows mock injection using annotation within test classes.
+Please skim read it before proceed :)
+After some modification code of our test will look this way.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;annotation&quot;&gt;@RunWith&lt;/span&gt;(SpringJUnit4ClassRunner.class)
+&lt;span class=&quot;annotation&quot;&gt;@ContextConfiguration&lt;/span&gt;(loader = SpringockitoContextLoader.class,
+    locations = &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;classpath:/springtest/springockito/applicationContext.xml&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)
+&lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;UserBalanceServiceImplAnnotationTest&lt;/span&gt; {
+    &lt;span class=&quot;annotation&quot;&gt;@Autowired&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;private&lt;/span&gt; UserBalanceService userBalanceService;
+    &lt;span class=&quot;annotation&quot;&gt;@Autowired&lt;/span&gt;
+    &lt;span class=&quot;annotation&quot;&gt;@ReplaceWithMock&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;private&lt;/span&gt; BankService bankService;
+    &lt;span class=&quot;annotation&quot;&gt;@Before&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; setUp() &lt;span class=&quot;directive&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;exception&quot;&gt;Exception&lt;/span&gt; {
+        Mockito.when(bankService.getBalanceByEmail(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;user@bank.com&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)).thenReturn(&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt;.valueOf(valueOf(&lt;span class=&quot;float&quot;&gt;123.45D&lt;/span&gt;)));
+    }
+    &lt;span class=&quot;annotation&quot;&gt;@Test&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; shouldReturnMockedBalance() {
+        &lt;span class=&quot;predefined-type&quot;&gt;Double&lt;/span&gt; balance = userBalanceService.getAccountBalance(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;user@bank.com&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;);
+        assertEquals(balance, valueOf(&lt;span class=&quot;float&quot;&gt;123.45D&lt;/span&gt;));
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Please note that no new XML configuration required. We&amp;#8217;re using production XML config and just override single bean using &lt;code&gt;@ReplaceWithMock&lt;/code&gt; annotation.
+Later we can customize the mock in &lt;code&gt;setUp&lt;/code&gt; method.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;p-s&quot;&gt;P.S.&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;code&gt;Springockito-annotations&lt;/code&gt; project has one great advantage - it provides test code only based dependency override mechanism.
+Neither additional XML, nor production code modifications for test purposes.
+Unlike &lt;code&gt;springockito-annotations&lt;/code&gt; approach the XML based one makes creation of test specific XML mandatory always.
+So I strongly recommend using &lt;code&gt;Springockito-annotations&lt;/code&gt; project for your integration tests,
+so they won&amp;#8217;t affect your production code design and won&amp;#8217;t produce additional artifacts - i.e. test XML configuration files.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;p-p-s&quot;&gt;P.P.S.&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Writing integration tests for Spring is easy ! Project can be found on &lt;a href=&quot;https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCan1&quot; target=&quot;_blank&quot;&gt;My GitHub&lt;/a&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description>
