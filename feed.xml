@@ -6,8 +6,8 @@
 </description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 24 Oct 2014 12:37:13 +0000</pubDate>
-    <lastBuildDate>Fri, 24 Oct 2014 12:37:13 +0000</lastBuildDate>
+    <pubDate>Fri, 24 Oct 2014 12:51:36 +0000</pubDate>
+    <lastBuildDate>Fri, 24 Oct 2014 12:51:36 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -750,41 +750,117 @@ This makes it hard for Java-boys (as me) to jump into. So purpose of this short 
 &lt;dd&gt;
 &lt;p&gt;&lt;code&gt;grails install-plugin coffeescript-resources&lt;/code&gt;&lt;/p&gt;
 &lt;/dd&gt;
-&lt;/dl&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;::After plugin installed we are going to create empty file for our &lt;code&gt;CoffeeScript&lt;/code&gt; sources at &lt;code&gt;web-app/cs/angularIndex.coffee&lt;/code&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;After plugin installed we are going to create empty file for our &lt;code&gt;CoffeeScript&lt;/code&gt; sources at &lt;code&gt;web-app/cs/angularIndex.coffee&lt;/code&gt;&lt;/dt&gt;
+&lt;dd&gt;
 &lt;p&gt;&amp;lt;a href=&quot;http://3.bp.blogspot.com/-rR5xBqW985w/T_X32lu_g1I/AAAAAAAABXo/HR2vPbyGHgI/s1600/2.jpg&quot; imageanchor=&quot;1&quot; style=&quot;margin-left: 1em; margin-right: 1em;&quot;&amp;gt;
 &amp;lt;img border=&quot;0&quot; height=&quot;140&quot; src=&quot;http://3.bp.blogspot.com/-rR5xBqW985w/T_X32lu_g1I/AAAAAAAABXo/HR2vPbyGHgI/s320/2.jpg&quot; width=&quot;320&quot; /&amp;gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;::What&amp;#8217;s great about Grails - is the fact that it abounds with plugins. &lt;code&gt;AngularJS&lt;/code&gt; library can be installed by typing
-&lt;code&gt;grails install-plugin angularjs-resources&lt;/code&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;::Thanks to great &lt;code&gt;resources&lt;/code&gt;  plugin &lt;code&gt;JavaScript&lt;/code&gt; files management is quite easy in &lt;code&gt;Grails&lt;/code&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;What&amp;#8217;s great about Grails - is the fact that it abounds with plugins. &lt;code&gt;AngularJS&lt;/code&gt; library can be installed by typing&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;&lt;code&gt;grails install-plugin angularjs-resources&lt;/code&gt;&lt;/p&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Thanks to great &lt;code&gt;resources&lt;/code&gt;  plugin &lt;code&gt;JavaScript&lt;/code&gt; files management is quite easy in &lt;code&gt;Grails&lt;/code&gt;&lt;/dt&gt;
+&lt;dd&gt;
 &lt;p&gt;{source, groovy}
 .grails-app/conf/MyResources.groovy&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
 &lt;/div&gt;
 &lt;div class=&quot;listingblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
-&lt;pre&gt;&lt;/pre&gt;
+&lt;pre&gt;modules = {
+    angularIndex {
+        dependsOn &#39;angular&#39;
+        resource url: &#39;cs/angularIndex.coffee&#39;
+    }
+}&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Code above declares resource for our AngularJS module written in &lt;code&gt;CoffeeScript&lt;/code&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&amp;lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: center;&quot;&amp;gt;&amp;lt;a href=&quot;http://2.bp.blogspot.com/-spuDAAAxpPE/T_X4Cg8IDYI/AAAAAAAABXw/Zk1mc6dVu6M/s1600/1.jpg&quot; imageanchor=&quot;1&quot; style=&quot;margin-left: 1em; margin-right: 1em;&quot;&amp;gt;
+&lt;p&gt;Code above declares resource for our AngularJS module written in &lt;code&gt;CoffeeScript&lt;/code&gt;
+&amp;lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: center;&quot;&amp;gt;&amp;lt;a href=&quot;http://2.bp.blogspot.com/-spuDAAAxpPE/T_X4Cg8IDYI/AAAAAAAABXw/Zk1mc6dVu6M/s1600/1.jpg&quot; imageanchor=&quot;1&quot; style=&quot;margin-left: 1em; margin-right: 1em;&quot;&amp;gt;
 &amp;lt;img border=&quot;0&quot; height=&quot;159&quot; src=&quot;http://2.bp.blogspot.com/-spuDAAAxpPE/T_X4Cg8IDYI/AAAAAAAABXw/Zk1mc6dVu6M/s320/1.jpg&quot; width=&quot;320&quot; /&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/li&amp;gt;&amp;lt;li&amp;gt;&lt;/p&gt;
 &lt;/div&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Next we need controller to serve starting point HTML with AngularJS module. We can do it with following command&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;&lt;code&gt;grails create-controller AngularIndex&lt;/code&gt;&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Next we need controller to serve starting point HTML with AngularJS module. We can do it with following command &amp;lt;br /&amp;gt;&amp;lt;pre class=&quot;brush:plain&quot;&amp;gt;grails create-controller AngularIndex&amp;lt;/pre&amp;gt;&amp;lt;/li&amp;gt;&amp;lt;li&amp;gt;
-Also we need manually create Grails view for index action of our controller.  For this we have to create new file &amp;lt;code&amp;gt;grails-app/views/angularIndex/index.gsp&amp;lt;/code&amp;gt; with following content&amp;lt;br /&amp;gt;&amp;lt;pre class=&quot;brush:html&quot;&amp;gt;&amp;lt;!DOCTYPE html&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;html&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;head&amp;gt;&amp;lt;br /&amp;gt;    &amp;lt;r:require modules=&quot;angularIndex&quot;/&amp;gt;&amp;lt;br /&amp;gt;    &amp;lt;r:layoutResources/&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;body ng-app=&quot;MyApp&quot;&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;div ng-controller=&quot;MyCtrl&quot;&amp;gt;&amp;lt;br /&amp;gt;    What typed reflected below&amp;lt;br&amp;gt;&amp;lt;br /&amp;gt;    &amp;lt;input type=&quot;text&quot; ng-model=&quot;myText&quot;/&amp;gt;&amp;lt;br&amp;gt;&amp;lt;br /&amp;gt;    &amp;lt;span&amp;gt;&amp;lt;b&amp;gt;{{myText}}&amp;lt;/b&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;r:layoutResources/&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;/html&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;/pre&amp;gt;&amp;lt;/li&amp;gt;&amp;lt;li&amp;gt;Last step is to create AngularJS module in CoffeeScript. For this we have to fill &amp;lt;code&amp;gt;web-app/cs/angularIndex.coffee&amp;lt;/code&amp;gt; created before with following content&amp;lt;br /&amp;gt;&amp;lt;pre class=&quot;brush:coffee&quot;&amp;gt;app = angular.module &quot;MyApp&quot;, []&amp;lt;br /&amp;gt;app.controller &quot;MyCtrl&quot;, ($scope) -&amp;gt;&amp;lt;br /&amp;gt;  $scope.myText = &quot;INITIAL&quot;&amp;lt;br /&amp;gt;&amp;lt;/pre&amp;gt;&amp;lt;/li&amp;gt;&amp;lt;li&amp;gt;Let&amp;#8217;s run application &amp;lt;pre class=&quot;brush:plain&quot;&amp;gt;grails run-app&amp;lt;/pre&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: center;&quot;&amp;gt;&amp;lt;a href=&quot;http://4.bp.blogspot.com/-ykO25vN8GYY/T_X4Ve0NcDI/AAAAAAAABX4/nDn_mJUvaIE/s1600/7.jpg&quot; imageanchor=&quot;1&quot; style=&quot;margin-left: 1em; margin-right: 1em;&quot;&amp;gt;&amp;lt;img border=&quot;0&quot; src=&quot;http://4.bp.blogspot.com/-ykO25vN8GYY/T_X4Ve0NcDI/AAAAAAAABX4/nDn_mJUvaIE/s1600/7.jpg&quot; /&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/li&amp;gt;&amp;lt;/ol&amp;gt;&amp;lt;span style=&quot;font-size: large;&quot;&amp;gt;P.S.&amp;lt;/span&amp;gt; &amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;Please notice that setup described above shouldn&amp;#8217;t be considered for production usage. You probably need minification, zipping resources, etc - but then again it can be good starting point for research, prototyping and similar activities towards developing modern front-ends.&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;span style=&quot;font-size: large;&quot;&amp;gt;Links&amp;lt;/span&amp;gt;&amp;lt;br /&amp;gt;&amp;lt;br /&amp;gt;AngularJS -&amp;nbsp;&amp;lt;a href=&quot;http://angularjs.org/&quot; target=&quot;_blank&quot;&amp;gt;&lt;a href=&quot;http://angularjs.org/&amp;lt;/a&amp;gt;&amp;lt;br&quot; class=&quot;bare&quot;&gt;http://angularjs.org/&amp;lt;/a&amp;gt;&amp;lt;br&lt;/a&gt; /&amp;gt;CoffeeScript -&amp;nbsp;&amp;lt;a href=&quot;http://coffeescript.org/&quot; target=&quot;_blank&quot;&amp;gt;&lt;a href=&quot;http://coffeescript.org/&amp;lt;/a&amp;gt;&amp;lt;br&quot; class=&quot;bare&quot;&gt;http://coffeescript.org/&amp;lt;/a&amp;gt;&amp;lt;br&lt;/a&gt; /&amp;gt;Grails -&amp;nbsp;&amp;lt;a href=&quot;http://grails.org/&quot; target=&quot;_blank&quot;&amp;gt;&lt;a href=&quot;http://grails.org/&amp;lt;/a&amp;gt&quot; class=&quot;bare&quot;&gt;http://grails.org/&amp;lt;/a&amp;gt&lt;/a&gt;;&lt;/p&gt;
+&lt;p&gt;Also we need manually create Grails view for index action of our controller.  For this we have to create new file with following content&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;html&quot;&gt;.grails-app/views/angularIndex/index.gsp
+&lt;span class=&quot;doctype&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;&amp;lt;r:require&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;modules&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;angularIndex&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;&amp;lt;r:layoutResources&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;body&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;ng-app&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;MyApp&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;ng-controller&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;MyCtrl&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;gt;&lt;/span&gt;
+    What typed reflected below
+
+    &lt;span class=&quot;tag&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;ng-model&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;myText&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;/&amp;gt;&lt;/span&gt;
+
+    &lt;span class=&quot;tag&quot;&gt;&amp;lt;span&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;b&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/b&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;r:layoutResources&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;/html&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Last step is to create AngularJS module in CoffeeScript. For this we have to fill &lt;code&gt;web-app/cs/angularIndex.coffee&lt;/code&gt; created before with following content&lt;/dt&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;web-app/cs/angularIndex.coffee&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;coffescript&quot;&gt;app = angular.module &amp;quot;MyApp&amp;quot;, []
+app.controller &amp;quot;MyCtrl&amp;quot;, ($scope) -&amp;gt;
+  $scope.myText = &amp;quot;INITIAL&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Let&amp;#8217;s run application&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;&lt;code&gt;grails run-app&lt;/code&gt;
+&amp;lt;a href=&quot;http://4.bp.blogspot.com/-ykO25vN8GYY/T_X4Ve0NcDI/AAAAAAAABX4/nDn_mJUvaIE/s1600/7.jpg&quot; imageanchor=&quot;1&quot; style=&quot;margin-left: 1em; margin-right: 1em;&quot;&amp;gt;&amp;lt;img border=&quot;0&quot; src=&quot;http://4.bp.blogspot.com/-ykO25vN8GYY/T_X4Ve0NcDI/AAAAAAAABX4/nDn_mJUvaIE/s1600/7.jpg&quot; /&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;/li&amp;gt;&amp;lt;/ol&amp;gt;&amp;lt;span style=&quot;font-size: large;&quot;&amp;gt;&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;p-s&quot;&gt;P.S.&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Please notice that setup described above shouldn&amp;#8217;t be considered for production usage.
+You probably need minification, zipping resources, etc - but then again it can be good starting point for research, prototyping and similar activities
+towards developing modern front-ends.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;links&quot;&gt;Links&lt;/h3&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;href=&quot;http://angularjs.org/&quot;[AngularJS, window=&quot;_blank&quot;]&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;http://coffeescript.org/&quot; target=&quot;_blank&quot;&gt;CoffeeScript&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;http://grails.org/&quot; target=&quot;_blank&quot;&gt;Grails&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description>

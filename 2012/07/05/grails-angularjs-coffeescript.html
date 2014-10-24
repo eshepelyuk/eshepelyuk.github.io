@@ -92,41 +92,117 @@ This makes it hard for Java-boys (as me) to jump into. So purpose of this short 
 <dd>
 <p><code>grails install-plugin coffeescript-resources</code></p>
 </dd>
-</dl>
-</div>
-<div class="paragraph">
-<p>::After plugin installed we are going to create empty file for our <code>CoffeeScript</code> sources at <code>web-app/cs/angularIndex.coffee</code></p>
-</div>
-<div class="paragraph">
+<dt class="hdlist1">After plugin installed we are going to create empty file for our <code>CoffeeScript</code> sources at <code>web-app/cs/angularIndex.coffee</code></dt>
+<dd>
 <p>&lt;a href="http://3.bp.blogspot.com/-rR5xBqW985w/T_X32lu_g1I/AAAAAAAABXo/HR2vPbyGHgI/s1600/2.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"&gt;
 &lt;img border="0" height="140" src="http://3.bp.blogspot.com/-rR5xBqW985w/T_X32lu_g1I/AAAAAAAABXo/HR2vPbyGHgI/s320/2.jpg" width="320" /&gt;</p>
-</div>
-<div class="paragraph">
-<p>::What&#8217;s great about Grails - is the fact that it abounds with plugins. <code>AngularJS</code> library can be installed by typing
-<code>grails install-plugin angularjs-resources</code></p>
-</div>
-<div class="paragraph">
-<p>::Thanks to great <code>resources</code>  plugin <code>JavaScript</code> files management is quite easy in <code>Grails</code>.</p>
-</div>
-<div class="paragraph">
+</dd>
+<dt class="hdlist1">What&#8217;s great about Grails - is the fact that it abounds with plugins. <code>AngularJS</code> library can be installed by typing</dt>
+<dd>
+<p><code>grails install-plugin angularjs-resources</code></p>
+</dd>
+<dt class="hdlist1">Thanks to great <code>resources</code>  plugin <code>JavaScript</code> files management is quite easy in <code>Grails</code></dt>
+<dd>
 <p>{source, groovy}
 .grails-app/conf/MyResources.groovy</p>
+</dd>
+</dl>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre></pre>
+<pre>modules = {
+    angularIndex {
+        dependsOn 'angular'
+        resource url: 'cs/angularIndex.coffee'
+    }
+}</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Code above declares resource for our AngularJS module written in <code>CoffeeScript</code></p>
-</div>
-<div class="paragraph">
-<p>&lt;div class="separator" style="clear: both; text-align: center;"&gt;&lt;a href="http://2.bp.blogspot.com/-spuDAAAxpPE/T_X4Cg8IDYI/AAAAAAAABXw/Zk1mc6dVu6M/s1600/1.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"&gt;
+<p>Code above declares resource for our AngularJS module written in <code>CoffeeScript</code>
+&lt;div class="separator" style="clear: both; text-align: center;"&gt;&lt;a href="http://2.bp.blogspot.com/-spuDAAAxpPE/T_X4Cg8IDYI/AAAAAAAABXw/Zk1mc6dVu6M/s1600/1.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"&gt;
 &lt;img border="0" height="159" src="http://2.bp.blogspot.com/-spuDAAAxpPE/T_X4Cg8IDYI/AAAAAAAABXw/Zk1mc6dVu6M/s320/1.jpg" width="320" /&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;&lt;li&gt;</p>
 </div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Next we need controller to serve starting point HTML with AngularJS module. We can do it with following command</dt>
+<dd>
+<p><code>grails create-controller AngularIndex</code></p>
+</dd>
+</dl>
+</div>
 <div class="paragraph">
-<p>Next we need controller to serve starting point HTML with AngularJS module. We can do it with following command &lt;br /&gt;&lt;pre class="brush:plain"&gt;grails create-controller AngularIndex&lt;/pre&gt;&lt;/li&gt;&lt;li&gt;
-Also we need manually create Grails view for index action of our controller.  For this we have to create new file &lt;code&gt;grails-app/views/angularIndex/index.gsp&lt;/code&gt; with following content&lt;br /&gt;&lt;pre class="brush:html"&gt;&lt;!DOCTYPE html&gt;&lt;br /&gt;&lt;html&gt;&lt;br /&gt;&lt;head&gt;&lt;br /&gt;    &lt;r:require modules="angularIndex"/&gt;&lt;br /&gt;    &lt;r:layoutResources/&gt;&lt;br /&gt;&lt;/head&gt;&lt;br /&gt;&lt;body ng-app="MyApp"&gt;&lt;br /&gt;&lt;div ng-controller="MyCtrl"&gt;&lt;br /&gt;    What typed reflected below&lt;br&gt;&lt;br /&gt;    &lt;input type="text" ng-model="myText"/&gt;&lt;br&gt;&lt;br /&gt;    &lt;span&gt;&lt;b&gt;{{myText}}&lt;/b&gt;&lt;/span&gt;&lt;br /&gt;&lt;/div&gt;&lt;br /&gt;&lt;/body&gt;&lt;br /&gt;&lt;r:layoutResources/&gt;&lt;br /&gt;&lt;/html&gt;&lt;br /&gt;&lt;/pre&gt;&lt;/li&gt;&lt;li&gt;Last step is to create AngularJS module in CoffeeScript. For this we have to fill &lt;code&gt;web-app/cs/angularIndex.coffee&lt;/code&gt; created before with following content&lt;br /&gt;&lt;pre class="brush:coffee"&gt;app = angular.module "MyApp", []&lt;br /&gt;app.controller "MyCtrl", ($scope) -&gt;&lt;br /&gt;  $scope.myText = "INITIAL"&lt;br /&gt;&lt;/pre&gt;&lt;/li&gt;&lt;li&gt;Let&#8217;s run application &lt;pre class="brush:plain"&gt;grails run-app&lt;/pre&gt;&lt;br /&gt;&lt;div class="separator" style="clear: both; text-align: center;"&gt;&lt;a href="http://4.bp.blogspot.com/-ykO25vN8GYY/T_X4Ve0NcDI/AAAAAAAABX4/nDn_mJUvaIE/s1600/7.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"&gt;&lt;img border="0" src="http://4.bp.blogspot.com/-ykO25vN8GYY/T_X4Ve0NcDI/AAAAAAAABX4/nDn_mJUvaIE/s1600/7.jpg" /&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;&lt;/ol&gt;&lt;span style="font-size: large;"&gt;P.S.&lt;/span&gt; &lt;br /&gt;&lt;br /&gt;Please notice that setup described above shouldn&#8217;t be considered for production usage. You probably need minification, zipping resources, etc - but then again it can be good starting point for research, prototyping and similar activities towards developing modern front-ends.&lt;br /&gt;&lt;br /&gt;&lt;span style="font-size: large;"&gt;Links&lt;/span&gt;&lt;br /&gt;&lt;br /&gt;AngularJS -&nbsp;&lt;a href="http://angularjs.org/" target="_blank"&gt;<a href="http://angularjs.org/&lt;/a&gt;&lt;br" class="bare">http://angularjs.org/&lt;/a&gt;&lt;br</a> /&gt;CoffeeScript -&nbsp;&lt;a href="http://coffeescript.org/" target="_blank"&gt;<a href="http://coffeescript.org/&lt;/a&gt;&lt;br" class="bare">http://coffeescript.org/&lt;/a&gt;&lt;br</a> /&gt;Grails -&nbsp;&lt;a href="http://grails.org/" target="_blank"&gt;<a href="http://grails.org/&lt;/a&gt" class="bare">http://grails.org/&lt;/a&gt</a>;</p>
+<p>Also we need manually create Grails view for index action of our controller.  For this we have to create new file with following content</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html">.grails-app/views/angularIndex/index.gsp
+<span class="doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+    <span class="tag">&lt;r:require</span> <span class="attribute-name">modules</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">angularIndex</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+    <span class="tag">&lt;r:layoutResources</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body</span> <span class="attribute-name">ng-app</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">MyApp</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+<span class="tag">&lt;div</span> <span class="attribute-name">ng-controller</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">MyCtrl</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    What typed reflected below
+
+    <span class="tag">&lt;input</span> <span class="attribute-name">type</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">text</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">ng-model</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">myText</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+
+    <span class="tag">&lt;span&gt;</span><span class="tag">&lt;b&gt;</span><span class="tag">&lt;/b&gt;</span><span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;r:layoutResources</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/html</span></code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Last step is to create AngularJS module in CoffeeScript. For this we have to fill <code>web-app/cs/angularIndex.coffee</code> created before with following content</dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="title">web-app/cs/angularIndex.coffee</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="coffescript">app = angular.module &quot;MyApp&quot;, []
+app.controller &quot;MyCtrl&quot;, ($scope) -&gt;
+  $scope.myText = &quot;INITIAL&quot;</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Let&#8217;s run application</dt>
+<dd>
+<p><code>grails run-app</code>
+&lt;a href="http://4.bp.blogspot.com/-ykO25vN8GYY/T_X4Ve0NcDI/AAAAAAAABX4/nDn_mJUvaIE/s1600/7.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"&gt;&lt;img border="0" src="http://4.bp.blogspot.com/-ykO25vN8GYY/T_X4Ve0NcDI/AAAAAAAABX4/nDn_mJUvaIE/s1600/7.jpg" /&gt;&lt;/a&gt;&lt;/div&gt;&lt;/li&gt;&lt;/ol&gt;&lt;span style="font-size: large;"&gt;</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="p-s">P.S.</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Please notice that setup described above shouldn&#8217;t be considered for production usage.
+You probably need minification, zipping resources, etc - but then again it can be good starting point for research, prototyping and similar activities
+towards developing modern front-ends.</p>
+</div>
+<div class="sect2">
+<h3 id="links">Links</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>href="http://angularjs.org/"[AngularJS, window="_blank"]</p>
+</li>
+<li>
+<p><a href="http://coffeescript.org/" target="_blank">CoffeeScript</a></p>
+</li>
+<li>
+<p><a href="http://grails.org/" target="_blank">Grails</a></p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
