@@ -5,6 +5,7 @@ tags:
 - spring
 - mockito
 ---
+:icons: font
 = Test Me If You Can (#1)
 
 == The purpose of this post series 
@@ -117,10 +118,9 @@ public class UserBalanceServiceImplProfileTest {
 }
 ----
 
-
 As expected after test run we will have `UnsupportedOperationException`. Our intention is to replace `BankService` with mock and tune its behavior. 
 It's possible to use `Mockito` directly as factory bean 
-but there's better alternative - https://bitbucket.org/kubek2k/springockito/wiki/Home[Springockito framework window="_blank"]. 
+but there's better alternative - https://bitbucket.org/kubek2k/springockito/wiki/Home[Springockito framework, window="_blank"]. 
 Please take a look before proceed :)
 
 The remaining question is how to instruct `Spring` to inject mocks instead of real beans, 
@@ -168,12 +168,12 @@ public class UserBalanceServiceImplProfileTest {
 
 You may notice appearance of `setUp` method for setting up the mock behavior and new `@Profile` annotation. 
 The annotation activates our profile `springTest` so bean mocked with `Springockito` will be injected where necessary. 
-When run this we will have test passed since spring injected mock that we've configured and not the external service.
+On running this the test will pass, because `Spring` injected `Mockito` mock that we've configured in test XML and not the external service instance.
 
 == Don't stop on the way to perfectness
 
 It could be the end of the story be we could still go deeper on the problem. 
-`Springockito` creator has another framework https://bitbucket.org/kubek2k/springockito/wiki/springockito-annotations[springockito-annotations, "window="_blank"]. 
+`Springockito` creator has another framework https://bitbucket.org/kubek2k/springockito/wiki/springockito-annotations[Springockito Annotations, window="_blank"]. 
 The framework allows mock injection using annotation within test classes. 
 Please skim read it before proceed :)
 After some modification code of our test will look this way.
