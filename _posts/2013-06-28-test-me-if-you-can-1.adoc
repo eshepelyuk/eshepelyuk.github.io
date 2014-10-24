@@ -167,4 +167,49 @@ public class UserBalanceServiceImplProfileTest {
 ----
 
 You may notice appearance of `setUp` method for setting up the mock behavior and new `@Profile` annotation. 
-The annotation activates our profile `springTest` so bean mocked with <span style="font-family: &quot;Courier New&quot;, Courier, monospace;">Springockito </span>will be injected where necessary. When run this we will have test passed since spring injected mock that we've configured and not the external service.<br /><br /><span style="font-size: large;">Don't stop on the way to perfectness</span><br /><br />It could be the end of the story be we could still go deeper on the problem. <span style="font-family: &quot;Courier New&quot;, Courier, monospace;">Springockito </span>creator has another framework <span style="font-family: &quot;Courier New&quot;, Courier, monospace;"><a href="https://bitbucket.org/kubek2k/springockito/wiki/springockito-annotations" target="_blank">springockito-annotations</a></span> . The framework allows mock injection using annotation within test classes. Please skim read it before proceed :)<br /><br />After some modification code of our test will look this way.<br /><pre class="brush: java; highlight: [2,8]">@RunWith(SpringJUnit4ClassRunner.class)<br />@ContextConfiguration(loader = SpringockitoContextLoader.class, <br />    locations = "classpath:/springtest/springockito/applicationContext.xml")<br />public class UserBalanceServiceImplAnnotationTest {<br />    @Autowired<br />    private UserBalanceService userBalanceService;<br />    @Autowired<br />    @ReplaceWithMock<br />    private BankService bankService;<br />    @Before<br />    public void setUp() throws Exception {<br />        Mockito.when(bankService.getBalanceByEmail("user@bank.com")).thenReturn(String.valueOf(valueOf(123.45D)));<br />    }<br />    @Test<br />    public void shouldReturnMockedBalance() {<br />        Double balance = userBalanceService.getAccountBalance("user@bank.com");<br />        assertEquals(balance, valueOf(123.45D));<br />    }<br />}</pre><br />Please note that no new XML configuration required. We're using production XML config and just override single bean using <span style="font-family: &quot;Courier New&quot;, Courier, monospace;">@ReplaceWithMock&nbsp;</span><span style="font-family: inherit;">annotation. Later we can customize the mock in </span><span style="font-family: &quot;Courier New&quot;, Courier, monospace;">setUp</span><span style="font-family: inherit;"> method.</span><br /><br /><span style="font-size: large;">P.S.</span><br /><br /><span style="font-family: &quot;Courier New&quot;, Courier, monospace;">Springockito-annotations</span> project has one great advantage - it provides test code only based dependency override mechanism. Neither additional XML, nor production code modifications for test purposes. Unlike <span style="font-family: &quot;Courier New&quot;, Courier, monospace;">springockito-annotations</span> the XML based &nbsp;approach makes creation of test specific XML mandatory always. So I strongly recommend iusing <span style="font-family: &quot;Courier New&quot;, Courier, monospace;">Springockito-annotations</span> project for your integration tests, so they won't affect your production code design and won't produce additional artifacts - i.e. configuration files.<br /><br /><span style="font-size: large;">P.P.S.</span><br />Writing integration tests for Spring is easy ! Project can be found on <a href="https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCan1" target="_blank">my GitHub</a>
+The annotation activates our profile `springTest` so bean mocked with `Springockito` will be injected where necessary. 
+When run this we will have test passed since spring injected mock that we've configured and not the external service.
+
+== Don't stop on the way to perfectness
+
+It could be the end of the story be we could still go deeper on the problem. 
+`Springockito` creator has another framework https://bitbucket.org/kubek2k/springockito/wiki/springockito-annotations[springockito-annotations, "window="_blank"]. 
+The framework allows mock injection using annotation within test classes. 
+Please skim read it before proceed :)
+After some modification code of our test will look this way.
+[source, java]
+----
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(loader = SpringockitoContextLoader.class, 
+    locations = "classpath:/springtest/springockito/applicationContext.xml")
+public class UserBalanceServiceImplAnnotationTest {
+    @Autowired
+    private UserBalanceService userBalanceService;
+    @Autowired
+    @ReplaceWithMock
+    private BankService bankService;
+    @Before
+    public void setUp() throws Exception {
+        Mockito.when(bankService.getBalanceByEmail("user@bank.com")).thenReturn(String.valueOf(valueOf(123.45D)));
+    }
+    @Test
+    public void shouldReturnMockedBalance() {
+        Double balance = userBalanceService.getAccountBalance("user@bank.com");
+        assertEquals(balance, valueOf(123.45D));
+    }
+}
+----
+
+Please note that no new XML configuration required. We're using production XML config and just override single bean using `@ReplaceWithMock` annotation.
+Later we can customize the mock in `setUp` method. 
+
+== P.S.
+`Springockito-annotations` project has one great advantage - it provides test code only based dependency override mechanism. 
+Neither additional XML, nor production code modifications for test purposes. 
+Unlike `springockito-annotations` approach the XML based one makes creation of test specific XML mandatory always. 
+So I strongly recommend using `Springockito-annotations` project for your integration tests, 
+so they won't affect your production code design and won't produce additional artifacts - i.e. test XML configuration files.
+
+== P.P.S.
+
+Writing integration tests for Spring is easy ! Project can be found on https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCan1[My GitHub, window="_blank"]
