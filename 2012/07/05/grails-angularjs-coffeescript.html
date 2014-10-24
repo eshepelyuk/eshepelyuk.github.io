@@ -102,20 +102,17 @@ This makes it hard for Java-boys (as me) to jump into. So purpose of this short 
 <p><code>grails install-plugin angularjs-resources</code></p>
 </dd>
 <dt class="hdlist1">Thanks to great <code>resources</code>  plugin <code>JavaScript</code> files management is quite easy in <code>Grails</code></dt>
-<dd>
-<p>{source, groovy}
-.grails-app/conf/MyResources.groovy</p>
-</dd>
 </dl>
 </div>
 <div class="listingblock">
+<div class="title">grails-app/conf/MyResources.groovy</div>
 <div class="content">
-<pre>modules = {
+<pre class="CodeRay highlight"><code data-lang="groovy">modules = {
     angularIndex {
-        dependsOn 'angular'
-        resource url: 'cs/angularIndex.coffee'
+        dependsOn <span class="string"><span class="delimiter">'</span><span class="content">angular</span><span class="delimiter">'</span></span>
+        resource <span class="key">url</span>: <span class="string"><span class="delimiter">'</span><span class="content">cs/angularIndex.coffee</span><span class="delimiter">'</span></span>
     }
-}</pre>
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -193,7 +190,7 @@ towards developing modern front-ends.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>href="http://angularjs.org/"[AngularJS, window="_blank"]</p>
+<p><a href="http://angularjs.org/" target="_blank">AngularJS</a></p>
 </li>
 <li>
 <p><a href="http://coffeescript.org/" target="_blank">CoffeeScript</a></p>

@@ -6,8 +6,8 @@
 </description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 24 Oct 2014 12:51:36 +0000</pubDate>
-    <lastBuildDate>Fri, 24 Oct 2014 12:51:36 +0000</lastBuildDate>
+    <pubDate>Fri, 24 Oct 2014 12:58:21 +0000</pubDate>
+    <lastBuildDate>Fri, 24 Oct 2014 12:58:21 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -760,20 +760,17 @@ This makes it hard for Java-boys (as me) to jump into. So purpose of this short 
 &lt;p&gt;&lt;code&gt;grails install-plugin angularjs-resources&lt;/code&gt;&lt;/p&gt;
 &lt;/dd&gt;
 &lt;dt class=&quot;hdlist1&quot;&gt;Thanks to great &lt;code&gt;resources&lt;/code&gt;  plugin &lt;code&gt;JavaScript&lt;/code&gt; files management is quite easy in &lt;code&gt;Grails&lt;/code&gt;&lt;/dt&gt;
-&lt;dd&gt;
-&lt;p&gt;{source, groovy}
-.grails-app/conf/MyResources.groovy&lt;/p&gt;
-&lt;/dd&gt;
 &lt;/dl&gt;
 &lt;/div&gt;
 &lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;grails-app/conf/MyResources.groovy&lt;/div&gt;
 &lt;div class=&quot;content&quot;&gt;
-&lt;pre&gt;modules = {
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;modules = {
     angularIndex {
-        dependsOn &#39;angular&#39;
-        resource url: &#39;cs/angularIndex.coffee&#39;
+        dependsOn &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&#39;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;angular&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;
+        resource &lt;span class=&quot;key&quot;&gt;url&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&#39;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;cs/angularIndex.coffee&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;
     }
-}&lt;/pre&gt;
+}&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
@@ -851,7 +848,7 @@ towards developing modern front-ends.&lt;/p&gt;
 &lt;div class=&quot;ulist&quot;&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;href=&quot;http://angularjs.org/&quot;[AngularJS, window=&quot;_blank&quot;]&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://angularjs.org/&quot; target=&quot;_blank&quot;&gt;AngularJS&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;a href=&quot;http://coffeescript.org/&quot; target=&quot;_blank&quot;&gt;CoffeeScript&lt;/a&gt;&lt;/p&gt;
