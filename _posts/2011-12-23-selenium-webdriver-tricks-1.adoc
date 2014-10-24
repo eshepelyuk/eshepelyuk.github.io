@@ -3,8 +3,7 @@ tags:
 - java
 - webdriver
 - xpath
-- how-to
-- selenium
+- howto
 ---
 = WebDriver tricks - part 1
 

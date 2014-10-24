@@ -1,4 +1,7 @@
 ---
+tags:
+- webdriver
+- coding dojo
 ---
 = WebDriver workshop at Softengi, Chernihiv
 

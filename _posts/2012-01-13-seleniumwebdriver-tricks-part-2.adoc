@@ -2,10 +2,7 @@
 tags:
 - java
 - firefox
-- debug
 - webdriver
-- selenium
-- screenshot
 ---
 = WebDriver tricks - part 2
 

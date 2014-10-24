@@ -11,7 +11,7 @@ layout: page
         </h2>
         <span class="post-meta">
 			{{ post.date | date: "%b %-d, %Y" }}
-			<i class="fa fa-tags fa-lg">&nbsp;{% if post.tags %}{{ post.tags | join: ', ' }}{% endif %}</i>
+			{% if post.tags %}<i class="fa fa-tags fa-2x">&nbsp;{{ post.tags | join: ', ' }}{% endif %}</i>
 		</span>
       </li>
     {% endfor %}

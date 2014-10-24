@@ -1,8 +1,7 @@
 ---
-tags: 
-modified_time: '2012-01-28T19:56:11.835+02:00'
-blogger_id: tag:blogger.com,1999:blog-4998424779235998349.post-8489979169501210283
-blogger_orig_url: http://eshepelyuk.blogspot.com/2012/01/codingdojocnua-2-agenda-and-tools.html
+tags:
+- coding dojo
+- howto
 ---
 = CodingDojoCnUa #2 agenda and tools
 

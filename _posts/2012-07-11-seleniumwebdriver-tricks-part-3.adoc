@@ -2,8 +2,7 @@
 tags:
 - java
 - webdriver
-- how-to
-- selenium
+- howto
 ---
 = WebDriver tricks - part 3
 
