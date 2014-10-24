@@ -35,8 +35,7 @@ After application is created let's change folder and all subsequent commands sho
 `grails install-plugin coffeescript-resources`
 
 After plugin installed we are going to create empty file for our `CoffeeScript` sources at `web-app/cs/angularIndex.coffee`::
-<a href="http://3.bp.blogspot.com/-rR5xBqW985w/T_X32lu_g1I/AAAAAAAABXo/HR2vPbyGHgI/s1600/2.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" height="140" src="http://3.bp.blogspot.com/-rR5xBqW985w/T_X32lu_g1I/AAAAAAAABXo/HR2vPbyGHgI/s320/2.jpg" width="320" />
+image::1.jpg[QWEQWE]
 
 What's great about Grails - is the fact that it abounds with plugins. `AngularJS` library can be installed by typing::
 `grails install-plugin angularjs-resources`
