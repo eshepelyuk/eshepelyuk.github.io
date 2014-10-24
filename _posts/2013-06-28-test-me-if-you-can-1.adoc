@@ -129,6 +129,7 @@ But with introduction of http://blog.springsource.com/2011/02/11/spring-framewor
 we now able to create more elegant solution for this, although we still need separate XML for test purposes. 
 This is how resulting test XML configuration will look like
 [source,xml]
+.testApplicationContext.xml
 ----
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
