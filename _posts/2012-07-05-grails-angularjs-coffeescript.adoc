@@ -36,9 +36,9 @@ After application is created let's change folder and all subsequent commands sho
 `grails install-plugin coffeescript-resources`
 
 After plugin installed we are going to create empty file for our `CoffeeScript` sources at `web-app/cs/angularIndex.coffee`::
-qweqwe
+qq
 
-image::1.jpg[QWEQWE]
+image::2.jpg[]
 
 What's great about Grails - is the fact that it abounds with plugins. `AngularJS` library can be installed by typing::
 `grails install-plugin angularjs-resources`
@@ -56,8 +56,8 @@ modules = {
 ----
 
 Code above declares resource for our AngularJS module written in `CoffeeScript`
-<div class="separator" style="clear: both; text-align: center;"><a href="http://2.bp.blogspot.com/-spuDAAAxpPE/T_X4Cg8IDYI/AAAAAAAABXw/Zk1mc6dVu6M/s1600/1.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-<img border="0" height="159" src="http://2.bp.blogspot.com/-spuDAAAxpPE/T_X4Cg8IDYI/AAAAAAAABXw/Zk1mc6dVu6M/s320/1.jpg" width="320" /></a></div></li><li>
+
+image::1.jpg[]
 
 Next we need controller to serve starting point HTML with AngularJS module. We can do it with following command::
 `grails create-controller AngularIndex`
@@ -94,7 +94,8 @@ app.controller "MyCtrl", ($scope) ->
 ----
 Let's run application::
 `grails run-app`
-<a href="http://4.bp.blogspot.com/-ykO25vN8GYY/T_X4Ve0NcDI/AAAAAAAABX4/nDn_mJUvaIE/s1600/7.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" src="http://4.bp.blogspot.com/-ykO25vN8GYY/T_X4Ve0NcDI/AAAAAAAABX4/nDn_mJUvaIE/s1600/7.jpg" /></a></div></li></ol><span style="font-size: large;">
+
+image::3.jpg[]
 
 == P.S.
 
