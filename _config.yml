@@ -6,20 +6,13 @@ baseurl: ""
 url: "http://eshepelyuk.github.io" # the base hostname & protocol for your site
 twitter_username: eshepelyuk
 github_username:  eshepelyuk
+ga: true
 
 asciidoctor:
   attributes:
     - hardbreaks!
     - source-highlighter=coderay
 
-defaults:
-  -
-    scope:
-      path: "" # an empty string here means all files in the project
-      type: "posts" # previously `post` in Jekyll 2.2.
-    values:
-      comments: true
-
 disqus_shortname: eshepelyukblog
 
-exclude: ['Gemfile.lock', 'Gemfile', 'build.sh']
+exclude: ['Gemfile.lock', 'Gemfile', 'build.sh', '*.iml']
