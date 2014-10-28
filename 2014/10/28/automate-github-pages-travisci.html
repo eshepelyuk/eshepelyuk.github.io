@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	
+    <title>Automate GitHub Pages publishing with Jekyll and Travis CI</title>
+    
+	<meta name="description" content="Simple blog for some thoughts to be shared. Mostly about Java programming">
+	<meta name="keywords" content="jekyll, github, asciidoctor, travisci, howto">
+
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="canonical" href="http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html">
+	<link href="http://eshepelyuk.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="JK's blog Feed">
+
+	
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-56082439-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+	
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">JK's blog</a>
+	
+    <nav class="site-nav">
+      <div class="trigger">
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+	</div>
+	
+   <div class="wrapper">
+	<p class="text">Simple blog for some thoughts to be shared. Mostly about Java programming</p>
+  </div>
+  
+	
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Automate GitHub Pages publishing with Jekyll and Travis CI</h1>
+    <span class="post-meta"><i class="fa fa-calendar fa-lg"></i>&nbsp;&nbsp;Oct 28, 2014<i class="fa fa-tags fa-lg"></i>&nbsp;jekyll, github, asciidoctor, travisci, howto</span>
+  </header>
+
+  <article class="post-content">
+    <h1>Automate GitHub Pages publishing with Jekyll and Travis CI</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Content is a <strong>KING</strong>. Neither fancy <em>CMS</em> nor online <em>WYSYWIG</em> editors are, but content is.
+That&#8217;s why <code>Jekyll</code> powered  <code>GitHub Pages</code> got such a popularity.
+Just commit <code>HTML</code>, <code>Liquid</code>, <code>Markdown</code> markup etc, then files got processed by <code>Jekyll</code>
+and the whole site becomes available online in a minute.
+However, if you&#8217;d like to use extra <code>Jekyll</code> features, for instance <code>AsciiDoctor</code>, you should manage <code>HTML</code> generation by yourself.
+This quite boring activity could be simplified by leveraging <code>Travis CI</code> <em>continuous integration</em> project.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="setting-up-jekyll">Setting up Jekyll</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The only precondition is that you should have <code>Jekyll</code> project properly configured, additionally using <a href="http://bundler.io/" target="_blank">Bundler</a>
+and you can run it locally using following command</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>bundle exec jekyll serve</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="setting-up-travis-ci">Setting up Travis CI</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The whole idea was to make publishing experience of highly customized <code>Jekyll</code> project to <code>GitHub Pages</code> exactly the same
+as publishing of standard <code>Jekyll</code> site. You just push your changes to <code>git</code>, wait couple of minutes and refresh the page with new content.</p>
+</div>
+<div class="paragraph">
+<p>I&#8217;m using <em>User Pages</em> approach <a href="https://help.github.com/articles/using-jekyll-with-pages/" target="_blank">as described here</a>
+so I have two branches for my setup</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>master</code> for generated static content</p>
+</li>
+<li>
+<p><code>jekyll</code> for markup sources and configuration</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The goal is to configure <code>Travis CI</code> job to listen for commits on <code>jekyll</code> branch,
+then run <code>jekyll build</code> for process markup sources and then push generated content to <code>master</code> branch.</p>
+</div>
+<div class="sect2">
+<h3 id="enable-hooks">Enable Hooks</h3>
+<div class="paragraph">
+<p>To make <code>Travis CI</code> listen for commits and do actual work - we have to enable hooks.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/assets/images/2014-10-25/2.png" alt="Enable Travis CI hook">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="travis-ci-configuration">Travis CI configuration</h3>
+<div class="paragraph">
+<p>Then let&#8217;s limit commit trigger to <code>jekyll</code> branch only and explicitly configure the script that will be executed after commit detection.
+For this we have to put file <code>.travis.yml</code> to the root of <code>jekyll</code> branch with following content.</p>
+</div>
+<div class="listingblock">
+<div class="title">.travis.yml</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">language</span>: <span class="string"><span class="content">ruby</span></span>
+<span class="key">script</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">./build.sh</span><span class="delimiter">&quot;</span></span> <span class="comment"># execute this script on each commit</span>
+<span class="key">branches</span>:
+  <span class="key">only</span>:
+  - <span class="string"><span class="content">jekyll</span></span> <span class="comment"># only take into account `jekyll' branch</span>
+<span class="key">rvm</span>:
+- <span class="string"><span class="content">2.1.2</span></span> <span class="comment"># version of `ruby'</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="generate-and-encrypt-github-token-for-travis-ci">Generate and encrypt GitHub token for Travis Ci</h3>
+<div class="paragraph">
+<p>Since we&#8217;d need to commit and push our changes to other (<code>master</code>) branch from within the build script
+it&#8217;s mandatory to checkout this branch either using <code>HTTPS</code> or <code>SSH</code> protocol, as described	<a href="https://gist.github.com/grawity/4392747" target="_blank">HERE</a>
+Easiest way for us is to clone using <code>HTTPS</code> protocol and use  <em>personal access token</em> for authentication.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use/" target="_blank">How to generate GitHub Token</a></p>
+</li>
+<li>
+<p>Generate GitHub token</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/assets/images/2014-10-25/1.png" alt="Generate GitHub token">
+</div>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+Copy generated token somewhere to be used in the next step.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Putting clear text tokens into script isn&#8217;t good idea, but thanks to <code>travis</code> command line tool
+we can encrypt any <code>name=value</code> pair and later expose then as environment variables to the build job.</p>
+</div>
+<div class="paragraph">
+<p>Execute following code in the working directory where <code>jekyll</code> branch is cloned to.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>gem install travis
+travis encrypt GH_TOKEN=&lt;token&gt; --add env.global</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The command above should add following lines to your <code>.travis.yml</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">env</span>:
+  <span class="key">global</span>:
+    <span class="key">secure</span>: <span class="string"><span class="content">HERE GOES ENCRYPTED STUFF</span></span></code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="build-script">Build script</h4>
+<div class="paragraph">
+<p>And finally the build script.</p>
+</div>
+<div class="listingblock">
+<div class="title">build.sh</div>
+<div class="content">
+<pre class="CodeRay highlight"><code>#/bin/bash
+# enable error reporting to the console
+set -e
+
+# build site with jekyll, by default to `_site' folder
+jekyll build
+
+# cleanup
+rm -rf ../eshepelyuk.github.io.master
+
+#clone `master' branch of the repository using encrypted GH_TOKEN for authentification
+git clone https://${GH_TOKEN}@github.com/eshepelyuk/eshepelyuk.github.io.git ../eshepelyuk.github.io.master
+
+# copy generated HTML site to `master' branch
+cp -R _site/* ../eshepelyuk.github.io.master
+
+# commit and push generated content to `master' branch
+# since repository was cloned in write mode with token auth - we can push there
+cd ../eshepelyuk.github.io.master
+git config user.email "eshepelyuk@gmail.com"
+git config user.name "Evgeny Shepelyuk"
+git add -A .
+git commit -a -m "Travis #$TRAVIS_BUILD_NUMBER"
+git push origin master</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="run-everything">Run everything</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>After doing all those steps all you need is to commit and push your <code>jekyll</code> branch
+and then navigate to <a href="https://travis-ci.org/eshepelyuk/eshepelyuk.github.io/builds" target="_blank">Travis CI</a> build section
+of your project to monitor your build progress.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="p-s">P.S.</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>I hope this tutorial help you setup own <code>Jekyll</code> with less pain.
+Supposedly described steps could be applied to other static site generators like <code>Middleman</code>, <code>Awestruct</code> etc.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="credits">Credits</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The actual setup and this post was inspired by <a href="https://twitter.com/mojavelinux" target="_blank">Dan Allen</a> reply to my tweet
+and his code from <a href="https://github.com/johncarl81/transfuse/tree/transfuse-jeykll-site" target="_blank">this project</a></p>
+</div>
+</div>
+</div>
+  </article>
+
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+	var disqus_shortname = 'eshepelyukblog'; // required: replace example with your forum shortname
+	var disqus_url = 'http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html';
+	
+	/* * * DON'T EDIT BELOW THIS LINE * * */
+	(function() {
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>JK's blog</li>
+          <li><a href="mailto:eshepelyk@gmail.com">eshepelyk@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+			<i class="fa fa-github-square fa-lg"></i>
+            <a href="https://github.com/eshepelyuk">
+              <span class="username">eshepelyuk</span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+			<i class="fa fa-twitter-square fa-lg"></i>
+            <a href="https://twitter.com/eshepelyuk">
+              <span class="username">eshepelyuk</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">Simple blog for some thoughts to be shared. Mostly about Java programming</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

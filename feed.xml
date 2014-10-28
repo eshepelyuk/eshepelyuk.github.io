@@ -5,9 +5,233 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 28 Oct 2014 16:49:50 +0000</pubDate>
-    <lastBuildDate>Tue, 28 Oct 2014 16:49:50 +0000</lastBuildDate>
+    <pubDate>Tue, 28 Oct 2014 19:34:38 +0000</pubDate>
+    <lastBuildDate>Tue, 28 Oct 2014 19:34:38 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Automate GitHub Pages publishing with Jekyll and Travis CI</title>
+        <description>&lt;h1&gt;Automate GitHub Pages publishing with Jekyll and Travis CI&lt;/h1&gt;
+&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Content is a &lt;strong&gt;KING&lt;/strong&gt;. Neither fancy &lt;em&gt;CMS&lt;/em&gt; nor online &lt;em&gt;WYSYWIG&lt;/em&gt; editors are, but content is.
+That&amp;#8217;s why &lt;code&gt;Jekyll&lt;/code&gt; powered  &lt;code&gt;GitHub Pages&lt;/code&gt; got such a popularity.
+Just commit &lt;code&gt;HTML&lt;/code&gt;, &lt;code&gt;Liquid&lt;/code&gt;, &lt;code&gt;Markdown&lt;/code&gt; markup etc, then files got processed by &lt;code&gt;Jekyll&lt;/code&gt;
+and the whole site becomes available online in a minute.
+However, if you&amp;#8217;d like to use extra &lt;code&gt;Jekyll&lt;/code&gt; features, for instance &lt;code&gt;AsciiDoctor&lt;/code&gt;, you should manage &lt;code&gt;HTML&lt;/code&gt; generation by yourself.
+This quite boring activity could be simplified by leveraging &lt;code&gt;Travis CI&lt;/code&gt; &lt;em&gt;continuous integration&lt;/em&gt; project.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;setting-up-jekyll&quot;&gt;Setting up Jekyll&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The only precondition is that you should have &lt;code&gt;Jekyll&lt;/code&gt; project properly configured, additionally using &lt;a href=&quot;http://bundler.io/&quot; target=&quot;_blank&quot;&gt;Bundler&lt;/a&gt;
+and you can run it locally using following command&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code&gt;bundle exec jekyll serve&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;setting-up-travis-ci&quot;&gt;Setting up Travis CI&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The whole idea was to make publishing experience of highly customized &lt;code&gt;Jekyll&lt;/code&gt; project to &lt;code&gt;GitHub Pages&lt;/code&gt; exactly the same
+as publishing of standard &lt;code&gt;Jekyll&lt;/code&gt; site. You just push your changes to &lt;code&gt;git&lt;/code&gt;, wait couple of minutes and refresh the page with new content.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I&amp;#8217;m using &lt;em&gt;User Pages&lt;/em&gt; approach &lt;a href=&quot;https://help.github.com/articles/using-jekyll-with-pages/&quot; target=&quot;_blank&quot;&gt;as described here&lt;/a&gt;
+so I have two branches for my setup&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;master&lt;/code&gt; for generated static content&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;jekyll&lt;/code&gt; for markup sources and configuration&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The goal is to configure &lt;code&gt;Travis CI&lt;/code&gt; job to listen for commits on &lt;code&gt;jekyll&lt;/code&gt; branch,
+then run &lt;code&gt;jekyll build&lt;/code&gt; for process markup sources and then push generated content to &lt;code&gt;master&lt;/code&gt; branch.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;enable-hooks&quot;&gt;Enable Hooks&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To make &lt;code&gt;Travis CI&lt;/code&gt; listen for commits and do actual work - we have to enable hooks.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;/assets/images/2014-10-25/2.png&quot; alt=&quot;Enable Travis CI hook&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;travis-ci-configuration&quot;&gt;Travis CI configuration&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Then let&amp;#8217;s limit commit trigger to &lt;code&gt;jekyll&lt;/code&gt; branch only and explicitly configure the script that will be executed after commit detection.
+For this we have to put file &lt;code&gt;.travis.yml&lt;/code&gt; to the root of &lt;code&gt;jekyll&lt;/code&gt; branch with following content.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;.travis.yml&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;yaml&quot;&gt;&lt;span class=&quot;key&quot;&gt;language&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;content&quot;&gt;ruby&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;key&quot;&gt;script&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;./build.sh&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;comment&quot;&gt;# execute this script on each commit&lt;/span&gt;
+&lt;span class=&quot;key&quot;&gt;branches&lt;/span&gt;:
+  &lt;span class=&quot;key&quot;&gt;only&lt;/span&gt;:
+  - &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;content&quot;&gt;jekyll&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;comment&quot;&gt;# only take into account `jekyll&#39; branch&lt;/span&gt;
+&lt;span class=&quot;key&quot;&gt;rvm&lt;/span&gt;:
+- &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;content&quot;&gt;2.1.2&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;comment&quot;&gt;# version of `ruby&#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;generate-and-encrypt-github-token-for-travis-ci&quot;&gt;Generate and encrypt GitHub token for Travis Ci&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Since we&amp;#8217;d need to commit and push our changes to other (&lt;code&gt;master&lt;/code&gt;) branch from within the build script
+it&amp;#8217;s mandatory to checkout this branch either using &lt;code&gt;HTTPS&lt;/code&gt; or &lt;code&gt;SSH&lt;/code&gt; protocol, as described	&lt;a href=&quot;https://gist.github.com/grawity/4392747&quot; target=&quot;_blank&quot;&gt;HERE&lt;/a&gt;
+Easiest way for us is to clone using &lt;code&gt;HTTPS&lt;/code&gt; protocol and use  &lt;em&gt;personal access token&lt;/em&gt; for authentication.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://help.github.com/articles/creating-an-access-token-for-command-line-use/&quot; target=&quot;_blank&quot;&gt;How to generate GitHub Token&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Generate GitHub token&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;/assets/images/2014-10-25/1.png&quot; alt=&quot;Generate GitHub token&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;admonitionblock caution&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;i class=&quot;fa icon-caution&quot; title=&quot;Caution&quot;&gt;&lt;/i&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+Copy generated token somewhere to be used in the next step.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Putting clear text tokens into script isn&amp;#8217;t good idea, but thanks to &lt;code&gt;travis&lt;/code&gt; command line tool
+we can encrypt any &lt;code&gt;name=value&lt;/code&gt; pair and later expose then as environment variables to the build job.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Execute following code in the working directory where &lt;code&gt;jekyll&lt;/code&gt; branch is cloned to.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code&gt;gem install travis
+travis encrypt GH_TOKEN=&amp;lt;token&amp;gt; --add env.global&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The command above should add following lines to your &lt;code&gt;.travis.yml&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;yaml&quot;&gt;&lt;span class=&quot;key&quot;&gt;env&lt;/span&gt;:
+  &lt;span class=&quot;key&quot;&gt;global&lt;/span&gt;:
+    &lt;span class=&quot;key&quot;&gt;secure&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;content&quot;&gt;HERE GOES ENCRYPTED STUFF&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect3&quot;&gt;
+&lt;h4 id=&quot;build-script&quot;&gt;Build script&lt;/h4&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;And finally the build script.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;build.sh&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code&gt;#/bin/bash
+# enable error reporting to the console
+set -e
+
+# build site with jekyll, by default to `_site&#39; folder
+jekyll build
+
+# cleanup
+rm -rf ../eshepelyuk.github.io.master
+
+#clone `master&#39; branch of the repository using encrypted GH_TOKEN for authentification
+git clone https://${GH_TOKEN}@github.com/eshepelyuk/eshepelyuk.github.io.git ../eshepelyuk.github.io.master
+
+# copy generated HTML site to `master&#39; branch
+cp -R _site/* ../eshepelyuk.github.io.master
+
+# commit and push generated content to `master&#39; branch
+# since repository was cloned in write mode with token auth - we can push there
+cd ../eshepelyuk.github.io.master
+git config user.email &quot;eshepelyuk@gmail.com&quot;
+git config user.name &quot;Evgeny Shepelyuk&quot;
+git add -A .
+git commit -a -m &quot;Travis #$TRAVIS_BUILD_NUMBER&quot;
+git push origin master&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;run-everything&quot;&gt;Run everything&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;After doing all those steps all you need is to commit and push your &lt;code&gt;jekyll&lt;/code&gt; branch
+and then navigate to &lt;a href=&quot;https://travis-ci.org/eshepelyuk/eshepelyuk.github.io/builds&quot; target=&quot;_blank&quot;&gt;Travis CI&lt;/a&gt; build section
+of your project to monitor your build progress.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;p-s&quot;&gt;P.S.&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I hope this tutorial help you setup own &lt;code&gt;Jekyll&lt;/code&gt; with less pain.
+Supposedly described steps could be applied to other static site generators like &lt;code&gt;Middleman&lt;/code&gt;, &lt;code&gt;Awestruct&lt;/code&gt; etc.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;credits&quot;&gt;Credits&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The actual setup and this post was inspired by &lt;a href=&quot;https://twitter.com/mojavelinux&quot; target=&quot;_blank&quot;&gt;Dan Allen&lt;/a&gt; reply to my tweet
+and his code from &lt;a href=&quot;https://github.com/johncarl81/transfuse/tree/transfuse-jeykll-site&quot; target=&quot;_blank&quot;&gt;this project&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
+        <pubDate>Tue, 28 Oct 2014 00:00:00 +0000</pubDate>
+        <link>http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html</link>
+        <guid isPermaLink="true">http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html</guid>
+        
+        <category>jekyll</category>
+        
+        <category>github</category>
+        
+        <category>asciidoctor</category>
+        
+        <category>travisci</category>
+        
+        <category>howto</category>
+        
+        
+      </item>
     
       <item>
         <title>Test Me If You Can (#1)</title>
@@ -1260,129 +1484,6 @@ Scripts should perform checkout, start web server, run tests and stop server&lt;
         <category>webdriver</category>
         
         <category>coding dojo</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>WebDriver tricks - part 1</title>
-        <description>&lt;h1&gt;WebDriver tricks - part 1&lt;/h1&gt;
-&lt;div id=&quot;preamble&quot;&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Finally decided to start series (i hope) of blog posts describing tricks that could help developers
-to write more robust Selenium / WebDriver tests. Here are two of them.
-This information is all covered by Selenium JavaDocs. But if you&amp;#8217;re good programmer - will you ever read JavaDocs ? :)&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;trick&quot;&gt;Trick&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Q&lt;/strong&gt;: How to find element by XPath expression under certain node of HTML tree and not from HTML tree root ?&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;A&lt;/strong&gt;: You should prefix your XPath expression with &lt;code&gt;.//&lt;/code&gt; (dot in the beginning)&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Having HTML&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;html&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
-   &lt;span class=&quot;tag&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;tag&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;id&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;panel1&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;gt;&lt;/span&gt;
-       &lt;span class=&quot;tag&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;tag&quot;&gt;&amp;lt;span&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;myClass&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;gt;&lt;/span&gt;ITEM1&lt;span class=&quot;tag&quot;&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;
-       &lt;span class=&quot;tag&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;tag&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;tag&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;id&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;panel2&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;gt;&lt;/span&gt;
-       &lt;span class=&quot;tag&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;
-         &lt;span class=&quot;tag&quot;&gt;&amp;lt;span&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;myClass&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;gt;&lt;/span&gt;ITEM2&lt;span class=&quot;tag&quot;&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;
-       &lt;span class=&quot;tag&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;tag&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;tag&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;tag&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Java test below illustrates the difference&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;WebElement panel2 = webDriver.findElement(By.id(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;panel2&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;));
-
-WebElement el1 = panel2.findElement(By.xpath(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;//span[@class = &#39;myClass&#39;]&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;));
-WebElement el2 = panel2.findElement(By.xpath(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;.//span[@class = &#39;myClass&#39;]&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;));
-
-&lt;span class=&quot;keyword&quot;&gt;assert&lt;/span&gt; el1.getText().equals(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;ITEM1&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;);
-&lt;span class=&quot;keyword&quot;&gt;assert&lt;/span&gt; el2.getText().equals(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;ITEM2&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;);&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;XPath expression &lt;code&gt;//span[@class = &#39;myClass&#39;]&lt;/code&gt; makes WebDriver to look for element using HTML root as starting point
-even if we call &lt;code&gt;findElement()&lt;/code&gt; not at &lt;code&gt;webDriver&lt;/code&gt; variable.
-From other hand using XPath starting from dot, i.e. &lt;code&gt;.//span[@class = &#39;myClass&#39;]&lt;/code&gt;
-instructs WebDriver to use &lt;strong&gt;panel2&lt;/strong&gt; as starting point.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;trick-2&quot;&gt;Trick&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Q: How to check that certain element doesn&amp;#8217;t exist in HTML tree.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;A: There&amp;#8217;s common &lt;strong&gt;anti-pattern&lt;/strong&gt; frequently used by developers.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;WebElement notExist = &lt;span class=&quot;predefined-constant&quot;&gt;null&lt;/span&gt;;
-&lt;span class=&quot;keyword&quot;&gt;try&lt;/span&gt; {
-    notExist = webDriver.findElement(By.xpath(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;//div[@id=&#39;iAmNotHere&#39;]&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;));
-} &lt;span class=&quot;keyword&quot;&gt;catch&lt;/span&gt; (&lt;span class=&quot;exception&quot;&gt;NoSuchElementException&lt;/span&gt; e) {
-}
-&lt;span class=&quot;keyword&quot;&gt;assert&lt;/span&gt; notExist == &lt;span class=&quot;predefined-constant&quot;&gt;null&lt;/span&gt;;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;This approach has enough disadvantages and best practices violations. We ain&amp;#8217;t gonna cover them here ;)
-Instead we can use much simpler code to achieve the same result.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;assert&lt;/span&gt; webDriver.findElements(By.xpath(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;//div[@id=&#39;iAmNotHere&#39;]&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)).size() == &lt;span class=&quot;integer&quot;&gt;0&lt;/span&gt;;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;p-s-let-s-start-read-javadocs-before-writing-code&quot;&gt;P.S.: Let&amp;#8217;s start read JavaDocs before writing code :)&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;</description>
-        <pubDate>Fri, 23 Dec 2011 00:00:00 +0000</pubDate>
-        <link>http://eshepelyuk.github.io/2011/12/23/selenium-webdriver-tricks-1.html</link>
-        <guid isPermaLink="true">http://eshepelyuk.github.io/2011/12/23/selenium-webdriver-tricks-1.html</guid>
-        
-        <category>java</category>
-        
-        <category>webdriver</category>
-        
-        <category>xpath</category>
-        
-        <category>howto</category>
         
         
       </item>
