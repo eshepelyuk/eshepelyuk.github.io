@@ -1,0 +1,35 @@
+---
+tags:
+- jekyll
+- github
+- asciidoctor
+- travisci
+- howto
+---
+:imagesdir: /assets/images/2014-10-25
+= Step by step tutorial setting up Jekyll and AsciiDoctor
+
+== Jekyll
+
+One of the reasons of need for manual site generation is my preference to use `AsciiDoctor` as markup language.
+Second change to default `Jekyll` config is caused by inability to make `Pygments` to work on my `Windows` PC,
+so I've changed default `Jekyll` source code highlight library to `Coderay`. Below are the changes I've did to make `Jekyll` do what I want.
+
+[source,ruby]
+.Gemfile
+----
+source 'https://rubygems.org'
+gem 'jekyll', '2.4.0'
+gem 'asciidoctor', '1.5.1'
+gem 'coderay', '1.1.0'
+----
+[source,yaml]
+._config.yml
+----
+..
+asciidoctor:
+  attributes:
+    - hardbreaks!
+    - source-highlighter=coderay
+..	
+----
