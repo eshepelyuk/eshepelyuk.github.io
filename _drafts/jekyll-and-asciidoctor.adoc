@@ -1,35 +1,109 @@
 ---
 tags:
 - jekyll
-- github
 - asciidoctor
-- travisci
+- coderay
+- fontawesome
 - howto
 ---
-:imagesdir: /assets/images/2014-10-25
-= Step by step tutorial setting up Jekyll and AsciiDoctor
+:imagesdir: /assets/images/drafts
+= Advanced integration of Jekyll and AsciiDoctor
 
-== Jekyll
+Using `AsciiDoctor` as markup renderer in Jekyll is quite straightforward 
+but there's some gaps not covered properly in setup guides over the web
+so I'd like to fill them in this post.
 
-One of the reasons of need for manual site generation is my preference to use `AsciiDoctor` as markup language.
-Second change to default `Jekyll` config is caused by inability to make `Pygments` to work on my `Windows` PC,
-so I've changed default `Jekyll` source code highlight library to `Coderay`. Below are the changes I've did to make `Jekyll` do what I want.
+This tutorial implies you to have sample Jekyll site already created 
+and AsciiDoctor plugin enabled as described in following guides.
+
+* http://jekyllrb.com/docs/installation/[Jekyll installation^]
+* https://github.com/asciidoctor/jekyll-asciidoc[Jekyll-AsciiDoc plugin^]
+
+Let's create sample page `sample.adoc` and put it to root folder of the site.
+
+[source]
+.sample.adoc
+----
+---
+---
+= Sample Page
+:layout: page
+
+This is a sample page composed in AsciiDoc.
+Jekyll converts it to HTML using http://asciidoctor.org[Asciidoctor].
 
 [source,ruby]
-.Gemfile
 ----
-source 'https://rubygems.org'
-gem 'jekyll', '2.4.0'
-gem 'asciidoctor', '1.5.1'
-gem 'coderay', '1.1.0'
+puts "Hello, World!"
 ----
+
+TIP: very important tip
+----
+
+After running Jekyll you should see following content at http://localhost:4000/sample.html
+
+image::1.png[]
+
+What is wrong with generated HTML ?
+
+image::2.png[]
+
+== Setting up icons using FontAwesome
+
+Download required files from http://fortawesome.github.io/Font-Awesome/[FontAwesome site^]
+
+Enable AsciiDoctor font icons support in Jekyll config.
+
 [source,yaml]
 ._config.yml
 ----
-..
 asciidoctor:
   attributes:
-    - hardbreaks!
-    - source-highlighter=coderay
-..	
+    - icons=font
 ----
+
+== Setting up source code highlighting with Coderay
+
+Missing source code highlighting on previous screenshot is caused by improper work of default Jekyll source highlighting library `Pygments` on Windows PC like mine.
+I've replaced it with `Coderay` - pure Ruby implementation, to overcome the issue.
+This entire section can be skipped if you are using `Pygments`.
+
+To enable Coderay support adjust Jekyll config by adding couple of additional AsciiDoctor attributes.
+
+[source,yaml]
+._config.yml
+----
+asciidoctor:
+  attributes:
+    - icons=font
+    - source-highlighter=coderay
+    - coderay-css=style
+----
+
+== The outcome
+
+After performing all the steps desribed above you should be able to see such picture after navigating to `http://localhost:4000/sample.html`.
+
+image::3.png[]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
