@@ -9,7 +9,8 @@ tags:
 - web
 - groovy
 ---
-:imagesdir: /assets/images
+:imagesdir: /images/2012-07-05
+
 = Grails + AngularJS + CoffeeScript
 
 == Intro

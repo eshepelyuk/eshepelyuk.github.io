@@ -10,9 +10,10 @@ ga: true
 
 asciidoctor:
   attributes:
+    - icons=font
     - hardbreaks!
     - source-highlighter=coderay
 
 disqus_shortname: eshepelyukblog
 
-exclude: ['Gemfile.lock', 'Gemfile', 'build.sh', '*.iml']
+exclude: ['Gemfile.lock', 'Gemfile', '*.sh', '*.iml']

@@ -6,8 +6,7 @@ tags:
 - travisci
 - howto
 ---
-:icons: font
-:imagesdir: /assets/images/2014-10-25
+:imagesdir: /images/2014-10-28
 = Automate GitHub Pages publishing with Jekyll and Travis CI
 
 Content is a *KING*. Neither fancy _CMS_ nor online _WYSYWIG_ editors are, but content is.

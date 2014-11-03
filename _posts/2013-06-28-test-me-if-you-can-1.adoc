@@ -5,7 +5,6 @@ tags:
 - spring
 - mockito
 ---
-:icons: font
 = Test Me If You Can (#1)
 
 == The purpose of this post series 

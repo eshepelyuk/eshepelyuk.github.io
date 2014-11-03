@@ -1,0 +1,147 @@
+---
+tags:
+- jekyll
+- asciidoctor
+- coderay
+- fontawesome
+- howto
+---
+:imagesdir: /images/drafts
+= Advanced integration of Jekyll and AsciiDoctor
+
+Using `AsciiDoctor` as markup renderer in `Jekyll` is quite straightforward 
+but there's some customization gaps not covered in the most of setup guides over the web
+so I'd like to fill them in this post.
+
+This tutorial implies you already having sample Jekyll site created 
+and AsciiDoctor plugin enabled as described in corresponding pages.
+
+* http://jekyllrb.com/docs/installation/[Jekyll installation^]
+* https://github.com/asciidoctor/jekyll-asciidoc[Jekyll-AsciiDoc plugin^]
+
+[WARNING]
+=====
+If you are Windows user you probably will fail while running Jekyll sample site at the first time because of `Yajl` related error. 
+The error caused by default syntax highlighter library `Pygments` that is not working on Windows out of the box.
+To overcome the issue I've replaced it with `Coderay` - pure Ruby implementation, by adding a line to Jekyll config.
+[source,yaml]
+._config.yml
+highlighter: coderay
+
+So please keep in mind that this tutorial assumes you are using `Coderay` for highlighting code blocks in AsciiDoctor generated HTML.
+=====
+
+== Sample AsciiDoctor page
+
+Let's create page `sample.adoc` and put it to root folder of the site.
+
+```
+---
+---
+= Sample Page
+:layout: page
+== This is a header
+
+This is a sample page composed in AsciiDoc.
+Jekyll converts it to HTML using http://asciidoctor.org[Asciidoctor].
+
+CAUTION: very important tip
+
+[source,ruby]
+.sample.rb
+----
+puts "Hello, World!"
+----
+```
+
+After running Jekyll you should be able to reach the page at http://localhost:4000/sample.html[^].
+Obviously you'd notice quite ugly look and feel and something wrong with generated HTML as well.
+
+image::2.png[]
+
+== Applying default AsciiDoctor stylesheet
+
+AsciiDoctor _gem_ contains default CSS that decorates HTML in quite pretty way.
+Just find file named `asciidoctor-default.css` within _gem_ files,
+e.g. `$RUBY_HOME/lib/ruby/gems/2.1.0/gems/asciidoctor-1.5.1`, 
+put it to `css` folder and add this line to `_includes/head.html`
+
+[source, html]
+<link rel="stylesheet" href="{{ "/css/asciidoctor-default.css" | prepend: site.baseurl }}">
+
+== Displaying AsciiDoctor icons using FontAwesome
+
+By default AsciiDoctor renders markup icons, like admonitions, etc., using HTML tags and CSS styles relying on external stylesheet and image files.
+But there is no need to keep dedicated images for displaying such icons.
+Instead one could leverage *icon font* concept supported by AsciiDoctor.
+
+`FontAwesome` is default *icon font* library used by AsciiDoctor.
+It is a dedicated vector font comprising icons images instead of letters,
+thus allowing you to display nice and scalable icons on a web page without need for any PNG/JPG/etc files.
+
+Add font library to your site as described in _BootstrapCDN_ section
+of http://fortawesome.github.io/Font-Awesome/get-started/[FontAwesome Get Started^] guide.
+As for sample Jekyll site you should amend `_includes/head.html`.
+
+[source,html]
+<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+Then enable AsciiDoctor *font icons* support in Jekyll config.
+
+[source,yaml]
+._config.yml
+----
+asciidoctor:
+  attributes:
+    - icons=font
+----
+
+== Turning on Coderay source code highlighting for AsciiDoctor files
+
+NOTE: This entire section can be skipped if you are using `Pygments`.
+
+Since I'm using  `Coderay` as default Jekyll source code highlighting library we should also instruct AsciiDoctor to use it for source code blocks generation.
+This is done by adding couple of additional AsciiDoctor attributes to Jekyll config.
+
+[source,yaml]
+._config.yml
+----
+asciidoctor:
+  attributes:
+    - icons=font
+    - source-highlighter=coderay
+    - coderay-css=style
+----
+
+== The outcome
+
+After performing all the steps described above you will see better looking HTML with all features available in generated HTML
+while accessing http://localhost:4000/sample.html[^].
+
+image::3.png[]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
