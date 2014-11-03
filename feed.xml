@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 02 Nov 2014 17:35:16 +0000</pubDate>
-    <lastBuildDate>Sun, 02 Nov 2014 17:35:16 +0000</lastBuildDate>
+    <pubDate>Mon, 03 Nov 2014 18:31:43 +0000</pubDate>
+    <lastBuildDate>Mon, 03 Nov 2014 18:31:43 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -70,7 +70,7 @@ then run &lt;code&gt;jekyll build&lt;/code&gt; for process markup sources and th
 &lt;/div&gt;
 &lt;div class=&quot;imageblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;/assets/images/2014-10-25/2.png&quot; alt=&quot;Enable Travis CI hook&quot;&gt;
+&lt;img src=&quot;/images/2014-10-28/2.png&quot; alt=&quot;Enable Travis CI hook&quot;&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -112,7 +112,7 @@ Easiest way for us is to clone using &lt;code&gt;HTTPS&lt;/code&gt; protocol and
 &lt;/div&gt;
 &lt;div class=&quot;imageblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;/assets/images/2014-10-25/1.png&quot; alt=&quot;Generate GitHub token&quot;&gt;
+&lt;img src=&quot;/images/2014-10-28/1.png&quot; alt=&quot;Generate GitHub token&quot;&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;admonitionblock caution&quot;&gt;
@@ -979,7 +979,7 @@ This makes it hard for Java-boys (as me) to jump into. So purpose of this short 
 &lt;/div&gt;
 &lt;div class=&quot;imageblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;/assets/images/2.jpg&quot; alt=&quot;2&quot;&gt;
+&lt;img src=&quot;/images/2012-07-05/2.jpg&quot; alt=&quot;2&quot;&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;dlist&quot;&gt;
@@ -1007,7 +1007,7 @@ This makes it hard for Java-boys (as me) to jump into. So purpose of this short 
 &lt;/div&gt;
 &lt;div class=&quot;imageblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;/assets/images/1.jpg&quot; alt=&quot;1&quot;&gt;
+&lt;img src=&quot;/images/2012-07-05/1.jpg&quot; alt=&quot;1&quot;&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;dlist&quot;&gt;
@@ -1066,7 +1066,7 @@ app.controller &amp;quot;MyCtrl&amp;quot;, ($scope) -&amp;gt;
 &lt;/div&gt;
 &lt;div class=&quot;imageblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;/assets/images/3.jpg&quot; alt=&quot;3&quot;&gt;
+&lt;img src=&quot;/images/2012-07-05/3.jpg&quot; alt=&quot;3&quot;&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
