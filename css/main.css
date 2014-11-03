@@ -562,7 +562,7 @@ h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6 {
   font-style: normal;
   color: #ba3925;
   text-rendering: optimizeLegibility;
-  margin-top: 1em;
+  margin-top: .7em;
   margin-bottom: .5em;
   line-height: 1.0125em; }
 
@@ -1013,7 +1013,7 @@ p a > code:hover {
   .sect1 {
     padding-bottom: 1.25em; } }
 .sect1 + .sect1 {
-  border-top: 1px solid #efefed; }
+  border-top: 1px solid #b2b2b2; }
 
 #content h1 > a.anchor, h2 > a.anchor, h3 > a.anchor, #toctitle > a.anchor, .sidebarblock > .content > .title > a.anchor, h4 > a.anchor, h5 > a.anchor, h6 > a.anchor {
   position: absolute;
