@@ -138,4 +138,4 @@ Supposedly described steps could be applied to other static site generators like
 == Credits
 
 The actual setup and this post was inspired by https://twitter.com/mojavelinux[Dan Allen^] reply to my tweet
-and his code from https://github.com/johncarl81/transfuse/tree/transfuse-jeykll-site[this project^]
+and the code from https://github.com/johncarl81/transfuse/tree/transfuse-jeykll-site[this project^]
