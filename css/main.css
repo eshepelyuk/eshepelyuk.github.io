@@ -148,7 +148,7 @@ pre {
   border-top: 5px solid #424242;
   border-bottom: 1px solid #424242;
   min-height: 56px;
-  background-color: antiquewhite;
+  background-color: #6e6e6e;
   position: relative; }
 
 .site-title {
@@ -156,9 +156,13 @@ pre {
   line-height: 56px;
   letter-spacing: -1px;
   margin-bottom: 0;
-  float: left; }
+  float: left;
+  text-shadow: 10px 7px 0px rgba(0, 0, 0, 0.15); }
   .site-title, .site-title:visited {
-    color: #424242; }
+    color: #ffffff; }
+
+.site-header p.text {
+  color: #ffffff; }
 
 .site-nav {
   float: right;
@@ -166,7 +170,7 @@ pre {
   .site-nav .menu-icon {
     display: none; }
   .site-nav .page-link {
-    color: #111;
+    color: #ffffff;
     line-height: 1.5; }
     .site-nav .page-link:not(:first-child) {
       margin-left: 20px; }
@@ -206,7 +210,7 @@ pre {
  * Site footer
  */
 .site-footer {
-  border-top: 1px solid #e8e8e8;
+  border-top: 1px solid #6e6e6e;
   padding: 30px 0; }
 
 .footer-heading {
@@ -220,7 +224,7 @@ pre {
 
 .footer-col-wrapper {
   font-size: 15px;
-  color: #828282;
+  color: #ffffff;
   margin-left: -15px; }
 
 .footer-col {
