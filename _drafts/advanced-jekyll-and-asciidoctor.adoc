@@ -38,8 +38,9 @@ Let's create page `sample.adoc` and put it to root folder of the site.
 ```
 ---
 ---
-= Sample Page
 :layout: page
+= Sample Page
+
 == This is a header
 
 This is a sample page composed in AsciiDoc.
