@@ -2,20 +2,21 @@
 <html>
 
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width initial-scale=1" />
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width initial-scale=1" />
     
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	
-    <title>Automate GitHub Pages publishing with Jekyll and Travis CI</title>
+	<title>Automate GitHub Pages publishing with Jekyll and Travis CI</title>
     
 	<meta name="description" content="Simple blog for some thoughts to be shared. Mostly about Java programming">
 	<meta name="keywords" content="jekyll, github, asciidoctor, travisci, howto">
 
-    <link rel="stylesheet" href="/css/main.css">
+	<link rel="stylesheet" href="/css/main.css">
 	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="canonical" href="http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html">
+	
+	<link rel="canonical" href="http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html">
 	<link href="http://eshepelyuk.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="JK's blog Feed">
 
 	
@@ -33,7 +34,6 @@ ga('send', 'pageview');
 
 
   <body>
-
     <header class="site-header">
 	<div class="wrapper">
 		<a href="https://github.com/eshepelyuk/eshepelyuk.github.io/tree/jekyll"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>   
@@ -61,6 +61,10 @@ ga('send', 'pageview');
   <header class="post-header">
     <h1 class="post-title">Automate GitHub Pages publishing with Jekyll and Travis CI</h1>
     <span class="post-meta"><i class="fa fa-calendar fa-lg"></i>&nbsp;&nbsp;Oct 28, 2014<i class="fa fa-tags fa-lg"></i>&nbsp;jekyll, github, asciidoctor, travisci, howto</span>
+		
+		
+		
+		
   </header>
 
   <article class="post-content">
@@ -68,12 +72,12 @@ ga('send', 'pageview');
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Content is a <strong>KING</strong>. Neither fancy <em>CMS</em> nor online <em>WYSYWIG</em> editors are, but content is.
+<p>Content is a <strong>KING</strong>. Neither fancy CMS nor online WYSYWIG editors are, but content is.
 That&#8217;s why <code>Jekyll</code> powered  <code>GitHub Pages</code> got such a popularity.
-Just commit <code>HTML</code>, <code>Liquid</code>, <code>Markdown</code> markup etc, then files got processed by <code>Jekyll</code>
+Just push <code>HTML</code>, <code>Liquid</code>, <code>Markdown</code> etc, then files got processed by <code>Jekyll</code>
 and the whole site becomes available online in a minute.
-However, if you&#8217;d like to use extra <code>Jekyll</code> features, for instance <code>AsciiDoctor</code>, you should manage <code>HTML</code> generation by yourself.
-This quite boring activity could be simplified by leveraging <code>Travis CI</code> <em>continuous integration</em> project.</p>
+However, if you&#8217;d like to use extra <code>Jekyll</code> features, for instance <code>AsciiDoctor</code>, you should manage site generation yourself.
+This quite boring activity could be simplified by leveraging <code>Travis CI</code> continuous integration project.</p>
 </div>
 </div>
 </div>
@@ -297,7 +301,13 @@ and the code from <a href="https://github.com/johncarl81/transfuse/tree/transfus
 	</div>	
 </footer>
 
+		
+		
+		
+	</body>
 
-  </body>
+
+
+
 
 </html>

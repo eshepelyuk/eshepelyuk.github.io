@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 05 Nov 2014 06:56:51 +0000</pubDate>
-    <lastBuildDate>Wed, 05 Nov 2014 06:56:51 +0000</lastBuildDate>
+    <pubDate>Wed, 05 Nov 2014 07:31:03 +0000</pubDate>
+    <lastBuildDate>Wed, 05 Nov 2014 07:31:03 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -15,12 +15,12 @@
 &lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Content is a &lt;strong&gt;KING&lt;/strong&gt;. Neither fancy &lt;em&gt;CMS&lt;/em&gt; nor online &lt;em&gt;WYSYWIG&lt;/em&gt; editors are, but content is.
+&lt;p&gt;Content is a &lt;strong&gt;KING&lt;/strong&gt;. Neither fancy CMS nor online WYSYWIG editors are, but content is.
 That&amp;#8217;s why &lt;code&gt;Jekyll&lt;/code&gt; powered  &lt;code&gt;GitHub Pages&lt;/code&gt; got such a popularity.
-Just commit &lt;code&gt;HTML&lt;/code&gt;, &lt;code&gt;Liquid&lt;/code&gt;, &lt;code&gt;Markdown&lt;/code&gt; markup etc, then files got processed by &lt;code&gt;Jekyll&lt;/code&gt;
+Just push &lt;code&gt;HTML&lt;/code&gt;, &lt;code&gt;Liquid&lt;/code&gt;, &lt;code&gt;Markdown&lt;/code&gt; etc, then files got processed by &lt;code&gt;Jekyll&lt;/code&gt;
 and the whole site becomes available online in a minute.
-However, if you&amp;#8217;d like to use extra &lt;code&gt;Jekyll&lt;/code&gt; features, for instance &lt;code&gt;AsciiDoctor&lt;/code&gt;, you should manage &lt;code&gt;HTML&lt;/code&gt; generation by yourself.
-This quite boring activity could be simplified by leveraging &lt;code&gt;Travis CI&lt;/code&gt; &lt;em&gt;continuous integration&lt;/em&gt; project.&lt;/p&gt;
+However, if you&amp;#8217;d like to use extra &lt;code&gt;Jekyll&lt;/code&gt; features, for instance &lt;code&gt;AsciiDoctor&lt;/code&gt;, you should manage site generation yourself.
+This quite boring activity could be simplified by leveraging &lt;code&gt;Travis CI&lt;/code&gt; continuous integration project.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
