@@ -9,13 +9,12 @@ tags:
 :imagesdir: /images/2014-10-28
 = Automate GitHub Pages publishing with Jekyll and Travis CI
 
-Content is a *KING*. Neither fancy _CMS_ nor online _WYSYWIG_ editors are, but content is.
+Content is a *KING*. Neither fancy CMS nor online WYSYWIG editors are, but content is.
 That's why `Jekyll` powered  `GitHub Pages` got such a popularity.
-Just commit `HTML`, `Liquid`, `Markdown` markup etc, then files got processed by `Jekyll` 
+Just push `HTML`, `Liquid`, `Markdown` etc, then files got processed by `Jekyll` 
 and the whole site becomes available online in a minute.
-However, if you'd like to use extra `Jekyll` features, for instance `AsciiDoctor`, you should manage `HTML` generation by yourself.
-This quite boring activity could be simplified by leveraging `Travis CI` _continuous integration_ project.
-
+However, if you'd like to use extra `Jekyll` features, for instance `AsciiDoctor`, you should manage site generation yourself.
+This quite boring activity could be simplified by leveraging `Travis CI` continuous integration project.
 
 == Setting up Jekyll
 
