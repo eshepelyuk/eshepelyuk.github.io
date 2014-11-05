@@ -14,7 +14,7 @@ Well, I believe most of such people just don't know some simply techniques or do
 The lack of such knowledge results into neglecting of integration tests and thus worse software, more bugs and disappointed customer.
 
 So I've decided to share some practices collected during last couple of years that are revealing mystery surrounding integration testing. 
-The series will be concentrated around Spring framework, that I'm most familiar with. Let's start :)<
+The series will be concentrated around Spring framework, that I'm most familiar with. Let's start :)
 
 == Better integration test for Spring based projects
 
@@ -215,3 +215,4 @@ so they won't affect your production code design and won't produce additional ar
 == P.P.S.
 
 Writing integration tests for Spring is easy ! Project can be found on https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCan1[My GitHub, window="_blank"]
+
