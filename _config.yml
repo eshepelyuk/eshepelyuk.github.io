@@ -6,7 +6,10 @@ baseurl: ""
 url: "http://eshepelyuk.github.io" # the base hostname & protocol for your site
 twitter_username: eshepelyuk
 github_username:  eshepelyuk
-ga: true
+
+google_analytics: true
+facebook_share: false
+twitter_share: false 
 
 asciidoctor:
   attributes:
