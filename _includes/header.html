@@ -8,13 +8,13 @@
 			<div class="trigger">
 				<!-- <span><i class="fa fa-twitter-square fa-2x"></i><a class="page-link" href="https://twitter.com/{{ site.twitter_username }}">@{{ site.twitter_username }}</a></span> -->
 				<!-- <span><i class="fa fa-twitter-square fa-2x"></i><a class="page-link" href="https://twitter.com/{{ site.twitter_username }}">@{{ site.twitter_username }}</a></span> -->
-			
+			{% comment %}
 			{% for page in site.pages %}
 				{% if page.title %}
 				<a class="page-link" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
 				{% endif %}
 			{% endfor %}
-			
+			{% endcomment %}
 			</div>
 		</nav>
 	</div>
