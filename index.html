@@ -11,7 +11,7 @@ layout: page
 		{% if post.excerpt %}
 			<br><br>
 			{{ post.excerpt | markdownify }}
-			<a href="{{ post.url | prepend: site.baseurl }}">Read More ...</a>
+			<h4><a href="{{ post.url | prepend: site.baseurl }}">Read More ...</a></h4>
 		{% endif %}
 		</li>
 	{% endfor %}
