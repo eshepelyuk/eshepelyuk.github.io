@@ -4,6 +4,7 @@ tags:
 - webdriver
 - xpath
 - howto
+excerpt: false
 ---
 = WebDriver tricks - part 1
 

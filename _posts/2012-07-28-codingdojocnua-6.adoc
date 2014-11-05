@@ -1,9 +1,9 @@
 ---
 tags:
-- roman numerals
 - coffeescript
 - coding dojo
 - kata
+excerpt: false
 ---
 :linkattrs:
 = CodingDojoCnUa #6

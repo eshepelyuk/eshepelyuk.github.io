@@ -4,6 +4,7 @@ tags:
 - tdd
 - spring
 - mockito
+excerpt: false
 ---
 = Test Me If You Can (#1)
 

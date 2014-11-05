@@ -8,6 +8,7 @@ tags:
 - grails
 - web
 - groovy
+excerpt: false
 ---
 :imagesdir: /images/2012-07-05
 

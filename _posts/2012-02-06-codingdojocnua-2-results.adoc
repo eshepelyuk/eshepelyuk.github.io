@@ -3,6 +3,7 @@ tags:
 - javascript
 - coding dojo
 - design pattern
+excerpt: false
 ---
 = CodingDojoCnUa #2 results
 

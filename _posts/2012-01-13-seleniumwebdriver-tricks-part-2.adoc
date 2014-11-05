@@ -3,6 +3,7 @@ tags:
 - java
 - firefox
 - webdriver
+excerpt: false
 ---
 = WebDriver tricks - part 2
 

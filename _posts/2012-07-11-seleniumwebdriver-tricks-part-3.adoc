@@ -3,6 +3,7 @@ tags:
 - java
 - webdriver
 - howto
+excerpt: false
 ---
 = WebDriver tricks - part 3
 

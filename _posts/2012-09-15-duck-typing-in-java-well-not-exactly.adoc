@@ -3,6 +3,7 @@ tags:
 - java
 - groovy
 - duck typing
+excerpt: false
 ---
 = Duck typing in Java ? Well, not exactly
 

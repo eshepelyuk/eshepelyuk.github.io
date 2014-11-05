@@ -3,6 +3,7 @@ tags:
 - java
 - mvc
 - web
+excerpt: false
 ---
 
 = Three steps to follow MVC while building Java Web application
