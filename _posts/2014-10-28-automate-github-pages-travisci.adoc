@@ -19,7 +19,7 @@ This quite boring activity could be simplified by leveraging `Travis CI` _contin
 
 == Setting up Jekyll
 
-The only precondition is that you should have `Jekyll` project properly configured, using http://bundler.io/[Bundler^] and you can run the site locally using command
+The only precondition is that you have `Jekyll` site already configured using http://bundler.io/[Bundler^] and you can run it locally with
 
 [source]
 bundle exec jekyll serve
