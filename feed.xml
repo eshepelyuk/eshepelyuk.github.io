@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 05 Nov 2014 07:31:03 +0000</pubDate>
-    <lastBuildDate>Wed, 05 Nov 2014 07:31:03 +0000</lastBuildDate>
+    <pubDate>Wed, 05 Nov 2014 08:39:13 +0000</pubDate>
+    <lastBuildDate>Wed, 05 Nov 2014 08:39:13 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -245,7 +245,7 @@ The lack of such knowledge results into neglecting of integration tests and thus
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;So I&amp;#8217;ve decided to share some practices collected during last couple of years that are revealing mystery surrounding integration testing.
-The series will be concentrated around Spring framework, that I&amp;#8217;m most familiar with. Let&amp;#8217;s start :)&amp;lt;&lt;/p&gt;
+The series will be concentrated around Spring framework, that I&amp;#8217;m most familiar with. Let&amp;#8217;s start :)&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
