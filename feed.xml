@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 05 Nov 2014 08:39:13 +0000</pubDate>
-    <lastBuildDate>Wed, 05 Nov 2014 08:39:13 +0000</lastBuildDate>
+    <pubDate>Wed, 05 Nov 2014 17:09:15 +0000</pubDate>
+    <lastBuildDate>Wed, 05 Nov 2014 17:09:15 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -824,8 +824,6 @@ to see if this is helpful for coding and / or brings more fun to the event :)&lt
         <pubDate>Sat, 28 Jul 2012 00:00:00 +0000</pubDate>
         <link>http://eshepelyuk.github.io/2012/07/28/codingdojocnua-6.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2012/07/28/codingdojocnua-6.html</guid>
-        
-        <category>roman numerals</category>
         
         <category>coffeescript</category>
         
