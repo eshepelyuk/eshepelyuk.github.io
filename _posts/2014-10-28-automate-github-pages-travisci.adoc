@@ -18,8 +18,8 @@ This quite boring activity could be simplified by leveraging `Travis CI` _contin
 
 
 == Setting up Jekyll
-The only precondition is that you should have `Jekyll` project properly configured, additionally using http://bundler.io/[Bundler^]
-and you can run it locally using following command
+
+The only precondition is that you have `Jekyll` site already configured using http://bundler.io/[Bundler^] and you can run it locally with
 
 [source]
 bundle exec jekyll serve
@@ -39,6 +39,7 @@ The goal is to configure `Travis CI` job to listen for commits on `jekyll` branc
 then run `jekyll build` for process markup sources and then push generated content to `master` branch.
 
 === Enable Hooks
+
 To make `Travis CI` listen for commits and do actual work - we have to enable hooks.
 
 image::2.png[Enable Travis CI hook]
