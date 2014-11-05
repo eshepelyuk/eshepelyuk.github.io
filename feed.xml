@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 05 Nov 2014 04:58:31 +0000</pubDate>
-    <lastBuildDate>Wed, 05 Nov 2014 04:58:31 +0000</lastBuildDate>
+    <pubDate>Wed, 05 Nov 2014 06:56:51 +0000</pubDate>
+    <lastBuildDate>Wed, 05 Nov 2014 06:56:51 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -28,7 +28,7 @@ This quite boring activity could be simplified by leveraging &lt;code&gt;Travis 
 &lt;h2 id=&quot;setting-up-jekyll&quot;&gt;Setting up Jekyll&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The only precondition is that you should have &lt;code&gt;Jekyll&lt;/code&gt; project properly configured, using &lt;a href=&quot;http://bundler.io/&quot; target=&quot;_blank&quot;&gt;Bundler&lt;/a&gt; and you can run the site locally using command&lt;/p&gt;
+&lt;p&gt;The only precondition is that you have &lt;code&gt;Jekyll&lt;/code&gt; site already configured using &lt;a href=&quot;http://bundler.io/&quot; target=&quot;_blank&quot;&gt;Bundler&lt;/a&gt; and you can run it locally with&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;listingblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
