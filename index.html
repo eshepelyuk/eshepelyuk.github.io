@@ -9,7 +9,6 @@ layout: page
 			{% include post-meta.html post=post %}		
 		
 		{% if post.excerpt %}
-			<br><br>
 			<p class="post-excerpt">{{ post.excerpt | markdownify }}</p>
 			<h5><a class="post-read-more" href="{{ post.url | prepend: site.baseurl }}">Read More ...</a></h4>
 		{% endif %}
