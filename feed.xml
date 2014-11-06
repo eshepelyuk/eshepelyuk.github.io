@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 06 Nov 2014 19:46:48 +0000</pubDate>
-    <lastBuildDate>Thu, 06 Nov 2014 19:46:48 +0000</lastBuildDate>
+    <pubDate>Thu, 06 Nov 2014 20:44:47 +0000</pubDate>
+    <lastBuildDate>Thu, 06 Nov 2014 20:44:47 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -105,7 +105,7 @@ Obviously you&amp;#8217;d notice quite ugly look and feel and something wrong wi
 &lt;p&gt;AsciiDoctor &lt;em&gt;gem&lt;/em&gt; contains default CSS that decorates HTML in quite pretty way.
 Just find file named &lt;code&gt;asciidoctor-default.css&lt;/code&gt; within &lt;em&gt;gem&lt;/em&gt; files,
 e.g. &lt;code&gt;$RUBY_HOME/lib/ruby/gems/2.1.0/gems/asciidoctor-1.5.1&lt;/code&gt;,
-put it to &lt;code&gt;css&lt;/code&gt; folder and add this line to &lt;code&gt;_includes/head.html&lt;/code&gt;&lt;/p&gt;
+put it to &lt;code&gt;css&lt;/code&gt; folder of the site and add this line to &lt;code&gt;_includes/head.html&lt;/code&gt; file&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;listingblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
