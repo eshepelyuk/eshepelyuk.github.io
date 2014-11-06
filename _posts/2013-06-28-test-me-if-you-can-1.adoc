@@ -4,6 +4,7 @@ tags:
 - tdd
 - spring
 - mockito
+- springockito
 excerpt: |
     During my career I often observed people who claim that they are not writing tests because **can't cover properly** integration between components. 
     Well, I believe most of such people just don't know some simply techniques or don't have time to dig them out because of stress at their work place. 
@@ -31,7 +32,7 @@ Issues related to writing test cases and running them within CI for such code ar
 Usually such problems can be solved by mocking such external service while testing single class that using it, 
 but when it comes to the need for test larger business flow - you need to run your tests again many components 
 and made them managed by your container - `Spring`.
-Luckily `Spring` has great http://static.springsource.org/spring/docs/3.2.x/spring-framework-reference/html/testing.html[test framework, window="_blank"] 
+Luckily `Spring` has great http://static.springsource.org/spring/docs/3.2.x/spring-framework-reference/html/testing.html[test framework^] 
 allowing injection of beans from production configuration, but one needs to mock external services himself. 
 First intention could be creating mocks in `setUp` section of the test and re-inject beans previously injected by `Spring`, but think more about it
 
@@ -120,12 +121,12 @@ public class UserBalanceServiceImplProfileTest {
 
 As expected after test run we will have `UnsupportedOperationException`. Our intention is to replace `BankService` with mock and tune its behavior. 
 It's possible to use `Mockito` directly as factory bean 
-but there's better alternative - https://bitbucket.org/kubek2k/springockito/wiki/Home[Springockito framework, window="_blank"]. 
+but there's better alternative - https://bitbucket.org/kubek2k/springockito/wiki/Home[Springockito framework^]. 
 Please take a look before proceed :)
 
 The remaining question is how to instruct `Spring` to inject mocks instead of real beans, 
 Prior to version 3.1 there were no alternatives except creating brand new XML configuration for using it in test. 
-But with introduction of http://blog.springsource.com/2011/02/11/spring-framework-3-1-m1-released[Bean Definition Profiles, window="_blank"]
+But with introduction of http://blog.springsource.com/2011/02/11/spring-framework-3-1-m1-released[Bean Definition Profiles^]
 we now able to create more elegant solution for this, although we still need separate XML for test purposes. 
 This is how resulting test XML configuration will look like
 [source,xml]
@@ -175,7 +176,7 @@ On running this the test will pass, because `Spring` injected `Mockito` mock tha
 == Don't stop on the way to perfectness
 
 It could be the end of the story be we could still go deeper on the problem. 
-`Springockito` creator has another framework https://bitbucket.org/kubek2k/springockito/wiki/springockito-annotations[Springockito Annotations, window="_blank"]. 
+`Springockito` creator has another framework https://bitbucket.org/kubek2k/springockito/wiki/springockito-annotations[Springockito Annotations^]. 
 The framework allows mock injection using annotation within test classes. 
 Please skim read it before proceed :)
 After some modification code of our test will look this way.
@@ -215,5 +216,6 @@ so they won't affect your production code design and won't produce additional ar
 
 == P.P.S.
 
-Writing integration tests for Spring is easy ! Project can be found on https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCan1[My GitHub, window="_blank"]
+Writing integration tests for Spring is easy ! Project can be found on https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCan1[My GitHub^]
+
 
