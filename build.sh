@@ -2,8 +2,6 @@
 # enable error reporting to the console
 set -e 
 
-echo $SHELL
-
 # build site with `jekyll', by default to `_site' folder
 jekyll build
 
