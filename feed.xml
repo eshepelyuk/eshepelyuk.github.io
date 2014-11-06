@@ -5,9 +5,212 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 06 Nov 2014 12:12:25 +0000</pubDate>
-    <lastBuildDate>Thu, 06 Nov 2014 12:12:25 +0000</lastBuildDate>
+    <pubDate>Thu, 06 Nov 2014 13:11:22 +0000</pubDate>
+    <lastBuildDate>Thu, 06 Nov 2014 13:11:22 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Advanced integration of Jekyll and AsciiDoctor</title>
+        <description>&lt;h1&gt;Advanced integration of Jekyll and AsciiDoctor&lt;/h1&gt;
+&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Using &lt;code&gt;AsciiDoctor&lt;/code&gt; as markup renderer in &lt;code&gt;Jekyll&lt;/code&gt; is quite straightforward
+but there&amp;#8217;s some customization gaps not covered in the most of setup guides over the web
+so I&amp;#8217;d like to fill them in this post.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This tutorial implies you already having sample Jekyll site created
+and AsciiDoctor plugin enabled as described in corresponding pages.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;http://jekyllrb.com/docs/installation/&quot; target=&quot;_blank&quot;&gt;Jekyll installation&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/asciidoctor/jekyll-asciidoc&quot; target=&quot;_blank&quot;&gt;Jekyll-AsciiDoc plugin&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;admonitionblock warning&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;i class=&quot;fa icon-warning&quot; title=&quot;Warning&quot;&gt;&lt;/i&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you are Windows user you probably will fail while running Jekyll sample site at the first time because of &lt;code&gt;Yajl&lt;/code&gt; related error.
+The error caused by default syntax highlighter library &lt;code&gt;Pygments&lt;/code&gt; that is not working on Windows out of the box.
+To overcome the issue I&amp;#8217;ve replaced it with &lt;code&gt;Coderay&lt;/code&gt; - pure Ruby implementation, by adding a line to Jekyll config.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;_config.yml&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;yaml&quot;&gt;&lt;span class=&quot;key&quot;&gt;highlighter&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;content&quot;&gt;coderay&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;So please keep in mind that this tutorial assumes you are using &lt;code&gt;Coderay&lt;/code&gt; for highlighting code blocks in AsciiDoctor generated HTML.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;sample-asciidoctor-page&quot;&gt;Sample AsciiDoctor page&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Let&amp;#8217;s create page &lt;code&gt;sample.adoc&lt;/code&gt; and put it to root folder of the site.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code&gt;---
+---
+:layout: page
+= Sample Page
+
+== This is a header
+
+This is a sample page composed in AsciiDoc.
+Jekyll converts it to HTML using http://asciidoctor.org[Asciidoctor].
+
+CAUTION: very important tip
+
+[source,ruby]
+.sample.rb
+----
+puts &quot;Hello, World!&quot;
+----&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;After running Jekyll you should be able to reach the page at &lt;a href=&quot;http://localhost:4000/sample.html&quot; class=&quot;bare&quot; target=&quot;_blank&quot;&gt;http://localhost:4000/sample.html&lt;/a&gt;.
+Obviously you&amp;#8217;d notice quite ugly look and feel and something wrong with generated HTML as well.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;/images/drafts/2.png&quot; alt=&quot;2&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;applying-default-asciidoctor-stylesheet&quot;&gt;Applying default AsciiDoctor stylesheet&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;AsciiDoctor &lt;em&gt;gem&lt;/em&gt; contains default CSS that decorates HTML in quite pretty way.
+Just find file named &lt;code&gt;asciidoctor-default.css&lt;/code&gt; within &lt;em&gt;gem&lt;/em&gt; files,
+e.g. &lt;code&gt;$RUBY_HOME/lib/ruby/gems/2.1.0/gems/asciidoctor-1.5.1&lt;/code&gt;,
+put it to &lt;code&gt;css&lt;/code&gt; folder and add this line to &lt;code&gt;_includes/head.html&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;html&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;rel&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;stylesheet&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;href&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;/css/asciidoctor-default.css&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;displaying-asciidoctor-icons-using-fontawesome&quot;&gt;Displaying AsciiDoctor icons using FontAwesome&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;By default AsciiDoctor renders markup icons, like admonitions, etc., using HTML tags and CSS styles relying on external stylesheet and image files.
+But there is no need to keep dedicated images for displaying such icons.
+Instead one could leverage &lt;strong&gt;icon font&lt;/strong&gt; concept supported by AsciiDoctor.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;code&gt;FontAwesome&lt;/code&gt; is default &lt;strong&gt;icon font&lt;/strong&gt; library used by AsciiDoctor.
+It is a dedicated vector font comprising icons images instead of letters,
+thus allowing you to display nice and scalable icons on a web page without need for any PNG/JPG/etc files.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Add font library to your site as described in &lt;em&gt;BootstrapCDN&lt;/em&gt; section
+of &lt;a href=&quot;http://fortawesome.github.io/Font-Awesome/get-started/&quot; target=&quot;_blank&quot;&gt;FontAwesome Get Started&lt;/a&gt; guide.
+As for sample Jekyll site you should amend &lt;code&gt;_includes/head.html&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;html&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;href&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;rel&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;stylesheet&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Then enable AsciiDoctor &lt;strong&gt;font icons&lt;/strong&gt; support in Jekyll config.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;_config.yml&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;yaml&quot;&gt;&lt;span class=&quot;key&quot;&gt;asciidoctor&lt;/span&gt;:
+  &lt;span class=&quot;key&quot;&gt;attributes&lt;/span&gt;:
+    - &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;content&quot;&gt;icons=font&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;turning-on-coderay-source-code-highlighting-for-asciidoctor-files&quot;&gt;Turning on Coderay source code highlighting for AsciiDoctor files&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;admonitionblock note&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;i class=&quot;fa icon-note&quot; title=&quot;Note&quot;&gt;&lt;/i&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+This entire section can be skipped if you are using &lt;code&gt;Pygments&lt;/code&gt;.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Since I&amp;#8217;m using  &lt;code&gt;Coderay&lt;/code&gt; as default Jekyll source code highlighting library we should also instruct AsciiDoctor to use it for source code blocks generation.
+This is done by adding couple of additional AsciiDoctor attributes to Jekyll config.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;_config.yml&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;yaml&quot;&gt;&lt;span class=&quot;key&quot;&gt;asciidoctor&lt;/span&gt;:
+  &lt;span class=&quot;key&quot;&gt;attributes&lt;/span&gt;:
+    - &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;content&quot;&gt;icons=font&lt;/span&gt;&lt;/span&gt;
+    - &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;content&quot;&gt;source-highlighter=coderay&lt;/span&gt;&lt;/span&gt;
+    - &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;content&quot;&gt;coderay-css=style&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;the-outcome&quot;&gt;The outcome&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;After performing all the steps described above you will see better looking HTML with all features available in generated HTML
+while accessing &lt;a href=&quot;http://localhost:4000/sample.html&quot; class=&quot;bare&quot; target=&quot;_blank&quot;&gt;http://localhost:4000/sample.html&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;/images/drafts/3.png&quot; alt=&quot;3&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
+        <pubDate>Thu, 06 Nov 2014 00:00:00 +0000</pubDate>
+        <link>http://eshepelyuk.github.io/2014/11/06/advanced-jekyll-and-asciidoctor.html</link>
+        <guid isPermaLink="true">http://eshepelyuk.github.io/2014/11/06/advanced-jekyll-and-asciidoctor.html</guid>
+        
+        <category>jekyll</category>
+        
+        <category>asciidoctor</category>
+        
+        <category>coderay</category>
+        
+        <category>fontawesome</category>
+        
+        <category>howto</category>
+        
+        
+      </item>
     
       <item>
         <title>Automate GitHub Pages publishing with Jekyll and Travis CI</title>
@@ -1367,116 +1570,6 @@ When the utility method is called - image file with slightly the same as below n
         <category>firefox</category>
         
         <category>webdriver</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>WebDriver workshop at Softengi, Chernihiv</title>
-        <description>&lt;h1&gt;WebDriver workshop at Softengi, Chernihiv&lt;/h1&gt;
-&lt;div id=&quot;preamble&quot;&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Today we&amp;#8217;ve been doing small workshop dedicated to learning basics of writing functional test using &lt;code&gt;WebDriver&lt;/code&gt;
-with couple of guys from Chernihiv&amp;#8217;s Softengi office. The agenda was quite brief&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;olist arabic&quot;&gt;
-&lt;ol class=&quot;arabic&quot;&gt;
-&lt;li&gt;
-&lt;p&gt;Doing some sort of &lt;em&gt;Prepared Kata&lt;/em&gt;. It was Google search page example with entering query and clicking suggestions provided.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Refactoring of code created&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Break and retrospection of what had been achieved&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;More coding to complete the task (checking search results returned by Google)&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Quick review of successes :)&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;lessons-learnt&quot;&gt;Lessons learnt&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Hell yeah, I know &lt;code&gt;Hamcrest&lt;/code&gt; matchers :) and able to use complex combinations of them for assertion, but &amp;#8230;&amp;#8203;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;code&gt;Hamcrest&lt;/code&gt; matchers are too verbose for complex collection operation, so &amp;#8230;&amp;#8203;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;I&amp;#8217;d recommend to write &lt;code&gt;WebDriver&lt;/code&gt; tests using &lt;code&gt;Groovy&lt;/code&gt;, because it allows better collection processing and other syntax sugar as well&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/KISS_principle&quot;&gt;KISS principle&lt;/a&gt; must be 1st think when designing API. &lt;em&gt;Architect attitude&lt;/em&gt; most of the times leads to non required over complication of resulting code.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Uncertainty in goals, i.e. tasks definition make people to be bound to pick up very different approaches.
-Developers need communication and pair working during whole coding process :)&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Unfortunately we were out of time, so planned &lt;em&gt;CodingDojo&lt;/em&gt; was not done today.
-But in general we achieved all planned goals: got hand dirty in WebDriver and understanding basic principles of creating tests.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Below are some of retrospection points after 1st phase of workshop, i.e. &lt;em&gt;Prepared Kata&lt;/em&gt;.
-Could be helpful to summarize general approaches while creating &lt;code&gt;WebDriver&lt;/code&gt; tests&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;code&gt;WebDriver&lt;/code&gt; tests are about loading pages, finding elements in &lt;code&gt;DOM tree&lt;/code&gt;, generating click or input actions and assert changes to &lt;code&gt;DOM tree&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Usage of &lt;code&gt;PageObject&lt;/code&gt; pattern is essential for creating robust and readable tests.
-Pattern improves code re-usability and encapsulation of DOM structure manipulations.
-After pattern adoption tests tends to turn themselves into classic BDD &lt;em&gt;given/when/then&lt;/em&gt; stories.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Page or screen should be considered as a set of services provided to a client and &lt;code&gt;PageObjects&lt;/code&gt;
-should reflect this by using human readable names for method naming&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Navigation between pages could be represented as returning new &lt;em&gt;PageObject&lt;/em&gt; instances while calling method of initial &lt;em&gt;PageObject&lt;/em&gt;
-Web pages are having latency feature. One have to wait before asserting changes made to DOM tree.
-Especially with high usage of &lt;code&gt;AJAX&lt;/code&gt; one always should consider necessity of delays between performing the action and asserting its outcome&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Waits should be performed using &lt;code&gt;WebDriver&amp;#8217;s `FluentWait&lt;/code&gt; and &lt;code&gt;WebDriverWait&lt;/code&gt; classes, not &lt;code&gt;Thread.sleep(&amp;#8230;&amp;#8203;)&lt;/code&gt; or similar.
-This reduces delays while running tests making code waiting only when needed for element to appear&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Tests should assert changes happened to UI. If there&amp;#8217;s no changes after some action performed
-it means either this action is useless and should be removed from screen or screen requires to be adopted for showing a message after action completed&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Vanilla &lt;em&gt;TDD (tests before code)&lt;/em&gt; doesn&amp;#8217;t work well with &lt;code&gt;WebDriver&lt;/code&gt; tests, but it’s still playing important part&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Special build scrips should be created for &lt;em&gt;Continuous Integration&lt;/em&gt; of &lt;code&gt;WebDriver&lt;/code&gt; tests.
-Scripts should perform checkout, start web server, run tests and stop server&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description>
-        <pubDate>Tue, 03 Jan 2012 00:00:00 +0000</pubDate>
-        <link>http://eshepelyuk.github.io/2012/01/03/webdriver-workshop-at-softengi.html</link>
-        <guid isPermaLink="true">http://eshepelyuk.github.io/2012/01/03/webdriver-workshop-at-softengi.html</guid>
-        
-        <category>webdriver</category>
-        
-        <category>coding dojo</category>
         
         
       </item>
