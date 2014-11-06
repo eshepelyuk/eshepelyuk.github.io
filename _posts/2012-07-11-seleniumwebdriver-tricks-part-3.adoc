@@ -5,7 +5,7 @@ tags:
 - howto
 excerpt: false
 ---
-= WebDriver tricks - part 3
+= WebDriver tricks #3
 
 == Intro
 It's common case for dynamic pages to show / hide some elements basing on user's actions. 

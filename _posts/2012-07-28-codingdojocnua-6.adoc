@@ -3,7 +3,8 @@ tags:
 - coffeescript
 - coding dojo
 - kata
-excerpt: false
+excerpt: |
+    Some notes and observations on 6th Coding Dojo by [CodingDojoCnUa](https://www.facebook.com/groups/279151628818637/) community.
 ---
 :linkattrs:
 = CodingDojoCnUa #6

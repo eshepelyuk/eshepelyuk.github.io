@@ -5,22 +5,17 @@ tags:
 - spring
 - mockito
 excerpt: |
-    During my career I often observed people who claim that they are not writing tests because *can't cover* integration between components. 
+    During my career I often observed people who claim that they are not writing tests because **can't cover properly** integration between components. 
     Well, I believe most of such people just don't know some simply techniques or don't have time to dig them out because of stress at their work place. 
     The lack of such knowledge results into neglecting of integration tests and thus worse software, more bugs and disappointed customer.
-    So I've decided to share some practices collected during last couple of years that are revealing mystery surrounding integration testing. 
-    The series will be concentrated around Spring framework, that I'm most familiar with.
+    So I've decided to share some practices revealing mystery surrounding integration testing.
 ---
-= Test Me If You Can (#1)
+= Test Me If You Can #1 (Spring Framework)
 
-== The purpose of this post series 
-
-During my career I often observed people who claim that they are not writing tests because "can't cover" integration between components. 
+During my career I often observed people who claim that they are not writing tests because *can't cover properly* integration between components. 
 Well, I believe most of such people just don't know some simply techniques or don't have time to dig them out because of stress at their work place. 
 The lack of such knowledge results into neglecting of integration tests and thus worse software, more bugs and disappointed customer.
-
-So I've decided to share some practices collected during last couple of years that are revealing mystery surrounding integration testing. 
-The series will be concentrated around Spring framework, that I'm most familiar with.
+So I've decided to share some practices revealing mystery surrounding integration testing.
 
 == Better integration test for Spring based projects
 

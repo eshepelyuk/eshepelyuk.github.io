@@ -3,11 +3,12 @@ tags:
 - javascript
 - coding dojo
 - design pattern
-excerpt: false
+excerpt: |
+     Some notes and observations on 2nd Coding Dojo by [CodingDojoCnUa](https://www.facebook.com/groups/279151628818637/) community.  
 ---
-= CodingDojoCnUa #2 results
+= CodingDojoCnUa #2
 
-On 5th of February our small Cherhihiv community made 2nd _СodingDojo_. 
+On 5th of February our small Cherhihiv community made 2nd _CodingDojo_. 
 This time it was dedicated to `JavaScript` programming. 
 We tried to code some _Design Patterns_ in new language. 
 What we attained during 2 two 1 our long session is following patterns implemented

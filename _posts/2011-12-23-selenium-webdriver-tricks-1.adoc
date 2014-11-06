@@ -6,7 +6,7 @@ tags:
 - howto
 excerpt: false
 ---
-= WebDriver tricks - part 1
+= WebDriver tricks #1
 
 Finally decided to start series (i hope) of blog posts describing tricks that could help developers 
 to write more robust Selenium / WebDriver tests. Here are two of them.

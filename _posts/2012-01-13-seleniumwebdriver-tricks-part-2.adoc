@@ -5,7 +5,7 @@ tags:
 - webdriver
 excerpt: false
 ---
-= WebDriver tricks - part 2
+= WebDriver tricks #2
 
 Have you ever heard about WebDriver's feature of capturing screenshots ? 
 Now you know it can do it too ! Today we faced a problem of debugging WebDriver tests of remote continuous integration server. 
