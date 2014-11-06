@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 06 Nov 2014 11:43:46 +0000</pubDate>
-    <lastBuildDate>Thu, 06 Nov 2014 11:43:46 +0000</lastBuildDate>
+    <pubDate>Thu, 06 Nov 2014 12:06:05 +0000</pubDate>
+    <lastBuildDate>Thu, 06 Nov 2014 12:06:05 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -233,19 +233,15 @@ and the code from &lt;a href=&quot;https://github.com/johncarl81/transfuse/tree/
       </item>
     
       <item>
-        <title>Test Me If You Can (#1)</title>
-        <description>&lt;h1&gt;Test Me If You Can (#1)&lt;/h1&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;the-purpose-of-this-post-series&quot;&gt;The purpose of this post series&lt;/h2&gt;
+        <title>Test Me If You Can #1 (Spring Framework)</title>
+        <description>&lt;h1&gt;Test Me If You Can #1 (Spring Framework)&lt;/h1&gt;
+&lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;During my career I often observed people who claim that they are not writing tests because &quot;can&amp;#8217;t cover&quot; integration between components.
+&lt;p&gt;During my career I often observed people who claim that they are not writing tests because &lt;strong&gt;can&amp;#8217;t cover properly&lt;/strong&gt; integration between components.
 Well, I believe most of such people just don&amp;#8217;t know some simply techniques or don&amp;#8217;t have time to dig them out because of stress at their work place.
-The lack of such knowledge results into neglecting of integration tests and thus worse software, more bugs and disappointed customer.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;So I&amp;#8217;ve decided to share some practices collected during last couple of years that are revealing mystery surrounding integration testing.
-The series will be concentrated around Spring framework, that I&amp;#8217;m most familiar with.&lt;/p&gt;
+The lack of such knowledge results into neglecting of integration tests and thus worse software, more bugs and disappointed customer.
+So I&amp;#8217;ve decided to share some practices revealing mystery surrounding integration testing.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -835,8 +831,8 @@ to see if this is helpful for coding and / or brings more fun to the event :)&lt
       </item>
     
       <item>
-        <title>WebDriver tricks - part 3</title>
-        <description>&lt;h1&gt;WebDriver tricks - part 3&lt;/h1&gt;
+        <title>WebDriver tricks #3</title>
+        <description>&lt;h1&gt;WebDriver tricks #3&lt;/h1&gt;
 &lt;div class=&quot;sect1&quot;&gt;
 &lt;h2 id=&quot;intro&quot;&gt;Intro&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
@@ -1118,12 +1114,12 @@ towards developing modern front-ends.&lt;/p&gt;
       </item>
     
       <item>
-        <title>CodingDojoCnUa #2 results</title>
-        <description>&lt;h1&gt;CodingDojoCnUa #2 results&lt;/h1&gt;
+        <title>CodingDojoCnUa #2</title>
+        <description>&lt;h1&gt;CodingDojoCnUa #2&lt;/h1&gt;
 &lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;On 5th of February our small Cherhihiv community made 2nd &lt;em&gt;СodingDojo&lt;/em&gt;.
+&lt;p&gt;On 5th of February our small Cherhihiv community made 2nd &lt;em&gt;CodingDojo&lt;/em&gt;.
 This time it was dedicated to &lt;code&gt;JavaScript&lt;/code&gt; programming.
 We tried to code some &lt;em&gt;Design Patterns&lt;/em&gt; in new language.
 What we attained during 2 two 1 our long session is following patterns implemented&lt;/p&gt;
@@ -1319,8 +1315,8 @@ basic mocking support so its good choice for beginners like us :). Find more on 
       </item>
     
       <item>
-        <title>WebDriver tricks - part 2</title>
-        <description>&lt;h1&gt;WebDriver tricks - part 2&lt;/h1&gt;
+        <title>WebDriver tricks #2</title>
+        <description>&lt;h1&gt;WebDriver tricks #2&lt;/h1&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;Have you ever heard about WebDriver&amp;#8217;s feature of capturing screenshots ?
 Now you know it can do it too ! Today we faced a problem of debugging WebDriver tests of remote continuous integration server.
