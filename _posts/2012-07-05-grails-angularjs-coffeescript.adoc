@@ -8,7 +8,11 @@ tags:
 - grails
 - web
 - groovy
-excerpt: false
+excerpt: |
+    Responsive design is a must for modern web-applications. Today this is attempted to achieve by using JavaScript MVC frameworks.
+    But more often than not those frameworks originate from `Rails`, `NodeJS` and other non-Java communities.
+    This makes it hard for Java-boys (as me) to jump into.
+    So purpose of this short tutorial is to explain in few easy steps how to start with JS MVC framework `AngularJS` and `CoffeeScript` on `Grails`.
 ---
 :imagesdir: /images/2012-07-05
 
