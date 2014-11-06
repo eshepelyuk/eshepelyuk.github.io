@@ -69,7 +69,7 @@ image::2.png[]
 AsciiDoctor _gem_ contains default CSS that decorates HTML in quite pretty way.
 Just find file named `asciidoctor-default.css` within _gem_ files,
 e.g. `$RUBY_HOME/lib/ruby/gems/2.1.0/gems/asciidoctor-1.5.1`, 
-put it to `css` folder and add this line to `_includes/head.html`
+put it to `css` folder of the site and add this line to `_includes/head.html` file
 
 [source, html]
 <link rel="stylesheet" href="{{ "/css/asciidoctor-default.css" | prepend: site.baseurl }}">
@@ -124,6 +124,7 @@ After performing all the steps described above you will see better looking HTML 
 while accessing http://localhost:4000/sample.html[^].
 
 image::3.png[]
+
 
 
 
