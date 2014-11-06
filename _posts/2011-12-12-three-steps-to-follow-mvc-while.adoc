@@ -3,7 +3,10 @@ tags:
 - java
 - mvc
 - web
-excerpt: false
+excerpt: |
+    All modern *action-based* web frameworks are using approaches described below to reach their goals in `MVC` implementation. 
+    But if you using some old fashioned code or don't use any framework at all - 
+    you still can achieve clean and easy to use `MVC` design following described steps.   
 ---
 
 = Three steps to follow MVC while building Java Web application
@@ -42,5 +45,6 @@ Flash scope becomes very handy when it comes to `Redirect After Post` pattern wh
 
 == PS: 
 
-All modern _action-based_ frameworks are using steps described below to achieve their goals. 
-But if you using some old fashioned code or don't use any framework at all - you still can achieve good clean and easy to use MVC.
+All modern _action-based_ web frameworks are using approaches described below to reach their goals in `MVC` implementation. 
+But if you using some old fashioned code or don't use any framework at all - 
+you still can achieve clean and easy to use `MVC` design following described steps.   
