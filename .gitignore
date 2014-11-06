@@ -3,4 +3,6 @@ _site/
 Gemfile
 Gemfile.lock
 build.sh
+serve.sh
+.sass-cache/*
 
