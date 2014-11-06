@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 06 Nov 2014 10:59:59 +0000</pubDate>
-    <lastBuildDate>Thu, 06 Nov 2014 10:59:59 +0000</lastBuildDate>
+    <pubDate>Thu, 06 Nov 2014 11:43:46 +0000</pubDate>
+    <lastBuildDate>Thu, 06 Nov 2014 11:43:46 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -157,7 +157,7 @@ travis encrypt GH_TOKEN=&amp;lt;token&amp;gt; --add env.global&lt;/code&gt;&lt;/
 &lt;div class=&quot;listingblock&quot;&gt;
 &lt;div class=&quot;title&quot;&gt;build.sh&lt;/div&gt;
 &lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code&gt;#/bin/bash
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code&gt;#!/bin/bash
 # enable error reporting to the console
 set -e
 
