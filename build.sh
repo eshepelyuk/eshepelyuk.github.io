@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 # enable error reporting to the console
 set -e 
 
