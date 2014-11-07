@@ -90,7 +90,12 @@
     }
 }
 
-
+.site-contact {
+    &,
+    &:visited {
+        color: $white-color;
+    }
+}
 
 /**
  * Site footer
