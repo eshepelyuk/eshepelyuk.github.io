@@ -42,7 +42,7 @@ Instead we have not to mock our external services and then re-inject them into c
 , required for our test goals*. Let's illustrate this with code.
 
 My sample project comprises `BankService` representing external service and `UserBalanceService` - our service working with `BankService`. 
-`UserBalanceService` is quite simple wrapper - just making conversion from `String` to `Double
+`UserBalanceService` is quite simple wrapper - just making conversion from `String` to `Double`.
 
 [source,java]
 .BankService.java
