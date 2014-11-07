@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 07 Nov 2014 10:50:42 +0000</pubDate>
-    <lastBuildDate>Fri, 07 Nov 2014 10:50:42 +0000</lastBuildDate>
+    <pubDate>Fri, 07 Nov 2014 11:03:30 +0000</pubDate>
+    <lastBuildDate>Fri, 07 Nov 2014 11:03:30 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -497,7 +497,7 @@ You&amp;#8217;re overriding behavior of container for your test, so there&amp;#8
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;My sample project comprises &lt;code&gt;BankService&lt;/code&gt; representing external service and &lt;code&gt;UserBalanceService&lt;/code&gt; - our service working with &lt;code&gt;BankService&lt;/code&gt;.
-&lt;code&gt;UserBalanceService&lt;/code&gt; is quite simple wrapper - just making conversion from &lt;code&gt;String&lt;/code&gt; to `Double&lt;/p&gt;
+&lt;code&gt;UserBalanceService&lt;/code&gt; is quite simple wrapper - just making conversion from &lt;code&gt;String&lt;/code&gt; to &lt;code&gt;Double&lt;/code&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;listingblock&quot;&gt;
 &lt;div class=&quot;title&quot;&gt;BankService.java&lt;/div&gt;
