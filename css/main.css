@@ -91,8 +91,7 @@ pre,
 code {
   font-size: 15px;
   border: 1px solid #e8e8e8;
-  border-radius: 3px;
-  background-color: #eef; }
+  border-radius: 3px; }
 
 code {
   padding: 1px 5px; }
@@ -205,6 +204,9 @@ pre {
       .site-nav .page-link {
         display: block;
         padding: 5px 10px; } }
+
+.site-contact, .site-contact:visited {
+  color: #ffffff; }
 
 /**
  * Site footer
