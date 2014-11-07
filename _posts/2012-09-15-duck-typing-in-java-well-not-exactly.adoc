@@ -3,7 +3,10 @@ tags:
 - java
 - groovy
 - duck typing
-excerpt: false
+excerpt: |
+    The post illustrates that some concepts, uncommon for `Java`, i.e. `Duck typing`
+    could be successfully applied for completing real life tasks,
+    improving your programming skills and making resulting code more beautiful.
 ---
 = Duck typing in Java ? Well, not exactly
 
@@ -163,7 +166,5 @@ String seoUrl = generateSeoUrl(entity);
 ...
 ----
 
-== P.S.
 
-This post just illustrates that some uncommon for Java language concepts could be successfully applied 
-for completing real life tasks improving your programming skills and making your code more beautiful.
+
