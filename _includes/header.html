@@ -1,34 +1,31 @@
 <header class="site-header">
 	<div class="wrapper">
-		<a href="https://github.com/eshepelyuk/eshepelyuk.github.io/tree/jekyll"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>   
-		
-		<a class="site-title" href="{{ site.baseurl }}/"><i class="fa fa-cube fa-lg">&nbsp;&nbsp;</i>{{ site.title }}</a>
-	
+		<a href="https://github.com/eshepelyuk/eshepelyuk.github.io/tree/jekyll"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>   		
+		<a class="site-title" href="{{ site.baseurl }}/"><i class="fa fa-cube fa-lg">&nbsp;&nbsp;</i>{{ site.title }}</a>	
+{% comment %}
 		<nav class="site-nav">
 			<div class="trigger">
-				<!-- <span><i class="fa fa-twitter-square fa-2x"></i><a class="page-link" href="https://twitter.com/{{ site.twitter_username }}">@{{ site.twitter_username }}</a></span> -->
-				<!-- <span><i class="fa fa-twitter-square fa-2x"></i><a class="page-link" href="https://twitter.com/{{ site.twitter_username }}">@{{ site.twitter_username }}</a></span> -->
-			{% comment %}
 			{% for page in site.pages %}
 				{% if page.title %}
 				<a class="page-link" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
 				{% endif %}
 			{% endfor %}
-			{% endcomment %}
 			</div>
 		</nav>
+{% endcomment %}
 	</div>
 	<div class="wrapper">
 		<p class="text">{{ site.description }}</p>
 	</div>
-{% comment %}	
 	<div class="wrapper">
 		<ul class="site-contact">
-			<li><i class="fa fa-rss fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="{{ site.url | append: '/feed.xml' }}">RSS</a></li>
-			<li><i class="fa fa-twitter fa-lg site-contact"></i>&nbsp;<a target="_blank" class="site-contact" href="{{ site.url | append: '/feed.xml' }}">@eshepelyuk</a></li>
-			<li><i class="fa fa-facebook fa-lg site-contact"></i>&nbsp;<a target="_blank" class="site-contact" href="{{ site.url | append: '/feed.xml' }}">eshepelyuk</a></li>
-			<li><i class="fa fa-linkedin fa-lg site-contact"></i>&nbsp;<a target="_blank" class="site-contact" href="{{ site.url | append: '/feed.xml' }}">eshepelyuk</a></li>
+			<li><i class="fa fa-twitter fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://twitter.com/eshepelyuk">@eshepelyuk</a></li>
+			<li>|</li>
+			<li><i class="fa fa-facebook fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://www.facebook.com/evgeny.shepelyuk">evgeny.shepelyuk</a></li>
+			<li>|</li>
+			<li><i class="fa fa-linkedin fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://www.linkedin.com/pub/evgeny-shepelyuk/4/b1/a20">evgeny-shepelyuk</a></li>
+			<li>|</li>
+			<li><i class="fa fa-rss fa-lg text-error"></i>&nbsp;<a target="_blank" class="site-contact" href="{{ site.url | append: '/feed.xml' }}">RSS</a></li>
 		</ul>
-	</div>	
-{% endcomment %}	
+	</div>
 </header>

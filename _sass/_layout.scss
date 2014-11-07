@@ -16,7 +16,7 @@
     letter-spacing: -1px;
     margin-bottom: 0;
     float: left;
-		text-shadow: 10px 7px 0px rgba(0, 0, 0, 0.15);
+		text-shadow: 10px 7px 0px rgba(0, 0, 0, 0.25);
     &,
     &:visited {
         color: $white-color;
@@ -24,7 +24,9 @@
 }
 
 .site-header p.text {
+	text-shadow: 5px 3px 0px rgba(0, 0, 0, 0.25);
 	color: $white-color;
+	margin-bottom: .6em;
 }
 
 .site-nav {
@@ -95,6 +97,14 @@
     &:visited {
         color: $white-color;
     }
+}
+
+ul.site-contact {
+	list-style-type: none;
+	margin-left: 0;
+	& li {
+		display: inline;
+	}
 }
 
 /**
