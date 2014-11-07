@@ -156,12 +156,14 @@ pre {
   letter-spacing: -1px;
   margin-bottom: 0;
   float: left;
-  text-shadow: 10px 7px 0px rgba(0, 0, 0, 0.15); }
+  text-shadow: 10px 7px 0px rgba(0, 0, 0, 0.25); }
   .site-title, .site-title:visited {
     color: #ffffff; }
 
 .site-header p.text {
-  color: #ffffff; }
+  text-shadow: 5px 3px 0px rgba(0, 0, 0, 0.25);
+  color: #ffffff;
+  margin-bottom: .6em; }
 
 .site-nav {
   float: right;
@@ -207,6 +209,12 @@ pre {
 
 .site-contact, .site-contact:visited {
   color: #ffffff; }
+
+ul.site-contact {
+  list-style-type: none;
+  margin-left: 0; }
+  ul.site-contact li {
+    display: inline; }
 
 /**
  * Site footer
