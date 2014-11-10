@@ -10,7 +10,7 @@ excerpt: |
     but there's some customization gaps not covered in the most of setup guides over the web
     so I'd like to fill them in this post.
 ---
-:imagesdir: /images/drafts
+:imagesdir: /images/2014-11-06
 = Advanced integration of Jekyll and AsciiDoctor
 
 Using `AsciiDoctor` as markup renderer in `Jekyll` is quite straightforward 

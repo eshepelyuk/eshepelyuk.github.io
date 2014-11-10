@@ -1,0 +1,118 @@
+---
+tags:
+- java
+- groovy
+- spock
+- javascript
+- nashorn
+- tdd
+- jasmine
+excerpt: |
+  Testing JVM server-side JavaScript using Jasmine, Spock and Nashorn.
+---
+:imagesdir: /images/drafts
+= Testing JVM server-side JavaScript using Jasmine, Spock and Nashorn.
+
+[source,java]
+.JavaScriptRunner.java
+----
+public class JavaScriptRunner {
+  public static Object run(String script, Map<String, Object> params) throws Exception {
+    ScriptEngineManager factory = new ScriptEngineManager();
+    ScriptEngine engine = factory.getEngineByName("nashorn");
+    engine.getBindings(ScriptContext.ENGINE_SCOPE).putAll(params);
+    return engine.eval(new InputStreamReader(JavaScriptRunner.class.getResourceAsStream(script)));
+  }
+}
+----
+
+[source, javascript]
+.jasmine-runner.js
+----
+var window = this;
+
+// loading `Jasmine' core and test suite source code
+load(__scriptBaseDir__ + "/jasmine.js");
+load(__scriptBaseDir__ + "/jasmine-html-stub.js"); <1>
+load(__scriptBaseDir__ + "/boot.js");
+load({script: __jasmineSpec__, name: __jasmineSpecName__});
+
+// running test suite(s) by faking browser `onload' event
+onload();
+
+//last stament is script's value returned to calling Java scripting engine
+jsApiReporter.specs();
+----
+<1> `Nashorn` specific code adjusting `Jasmine` for non-browser environments. Not a part of `Jasmine` distribution.
+
+[source,groovy]
+.Jasmine2Specification.groovy
+----
+class Jasmine2Specification extends Specification {
+  @Shared def jasmineResults
+
+  def setupSpec() {
+    def scriptParams = [
+        "__jasmineSpec__"    : getMetaClass().getMetaProperty("SPEC").getProperty(null),
+        "__jasmineSpecName__": "${this.class.simpleName}.groovy",
+        "__scriptBaseDir__"  : Jasmine2Specification.class.getResource("/jasmine-2.0.2").toExternalForm()
+    ]
+    jasmineResults = JavaScriptRunner.run("/jasmine2-runner.js", scriptParams)
+  }
+
+  def isPassed(def specRes) {specRes.status == "passed" || specRes.status == "pending"}
+
+  def specErrorMsg(def specResult) {
+    specResult.failedExpectations.collect { it.value }
+      .collect {it.stack}.join("\n\n\n")
+  }
+
+  @Unroll def '#specName'() { <1>
+    expect:
+      assert isPassed(item), specErrorMsg(item)
+    where:
+      item << jasmineResults.collect { it.value }
+      specName = (item.status != "pending" ? item.fullName : "IGNORED: $item.fullName") <1>
+  }
+}
+----
+<1> additional variable for data provider to underline ignored test
+
+[source,groovy]
+.JavaScriptTest.groovy
+----
+class JavaScriptTest extends Jasmine2Specification {
+    static def SPEC = """
+describe("suite1", function() {
+  it("spec11", function() {
+      expect(1).toBe(1);
+  })
+  it("spec12", function() {
+      expect(1).toBe(1);
+      expect(1).toBe(2);
+  })
+})
+
+describe("suite2", function() {
+  xit("spec22", function() {
+      expect(1).toBe(1);
+  })
+})
+
+xdescribe("suite3", function() {
+  it("spec31", function() {
+      expect(1).toBe(1);
+  })
+})
+"""
+}
+----
+
+.Disadvantages
+* unclear way of detecting line of source code particular where error happened
+* still no ability to run single _specification_ from `Jasmine` suite
+* incomplete reporting about ignored tests
+
+image::1.png[]
+
+NOTE: Full project's code is available at https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCanNashornSpock[GitHub^]
