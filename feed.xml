@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 07 Nov 2014 13:42:53 +0000</pubDate>
-    <lastBuildDate>Fri, 07 Nov 2014 13:42:53 +0000</lastBuildDate>
+    <pubDate>Mon, 10 Nov 2014 12:03:50 +0000</pubDate>
+    <lastBuildDate>Mon, 10 Nov 2014 12:03:50 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -93,7 +93,7 @@ Obviously you&amp;#8217;d notice quite ugly look and feel and something wrong wi
 &lt;/div&gt;
 &lt;div class=&quot;imageblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;/images/drafts/2.png&quot; alt=&quot;2&quot;&gt;
+&lt;img src=&quot;/images/2014-11-06/2.png&quot; alt=&quot;2&quot;&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -190,7 +190,7 @@ while accessing &lt;a href=&quot;http://localhost:4000/sample.html&quot; class=&
 &lt;/div&gt;
 &lt;div class=&quot;imageblock&quot;&gt;
 &lt;div class=&quot;content&quot;&gt;
-&lt;img src=&quot;/images/drafts/3.png&quot; alt=&quot;3&quot;&gt;
+&lt;img src=&quot;/images/2014-11-06/3.png&quot; alt=&quot;3&quot;&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
