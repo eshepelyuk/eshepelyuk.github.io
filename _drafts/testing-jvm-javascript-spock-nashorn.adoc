@@ -23,12 +23,21 @@ Testing this sort of functionality is neither straightforward nor standard.
 In this post I intend to show approach for testing `JavaScript` code in server-side JVM environment
 using well-known tools like `Jasmine`, `Spock` and `Nashorn`.
 
-* not well integrated to build process
-* not well integrated into IDE, i.e.
+Using `JavaScript` as scripting engine inside JVM application has significant difference comparing to client-side coding.
+There's no sufficient tools nowadays for the task of testing business script itself. Among disadvantages I'd like to outline following.
+
+* lack of integration with build and _Continuous Integration_ tools (Maven, Gradle, Jenkins, etc.)
+* no good integration with IDEs
 ** no possibility to run single test from IDE
 ** unable to view results from IDE
 * tight coupling to browser environment
-* no possibility of using cusomized `JavaScript` executor
+* no possibility of using customized `JavaScript` executor
+
+As far as I've seen most projects test them  by calling JS engine runner, passing script under test to it and doing assertion by inspecting side-effects.
+
+* hard to stub or mock, usually hacking on `prototype`
+* hard to organize tests into suites and report errors
+* too much orchestration because of previous issues
 
 [source,java]
 ----
