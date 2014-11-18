@@ -15,20 +15,20 @@ excerpt: |
   using well-known tools like `Jasmine`, `Spock` and `Nashorn`.
 ---
 :imagesdir: /images/drafts
-:sourcedir: http://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCanNashornSpock/src
 = Testing JVM server-side JavaScript using Jasmine, Spock and Nashorn
 
 `JavaScript` is not only browser powered client-side or `NodeJS` powered server-side code.
 Many `JVM` based projects are also using it as internal scripting language.
-Testing this sort of functionality is neither straighforward nor standard.
-In this post I intend to show approach for testing `JavaScript` code in server-side JVM enviroinment
+Testing this sort of functionality is neither straightforward nor standard.
+In this post I intend to show approach for testing `JavaScript` code in server-side JVM environment
 using well-known tools like `Jasmine`, `Spock` and `Nashorn`.
 
-* not well integrated in build process
-* not well integrated into IDE
-** no possibility to run from IDE
+* not well integrated to build process
+* not well integrated into IDE, i.e.
+** no possibility to run single test from IDE
 ** unable to view results from IDE
-* browser dependent
+* tight coupling to browser environment
+* no possibility of using cusomized `JavaScript` executor
 
 [source,java]
 ----
