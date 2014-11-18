@@ -26,7 +26,7 @@ using well-known tools like `Jasmine`, `Spock` and `Nashorn`.
 
 [source,java]
 ----
-include::http://raw.githubusercontent.com/eshepelyuk/CodeForBlog/master/TestMeIfYouCanNashornSpock/src/main/java/ua/eshepelyuk/blog/nashorn/JavaScriptRunner.java[QWE]
+include::http://raw.githubusercontent.com/eshepelyuk/CodeForBlog/master/TestMeIfYouCanNashornSpock/src/main/java/ua/eshepelyuk/blog/nashorn/JavaScriptRunner.java[]
 ----
 
 [source, javascript]
