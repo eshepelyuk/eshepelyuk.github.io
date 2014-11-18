@@ -15,7 +15,7 @@ excerpt: |
   using well-known tools like `Jasmine`, `Spock` and `Nashorn`.
 ---
 :imagesdir: /images/drafts
-:sourcedir: https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCanNashornSpock/src
+:sourcedir: http://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCanNashornSpock/src
 = Testing JVM server-side JavaScript using Jasmine, Spock and Nashorn.
 
 `JavaScript` is not only browser powered client-side or `NodeJS` powered server-side code.
@@ -25,9 +25,8 @@ In this post I intend to show approach for testing `JavaScript` code in server-s
 using well-known tools like `Jasmine`, `Spock` and `Nashorn`.
 
 [source,java]
-.JavaScriptRunner.java
 ----
-include::{sourcedir}/main/java/ua/eshepelyuk/blog/nashorn/JavaScriptRunner.java[]
+include::{sourcedir}/main/java/ua/eshepelyuk/blog/nashorn/JavaScriptRunner.java[QWER]
 ----
 
 [source, javascript]
