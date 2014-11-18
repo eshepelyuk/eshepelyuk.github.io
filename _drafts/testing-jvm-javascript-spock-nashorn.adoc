@@ -16,7 +16,7 @@ excerpt: |
 ---
 :imagesdir: /images/drafts
 :sourcedir: http://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCanNashornSpock/src
-= Testing JVM server-side JavaScript using Jasmine, Spock and Nashorn.
+= Testing JVM server-side JavaScript using Jasmine, Spock and Nashorn
 
 `JavaScript` is not only browser powered client-side or `NodeJS` powered server-side code.
 Many `JVM` based projects are also using it as internal scripting language.
