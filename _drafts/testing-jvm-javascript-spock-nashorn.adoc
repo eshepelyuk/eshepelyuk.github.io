@@ -8,22 +8,26 @@ tags:
 - tdd
 - jasmine
 excerpt: |
-  Testing JVM server-side JavaScript using Jasmine, Spock and Nashorn.
+  `JavaScript` is not only browser powered client-side or `NodeJS` powered server-side code.
+  Many `JVM` based projects are also using it as internal scripting language.
+  Testing this sort of functionality is neither straighforward nor standard.
+  In this post I intend to show approach for testing `JavaScript` code in server-side JVM enviroinment 
+  using well-known tools like `Jasmine`, `Spock` and `Nashorn`.
 ---
 :imagesdir: /images/drafts
+:sourcedir: https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCanNashornSpock/src
 = Testing JVM server-side JavaScript using Jasmine, Spock and Nashorn.
+
+`JavaScript` is not only browser powered client-side or `NodeJS` powered server-side code.
+Many `JVM` based projects are also using it as internal scripting language.
+Testing this sort of functionality is neither straighforward nor standard.
+In this post I intend to show approach for testing `JavaScript` code in server-side JVM enviroinment
+using well-known tools like `Jasmine`, `Spock` and `Nashorn`.
 
 [source,java]
 .JavaScriptRunner.java
 ----
-public class JavaScriptRunner {
-  public static Object run(String script, Map<String, Object> params) throws Exception {
-    ScriptEngineManager factory = new ScriptEngineManager();
-    ScriptEngine engine = factory.getEngineByName("nashorn");
-    engine.getBindings(ScriptContext.ENGINE_SCOPE).putAll(params);
-    return engine.eval(new InputStreamReader(JavaScriptRunner.class.getResourceAsStream(script)));
-  }
-}
+include::{sourcedir}/main/java/ua/eshepelyuk/blog/nashorn/JavaScriptRunner.java[]
 ----
 
 [source, javascript]
