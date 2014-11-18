@@ -24,7 +24,7 @@ In this post I intend to show approach for testing `JavaScript` code in server-s
 using well-known tools like `Jasmine`, `Spock` and `Nashorn`.
 
 Using `JavaScript` as scripting engine inside JVM application has significant difference comparing to client-side coding.
-There's no sufficient tools nowadays for the task of testing business script itself. Among disadvantages I'd like to outline following.
+There's no sufficient tools nowadays for the task of testing business script itself. Among disadvantages I'd like to outline following
 
 * lack of integration with build and _Continuous Integration_ tools (Maven, Gradle, Jenkins, etc.)
 * no good integration with IDEs
@@ -33,15 +33,23 @@ There's no sufficient tools nowadays for the task of testing business script its
 * tight coupling to browser environment
 * no possibility of using customized `JavaScript` executor
 
-As far as I've seen most of the projects test business scripts by calling JS engine runner, 
+As far as I`ve seen most of the projects test business scripts by calling JS engine runner, 
 passing script under test to it and doing assertion by inspecting side-effects.
 Those approaches usually have similar drawbacks 
 
-* hard to stub or mock, usually hacking on `prototype`
-* hard to organize tests into suites and report errors
+* hard to stub or mock something, usually ends up hacking on `prototype`
+* hard to organize tests into suites and report test execution errors
 * need too much orchestration
 * custom test suite code for each project
 * not leveraging robust JavaScript testing tools and frameworks
+
+So, driven by the need for comfort JavaScript testing tools we've created this eetup I am going to describe below.
+
+== Customized JavaScript executor
+
+There's no need to conform standards in non browser JS environments, so usually
+developers extend engine with custom functions, built-in variables etc.
+It is extremely important 
 
 [source,java]
 ----
