@@ -29,7 +29,7 @@ There's no sufficient tools nowadays for the task of testing business script its
 * lack of integration with build and _Continuous Integration_ tools (Maven, Gradle, Jenkins, etc.)
 * no good integration with IDEs
 ** no possibility to run single test from IDE
-** unable to view results from IDE
+** unable to view test execution reports from IDE
 * tight coupling to browser environment
 * no possibility of using customized `JavaScript` executor
 
