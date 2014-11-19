@@ -8,7 +8,7 @@ tags:
 - tdd
 - jasmine
 excerpt: |
-  `JavaScript` is not only browser powered client-side or `NodeJS` powered server-side code.
+  `JavaScript` usage is not restricted to client-side browser code or `NodeJS` powered server-side code.
   Many `JVM` based projects are also using it as internal scripting language.
   Testing this sort of functionality is neither straighforward nor standard.
   In this post I intend to show approach for testing `JavaScript` code in server-side JVM enviroinment 
@@ -43,13 +43,15 @@ Those approaches usually have similar drawbacks
 * custom test suite code for each project
 * not leveraging robust JavaScript testing tools and frameworks
 
-So, driven by the need for comfortable JavaScript testing tools we've created this setup I am going to describe below.
+So, driven by the need for comfortable JavaScript testing tools we've created the setup I am going to describe below.
 
 == Customized JavaScript executor
 
-There's no need to conform standards in non browser JS environments, so usually
+There's no need to conform standards in non-browser JS environments, so usually
 developers extend scripting engine with custom functions, built-in variables etc.
-It is extremely important to use exactly the same executor both for production and testing purposes. It is common to have runner acepting script name, parameters and returnig resulting value.
+It is extremely important to use exactly the same executor both for production and testing purposes.
+
+Let's consider we have the runner accepting target script name, parameters and returning resulting value of the script.
 
 [source,java]
 ----
