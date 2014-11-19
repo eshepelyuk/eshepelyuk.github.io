@@ -43,17 +43,19 @@ Those approaches usually have similar drawbacks
 * custom test suite code for each project
 * not leveraging robust JavaScript testing tools and frameworks
 
-So, driven by the need for comfort JavaScript testing tools we've created this eetup I am going to describe below.
+So, driven by the need for comfortable JavaScript testing tools we've created this setup I am going to describe below.
 
 == Customized JavaScript executor
 
 There's no need to conform standards in non browser JS environments, so usually
-developers extend engine with custom functions, built-in variables etc.
-It is extremely important 
+developers extend scripting engine with custom functions, built-in variables etc.
+It is extremely important to use exactly the same executor both for production and testing purposes. It is common to have runner acepting script name, parameters and returnig resulting value.
 
 [source,java]
 ----
 ----
+
+== Jasmine setup
 
 [source, javascript]
 .jasmine-runner.js
@@ -62,6 +64,10 @@ It is extremely important
 ----
 <1> `Nashorn` specific code adjusting `Jasmine` for non-browser environments. Not a part of `Jasmine` distribution.
 
+== Transforming Jasmine tests into Java world
+
+Get Jasmine report from executor and create fake tests with Spock data provider
+
 [source,groovy]
 .Jasmine2Specification.groovy
 ----
@@ -69,16 +75,22 @@ It is extremely important
 ----
 <1> additional variable for data provider to underline ignored test
 
+== Test example
+
 [source,groovy]
 .JavaScriptTest.groovy
 ----
 ----
 
+image::1.png[]
+
+Intellij Idea language injection
+
+image::2.png[]
+
 .Disadvantages
 * unclear way of detecting line of source code particular where error happened
 * still no ability to run single _specification_ from `Jasmine` suite
 * incomplete reporting about ignored tests
-
-image::1.png[]
 
 NOTE: Full project's code is available at https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCanNashornSpock[GitHub^]
