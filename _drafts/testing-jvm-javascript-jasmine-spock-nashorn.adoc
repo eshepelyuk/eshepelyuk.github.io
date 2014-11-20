@@ -1,0 +1,199 @@
+---
+tags:
+- java
+- nashorn
+- tdd
+- javascript
+- jasmine
+- groovy
+- spock
+excerpt: |
+  `JavaScript` is not only browser powered client-side or `NodeJS` powered server-side code.
+  Many `JVM` based projects are also using it as internal scripting language.
+  Testing this sort of functionality is neither straightforward nor standard.
+  In this post I intend to show approach for testing `JavaScript` code in server-side JVM environment
+  using well-known tools like `Jasmine`, `Spock` and `Nashorn`.
+---
+:imagesdir: /images/drafts
+= Testing JVM server-side JavaScript with Jasmine, Spock and Nashorn
+
+`JavaScript` is not only browser powered client-side or `NodeJS` powered server-side code.
+Many `JVM` based projects are also using it as internal scripting language.
+Testing this sort of functionality is neither straightforward nor standard.
+In this post I intend to show approach for testing `JavaScript` code in server-side JVM environment
+using well-known tools like `Jasmine`, `Spock` and `Nashorn`.
+
+Using `JavaScript` as scripting engine inside JVM application has significant difference comparing to client-side coding.
+There's no industrial standard tools nowadays for testing embedded JavaScript. 
+
+Among some of existing approaches found in WWW I'd like to outline following disadvantages::
+* lack of integration with build and _Continuous Integration_ tools (Maven, Gradle, Jenkins, etc.)
+* insufficient cooperation with IDEs
+** no possibility to run single test from IDE
+** unable to view test execution reports from IDE
+* tight coupling to browser environment
+* no possibility of using customized `JavaScript` executor
+
+As far as I've seen most of the projects test their business scripts by calling JS engine runner, 
+passing script under test to it and doing assertion by inspecting side-effects after script execution.
+
+Those kind of approaches usually have similar drawbacks::
+* hard to stub or mock something, usually ends up hacking on `prototype`
+* hard to organize tests into suites and report test execution errors
+* need too much orchestration
+* custom test suite code for each project
+* not leveraging robust JavaScript testing tools and frameworks
+
+So, driven by the need for comfortable JavaScript testing tools we've created the setup I am going to describe below.
+`Jasmine` is one of the most known TDD tools, used for Web and NodeJS. 
+`Spock` is BLAH BLAH.
+`Nashorn` is not actually used but it's modern and BLAH BLAH.
+
+== Customized JavaScript runner (Nashorn based)
+
+There's no need to conform standards in non-browser JS environments, so usually
+developers extend scripting engine with custom functions, built-in variables etc.
+It is extremely important to use exactly the same runner both for production and testing purposes.
+
+Let's consider we have such customized runner, taking script name and map of predefined variables as parameters 
+and returning resulting value of the executed script.
+
+[source,java]
+.JavaScriptRunner.java
+----
+public class JavaScriptRunner {
+  public static Object run(String script, Map<String, Object> params) throws Exception {
+    ScriptEngineManager factory = new ScriptEngineManager();
+    ScriptEngine engine = factory.getEngineByName("nashorn");
+    engine.getBindings(ScriptContext.ENGINE_SCOPE).putAll(params);
+    return engine.eval(new InputStreamReader(JavaScriptRunner.class.getResourceAsStream(script))); <1>
+  }
+}
+----
+<1> script source is searched in classpath.
+ 
+== Jasmine setup
+
+To start using `Jasmine` framework we need
+
+* https://github.com/pivotal/jasmine/releases/download/v2.1.2/jasmine-standalone-2.1.2.zip[download Jasmine^] 
+and unpack it to `/jasmine/jasmine-2.1.2` folder in your resources directory
+* runner script
+
+[source, javascript]
+.jasmine-runner.js
+----
+var loadFromClassPath = function(path) { <1>
+  load(Java.type("ua.eshepelyuk.blog.nashorn.Jasmine2Specification").class.getResource(path).toExternalForm());
+};
+
+var window = this;
+
+loadFromClassPath("/jasmine/jasmine-2.1.2/jasmine.js");
+loadFromClassPath("/jasmine/jasmine-html-stub.js"); <2>
+loadFromClassPath("/jasmine/jasmine-2.1.2/boot.js");
+load({script: __jasmineSpec__, name: __jasmineSpecName__});<3>
+
+onload(); <4>
+
+jsApiReporter.specs(); <5>
+----
+<1> helper function resolving script path from classpath location.
+<2> `Nashorn` specific code adjusting `Jasmine` for non-browser environments. Not a part of `Jasmine` distribution.
+<3> need for loading suite source code, see next section for details.
+<4> faking browser `load` event, that should trigger suites exection.
+<5> this value will be returned as script execution result.
+
+== Transform Jasmine report into Spock tests
+
+Get Jasmine report from executor and create fake tests with Spock data provider
+
+[source,groovy]
+.Jasmine2Specification.groovy
+----
+abstract class Jasmine2Specification extends Specification {
+  @Shared def jasmineResults
+
+  def setupSpec() {
+    def scriptParams = [
+        "__jasmineSpec__"    : getMetaClass().getMetaProperty("SPEC").getProperty(null),
+        "__jasmineSpecName__": "${this.class.simpleName}.groovy"
+    ]
+    jasmineResults = JavaScriptRunner.run("/jasmine/jasmine2-runner.js", scriptParams)
+  }
+
+  def isPassed(def specRes) {specRes.status == "passed" || specRes.status == "pending"}
+
+  def specErrorMsg(def specResult) {
+    specResult.failedExpectations
+			.collect {it.value}.collect {it.stack}.join("\n\n\n")
+  }
+
+  @Unroll def '#specName'() {
+    expect:
+      assert isPassed(item), specErrorMsg(item) <1>
+    where:
+      item << jasmineResults.collect { it.value }
+      specName = (item.status != "pending" ? item.fullName : "IGNORED: $item.fullName") <2>
+  }
+}
+----
+<1> for each suite result we assert either is succeeded, displaying `Jasmine` originated error message on failure
+<2> additional data provider variable to underline ignored tests.
+
+== Test example
+
+[source, javascript]
+.mathUtils.js
+----
+var add = function add(a, b) {
+  return a + b;
+};
+----
+
+[source,groovy]
+.MathUtilsTest.groovy
+----
+class MathUtilsTest extends Jasmine2Specification {
+    static def SPEC = """
+loadFromClassPath("/js/mathUtils.js"); <1>
+
+describe("suite 1", function() {
+  it("should pass", function() {
+    expect(add(1, 2)).toBe(3);
+  });
+  it("should fail", function() {
+    expect(add(1, 2)).toBe(3);
+    expect(add(1, 2)).toBe(0);
+  });
+  xit("should be ignored", function() {
+    expect(add(1, 2)).toBe(3);
+  });
+})
+
+xdescribe("suite 2 is ignored", function() {
+  it("should pass", function() {
+    expect(add(1, 2)).toBe(3);
+  });
+})
+"""
+}
+----
+<1> function inherited from `jasmine-runner.js`.
+
+.Test results from IDE
+image::1.png[Test results from IDE]
+
+== IntelliJ Idea language injection
+
+.Language injection
+image::2.png[Language injection]
+
+== P.S.
+
+.Disadvantages
+* unclear way of detecting line of source code particular where error happened
+* still no ability to run single _specification_ from `Jasmine` suite
+* incomplete reporting about ignored tests
+
+NOTE: Full project's code is available at https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCanNashornSpock[GitHub^]
