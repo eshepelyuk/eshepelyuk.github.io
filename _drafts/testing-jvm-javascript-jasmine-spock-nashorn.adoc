@@ -92,7 +92,7 @@ var window = this;
 loadFromClassPath("/jasmine/jasmine-2.1.2/jasmine.js");
 loadFromClassPath("/jasmine/jasmine-html-stub.js"); <2>
 loadFromClassPath("/jasmine/jasmine-2.1.2/boot.js");
-load({script: __jasmineSpec__, name: __jasmineSpecName__});<3>
+load({script: __jasmineSpec__, name: __jasmineSpecName__}); <3>
 
 onload(); <4>
 
@@ -138,7 +138,7 @@ abstract class Jasmine2Specification extends Specification {
   }
 }
 ----
-<1> for each suite result we assert either is succeeded, displaying `Jasmine` originated error message on failure
+<1> for each suite result we assert either it is succeeded, displaying `Jasmine` originated error message on failure
 <2> additional data provider variable to underline ignored tests.
 
 == Test example
@@ -179,15 +179,16 @@ image::1.png[Test results from IDE]
 
 == IntelliJ Idea language injection
 
-Although this micro framework should work in all the IDE the most handy it will be within *IntelliJ IDEA*
+Although this micro framework should work in all the IDEs the most handy it will be within *IntelliJ IDEA*
 thanks to its https://www.jetbrains.com/idea/help/using-language-injections.html[Language Injection^] feature.
-The feature allows to embed arbitrary language into another language file. 
-So we could hae embedded `JavaScript` code into our `Spock` specificatino written in `Groovy`.
+The feature allows to embed arbitrary language into file creat4d in another language. 
+So we could hae embedded `JavaScript` code into our `Spock` specification written in `Groovy`.
 
 .Language injection
 image::2.png[Language injection]
 
 == P.S.
+
 .Advantages
 * seamless integration with build tools and test reports
 * ability to run single suite from IDE
