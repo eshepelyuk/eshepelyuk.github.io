@@ -139,7 +139,7 @@ abstract class Jasmine2Specification extends Specification {
 }
 ----
 <1> for each suite result we assert either it is succeeded, displaying `Jasmine` originated error message on failure
-<2> additional data provider variable to underline ignored tests.
+<2> additional data provider variable to highlight ignored tests.
 
 == Final example
 
@@ -192,14 +192,14 @@ So we could hae embedded `JavaScript` code into our `Spock` specification writte
 .Language injection
 image::2.png[Language injection]
 
-== P.S.
+== Pros and cons of the solution
 
 .Advantages
-* seamless integration with build tools and test reports
+* seamless integration with build tools and continous integration
 * ability to run single suite from IDE
 * run single test from the particular suite, thanks to http://pivotallabs.com/new-key-features-jasmine-2-1/[focused feature of Jasmine^]
 
 .Disadvantages
-* unclear way of detecting particular line of source code where error happened
+* no clean way of detecting particular line of source code in case of test exception
 
 NOTE: Full project's code is available at https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCanNashornSpock[GitHub^]
