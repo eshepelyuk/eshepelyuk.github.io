@@ -179,14 +179,21 @@ image::1.png[Test results from IDE]
 
 == IntelliJ Idea language injection
 
+Although this micro framework should work in all the IDE the most handy it will be within *IntelliJ IDEA*
+thanks to its https://www.jetbrains.com/idea/help/using-language-injections.html[Language Injection^] feature.
+The feature allows to embed arbitrary language into another language file. 
+So we could hae embedded `JavaScript` code into our `Spock` specificatino written in `Groovy`.
+
 .Language injection
 image::2.png[Language injection]
 
 == P.S.
+.Advantages
+* seamless integration with build tools and test reports
+* ability to run single suite from IDE
+* run single test from the particular suite, thanks to http://pivotallabs.com/new-key-features-jasmine-2-1/[focused feature of Jasmine^]
 
 .Disadvantages
-* unclear way of detecting line of source code particular where error happened
-* still no ability to run single _specification_ from `Jasmine` suite
-* incomplete reporting about ignored tests
+* unclear way of detecting particular line of source code where error happened
 
 NOTE: Full project's code is available at https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCanNashornSpock[GitHub^]
