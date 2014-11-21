@@ -141,7 +141,9 @@ abstract class Jasmine2Specification extends Specification {
 <1> for each suite result we assert either it is succeeded, displaying `Jasmine` originated error message on failure
 <2> additional data provider variable to underline ignored tests.
 
-== Test example
+== Final example
+
+Let's create several test for simple `JavaScript` function.
 
 [source, javascript]
 .mathUtils.js
@@ -150,6 +152,9 @@ var add = function add(a, b) {
   return a + b;
 };
 ----
+
+Using base class created on previous step we could create such `Spock` suite.
+To demonstrate all the possibilities of our solution we will create successful, failed and ignored test.
 
 [source,groovy]
 .MathUtilsTest.groovy
