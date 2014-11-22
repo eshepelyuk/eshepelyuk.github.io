@@ -101,9 +101,9 @@ jsApiReporter.specs(); <5>
 ----
 <1> helper function resolving script path from classpath location.
 <2> `Nashorn` specific code adjusting `Jasmine` for non-browser environments. Not a part of `Jasmine` distribution.
-<3> need for loading suite source code, see next section for details.
-<4> faking browser `load` event, that should trigger suites exection.
-<5> this value will be returned as script execution result.
+<3> loading test suite source code, see next section for details.
+<4> faking browser `load` event, that should trigger test suite exection.
+<5> this value will be returned as script result.
 
 == Transform Jasmine report into Spock tests
 
@@ -179,16 +179,16 @@ describe("suite 1", function() {
 }
 ----
 <1> actual code of `Jasmine` suite is contained in `String` variable.
-<2> loading module under test usibg function inherited from `jasmine-bootstrap.js`.
+<2> loading module under test using function inherited from `jasmine-bootstrap.js`.
 
 .Test results from IDE
 image::1.png[Test results from IDE]
 
 == IntelliJ Idea language injection
 
-Although this micro framework should work in all the IDEs the most handy it will be within *IntelliJ IDEA*
+Although this micro framework should work in all the IDEs the most handy usage of it will be within *IntelliJ IDEA*
 thanks to its https://www.jetbrains.com/idea/help/using-language-injections.html[Language Injection^] feature.
-The feature allows to embed arbitrary language into file creat4d in another language. 
+The feature allows to embed arbitrary language into file created in another language. 
 So we could hae embedded `JavaScript` code into our `Spock` specification written in `Groovy`.
 
 .Language injection
@@ -197,7 +197,7 @@ image::2.png[Language injection]
 == Pros and cons of the solution
 
 .Advantages
-* seamless integration with build tools and continous integration
+* seamless integration with build tools and continous integration tools
 * ability to run single suite from IDE
 * run single test from the particular suite, thanks to http://pivotallabs.com/new-key-features-jasmine-2-1/[focused feature of Jasmine^]
 
