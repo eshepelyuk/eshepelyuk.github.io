@@ -108,7 +108,9 @@ jsApiReporter.specs(); <5>
 
 == Transform Jasmine report into Spock tests
 
-Get Jasmine report from executor and create fake tests with Spock data provider
+Get Jasmine report from executor and create fake tests with Spock data provider.
+
+
 
 [source,groovy]
 .Jasmine2Specification.groovy
@@ -118,7 +120,7 @@ abstract class Jasmine2Specification extends Specification {
 
   def setupSpec() {
     def scriptParams = [
-        "__jasmineSpec__"    : getMetaClass().getMetaProperty("SPEC").getProperty(null),
+        "__jasmineSpec__"    : getMetaClass().getMetaProperty("SPEC").getProperty(null), <1>
         "__jasmineSpecName__": "${this.class.simpleName}.groovy"
     ]
     jasmineResults = JavaScriptRunner.run("/jasmine/jasmine2-runner.js", scriptParams)
@@ -133,15 +135,16 @@ abstract class Jasmine2Specification extends Specification {
 
   @Unroll def '#specName'() {
     expect:
-      assert isPassed(item), specErrorMsg(item) <1>
+      assert isPassed(item), specErrorMsg(item) <2>
     where:
       item << jasmineResults.collect { it.value }
-      specName = (item.status != "pending" ? item.fullName : "IGNORED: $item.fullName") <2>
+      specName = (item.status != "pending" ? item.fullName : "IGNORED: $item.fullName") <3>
   }
 }
 ----
-<1> for each suite result we assert either it is succeeded, displaying `Jasmine` originated error message on failure
-<2> additional data provider variable to highlight ignored tests.
+<1> exposing source code of `Jasmine` suite as __jasmineSpec__ variable, accessible to JS executor.
+<2> for each suite result we assert either it is succeeded, displaying `Jasmine` originated error message on failure.
+<3> additional data provider variable to highlight ignored tests.
 
 == Complete final example
 
