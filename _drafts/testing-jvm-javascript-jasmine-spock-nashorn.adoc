@@ -178,7 +178,7 @@ describe("suite 1", function() {
 """
 }
 ----
-<1> actual code of `Jasmine` suite is contained in `String` variable.
+<1> actual code of `Jasmine` suite is represented as a `String` variable.
 <2> loading module under test using function inherited from `jasmine-bootstrap.js`.
 
 .Test results from IDE
@@ -197,11 +197,16 @@ image::2.png[Language injection]
 == Pros and cons of the solution
 
 .Advantages
+* usage of industry standard testing tools for both languages
 * seamless integration with build tools and continous integration tools
 * ability to run single suite from IDE
 * run single test from the particular suite, thanks to http://pivotallabs.com/new-key-features-jasmine-2-1/[focused feature of Jasmine^]
 
 .Disadvantages
 * no clean way of detecting particular line of source code in case of test exception
+
+For the sample project I've used latest `Nashorn` engine from JDK.
+But in fact there's no limitation on this. The same approach was succesfully applied for projects using older `Rhino` engine.
+And then again, `Jasmine` is my personal preference. With additional work code could be modified to leverage `Mocha`, `QUnit` and so on.
 
 NOTE: Full project's code is available at https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCanNashornSpock[GitHub^]
