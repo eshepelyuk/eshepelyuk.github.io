@@ -26,7 +26,7 @@ using well-known tools like `Jasmine`, `Spock` and `Nashorn`.
 Using `JavaScript` as scripting engine inside JVM application has significant difference comparing to client-side coding.
 There's no industrial standard tools nowadays for testing embedded JavaScript. 
 
-Among some of existing approaches found in WWW I'd like to outline following disadvantages::
+Regarding existing approaches found in WWW I'd like to outline following disadvantages::
 * lack of integration with build and _Continuous Integration_ tools (Maven, Gradle, Jenkins, etc.)
 * insufficient cooperation with IDEs
 ** no possibility to run single suite or test from IDE
