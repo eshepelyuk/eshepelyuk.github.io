@@ -23,7 +23,7 @@ Testing this sort of functionality is neither straightforward nor standard.
 In this post I intend to show approach for testing `JavaScript` code in server-side JVM environment
 using well-known tools like `Jasmine`, `Spock` and `Nashorn`.
 
-Using `JavaScript` as scripting engine inside JVM application has significant difference comparing to client-side coding.
+Using JavaScript as scripting engine inside JVM application has significant difference comparing to client-side coding.
 There's no industrial standard tools nowadays for testing embedded JavaScript. 
 
 Regarding existing approaches found in WWW I'd like to outline following disadvantages::
@@ -145,7 +145,7 @@ abstract class Jasmine2Specification extends Specification {
 
 == Complete final example
 
-Let's create several test for simple `JavaScript` function.
+Let's create several test for simple JavaScript function.
 
 [source, javascript]
 .mathUtils.js
@@ -190,7 +190,7 @@ image::1.png[Test results from IDE]
 Although this micro framework should work in all the IDEs the most handy usage of it will be within *IntelliJ IDEA*
 thanks to its https://www.jetbrains.com/idea/help/using-language-injections.html[Language Injection^] feature.
 The feature allows to embed arbitrary language into file created in another language. 
-So we could hae embedded `JavaScript` code into our `Spock` specification written in `Groovy`.
+So we could hae embedded JavaScript code into our `Spock` specification written in `Groovy`.
 
 .Language injection
 image::2.png[Language injection]
