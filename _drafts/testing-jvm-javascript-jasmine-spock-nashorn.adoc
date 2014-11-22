@@ -123,14 +123,14 @@ abstract class Jasmine2Specification extends Specification {
         "__jasmineSpec__"    : getMetaClass().getMetaProperty("SPEC").getProperty(null), <1>
         "__jasmineSpecName__": "${this.class.simpleName}.groovy"
     ]
-    jasmineResults = JavaScriptRunner.run("/jasmine/jasmine2-runner.js", scriptParams)
+    jasmineResults = JavaScriptRunner.run("/jasmine/jasmine2-bootstrap.js", scriptParams)
   }
 
   def isPassed(def specRes) {specRes.status == "passed" || specRes.status == "pending"}
 
   def specErrorMsg(def specResult) {
     specResult.failedExpectations
-			.collect {it.value}.collect {it.stack}.join("\n\n\n")
+	.collect {it.value}.collect {it.stack}.join("\n\n\n")
   }
 
   @Unroll def '#specName'() {
@@ -146,9 +146,9 @@ abstract class Jasmine2Specification extends Specification {
 <2> for each suite result we assert either it is succeeded, displaying `Jasmine` originated error message on failure.
 <3> additional data provider variable to highlight ignored tests.
 
-== Complete final example
+== Complete example
 
-Let's create several test for simple JavaScript function.
+Let's create test suite for simple JavaScript function.
 
 [source, javascript]
 .mathUtils.js
@@ -158,7 +158,7 @@ var add = function add(a, b) {
 };
 ----
 
-Using base class from previous step we could create `Spock` suite with JavaScript tests.
+Using base class from previous step we could create `Spock` suite containing JavaScript tests.
 To demonstrate all the possibilities of our solution we will create successful, failed and ignored test.
 
 [source,groovy]
@@ -185,32 +185,32 @@ describe("suite 1", function() {
 <1> actual code of `Jasmine` suite is represented as a `String` variable.
 <2> loading module under test using function inherited from `jasmine-bootstrap.js`.
 
-.Test results from IDE
-image::1.png[Test results from IDE]
+.Test results from IntelliJ IDEAx
+image::1.png[Test results from IntelliJ IDEA]
 
 == IntelliJ Idea language injection
 
 Although this micro framework should work in all the IDEs the most handy usage of it will be within *IntelliJ IDEA*
-thanks to its https://www.jetbrains.com/idea/help/using-language-injections.html[Language Injection^] feature.
-The feature allows to embed arbitrary language into file created in another language. 
-So we could hae embedded JavaScript code into our `Spock` specification written in `Groovy`.
+thanks to its https://www.jetbrains.com/idea/help/using-language-injections.html[language injection^].
+The feature allows to embed arbitrary language into file created in different programming language. 
+So we could have JavaScript code block embedded into `Spock` specification written in Groovy.
 
 .Language injection
 image::2.png[Language injection]
 
 == Pros and cons of the solution
 
-.Advantages
+Advantages::
 * usage of industry standard testing tools for both languages
 * seamless integration with build tools and continous integration tools
 * ability to run single suite from IDE
 * run single test from the particular suite, thanks to http://pivotallabs.com/new-key-features-jasmine-2-1/[focused feature of Jasmine^]
 
-.Disadvantages
+Disadvantages::
 * no clean way of detecting particular line of source code in case of test exception
 
 For the sample project I've used latest `Nashorn` engine from JDK.
 But in fact there's no limitation on this. The same approach was succesfully applied for projects using older `Rhino` engine.
-And then again, `Jasmine` is my personal preference. With additional work code could be modified to leverage `Mocha`, `QUnit` and so on.
+And then again, `Jasmine` is just my personal preference. With additional work code could be adjusted to leverage `Mocha`, `QUnit` and so on.
 
 NOTE: Full project's code is available at https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCanNashornSpock[GitHub^]
