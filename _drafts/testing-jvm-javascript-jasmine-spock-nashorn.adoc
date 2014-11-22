@@ -29,7 +29,7 @@ There's no industrial standard tools nowadays for testing embedded JavaScript.
 Among some of existing approaches found in WWW I'd like to outline following disadvantages::
 * lack of integration with build and _Continuous Integration_ tools (Maven, Gradle, Jenkins, etc.)
 * insufficient cooperation with IDEs
-** no possibility to run single test from IDE
+** no possibility to run single suite or test from IDE
 ** unable to view test execution reports from IDE
 * tight coupling to browser environment
 * no possibility of using customized `JavaScript` executor
@@ -44,7 +44,8 @@ Those kind of approaches usually have similar drawbacks::
 * custom test suite code for each project
 * not leveraging robust JavaScript testing tools and frameworks
 
-So, driven by the need for comfortable JavaScript testing tools we've created the setup I am going to describe below.
+So, driven by the need for comfortable JavaScript testing tools this setup was created.
+
 `Jasmine` is one of the most known TDD tools, used for Web and NodeJS. 
 `Spock` is BLAH BLAH.
 `Nashorn` is not actually used but it's modern and BLAH BLAH.
@@ -55,7 +56,7 @@ There's no need to conform standards in non-browser JS environments, so usually
 developers extend scripting engine with custom functions, built-in variables etc.
 It is extremely important to use exactly the same runner both for production and testing purposes.
 
-Let's consider we have such customized runner, taking script name and map of predefined variables as parameters 
+Let's consider we have such customized runner, accepting script name and map of predefined variables as parameters 
 and returning resulting value of the executed script.
 
 [source,java]
@@ -77,11 +78,11 @@ public class JavaScriptRunner {
 To start using `Jasmine` framework we need
 
 * https://github.com/pivotal/jasmine/releases/download/v2.1.2/jasmine-standalone-2.1.2.zip[download Jasmine^] 
-and unpack it to `/jasmine/jasmine-2.1.2` folder in your resources directory
-* runner script
+and unpack it to `/jasmine/jasmine-2.1.2` folder in project resources directory
+* custom bootstrap script, since `Jasmine` doesn't support JVM based platforms
 
 [source, javascript]
-.jasmine-runner.js
+.jasmine-bootstrap.js
 ----
 var loadFromClassPath = function(path) { <1>
   load(Java.type("ua.eshepelyuk.blog.nashorn.Jasmine2Specification").class.getResource(path).toExternalForm());
@@ -141,7 +142,7 @@ abstract class Jasmine2Specification extends Specification {
 <1> for each suite result we assert either it is succeeded, displaying `Jasmine` originated error message on failure
 <2> additional data provider variable to highlight ignored tests.
 
-== Final example
+== Complete final example
 
 Let's create several test for simple `JavaScript` function.
 
@@ -153,15 +154,15 @@ var add = function add(a, b) {
 };
 ----
 
-Using base class created on previous step we could create such `Spock` suite.
+Using base class from previous step we could create `Spock` suite with JavaScript tests.
 To demonstrate all the possibilities of our solution we will create successful, failed and ignored test.
 
 [source,groovy]
 .MathUtilsTest.groovy
 ----
 class MathUtilsTest extends Jasmine2Specification {
-    static def SPEC = """
-loadFromClassPath("/js/mathUtils.js"); <1>
+    static def SPEC = """ <1>
+loadFromClassPath("/js/mathUtils.js"); <2>
 describe("suite 1", function() {
   it("should pass", function() {
     expect(add(1, 2)).toBe(3);
@@ -177,7 +178,8 @@ describe("suite 1", function() {
 """
 }
 ----
-<1> function inherited from `jasmine-runner.js`.
+<1> actual code of `Jasmine` suite is contained in `String` variable.
+<2> loading module under test usibg function inherited from `jasmine-bootstrap.js`.
 
 .Test results from IDE
 image::1.png[Test results from IDE]
