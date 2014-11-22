@@ -44,11 +44,12 @@ Those kind of approaches usually have similar drawbacks::
 * custom test suite code for each project
 * not leveraging robust JavaScript testing tools and frameworks
 
-So, driven by the need for comfortable JavaScript testing tools this setup was created.
+So, driven by the need for comfortable embedded JavaScript testing in JVM projects I've createdthis sample setup.
+To fulfil our goals next tools will be used.
 
-`Jasmine` is one of the most known TDD tools, used for Web and NodeJS. 
-`Spock` is BLAH BLAH.
-`Nashorn` is not actually used but it's modern and BLAH BLAH.
+* `Jasmine` is one of the most known TDD/BDD tools for JavaScript
+* `Spock` is great testing framework for JVM powered by Junit and Groovy
+* `Nashorn` is modern scripting engine introduced in JDK8
 
 == Customized JavaScript runner (Nashorn based)
 
