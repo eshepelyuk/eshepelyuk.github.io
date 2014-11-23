@@ -110,7 +110,10 @@ jsApiReporter.specs(); <5>
 
 Get Jasmine report from executor and create fake tests with Spock data provider.
 
+Having JS executor and bootstrap script for `Jasmine` we could create single `Spock	` or `JUnit` test to check if all results are succful. But this gonna be a nightmare to understand
+which exact t4st hadnfail4e and what is the reason of failure.
 
+Whatbwe really like to have is display
 
 [source,groovy]
 .Jasmine2Specification.groovy
