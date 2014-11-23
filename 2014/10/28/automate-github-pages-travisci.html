@@ -67,7 +67,12 @@ ga('send', 'pageview');
 
   <header class="post-header">
     <h1 class="post-title">Automate GitHub Pages publishing with Jekyll and Travis CI</h1>
-    <span class="post-meta"><i class="fa fa-calendar fa-lg"></i>&nbsp;&nbsp;Oct 28, 2014<i class="fa fa-tags fa-lg"></i>&nbsp;jekyll, github, asciidoctor, travisci, howto</span>
+    <span class="post-meta">
+<i class="fa fa-calendar fa-lg"></i>&nbsp;&nbsp;Oct 28, 2014
+
+<i class="fa fa-tags fa-lg"></i>&nbsp;jekyll, github, asciidoctor, travisci, howto
+
+</span>
 		
 		
 		
@@ -222,29 +227,32 @@ travis encrypt GH_TOKEN=&lt;token&gt; --add env.global</code></pre>
 <div class="title">build.sh</div>
 <div class="content">
 <pre class="CodeRay highlight"><code>#!/bin/bash
-# enable error reporting to the console
-set -e
+if [ "$POST_BUILD" == "true" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+	# enable error reporting to the console
+	set -e
 
-# build site with jekyll, by default to `_site' folder
-jekyll build
+	# build site with jekyll, by default to `_site' folder
+	jekyll build
 
-# cleanup
-rm -rf ../eshepelyuk.github.io.master
+	# cleanup
+	rm -rf ../eshepelyuk.github.io.master
 
-#clone `master' branch of the repository using encrypted GH_TOKEN for authentification
-git clone https://${GH_TOKEN}@github.com/eshepelyuk/eshepelyuk.github.io.git ../eshepelyuk.github.io.master
+	#clone `master' branch of the repository using encrypted GH_TOKEN for authentification
+	git clone https://${GH_TOKEN}@github.com/eshepelyuk/eshepelyuk.github.io.git ../eshepelyuk.github.io.master
 
-# copy generated HTML site to `master' branch
-cp -R _site/* ../eshepelyuk.github.io.master
+	# copy generated HTML site to `master' branch
+	cp -R _site/* ../eshepelyuk.github.io.master
 
-# commit and push generated content to `master' branch
-# since repository was cloned in write mode with token auth - we can push there
-cd ../eshepelyuk.github.io.master
-git config user.email "eshepelyuk@gmail.com"
-git config user.name "Evgeny Shepelyuk"
-git add -A .
-git commit -a -m "Travis #$TRAVIS_BUILD_NUMBER"
-git push origin master</code></pre>
+	# commit and push generated content to `master' branch
+	# since repository was cloned in write mode with token auth - we can push there
+	cd ../eshepelyuk.github.io.master
+	git config user.email "eshepelyuk@gmail.com"
+	git config user.name "Evgeny Shepelyuk"
+	git add -A .
+	git commit -a -m "Travis #$TRAVIS_BUILD_NUMBER"
+	git push origin master
+fi
+</code></pre>
 </div>
 </div>
 </div>
