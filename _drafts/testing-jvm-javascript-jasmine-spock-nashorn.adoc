@@ -83,7 +83,7 @@ and unpack it to `/jasmine/jasmine-2.1.2` folder in project resources directory
 * custom bootstrap script, since `Jasmine` doesn't support JVM based platforms
 
 [source, javascript]
-.jasmine-bootstrap.js
+.jasmine2-bootstrap.js
 ----
 var loadFromClassPath = function(path) { <1>
   load(Java.type("ua.eshepelyuk.blog.nashorn.Jasmine2Specification").class.getResource(path).toExternalForm());
@@ -92,7 +92,7 @@ var loadFromClassPath = function(path) { <1>
 var window = this;
 
 loadFromClassPath("/jasmine/jasmine-2.1.2/jasmine.js");
-loadFromClassPath("/jasmine/jasmine-html-stub.js"); <2>
+loadFromClassPath("/jasmine/jasmine2-html-stub.js"); <2>
 loadFromClassPath("/jasmine/jasmine-2.1.2/boot.js");
 load({script: __jasmineSpec__, name: __jasmineSpecName__}); <3>
 
