@@ -1,10 +1,10 @@
 language: ruby
-script: "./build.sh" # execute this script on each commit
+script: "./build.sh"
 branches:
   only:
-  - jekyll # only take into account `jekyll' branch
+  - jekyll
 rvm:
-- 2.1.2 # version of `ruby' 
+- 2.1.2
 env:
   global:
-    secure: Pnk72ttFi44AEOQACDGo7vydWo6oS26nasGMoTz/txK+Het+eBB3rCZvCvCybiKfcFeaSVS7ErA3AjCFhShcVcvQUphqGAb6CYtgnlUO12jCOknzvBg7CDeLEoAVDJyQtIGKHnEYHfR0A/X5xxHH/REdZlCe+kkY04FaSP22S1k=
+    secure: ESLrtxwSzFWIrgSalgI/CdHzE/Zl2V7y4yGKcD48tcNh1sYN96RxzTX6tqhWbHel+tvyVV+kd+xrQF5OsckbBomdCbPsS+rMCus5KKFjPp4LUoq2VM8K17diZTHtm5bBusAqcvKtJ1drS31+s+8EVpYF5hmrtGb356uMMfUsz6U=
