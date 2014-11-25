@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "@@ $TRAVIS_PULL_REQUEST @@"
-if [$TRAVIS_PULL_REQUEST == "true"]; then
+if [ $TRAVIS_PULL_REQUEST == "true" ]; then
   exit 0
 else
   echo "not a PR"
