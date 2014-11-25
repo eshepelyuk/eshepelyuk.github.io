@@ -2,6 +2,7 @@
 
 echo "@@ $TRAVIS_PULL_REQUEST @@"
 if [ $TRAVIS_PULL_REQUEST == "true" ]; then
+  echo "this is PR, exiting"	
   exit 0
 else
   echo "not a PR"
