@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 25 Nov 2014 09:28:42 +0000</pubDate>
-    <lastBuildDate>Tue, 25 Nov 2014 09:28:42 +0000</lastBuildDate>
+    <pubDate>Tue, 25 Nov 2014 09:32:44 +0000</pubDate>
+    <lastBuildDate>Tue, 25 Nov 2014 09:32:44 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -361,6 +361,13 @@ travis encrypt GH_TOKEN=&amp;lt;token&amp;gt; --add env.global&lt;/code&gt;&lt;/
 &lt;div class=&quot;title&quot;&gt;build.sh&lt;/div&gt;
 &lt;div class=&quot;content&quot;&gt;
 &lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code&gt;#!/bin/bash
+
+# only proceed script when started not by pull request (PR)
+if [ $TRAVIS_PULL_REQUEST == &quot;true&quot; ]; then
+  echo &quot;this is PR, exiting&quot;
+  exit 0
+fi
+
 # enable error reporting to the console
 set -e
 
