@@ -1,6 +1,7 @@
 #!/bin/bash
 
 if [ $TRAVIS_PULL_REQUEST == "true" ]; then
+  echo "this is PR, exiting"
   exit 0
 fi
 
