@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 25 Nov 2014 08:25:52 +0000</pubDate>
-    <lastBuildDate>Tue, 25 Nov 2014 08:25:52 +0000</lastBuildDate>
+    <pubDate>Tue, 25 Nov 2014 09:03:43 +0000</pubDate>
+    <lastBuildDate>Tue, 25 Nov 2014 09:03:43 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -383,8 +383,16 @@ git config user.email &quot;eshepelyuk@gmail.com&quot;
 git config user.name &quot;Evgeny Shepelyuk&quot;
 git add -A .
 git commit -a -m &quot;Travis #$TRAVIS_BUILD_NUMBER&quot;
-git push origin master&lt;/code&gt;&lt;/pre&gt;
+git push --quiet origin master &amp;gt; /dev/null 2&amp;gt;&amp;amp;1 &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;Hiding all the output from push command, to prevent token leak.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;

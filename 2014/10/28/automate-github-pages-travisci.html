@@ -244,8 +244,16 @@ git config user.email "eshepelyuk@gmail.com"
 git config user.name "Evgeny Shepelyuk"
 git add -A .
 git commit -a -m "Travis #$TRAVIS_BUILD_NUMBER"
-git push origin master</code></pre>
+git push --quiet origin master &gt; /dev/null 2&gt;&amp;1 <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Hiding all the output from push command, to prevent token leak.</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
