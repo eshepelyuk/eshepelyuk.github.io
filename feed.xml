@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 26 Nov 2014 10:11:58 +0000</pubDate>
-    <lastBuildDate>Wed, 26 Nov 2014 10:11:58 +0000</lastBuildDate>
+    <pubDate>Wed, 26 Nov 2014 12:04:28 +0000</pubDate>
+    <lastBuildDate>Wed, 26 Nov 2014 12:04:28 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -345,7 +345,7 @@ describe(&amp;quot;suite 1&amp;quot;, function() {
 &lt;div class=&quot;content&quot;&gt;
 &lt;img src=&quot;/images/2014-11-26/1.png&quot; alt=&quot;Test results from IntelliJ IDEA&quot;&gt;
 &lt;/div&gt;
-&lt;div class=&quot;title&quot;&gt;Figure 1. Test results from IntelliJ IDEAx&lt;/div&gt;
+&lt;div class=&quot;title&quot;&gt;Figure 1. Test results from IntelliJ IDEA&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
