@@ -202,7 +202,7 @@ describe("suite 1", function() {
 <1> actual code of `Jasmine` suite is represented as a `String` variable.
 <2> loading module under test using function inherited from `jasmine-bootstrap.js`.
 
-.Test results from IntelliJ IDEAx
+.Test results from IntelliJ IDEA
 image::1.png[Test results from IntelliJ IDEA]
 
 == IntelliJ Idea language injection
