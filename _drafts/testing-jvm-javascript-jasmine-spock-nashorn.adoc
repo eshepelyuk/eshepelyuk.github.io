@@ -9,42 +9,42 @@ tags:
 - spock
 excerpt: |
   `JavaScript` is not only browser powered client-side or `NodeJS` powered server-side code.
-  Many `JVM` based projects are also using it as internal scripting language.
+  Many `JVM` based projects are using it as internal scripting language.
   Testing this sort of functionality is neither straightforward nor standard.
-  In this post I intend to show approach for testing `JavaScript` code in server-side JVM environment
+  In this post I intend to demonstrate an approach for testing `JavaScript` code in server-side JVM environment
   using well-known tools like `Jasmine`, `Spock` and `Nashorn`.
 ---
 :imagesdir: /images/drafts
 = Testing JVM server-side JavaScript with Jasmine, Spock and Nashorn
 
 `JavaScript` is not only browser powered client-side or `NodeJS` powered server-side code.
-Many `JVM` based projects are also using it as internal scripting language.
+Many `JVM` based projects are using it as internal scripting language.
 Testing this sort of functionality is neither straightforward nor standard.
-In this post I intend to show approach for testing `JavaScript` code in server-side JVM environment
+In this post I intend to demonstrate an approach for testing `JavaScript` code in server-side JVM environment
 using well-known tools like `Jasmine`, `Spock` and `Nashorn`.
 
 Using JavaScript as scripting engine inside JVM application has significant difference comparing to client-side coding.
-There's no industrial standard tools nowadays for testing embedded JavaScript. 
+And unfortunately there's no industrial standard tools nowadays for testing embedded JavaScript. 
 
 Regarding existing approaches found in WWW I'd like to outline following disadvantages::
-* lack of integration with build and _Continuous Integration_ tools (Maven, Gradle, Jenkins, etc.)
+* lack of integration with build and _continuous integration_ tools (Maven, Gradle, Jenkins, etc.)
 * insufficient cooperation with IDEs
 ** no possibility to run single suite or test from IDE
 ** unable to view test execution reports from IDE
 * tight coupling to browser environment
-* no possibility of using customized `JavaScript` executor
+* no possibility of using customized `JavaScript` executors
 
-As far as I've seen most of the projects test their business scripts by calling JS engine runner, 
-passing script under test to it and doing assertion by inspecting side-effects after script execution.
+As far as I've seen most of the projects test their embedded business scripts by calling JS engine runner, 
+passing script under test to it and doing assertion by inspecting side-effects on engine or mocks after script execution.
 
-Those kind of approaches usually have similar drawbacks::
-* hard to stub or mock something, usually ends up hacking on `prototype`
+Those sort of approaches usually have similar drawbacks::
+* hard to stub or mock something in JS code, usually ending up hacking on JS `prototype`
+* need too much orchestration for mocking enviroinment for script
 * hard to organize tests into suites and report test execution errors
-* need too much orchestration
-* custom test suite code for each project
-* not leveraging robust JavaScript testing tools and frameworks
+* previous causes creation of custom test suite frameworks for particualr project
+* not leveraging existing JavaScript testing tools and frameworks
 
-So, driven by the need for comfortable embedded JavaScript testing in JVM projects I've createdthis sample setup.
+So, driven by the need for comfortable embedded JavaScript testing in JVM projects I've created this sample setup.
 To fulfil our goals next tools will be used.
 
 * `Jasmine` is one of the most known TDD/BDD tools for JavaScript
@@ -108,11 +108,25 @@ jsApiReporter.specs(); <5>
 
 == Transform Jasmine report into Spock tests
 
-Get Jasmine report from executor and create fake tests with Spock data provider.
+TIP:: Get Jasmine report from executor and create fake tests with Spock data provider.
 
-Having JS executor and bootstrap script for `Jasmine` we could create single `Spock	` or `JUnit` test to check if all results are successful. But this gonna be a nightmare to understand which exact test had failed and what is the reason of failure.
+Having JS executor and bootstrap script for `Jasmine` we could create `JUnit` test 
+to iterate over results and check if all are successful. 
+But it will become a nightmare to understand which particular test had failed and what is the reason of failure.
 
-What we really like to have is display
+What we really like to have is represent each `Jasmine` specification as `JUnit` test so each Java tool
+can pick up and integrate those results. Here why `Spock` could be the answer to the problem.
+http://spock-framework.readthedocs.org/en/latest/data_driven_testing.html [Data Driven Testing^]
+allows developer to declare list of inut results for each item new test will be created and executed.
+This is very similar to https://github.com/junit-team/junit/wiki/Parameterized-tests[Parametrized Test] of `Junit`
+but much more powerful.
+
+So the idea will be to consider `Jasmine` test suite results as array of data, whose every item will be passed to `Spock` test.
+Then test should provide assertion to report succesful and failed tests properly, i.e.
+assertion should chelc status of `Jasmine` specification
+
+* if status is `pending` or `passed`, this means specification is either ignored or succesfull
+* otherwise `Spock` test should throw assertion error, populating assertion error with reported failures from `Jasmine`
 
 [source,groovy]
 .Jasmine2Specification.groovy
@@ -125,7 +139,7 @@ abstract class Jasmine2Specification extends Specification {
         "__jasmineSpec__"    : getMetaClass().getMetaProperty("SPEC").getProperty(null), <1>
         "__jasmineSpecName__": "${this.class.simpleName}.groovy"
     ]
-    jasmineResults = JavaScriptRunner.run("/jasmine/jasmine2-bootstrap.js", scriptParams)
+    jasmineResults = JavaScriptRunner.run("/jasmine/jasmine2-bootstrap.js", scriptParams) <2>
   }
 
   def isPassed(def specRes) {specRes.status == "passed" || specRes.status == "pending"}
@@ -137,16 +151,18 @@ abstract class Jasmine2Specification extends Specification {
 
   @Unroll def '#specName'() {
     expect:
-      assert isPassed(item), specErrorMsg(item) <2>
+      assert isPassed(item), specErrorMsg(item) <3>
     where:
       item << jasmineResults.collect { it.value }
-      specName = (item.status != "pending" ? item.fullName : "IGNORED: $item.fullName") <3>
+      specName = (item.status != "pending" ? item.fullName : "IGNORED: $item.fullName") <4>
   }
 }
 ----
 <1> exposing source code of `Jasmine` suite as __jasmineSpec__ variable, accessible to JS executor.
-<2> for each suite result we assert either it is succeeded, displaying `Jasmine` originated error message on failure.
-<3> additional data provider variable to highlight ignored tests.
+<2> actual execution of `Jasmine` suite.
+<3> for each suite result we `assert` either it is succeeded, throwing assertion error with `Jasmine` originated message on 
+failure.
+<4> additional data provider variable to highlight ignored tests.
 
 == Complete example
 
