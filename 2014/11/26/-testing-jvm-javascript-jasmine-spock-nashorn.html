@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width initial-scale=1" />
+
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	
+	<title>Testing JVM server-side JavaScript with Jasmine, Spock and Nashorn</title>
+
+
+	<meta name="description" content="JavaScript usage is not limited to client-side code in browser or NodeJS powered server-side code.Many JVM based projects are using it as internal scripting language.Testing this sort of functionality is neither straightforward nor standard.In this post I intend to demonstrate an approach for testing JavaScript in server-side JVM environmentusing mature tools like Jasmine, Spock and Nashorn.">
+	
+	
+	<meta name="keywords" content="java, nashorn, tdd, javascript, jasmine, groovy, spock">
+
+	<link rel="stylesheet" href="/css/main.css">
+	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	
+	<link rel="canonical" href="http://eshepelyuk.github.io/2014/11/26/-testing-jvm-javascript-jasmine-spock-nashorn.html">
+	<link href="http://eshepelyuk.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="JK's blog Feed">
+
+	
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-56082439-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+	
+</head>
+
+
+  <body>
+    <header class="site-header">
+	<div class="wrapper">
+		<a href="https://github.com/eshepelyuk/eshepelyuk.github.io/tree/jekyll"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>   		
+		<a class="site-title" href="/"><i class="fa fa-cube fa-lg">&nbsp;&nbsp;</i>JK's blog</a>	
+
+	</div>
+	<div class="wrapper">
+		<p class="text">Simple blog for some thoughts to be shared. Mostly about Java programming</p>
+	</div>
+	<div class="wrapper">
+		<ul class="site-contact">
+			<li><i class="fa fa-twitter fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://twitter.com/eshepelyuk">@eshepelyuk</a></li>
+			<li>|</li>
+			<li><i class="fa fa-facebook fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://www.facebook.com/evgeny.shepelyuk">evgeny.shepelyuk</a></li>
+			<li>|</li>
+			<li><i class="fa fa-linkedin fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://www.linkedin.com/pub/evgeny-shepelyuk/4/b1/a20">evgeny-shepelyuk</a></li>
+			<li>|</li>
+			<li><i class="fa fa-rss fa-lg text-error"></i>&nbsp;<a target="_blank" class="site-contact" href="http://eshepelyuk.github.io/feed.xml">RSS</a></li>
+		</ul>
+	</div>
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Testing JVM server-side JavaScript with Jasmine, Spock and Nashorn</h1>
+    <span class="post-meta"><i class="fa fa-calendar fa-lg"></i>&nbsp;&nbsp;Nov 26, 2014<i class="fa fa-tags fa-lg"></i>&nbsp;java, nashorn, tdd, javascript, jasmine, groovy, spock</span>
+		
+		
+		
+		
+  </header>
+
+  <article class="post-content">
+    <h1>Testing JVM server-side JavaScript with Jasmine, Spock and Nashorn</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>JavaScript</code> usage is not limited to client-side code in browser or <code>NodeJS</code> powered server-side code.
+Many <code>JVM</code> based projects are using it as internal scripting language.
+Testing this sort of functionality is neither straightforward nor standard.
+In this post I intend to demonstrate an approach for testing <code>JavaScript</code> in server-side JVM environment
+using mature tools like <code>Jasmine</code>, <code>Spock</code> and <code>Nashorn</code>.</p>
+</div>
+<div class="paragraph">
+<p>Using JavaScript as scripting engine inside JVM application has significant difference comparing to client-side coding.
+And unfortunately there&#8217;s no industrial standard tools nowadays for testing it.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Regarding existing approaches found in Internet I&#8217;d like to highlight following disadvantages</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>lack of integration with build and <em>continuous integration</em> tools (Maven, Gradle, Jenkins, etc.)</p>
+</li>
+<li>
+<p>insufficient cooperation with IDEs</p>
+<div class="ulist">
+<ul>
+<li>
+<p>no possibility to run single suite or test from IDE</p>
+</li>
+<li>
+<p>unable to view test execution reports from IDE</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>tight coupling to browser environment</p>
+</li>
+<li>
+<p>no possibility of using customized <code>JavaScript</code> executors</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>As far as I&#8217;ve seen most of the projects test their embedded business scripts by calling JS engine runner,
+passing script under test to it and doing assertion by inspecting side-effects on engine or mocks after script execution.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Those sort of approaches usually have similar drawbacks</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>hard to stub or mock something in JS code, usually ending up hacking on JS <code>prototype</code></p>
+</li>
+<li>
+<p>need too much orchestration for mocking environment for script</p>
+</li>
+<li>
+<p>hard to organize tests into suites and report test execution errors</p>
+</li>
+<li>
+<p>previous causes creation of custom test suite frameworks for particular project</p>
+</li>
+<li>
+<p>not leveraging existing JavaScript testing tools and frameworks</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>So, driven by the need for comfortable embedded JavaScript testing in JVM projects I&#8217;ve created this sample setup.
+To fulfill our goals next tools will be used.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Jasmine</code> is one of the most known TDD/BDD tools for JavaScript</p>
+</li>
+<li>
+<p><code>Spock</code> is great testing framework for JVM powered by Junit and Groovy</p>
+</li>
+<li>
+<p><code>Nashorn</code> is modern scripting engine introduced in JDK8</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="customized-javascript-runner-nashorn-based">Customized JavaScript runner (Nashorn based)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There&#8217;s no need to conform standards in non-browser JS environments, so usually
+developers extend scripting engine with custom functions, built-in variables etc.
+It is extremely important to use exactly the same runner both for production and testing purposes.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s consider we have such customized runner, accepting script name and map of predefined variables as parameters
+and returning resulting value of the executed script.</p>
+</div>
+<div class="listingblock">
+<div class="title">JavaScriptRunner.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">JavaScriptRunner</span> {
+  <span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">Object</span> run(<span class="predefined-type">String</span> script, <span class="predefined-type">Map</span>&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Object</span>&gt; params) <span class="directive">throws</span> <span class="exception">Exception</span> {
+    ScriptEngineManager factory = <span class="keyword">new</span> ScriptEngineManager();
+    ScriptEngine engine = factory.getEngineByName(<span class="string"><span class="delimiter">&quot;</span><span class="content">nashorn</span><span class="delimiter">&quot;</span></span>);
+    engine.getBindings(ScriptContext.ENGINE_SCOPE).putAll(params);
+    <span class="keyword">return</span> engine.eval(<span class="keyword">new</span> <span class="predefined-type">InputStreamReader</span>(JavaScriptRunner.class.getResourceAsStream(script))); <i class="conum" data-value="1"></i><b>(1)</b>
+  }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>script source is searched in classpath.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="jasmine-setup">Jasmine setup</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To start using <code>Jasmine</code> framework we need</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/pivotal/jasmine/releases/download/v2.1.2/jasmine-standalone-2.1.2.zip" target="_blank">download Jasmine</a>
+and unpack it to <code>/jasmine/jasmine-2.1.2</code> folder in project resources directory</p>
+</li>
+<li>
+<p>custom bootstrap script, since <code>Jasmine</code> doesn&#8217;t support JVM based platforms</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">jasmine2-bootstrap.js</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript"><span class="keyword">var</span> <span class="function">loadFromClassPath</span> = <span class="keyword">function</span>(path) { <i class="conum" data-value="1"></i><b>(1)</b>
+  load(Java.type(<span class="string"><span class="delimiter">&quot;</span><span class="content">ua.eshepelyuk.blog.nashorn.Jasmine2Specification</span><span class="delimiter">&quot;</span></span>).<span class="reserved">class</span>.getResource(path).toExternalForm());
+};
+
+<span class="keyword">var</span> window = <span class="local-variable">this</span>;
+
+loadFromClassPath(<span class="string"><span class="delimiter">&quot;</span><span class="content">/jasmine/jasmine-2.1.2/jasmine.js</span><span class="delimiter">&quot;</span></span>);
+loadFromClassPath(<span class="string"><span class="delimiter">&quot;</span><span class="content">/jasmine/jasmine2-html-stub.js</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="2"></i><b>(2)</b>
+loadFromClassPath(<span class="string"><span class="delimiter">&quot;</span><span class="content">/jasmine/jasmine-2.1.2/boot.js</span><span class="delimiter">&quot;</span></span>);
+load({<span class="key">script</span>: __jasmineSpec__, <span class="key">name</span>: __jasmineSpecName__}); <i class="conum" data-value="3"></i><b>(3)</b>
+
+onload(); <i class="conum" data-value="4"></i><b>(4)</b>
+
+jsApiReporter.specs(); <i class="conum" data-value="5"></i><b>(5)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>helper function resolving script path from classpath location.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><code>Nashorn</code> specific code adjusting <code>Jasmine</code> for non-browser environments. Not a part of <code>Jasmine</code> distribution.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>loading test suite source code, see next section for details.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>faking browser <code>load</code> event, that should trigger test suite execution.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>this value will be returned as script result.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="transform-jasmine-report-into-spock-tests">Transform Jasmine report into Spock tests</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Having JS executor and bootstrap script for <code>Jasmine</code> we could create <code>JUnit</code> test
+to iterate over suite results and check if all are successful.
+But it will become a nightmare to understand which particular test had failed and what is the reason of failure.
+What we&#8217;d really like to have is ability to represent each <code>Jasmine</code> specification as <code>JUnit</code> test,
+so any Java tool can pick up and inspect the results.
+Here why <code>Spock</code> could be the answer to the problem, with its
+<a href="http://spock-framework.readthedocs.org/en/latest/data_driven_testing.html" target="_blank">Data Driven Testing</a>
+that allows developer to declare list of input data and for each item of that dataset new test will be created and executed.
+This is very similar to <a href="https://github.com/junit-team/junit/wiki/Parameterized-tests">Parametrized Test</a> of <code>Junit</code>
+but much more powerful implementation.</p>
+</div>
+<div class="paragraph">
+<p>So the idea will be to consider <code>Jasmine</code> test suite results obtained after running bootstrap script
+as array of input data, whose every item will be passed to <code>Spock</code> test.
+Then test itself will provide assertion to report successful and failed tests properly, i.e.
+assertion should check status of <code>Jasmine</code> specification.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>if status is <code>pending</code> or <code>passed</code>, this means specification is either ignored or successful</p>
+</li>
+<li>
+<p>otherwise <code>Spock</code> test should throw assertion error, populating assertion exception populated with failures messages reported by <code>Jasmine</code></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">Jasmine2Specification.groovy</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="directive">abstract</span> <span class="type">class</span> <span class="class">Jasmine2Specification</span> <span class="directive">extends</span> Specification {
+  <span class="annotation">@Shared</span> <span class="keyword">def</span> jasmineResults
+
+  <span class="keyword">def</span> <span class="function">setupSpec</span>() {
+    <span class="keyword">def</span> scriptParams = [
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">__jasmineSpec__</span><span class="delimiter">&quot;</span></span>    : getMetaClass().getMetaProperty(<span class="string"><span class="delimiter">&quot;</span><span class="content">SPEC</span><span class="delimiter">&quot;</span></span>).getProperty(<span class="predefined-constant">null</span>), <i class="conum" data-value="1"></i><b>(1)</b>
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">__jasmineSpecName__</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">${</span><span class="local-variable">this</span>.class.simpleName<span class="inline-delimiter">}</span></span><span class="content">.groovy</span><span class="delimiter">&quot;</span></span>
+    ]
+    jasmineResults = JavaScriptRunner.run(<span class="string"><span class="delimiter">&quot;</span><span class="content">/jasmine/jasmine2-bootstrap.js</span><span class="delimiter">&quot;</span></span>, scriptParams) <i class="conum" data-value="2"></i><b>(2)</b>
+  }
+
+  <span class="keyword">def</span> <span class="function">isPassed</span>(<span class="keyword">def</span> specRes) {specRes.status == <span class="string"><span class="delimiter">&quot;</span><span class="content">passed</span><span class="delimiter">&quot;</span></span> || specRes.status == <span class="string"><span class="delimiter">&quot;</span><span class="content">pending</span><span class="delimiter">&quot;</span></span>}
+
+  <span class="keyword">def</span> <span class="function">specErrorMsg</span>(<span class="keyword">def</span> specResult) {
+    specResult.failedExpectations
+        .collect {<span class="local-variable">it</span>.value}.collect {<span class="local-variable">it</span>.stack}.join(<span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="char">\n</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>)
+  }
+
+  <span class="annotation">@Unroll</span> <span class="keyword">def</span> <span class="string"><span class="delimiter">'</span><span class="content">#specName</span><span class="delimiter">'</span></span>() {
+    <span class="key">expect</span>:
+      <span class="keyword">assert</span> isPassed(item), specErrorMsg(item) <i class="conum" data-value="3"></i><b>(3)</b>
+    <span class="key">where</span>:
+      item &lt;&lt; jasmineResults.collect { <span class="local-variable">it</span>.value }
+      specName = (item.status != <span class="string"><span class="delimiter">&quot;</span><span class="content">pending</span><span class="delimiter">&quot;</span></span> ? item.fullName : <span class="string"><span class="delimiter">&quot;</span><span class="content">IGNORED: </span><span class="inline"><span class="inline-delimiter">$</span>item</span><span class="content">.fullName</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="4"></i><b>(4)</b>
+  }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>exposing source code of <code>Jasmine</code> suite as <em>jasmineSpec</em> variable, accessible to JS executor.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>actual execution of <code>Jasmine</code> suite.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>for each suite result we <code>assert</code> either it is succeeded, throwing assertion error with <code>Jasmine</code> originated message on
+failure.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>additional data provider variable to highlight ignored tests.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="complete-example">Complete example</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Let&#8217;s create test suite for simple JavaScript function.</p>
+</div>
+<div class="listingblock">
+<div class="title">mathUtils.js</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript"><span class="keyword">var</span> <span class="function">add</span> = <span class="keyword">function</span> <span class="function">add</span>(a, b) {
+  <span class="keyword">return</span> a + b;
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Using base class from previous step we could create <code>Spock</code> suite containing JavaScript tests.
+To demonstrate all the possibilities of our solution we will create successful, failed and ignored test.</p>
+</div>
+<div class="listingblock">
+<div class="title">MathUtilsTest.groovy</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="type">class</span> <span class="class">MathUtilsTest</span> <span class="directive">extends</span> Jasmine2Specification {
+    <span class="directive">static</span> <span class="keyword">def</span> SPEC = <span class="string"><span class="delimiter">&quot;&quot;&quot;</span><span class="content"> <i class="conum" data-value="1"></i><b>(1)</b>
+loadFromClassPath(&quot;/js/mathUtils.js&quot;); <i class="conum" data-value="2"></i><b>(2)</b>
+describe(&quot;suite 1&quot;, function() {
+  it(&quot;should pass&quot;, function() {
+    expect(add(1, 2)).toBe(3);
+  });
+  it(&quot;should fail&quot;, function() {
+    expect(add(1, 2)).toBe(3);
+    expect(add(1, 2)).toBe(0);
+  });
+  xit(&quot;should be ignored&quot;, function() {
+    expect(add(1, 2)).toBe(3);
+  });
+})
+</span><span class="delimiter">&quot;&quot;&quot;</span></span>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>actual code of <code>Jasmine</code> suite is represented as a <code>String</code> variable.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>loading module under test using function inherited from <code>jasmine-bootstrap.js</code>.</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/images/2014-11-26/1.png" alt="Test results from IntelliJ IDEA">
+</div>
+<div class="title">Figure 1. Test results from IntelliJ IDEAx</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="intellij-idea-language-injection">IntelliJ Idea language injection</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Although this micro framework should work in all the IDEs the most handy usage of it will be within <strong>IntelliJ IDEA</strong>
+thanks to its <a href="https://www.jetbrains.com/idea/help/using-language-injections.html" target="_blank">language injection</a>.
+The feature allows to embed arbitrary language into file created in different programming language.
+So we could have JavaScript code block embedded into <code>Spock</code> specification written in Groovy.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/images/2014-11-26/2.png" alt="Language injection">
+</div>
+<div class="title">Figure 2. Language injection</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="pros-and-cons-of-the-solution">Pros and cons of the solution</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Advantages</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>usage of industry standard testing tools for both languages</p>
+</li>
+<li>
+<p>seamless integration with build tools and continuous integration tools</p>
+</li>
+<li>
+<p>ability to run single suite from IDE</p>
+</li>
+<li>
+<p>run single test from the particular suite, thanks to <a href="http://pivotallabs.com/new-key-features-jasmine-2-1/" target="_blank">focused feature of Jasmine</a></p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">Disadvantages</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>no clean way of detecting particular line of source code in case of test exception</p>
+</li>
+<li>
+<p>a little bit <code>IntelliJ IDEA</code> oriented setup</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="p-s">P.S.</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For this sample project I&#8217;ve used modern <code>Nashorn</code> engine from JDK8.
+But in fact there&#8217;s no limitation on this. The same approach was successfully applied for projects using older <code>Rhino</code> engine.
+And then again, <code>Jasmine</code> is just my personal preference.
+With additional work code could be adjusted to leverage <code>Mocha</code>, <code>QUnit</code> and so on.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Full project&#8217;s code is available at <a href="https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCanNashornSpock" target="_blank">My GitHub</a>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+  </article>
+
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+	var disqus_shortname = 'eshepelyukblog'; // required: replace example with your forum shortname
+	var disqus_url = 'http://eshepelyuk.github.io/2014/11/26/-testing-jvm-javascript-jasmine-spock-nashorn.html';
+	
+	/* * * DON'T EDIT BELOW THIS LINE * * */
+	(function() {
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+	<div class="wrapper">
+		<p class="text"><i class="fa fa-gear fa-lg">&nbsp;</i>Powered by <a target="_blank" href="http://pages.github.com/">GitHub Pages</a>, <a target="_blank" href="http://jekyllrb.com">Jekyll</a> and <a target="_blank" href="http://asciidoctor.org/">AsciiDoctor</a></p>
+	</div>	
+</footer>
+
+		
+		
+		
+	</body>
+
+
+
+
+
+</html>

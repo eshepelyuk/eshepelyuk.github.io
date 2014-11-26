@@ -5,9 +5,451 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 26 Nov 2014 08:30:00 +0000</pubDate>
-    <lastBuildDate>Wed, 26 Nov 2014 08:30:00 +0000</lastBuildDate>
+    <pubDate>Wed, 26 Nov 2014 10:11:58 +0000</pubDate>
+    <lastBuildDate>Wed, 26 Nov 2014 10:11:58 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Testing JVM server-side JavaScript with Jasmine, Spock and Nashorn</title>
+        <description>&lt;h1&gt;Testing JVM server-side JavaScript with Jasmine, Spock and Nashorn&lt;/h1&gt;
+&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;code&gt;JavaScript&lt;/code&gt; usage is not limited to client-side code in browser or &lt;code&gt;NodeJS&lt;/code&gt; powered server-side code.
+Many &lt;code&gt;JVM&lt;/code&gt; based projects are using it as internal scripting language.
+Testing this sort of functionality is neither straightforward nor standard.
+In this post I intend to demonstrate an approach for testing &lt;code&gt;JavaScript&lt;/code&gt; in server-side JVM environment
+using mature tools like &lt;code&gt;Jasmine&lt;/code&gt;, &lt;code&gt;Spock&lt;/code&gt; and &lt;code&gt;Nashorn&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Using JavaScript as scripting engine inside JVM application has significant difference comparing to client-side coding.
+And unfortunately there&amp;#8217;s no industrial standard tools nowadays for testing it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Regarding existing approaches found in Internet I&amp;#8217;d like to highlight following disadvantages&lt;/dt&gt;
+&lt;dd&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;lack of integration with build and &lt;em&gt;continuous integration&lt;/em&gt; tools (Maven, Gradle, Jenkins, etc.)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;insufficient cooperation with IDEs&lt;/p&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;no possibility to run single suite or test from IDE&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;unable to view test execution reports from IDE&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;tight coupling to browser environment&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;no possibility of using customized &lt;code&gt;JavaScript&lt;/code&gt; executors&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As far as I&amp;#8217;ve seen most of the projects test their embedded business scripts by calling JS engine runner,
+passing script under test to it and doing assertion by inspecting side-effects on engine or mocks after script execution.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Those sort of approaches usually have similar drawbacks&lt;/dt&gt;
+&lt;dd&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;hard to stub or mock something in JS code, usually ending up hacking on JS &lt;code&gt;prototype&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;need too much orchestration for mocking environment for script&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;hard to organize tests into suites and report test execution errors&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;previous causes creation of custom test suite frameworks for particular project&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;not leveraging existing JavaScript testing tools and frameworks&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;So, driven by the need for comfortable embedded JavaScript testing in JVM projects I&amp;#8217;ve created this sample setup.
+To fulfill our goals next tools will be used.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;Jasmine&lt;/code&gt; is one of the most known TDD/BDD tools for JavaScript&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;Spock&lt;/code&gt; is great testing framework for JVM powered by Junit and Groovy&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;Nashorn&lt;/code&gt; is modern scripting engine introduced in JDK8&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;customized-javascript-runner-nashorn-based&quot;&gt;Customized JavaScript runner (Nashorn based)&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There&amp;#8217;s no need to conform standards in non-browser JS environments, so usually
+developers extend scripting engine with custom functions, built-in variables etc.
+It is extremely important to use exactly the same runner both for production and testing purposes.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Let&amp;#8217;s consider we have such customized runner, accepting script name and map of predefined variables as parameters
+and returning resulting value of the executed script.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;JavaScriptRunner.java&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;JavaScriptRunner&lt;/span&gt; {
+  &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;Object&lt;/span&gt; run(&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; script, &lt;span class=&quot;predefined-type&quot;&gt;Map&lt;/span&gt;&amp;lt;&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt;, &lt;span class=&quot;predefined-type&quot;&gt;Object&lt;/span&gt;&amp;gt; params) &lt;span class=&quot;directive&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;exception&quot;&gt;Exception&lt;/span&gt; {
+    ScriptEngineManager factory = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; ScriptEngineManager();
+    ScriptEngine engine = factory.getEngineByName(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;nashorn&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;);
+    engine.getBindings(ScriptContext.ENGINE_SCOPE).putAll(params);
+    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; engine.eval(&lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;InputStreamReader&lt;/span&gt;(JavaScriptRunner.class.getResourceAsStream(script))); &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;script source is searched in classpath.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;jasmine-setup&quot;&gt;Jasmine setup&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To start using &lt;code&gt;Jasmine&lt;/code&gt; framework we need&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/pivotal/jasmine/releases/download/v2.1.2/jasmine-standalone-2.1.2.zip&quot; target=&quot;_blank&quot;&gt;download Jasmine&lt;/a&gt;
+and unpack it to &lt;code&gt;/jasmine/jasmine-2.1.2&lt;/code&gt; folder in project resources directory&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;custom bootstrap script, since &lt;code&gt;Jasmine&lt;/code&gt; doesn&amp;#8217;t support JVM based platforms&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;jasmine2-bootstrap.js&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;function&quot;&gt;loadFromClassPath&lt;/span&gt; = &lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;(path) { &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
+  load(Java.type(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;ua.eshepelyuk.blog.nashorn.Jasmine2Specification&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;).&lt;span class=&quot;reserved&quot;&gt;class&lt;/span&gt;.getResource(path).toExternalForm());
+};
+
+&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; window = &lt;span class=&quot;local-variable&quot;&gt;this&lt;/span&gt;;
+
+loadFromClassPath(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;/jasmine/jasmine-2.1.2/jasmine.js&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;);
+loadFromClassPath(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;/jasmine/jasmine2-html-stub.js&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;); &lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;(2)&lt;/b&gt;
+loadFromClassPath(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;/jasmine/jasmine-2.1.2/boot.js&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;);
+load({&lt;span class=&quot;key&quot;&gt;script&lt;/span&gt;: __jasmineSpec__, &lt;span class=&quot;key&quot;&gt;name&lt;/span&gt;: __jasmineSpecName__}); &lt;i class=&quot;conum&quot; data-value=&quot;3&quot;&gt;&lt;/i&gt;&lt;b&gt;(3)&lt;/b&gt;
+
+onload(); &lt;i class=&quot;conum&quot; data-value=&quot;4&quot;&gt;&lt;/i&gt;&lt;b&gt;(4)&lt;/b&gt;
+
+jsApiReporter.specs(); &lt;i class=&quot;conum&quot; data-value=&quot;5&quot;&gt;&lt;/i&gt;&lt;b&gt;(5)&lt;/b&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;helper function resolving script path from classpath location.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;2&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Nashorn&lt;/code&gt; specific code adjusting &lt;code&gt;Jasmine&lt;/code&gt; for non-browser environments. Not a part of &lt;code&gt;Jasmine&lt;/code&gt; distribution.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;3&quot;&gt;&lt;/i&gt;&lt;b&gt;3&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;loading test suite source code, see next section for details.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;4&quot;&gt;&lt;/i&gt;&lt;b&gt;4&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;faking browser &lt;code&gt;load&lt;/code&gt; event, that should trigger test suite execution.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;5&quot;&gt;&lt;/i&gt;&lt;b&gt;5&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;this value will be returned as script result.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;transform-jasmine-report-into-spock-tests&quot;&gt;Transform Jasmine report into Spock tests&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Having JS executor and bootstrap script for &lt;code&gt;Jasmine&lt;/code&gt; we could create &lt;code&gt;JUnit&lt;/code&gt; test
+to iterate over suite results and check if all are successful.
+But it will become a nightmare to understand which particular test had failed and what is the reason of failure.
+What we&amp;#8217;d really like to have is ability to represent each &lt;code&gt;Jasmine&lt;/code&gt; specification as &lt;code&gt;JUnit&lt;/code&gt; test,
+so any Java tool can pick up and inspect the results.
+Here why &lt;code&gt;Spock&lt;/code&gt; could be the answer to the problem, with its
+&lt;a href=&quot;http://spock-framework.readthedocs.org/en/latest/data_driven_testing.html&quot; target=&quot;_blank&quot;&gt;Data Driven Testing&lt;/a&gt;
+that allows developer to declare list of input data and for each item of that dataset new test will be created and executed.
+This is very similar to &lt;a href=&quot;https://github.com/junit-team/junit/wiki/Parameterized-tests&quot;&gt;Parametrized Test&lt;/a&gt; of &lt;code&gt;Junit&lt;/code&gt;
+but much more powerful implementation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;So the idea will be to consider &lt;code&gt;Jasmine&lt;/code&gt; test suite results obtained after running bootstrap script
+as array of input data, whose every item will be passed to &lt;code&gt;Spock&lt;/code&gt; test.
+Then test itself will provide assertion to report successful and failed tests properly, i.e.
+assertion should check status of &lt;code&gt;Jasmine&lt;/code&gt; specification.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;if status is &lt;code&gt;pending&lt;/code&gt; or &lt;code&gt;passed&lt;/code&gt;, this means specification is either ignored or successful&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;otherwise &lt;code&gt;Spock&lt;/code&gt; test should throw assertion error, populating assertion exception populated with failures messages reported by &lt;code&gt;Jasmine&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;Jasmine2Specification.groovy&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;directive&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;Jasmine2Specification&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;extends&lt;/span&gt; Specification {
+  &lt;span class=&quot;annotation&quot;&gt;@Shared&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; jasmineResults
+
+  &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;function&quot;&gt;setupSpec&lt;/span&gt;() {
+    &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; scriptParams = [
+        &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;__jasmineSpec__&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;    : getMetaClass().getMetaProperty(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;SPEC&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;).getProperty(&lt;span class=&quot;predefined-constant&quot;&gt;null&lt;/span&gt;), &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
+        &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;__jasmineSpecName__&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;inline&quot;&gt;&lt;span class=&quot;inline-delimiter&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;local-variable&quot;&gt;this&lt;/span&gt;.class.simpleName&lt;span class=&quot;inline-delimiter&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;.groovy&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+    ]
+    jasmineResults = JavaScriptRunner.run(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;/jasmine/jasmine2-bootstrap.js&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;, scriptParams) &lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;(2)&lt;/b&gt;
+  }
+
+  &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;function&quot;&gt;isPassed&lt;/span&gt;(&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; specRes) {specRes.status == &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;passed&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; || specRes.status == &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;pending&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;}
+
+  &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;function&quot;&gt;specErrorMsg&lt;/span&gt;(&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; specResult) {
+    specResult.failedExpectations
+        .collect {&lt;span class=&quot;local-variable&quot;&gt;it&lt;/span&gt;.value}.collect {&lt;span class=&quot;local-variable&quot;&gt;it&lt;/span&gt;.stack}.join(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;char&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;char&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;char&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)
+  }
+
+  &lt;span class=&quot;annotation&quot;&gt;@Unroll&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&#39;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;#specName&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;() {
+    &lt;span class=&quot;key&quot;&gt;expect&lt;/span&gt;:
+      &lt;span class=&quot;keyword&quot;&gt;assert&lt;/span&gt; isPassed(item), specErrorMsg(item) &lt;i class=&quot;conum&quot; data-value=&quot;3&quot;&gt;&lt;/i&gt;&lt;b&gt;(3)&lt;/b&gt;
+    &lt;span class=&quot;key&quot;&gt;where&lt;/span&gt;:
+      item &amp;lt;&amp;lt; jasmineResults.collect { &lt;span class=&quot;local-variable&quot;&gt;it&lt;/span&gt;.value }
+      specName = (item.status != &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;pending&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; ? item.fullName : &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;IGNORED: &lt;/span&gt;&lt;span class=&quot;inline&quot;&gt;&lt;span class=&quot;inline-delimiter&quot;&gt;$&lt;/span&gt;item&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;.fullName&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;) &lt;i class=&quot;conum&quot; data-value=&quot;4&quot;&gt;&lt;/i&gt;&lt;b&gt;(4)&lt;/b&gt;
+  }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;exposing source code of &lt;code&gt;Jasmine&lt;/code&gt; suite as &lt;em&gt;jasmineSpec&lt;/em&gt; variable, accessible to JS executor.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;2&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;actual execution of &lt;code&gt;Jasmine&lt;/code&gt; suite.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;3&quot;&gt;&lt;/i&gt;&lt;b&gt;3&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;for each suite result we &lt;code&gt;assert&lt;/code&gt; either it is succeeded, throwing assertion error with &lt;code&gt;Jasmine&lt;/code&gt; originated message on
+failure.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;4&quot;&gt;&lt;/i&gt;&lt;b&gt;4&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;additional data provider variable to highlight ignored tests.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;complete-example&quot;&gt;Complete example&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Let&amp;#8217;s create test suite for simple JavaScript function.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;mathUtils.js&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;function&quot;&gt;add&lt;/span&gt; = &lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;function&quot;&gt;add&lt;/span&gt;(a, b) {
+  &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; a + b;
+};&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Using base class from previous step we could create &lt;code&gt;Spock&lt;/code&gt; suite containing JavaScript tests.
+To demonstrate all the possibilities of our solution we will create successful, failed and ignored test.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;MathUtilsTest.groovy&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;MathUtilsTest&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;extends&lt;/span&gt; Jasmine2Specification {
+    &lt;span class=&quot;directive&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; SPEC = &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt; &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
+loadFromClassPath(&amp;quot;/js/mathUtils.js&amp;quot;); &lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;(2)&lt;/b&gt;
+describe(&amp;quot;suite 1&amp;quot;, function() {
+  it(&amp;quot;should pass&amp;quot;, function() {
+    expect(add(1, 2)).toBe(3);
+  });
+  it(&amp;quot;should fail&amp;quot;, function() {
+    expect(add(1, 2)).toBe(3);
+    expect(add(1, 2)).toBe(0);
+  });
+  xit(&amp;quot;should be ignored&amp;quot;, function() {
+    expect(add(1, 2)).toBe(3);
+  });
+})
+&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;actual code of &lt;code&gt;Jasmine&lt;/code&gt; suite is represented as a &lt;code&gt;String&lt;/code&gt; variable.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;2&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;loading module under test using function inherited from &lt;code&gt;jasmine-bootstrap.js&lt;/code&gt;.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;/images/2014-11-26/1.png&quot; alt=&quot;Test results from IntelliJ IDEA&quot;&gt;
+&lt;/div&gt;
+&lt;div class=&quot;title&quot;&gt;Figure 1. Test results from IntelliJ IDEAx&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;intellij-idea-language-injection&quot;&gt;IntelliJ Idea language injection&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Although this micro framework should work in all the IDEs the most handy usage of it will be within &lt;strong&gt;IntelliJ IDEA&lt;/strong&gt;
+thanks to its &lt;a href=&quot;https://www.jetbrains.com/idea/help/using-language-injections.html&quot; target=&quot;_blank&quot;&gt;language injection&lt;/a&gt;.
+The feature allows to embed arbitrary language into file created in different programming language.
+So we could have JavaScript code block embedded into &lt;code&gt;Spock&lt;/code&gt; specification written in Groovy.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;/images/2014-11-26/2.png&quot; alt=&quot;Language injection&quot;&gt;
+&lt;/div&gt;
+&lt;div class=&quot;title&quot;&gt;Figure 2. Language injection&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;pros-and-cons-of-the-solution&quot;&gt;Pros and cons of the solution&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Advantages&lt;/dt&gt;
+&lt;dd&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;usage of industry standard testing tools for both languages&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;seamless integration with build tools and continuous integration tools&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;ability to run single suite from IDE&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;run single test from the particular suite, thanks to &lt;a href=&quot;http://pivotallabs.com/new-key-features-jasmine-2-1/&quot; target=&quot;_blank&quot;&gt;focused feature of Jasmine&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Disadvantages&lt;/dt&gt;
+&lt;dd&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;no clean way of detecting particular line of source code in case of test exception&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;a little bit &lt;code&gt;IntelliJ IDEA&lt;/code&gt; oriented setup&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;p-s&quot;&gt;P.S.&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;For this sample project I&amp;#8217;ve used modern &lt;code&gt;Nashorn&lt;/code&gt; engine from JDK8.
+But in fact there&amp;#8217;s no limitation on this. The same approach was successfully applied for projects using older &lt;code&gt;Rhino&lt;/code&gt; engine.
+And then again, &lt;code&gt;Jasmine&lt;/code&gt; is just my personal preference.
+With additional work code could be adjusted to leverage &lt;code&gt;Mocha&lt;/code&gt;, &lt;code&gt;QUnit&lt;/code&gt; and so on.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;admonitionblock note&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;i class=&quot;fa icon-note&quot; title=&quot;Note&quot;&gt;&lt;/i&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+Full project&amp;#8217;s code is available at &lt;a href=&quot;https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCanNashornSpock&quot; target=&quot;_blank&quot;&gt;My GitHub&lt;/a&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
+        <pubDate>Wed, 26 Nov 2014 00:00:00 +0000</pubDate>
+        <link>http://eshepelyuk.github.io/2014/11/26/-testing-jvm-javascript-jasmine-spock-nashorn.html</link>
+        <guid isPermaLink="true">http://eshepelyuk.github.io/2014/11/26/-testing-jvm-javascript-jasmine-spock-nashorn.html</guid>
+        
+        <category>java</category>
+        
+        <category>nashorn</category>
+        
+        <category>tdd</category>
+        
+        <category>javascript</category>
+        
+        <category>jasmine</category>
+        
+        <category>groovy</category>
+        
+        <category>spock</category>
+        
+        
+      </item>
     
       <item>
         <title>Advanced integration of Jekyll and AsciiDoctor</title>
@@ -1521,63 +1963,6 @@ basic mocking support so its good choice for beginners like us :). Find more on 
         <category>coding dojo</category>
         
         <category>howto</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>WebDriver tricks #2</title>
-        <description>&lt;h1&gt;WebDriver tricks #2&lt;/h1&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Have you ever heard about WebDriver&amp;#8217;s feature of capturing screenshots ?
-Now you know it can do it too ! Today we faced a problem of debugging WebDriver tests of remote continuous integration server.
-Since locally tests passed but failed on TeamCity we had a need to get some more debug info.
-After playing around with capturing API i&amp;#8217;ve created utility class that is capturing browser screen and stores image
-into folder named as test class with image filename equals to running test method.
-For instance, you have class &lt;code&gt;com.MyUnstableWebTest&lt;/code&gt; and method &lt;code&gt;whenSmthHappensThenDoAction&lt;/code&gt;.
-When the utility method is called - image file with slightly the same as below name gonna be created.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Example name: &lt;code&gt;/webtest-screenshot/com.MyUnstableWebTest/whenSmthHappensThenDoAction.png&lt;/code&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Here&amp;#8217;s sources of utility in &lt;code&gt;Groovy&lt;/code&gt;. Please note that was tested only with &lt;code&gt;FireFox&lt;/code&gt; web driver&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;listingblock&quot;&gt;
-&lt;div class=&quot;content&quot;&gt;
-&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;package&lt;/span&gt; com.webtest
-
-&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;include&quot;&gt;org.apache.commons.io.FileUtils&lt;/span&gt;
-&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;include&quot;&gt;org.openqa.selenium.OutputType&lt;/span&gt;
-&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;include&quot;&gt;org.openqa.selenium.TakesScreenshot&lt;/span&gt;
-&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;include&quot;&gt;org.openqa.selenium.WebDriver&lt;/span&gt;
-
-&lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;ScreenshotUtils&lt;/span&gt; {
-        &lt;span class=&quot;directive&quot;&gt;static&lt;/span&gt; storeScreenshot(WebDriver webDriver,
-                        &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; debugInfo = &lt;span class=&quot;predefined-type&quot;&gt;System&lt;/span&gt;.currentTimeMillis()) {
-                &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; webTest = &lt;span class=&quot;predefined-type&quot;&gt;Thread&lt;/span&gt;.currentThread().stackTrace.find {
-            &lt;span class=&quot;local-variable&quot;&gt;it&lt;/span&gt;.className.endsWith(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;WebTest&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)
-        }
-        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (!webTest) &lt;span class=&quot;keyword&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;exception&quot;&gt;IllegalStateException&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;Called outside of WebTest&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)
-
-        &lt;span class=&quot;type&quot;&gt;byte&lt;/span&gt;&lt;span class=&quot;type&quot;&gt;[]&lt;/span&gt; srcFile = ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BYTES)
-        FileUtils.writeByteArrayToFile(
-            &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;File&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;./webtest-screenshot/&lt;/span&gt;&lt;span class=&quot;inline&quot;&gt;&lt;span class=&quot;inline-delimiter&quot;&gt;${&lt;/span&gt;webTest.className&lt;span class=&quot;inline-delimiter&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;inline&quot;&gt;&lt;span class=&quot;inline-delimiter&quot;&gt;${&lt;/span&gt;webTest.methodName&lt;span class=&quot;inline-delimiter&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;inline&quot;&gt;&lt;span class=&quot;inline-delimiter&quot;&gt;${&lt;/span&gt;debugInfo&lt;span class=&quot;inline-delimiter&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;.png&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;),
-                        srcFile
-                )
-    }
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description>
-        <pubDate>Fri, 13 Jan 2012 00:00:00 +0000</pubDate>
-        <link>http://eshepelyuk.github.io/2012/01/13/seleniumwebdriver-tricks-part-2.html</link>
-        <guid isPermaLink="true">http://eshepelyuk.github.io/2012/01/13/seleniumwebdriver-tricks-part-2.html</guid>
-        
-        <category>java</category>
-        
-        <category>firefox</category>
-        
-        <category>webdriver</category>
         
         
       </item>
