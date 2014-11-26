@@ -8,25 +8,25 @@ tags:
 - groovy
 - spock
 excerpt: |
-  `JavaScript` is not only browser powered client-side or `NodeJS` powered server-side code.
+  `JavaScript` usage is not limited to client-side code in browser or `NodeJS` powered server-side code.
   Many `JVM` based projects are using it as internal scripting language.
   Testing this sort of functionality is neither straightforward nor standard.
-  In this post I intend to demonstrate an approach for testing `JavaScript` code in server-side JVM environment
-  using well-known tools like `Jasmine`, `Spock` and `Nashorn`.
+  In this post I intend to demonstrate an approach for testing `JavaScript` in server-side JVM environment
+  using mature tools like `Jasmine`, `Spock` and `Nashorn`.
 ---
-:imagesdir: /images/drafts
+:imagesdir: /images/2014-11-26
 = Testing JVM server-side JavaScript with Jasmine, Spock and Nashorn
 
-`JavaScript` is not only browser powered client-side or `NodeJS` powered server-side code.
+`JavaScript` usage is not limited to client-side code in browser or `NodeJS` powered server-side code.
 Many `JVM` based projects are using it as internal scripting language.
 Testing this sort of functionality is neither straightforward nor standard.
-In this post I intend to demonstrate an approach for testing `JavaScript` code in server-side JVM environment
-using well-known tools like `Jasmine`, `Spock` and `Nashorn`.
+In this post I intend to demonstrate an approach for testing `JavaScript` in server-side JVM environment
+using mature tools like `Jasmine`, `Spock` and `Nashorn`.
 
 Using JavaScript as scripting engine inside JVM application has significant difference comparing to client-side coding.
-And unfortunately there's no industrial standard tools nowadays for testing embedded JavaScript. 
+And unfortunately there's no industrial standard tools nowadays for testing it. 
 
-Regarding existing approaches found in WWW I'd like to outline following disadvantages::
+Regarding existing approaches found in Internet I'd like to highlight following disadvantages::
 * lack of integration with build and _continuous integration_ tools (Maven, Gradle, Jenkins, etc.)
 * insufficient cooperation with IDEs
 ** no possibility to run single suite or test from IDE
@@ -39,13 +39,13 @@ passing script under test to it and doing assertion by inspecting side-effects o
 
 Those sort of approaches usually have similar drawbacks::
 * hard to stub or mock something in JS code, usually ending up hacking on JS `prototype`
-* need too much orchestration for mocking enviroinment for script
+* need too much orchestration for mocking environment for script
 * hard to organize tests into suites and report test execution errors
-* previous causes creation of custom test suite frameworks for particualr project
+* previous causes creation of custom test suite frameworks for particular project
 * not leveraging existing JavaScript testing tools and frameworks
 
 So, driven by the need for comfortable embedded JavaScript testing in JVM projects I've created this sample setup.
-To fulfil our goals next tools will be used.
+To fulfill our goals next tools will be used.
 
 * `Jasmine` is one of the most known TDD/BDD tools for JavaScript
 * `Spock` is great testing framework for JVM powered by Junit and Groovy
@@ -103,30 +103,29 @@ jsApiReporter.specs(); <5>
 <1> helper function resolving script path from classpath location.
 <2> `Nashorn` specific code adjusting `Jasmine` for non-browser environments. Not a part of `Jasmine` distribution.
 <3> loading test suite source code, see next section for details.
-<4> faking browser `load` event, that should trigger test suite exection.
+<4> faking browser `load` event, that should trigger test suite execution.
 <5> this value will be returned as script result.
 
 == Transform Jasmine report into Spock tests
 
-TIP:: Get Jasmine report from executor and create fake tests with Spock data provider.
-
 Having JS executor and bootstrap script for `Jasmine` we could create `JUnit` test 
-to iterate over results and check if all are successful. 
+to iterate over suite results and check if all are successful. 
 But it will become a nightmare to understand which particular test had failed and what is the reason of failure.
-
-What we really like to have is represent each `Jasmine` specification as `JUnit` test so each Java tool
-can pick up and integrate those results. Here why `Spock` could be the answer to the problem.
-http://spock-framework.readthedocs.org/en/latest/data_driven_testing.html [Data Driven Testing^]
-allows developer to declare list of inut results for each item new test will be created and executed.
+What we'd really like to have is ability to represent each `Jasmine` specification as `JUnit` test,
+so any Java tool can pick up and inspect the results. 
+Here why `Spock` could be the answer to the problem, with its
+http://spock-framework.readthedocs.org/en/latest/data_driven_testing.html[Data Driven Testing^]
+that allows developer to declare list of input data and for each item of that dataset new test will be created and executed.
 This is very similar to https://github.com/junit-team/junit/wiki/Parameterized-tests[Parametrized Test] of `Junit`
-but much more powerful.
+but much more powerful implementation.
 
-So the idea will be to consider `Jasmine` test suite results as array of data, whose every item will be passed to `Spock` test.
-Then test should provide assertion to report succesful and failed tests properly, i.e.
-assertion should chelc status of `Jasmine` specification
+So the idea will be to consider `Jasmine` test suite results obtained after running bootstrap script
+as array of input data, whose every item will be passed to `Spock` test.
+Then test itself will provide assertion to report successful and failed tests properly, i.e.
+assertion should check status of `Jasmine` specification.
 
-* if status is `pending` or `passed`, this means specification is either ignored or succesfull
-* otherwise `Spock` test should throw assertion error, populating assertion error with reported failures from `Jasmine`
+* if status is `pending` or `passed`, this means specification is either ignored or successful
+* otherwise `Spock` test should throw assertion error, populating assertion exception populated with failures messages reported by `Jasmine`
 
 [source,groovy]
 .Jasmine2Specification.groovy
@@ -220,15 +219,19 @@ image::2.png[Language injection]
 
 Advantages::
 * usage of industry standard testing tools for both languages
-* seamless integration with build tools and continous integration tools
+* seamless integration with build tools and continuous integration tools
 * ability to run single suite from IDE
 * run single test from the particular suite, thanks to http://pivotallabs.com/new-key-features-jasmine-2-1/[focused feature of Jasmine^]
 
 Disadvantages::
 * no clean way of detecting particular line of source code in case of test exception
+* a little bit `IntelliJ IDEA` oriented setup
 
-For the sample project I've used latest `Nashorn` engine from JDK.
-But in fact there's no limitation on this. The same approach was succesfully applied for projects using older `Rhino` engine.
-And then again, `Jasmine` is just my personal preference. With additional work code could be adjusted to leverage `Mocha`, `QUnit` and so on.
+== P.S.
 
-NOTE: Full project's code is available at https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCanNashornSpock[GitHub^]
+For this sample project I've used modern `Nashorn` engine from JDK8.
+But in fact there's no limitation on this. The same approach was successfully applied for projects using older `Rhino` engine.
+And then again, `Jasmine` is just my personal preference. 
+With additional work code could be adjusted to leverage `Mocha`, `QUnit` and so on.
+
+NOTE: Full project's code is available at https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCanNashornSpock[My GitHub^]
