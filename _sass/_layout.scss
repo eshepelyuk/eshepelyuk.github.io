@@ -93,8 +93,7 @@
 }
 
 .site-contact {
-    &,
-    &:visited {
+    &, &:visited, &:hover {
         color: $white-color;
     }
 }
