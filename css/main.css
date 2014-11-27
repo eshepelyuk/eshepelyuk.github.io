@@ -207,7 +207,7 @@ pre {
         display: block;
         padding: 5px 10px; } }
 
-.site-contact, .site-contact:visited {
+.site-contact, .site-contact:visited, .site-contact:hover {
   color: #ffffff; }
 
 ul.site-contact {
