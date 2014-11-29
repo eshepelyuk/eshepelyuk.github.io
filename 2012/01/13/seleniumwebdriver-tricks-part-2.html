@@ -1,158 +1,38 @@
-<!DOCTYPE html>
-<html>
+= WebDriver tricks #2
 
-  <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width initial-scale=1" />
-
-	
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	
-	<title>WebDriver tricks #2</title>
-
-
-	<meta name="description" content="Simple blog for some thoughts to be shared. Mostly about Java programming">
-	
-	
-	<meta name="keywords" content="java, firefox, webdriver">
-
-	<link rel="stylesheet" href="/css/main.css">
-	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-	
-	<link rel="canonical" href="http://eshepelyuk.github.io/2012/01/13/seleniumwebdriver-tricks-part-2.html">
-	<link href="http://eshepelyuk.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="JK's blog Feed">
-
-	
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-56082439-1', 'auto');
-ga('send', 'pageview');
-</script>
-
-	
-</head>
-
-
-  <body>
-    <header class="site-header">
-	<div class="wrapper">
-		<a href="https://github.com/eshepelyuk/eshepelyuk.github.io/tree/jekyll"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>   		
-		<a class="site-title" href="/"><i class="fa fa-cube fa-lg">&nbsp;&nbsp;</i>JK's blog</a>	
-
-	</div>
-	<div class="wrapper">
-		<p class="text">Simple blog for some thoughts to be shared. Mostly about Java programming</p>
-	</div>
-	<div class="wrapper">
-		<ul class="site-contact">
-			<li><i class="fa fa-twitter fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://twitter.com/eshepelyuk">@eshepelyuk</a></li>
-			<li>|</li>
-			<li><i class="fa fa-facebook fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://www.facebook.com/evgeny.shepelyuk">evgeny.shepelyuk</a></li>
-			<li>|</li>
-			<li><i class="fa fa-linkedin fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://www.linkedin.com/pub/evgeny-shepelyuk/4/b1/a20">evgeny-shepelyuk</a></li>
-			<li>|</li>
-			<li><i class="fa fa-rss fa-lg text-error"></i>&nbsp;<a target="_blank" class="site-contact" href="http://eshepelyuk.github.io/feed.xml">RSS</a></li>
-		</ul>
-	</div>
-</header>
-
-
-    <div class="page-content">
-      <div class="wrapper">
-        <div class="post">
-
-  <header class="post-header">
-    <h1 class="post-title">WebDriver tricks #2</h1>
-    <span class="post-meta"><i class="fa fa-calendar fa-lg"></i>&nbsp;&nbsp;Jan 13, 2012<i class="fa fa-tags fa-lg"></i>&nbsp;java, firefox, webdriver</span>
-		
-		
-		
-		
-  </header>
-
-  <article class="post-content">
-    <h1>WebDriver tricks #2</h1>
-<div class="paragraph">
-<p>Have you ever heard about WebDriver&#8217;s feature of capturing screenshots ?
-Now you know it can do it too ! Today we faced a problem of debugging WebDriver tests of remote continuous integration server.
-Since locally tests passed but failed on TeamCity we had a need to get some more debug info.
-After playing around with capturing API i&#8217;ve created utility class that is capturing browser screen and stores image
+Have you ever heard about WebDriver's feature of capturing screenshots ? 
+Now you know it can do it too ! Today we faced a problem of debugging WebDriver tests of remote continuous integration server. 
+Since locally tests passed but failed on TeamCity we had a need to get some more debug info. 
+After playing around with capturing API i've created utility class that is capturing browser screen and stores image 
 into folder named as test class with image filename equals to running test method.
-For instance, you have class <code>com.MyUnstableWebTest</code> and method <code>whenSmthHappensThenDoAction</code>.
-When the utility method is called - image file with slightly the same as below name gonna be created.</p>
-</div>
-<div class="paragraph">
-<p>Example name: <code>/webtest-screenshot/com.MyUnstableWebTest/whenSmthHappensThenDoAction.png</code></p>
-</div>
-<div class="paragraph">
-<p>Here&#8217;s sources of utility in <code>Groovy</code>. Please note that was tested only with <code>FireFox</code> web driver</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">package</span> com.webtest
+For instance, you have class `com.MyUnstableWebTest` and method `whenSmthHappensThenDoAction`. 
+When the utility method is called - image file with slightly the same as below name gonna be created.
 
-<span class="keyword">import</span> <span class="include">org.apache.commons.io.FileUtils</span>
-<span class="keyword">import</span> <span class="include">org.openqa.selenium.OutputType</span>
-<span class="keyword">import</span> <span class="include">org.openqa.selenium.TakesScreenshot</span>
-<span class="keyword">import</span> <span class="include">org.openqa.selenium.WebDriver</span>
+Example name: `/webtest-screenshot/com.MyUnstableWebTest/whenSmthHappensThenDoAction.png`
 
-<span class="type">class</span> <span class="class">ScreenshotUtils</span> {
-        <span class="directive">static</span> storeScreenshot(WebDriver webDriver,
-                        <span class="keyword">def</span> debugInfo = <span class="predefined-type">System</span>.currentTimeMillis()) {
-                <span class="keyword">def</span> webTest = <span class="predefined-type">Thread</span>.currentThread().stackTrace.find {
-            <span class="local-variable">it</span>.className.endsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">WebTest</span><span class="delimiter">&quot;</span></span>)
+Here's sources of utility in `Groovy`. Please note that was tested only with `FireFox` web driver
+[source,groovy]
+----
+package com.webtest
+ 
+import org.apache.commons.io.FileUtils
+import org.openqa.selenium.OutputType
+import org.openqa.selenium.TakesScreenshot
+import org.openqa.selenium.WebDriver
+ 
+class ScreenshotUtils {
+	static storeScreenshot(WebDriver webDriver, 
+			def debugInfo = System.currentTimeMillis()) {
+		def webTest = Thread.currentThread().stackTrace.find {
+            it.className.endsWith("WebTest")
         }
-        <span class="keyword">if</span> (!webTest) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">IllegalStateException</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Called outside of WebTest</span><span class="delimiter">&quot;</span></span>)
-
-        <span class="type">byte</span><span class="type">[]</span> srcFile = ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BYTES)
+        if (!webTest) throw new IllegalStateException("Called outside of WebTest")
+ 
+        byte[] srcFile = ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BYTES)
         FileUtils.writeByteArrayToFile(
-            <span class="keyword">new</span> <span class="predefined-type">File</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">./webtest-screenshot/</span><span class="inline"><span class="inline-delimiter">${</span>webTest.className<span class="inline-delimiter">}</span></span><span class="content">/</span><span class="inline"><span class="inline-delimiter">${</span>webTest.methodName<span class="inline-delimiter">}</span></span><span class="content">_</span><span class="inline"><span class="inline-delimiter">${</span>debugInfo<span class="inline-delimiter">}</span></span><span class="content">.png</span><span class="delimiter">&quot;</span></span>),
-                        srcFile
-                )
+            new File("./webtest-screenshot/${webTest.className}/${webTest.methodName}_${debugInfo}.png"), 
+			srcFile
+		)
     }
-}</code></pre>
-</div>
-</div>
-  </article>
-
-</div>
-
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-	var disqus_shortname = 'eshepelyukblog'; // required: replace example with your forum shortname
-	var disqus_url = 'http://eshepelyuk.github.io/2012/01/13/seleniumwebdriver-tricks-part-2.html';
-	
-	/* * * DON'T EDIT BELOW THIS LINE * * */
-	(function() {
-		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-
-      </div>
-    </div>
-
-    <footer class="site-footer">
-	<div class="wrapper">
-		<p class="text"><i class="fa fa-gear fa-lg">&nbsp;</i>Powered by <a target="_blank" href="http://pages.github.com/">GitHub Pages</a>, <a target="_blank" href="http://jekyllrb.com">Jekyll</a> and <a target="_blank" href="http://asciidoctor.org/">AsciiDoctor</a></p>
-	</div>	
-</footer>
-
-		
-		
-		
-	</body>
-
-
-
-
-
-</html>
+}
+----

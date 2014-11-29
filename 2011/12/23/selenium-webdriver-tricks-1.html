@@ -1,222 +1,72 @@
-<!DOCTYPE html>
-<html>
+= WebDriver tricks #1
 
-  <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width initial-scale=1" />
-
-	
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	
-	<title>WebDriver tricks #1</title>
-
-
-	<meta name="description" content="Simple blog for some thoughts to be shared. Mostly about Java programming">
-	
-	
-	<meta name="keywords" content="java, webdriver, xpath, howto">
-
-	<link rel="stylesheet" href="/css/main.css">
-	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-	
-	<link rel="canonical" href="http://eshepelyuk.github.io/2011/12/23/selenium-webdriver-tricks-1.html">
-	<link href="http://eshepelyuk.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="JK's blog Feed">
-
-	
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-56082439-1', 'auto');
-ga('send', 'pageview');
-</script>
-
-	
-</head>
-
-
-  <body>
-    <header class="site-header">
-	<div class="wrapper">
-		<a href="https://github.com/eshepelyuk/eshepelyuk.github.io/tree/jekyll"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>   		
-		<a class="site-title" href="/"><i class="fa fa-cube fa-lg">&nbsp;&nbsp;</i>JK's blog</a>	
-
-	</div>
-	<div class="wrapper">
-		<p class="text">Simple blog for some thoughts to be shared. Mostly about Java programming</p>
-	</div>
-	<div class="wrapper">
-		<ul class="site-contact">
-			<li><i class="fa fa-twitter fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://twitter.com/eshepelyuk">@eshepelyuk</a></li>
-			<li>|</li>
-			<li><i class="fa fa-facebook fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://www.facebook.com/evgeny.shepelyuk">evgeny.shepelyuk</a></li>
-			<li>|</li>
-			<li><i class="fa fa-linkedin fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://www.linkedin.com/pub/evgeny-shepelyuk/4/b1/a20">evgeny-shepelyuk</a></li>
-			<li>|</li>
-			<li><i class="fa fa-rss fa-lg text-error"></i>&nbsp;<a target="_blank" class="site-contact" href="http://eshepelyuk.github.io/feed.xml">RSS</a></li>
-		</ul>
-	</div>
-</header>
-
-
-    <div class="page-content">
-      <div class="wrapper">
-        <div class="post">
-
-  <header class="post-header">
-    <h1 class="post-title">WebDriver tricks #1</h1>
-    <span class="post-meta"><i class="fa fa-calendar fa-lg"></i>&nbsp;&nbsp;Dec 23, 2011<i class="fa fa-tags fa-lg"></i>&nbsp;java, webdriver, xpath, howto</span>
-		
-		
-		
-		
-  </header>
-
-  <article class="post-content">
-    <h1>WebDriver tricks #1</h1>
-<div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
-<p>Finally decided to start series (i hope) of blog posts describing tricks that could help developers
+Finally decided to start series (i hope) of blog posts describing tricks that could help developers 
 to write more robust Selenium / WebDriver tests. Here are two of them.
-This information is all covered by Selenium JavaDocs. But if you&#8217;re good programmer - will you ever read JavaDocs ? :)</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="trick">Trick</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Q</strong>: How to find element by XPath expression under certain node of HTML tree and not from HTML tree root ?</p>
-</li>
-<li>
-<p><strong>A</strong>: You should prefix your XPath expression with <code>.//</code> (dot in the beginning)</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Having HTML</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;html&gt;</span>
-   <span class="tag">&lt;body&gt;</span>
-    <span class="tag">&lt;div</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">panel1</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-       <span class="tag">&lt;div&gt;</span>
-          <span class="tag">&lt;span</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">myClass</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>ITEM1<span class="tag">&lt;/span&gt;</span>
-       <span class="tag">&lt;/div&gt;</span>
-    <span class="tag">&lt;/div&gt;</span>
-    <span class="tag">&lt;div</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">panel2</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-       <span class="tag">&lt;div&gt;</span>
-         <span class="tag">&lt;span</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">myClass</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>ITEM2<span class="tag">&lt;/span&gt;</span>
-       <span class="tag">&lt;/div&gt;</span>
-    <span class="tag">&lt;/div&gt;</span>
-  <span class="tag">&lt;/body&gt;</span>
-<span class="tag">&lt;/html&gt;</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Java test below illustrates the difference</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">WebElement panel2 = webDriver.findElement(By.id(<span class="string"><span class="delimiter">&quot;</span><span class="content">panel2</span><span class="delimiter">&quot;</span></span>));
+This information is all covered by Selenium JavaDocs. But if you're good programmer - will you ever read JavaDocs ? :)
 
-WebElement el1 = panel2.findElement(By.xpath(<span class="string"><span class="delimiter">&quot;</span><span class="content">//span[@class = 'myClass']</span><span class="delimiter">&quot;</span></span>));
-WebElement el2 = panel2.findElement(By.xpath(<span class="string"><span class="delimiter">&quot;</span><span class="content">.//span[@class = 'myClass']</span><span class="delimiter">&quot;</span></span>));
+== Trick 
 
-<span class="keyword">assert</span> el1.getText().equals(<span class="string"><span class="delimiter">&quot;</span><span class="content">ITEM1</span><span class="delimiter">&quot;</span></span>);
-<span class="keyword">assert</span> el2.getText().equals(<span class="string"><span class="delimiter">&quot;</span><span class="content">ITEM2</span><span class="delimiter">&quot;</span></span>);</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>XPath expression <code>//span[@class = 'myClass']</code> makes WebDriver to look for element using HTML root as starting point
-even if we call <code>findElement()</code> not at <code>webDriver</code> variable.
-From other hand using XPath starting from dot, i.e. <code>.//span[@class = 'myClass']</code>
-instructs WebDriver to use <strong>panel2</strong> as starting point.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="trick-2">Trick</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p>Q: How to check that certain element doesn&#8217;t exist in HTML tree.</p>
-</li>
-<li>
-<p>A: There&#8217;s common <strong>anti-pattern</strong> frequently used by developers.</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">WebElement notExist = <span class="predefined-constant">null</span>;
-<span class="keyword">try</span> {
-    notExist = webDriver.findElement(By.xpath(<span class="string"><span class="delimiter">&quot;</span><span class="content">//div[@id='iAmNotHere']</span><span class="delimiter">&quot;</span></span>));
-} <span class="keyword">catch</span> (<span class="exception">NoSuchElementException</span> e) {
-}
-<span class="keyword">assert</span> notExist == <span class="predefined-constant">null</span>;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>This approach has enough disadvantages and best practices violations. We ain&#8217;t gonna cover them here ;)
-Instead we can use much simpler code to achieve the same result.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">assert</span> webDriver.findElements(By.xpath(<span class="string"><span class="delimiter">&quot;</span><span class="content">//div[@id='iAmNotHere']</span><span class="delimiter">&quot;</span></span>)).size() == <span class="integer">0</span>;</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="p-s-let-s-start-read-javadocs-before-writing-code">P.S.: Let&#8217;s start read JavaDocs before writing code :)</h2>
-<div class="sectionbody">
+* *Q*: How to find element by XPath expression under certain node of HTML tree and not from HTML tree root ?
+* *A*: You should prefix your XPath expression with `.//` (dot in the beginning)
 
-</div>
-</div>
-  </article>
+Having HTML 
 
-</div>
-
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-	var disqus_shortname = 'eshepelyukblog'; // required: replace example with your forum shortname
-	var disqus_url = 'http://eshepelyuk.github.io/2011/12/23/selenium-webdriver-tricks-1.html';
-	
-	/* * * DON'T EDIT BELOW THIS LINE * * */
-	(function() {
-		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-
-      </div>
+[source,html]
+----
+<html>
+   <body>
+    <div id="panel1">
+       <div>
+          <span class="myClass">ITEM1</span>
+       </div>
     </div>
-
-    <footer class="site-footer">
-	<div class="wrapper">
-		<p class="text"><i class="fa fa-gear fa-lg">&nbsp;</i>Powered by <a target="_blank" href="http://pages.github.com/">GitHub Pages</a>, <a target="_blank" href="http://jekyllrb.com">Jekyll</a> and <a target="_blank" href="http://asciidoctor.org/">AsciiDoctor</a></p>
-	</div>	
-</footer>
-
-		
-		
-		
-	</body>
-
-
-
-
-
+    <div id="panel2">
+       <div>
+         <span class="myClass">ITEM2</span>
+       </div>
+    </div>
+  </body>
 </html>
+----
+ 
+Java test below illustrates the difference
+
+[source,java]
+----
+WebElement panel2 = webDriver.findElement(By.id("panel2"));
+
+WebElement el1 = panel2.findElement(By.xpath("//span[@class = 'myClass']"));
+WebElement el2 = panel2.findElement(By.xpath(".//span[@class = 'myClass']"));
+
+assert el1.getText().equals("ITEM1");
+assert el2.getText().equals("ITEM2");
+----
+XPath expression `//span[@class = 'myClass']` makes WebDriver to look for element using HTML root as starting point 
+even if we call `findElement()` not at `webDriver` variable. 
+From other hand using XPath starting from dot, i.e. `.//span[@class = 'myClass']` 
+instructs WebDriver to use *panel2* as starting point.
+
+== Trick
+
+* Q: How to check that certain element doesn't exist in HTML tree.
+* A: There's common *anti-pattern* frequently used by developers.
+
+[source, java]
+----
+WebElement notExist = null;
+try {
+    notExist = webDriver.findElement(By.xpath("//div[@id='iAmNotHere']"));
+} catch (NoSuchElementException e) {
+}
+assert notExist == null;
+----
+ 
+This approach has enough disadvantages and best practices violations. We ain't gonna cover them here ;)
+Instead we can use much simpler code to achieve the same result.
+
+[source,java]
+----
+assert webDriver.findElements(By.xpath("//div[@id='iAmNotHere']")).size() == 0;
+----
+
+== P.S.: Let's start read JavaDocs before writing code :)

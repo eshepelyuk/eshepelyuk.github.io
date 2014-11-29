@@ -1,182 +1,41 @@
-<!DOCTYPE html>
-<html>
+:linkattrs:
+= CodingDojoCnUa #6
 
-  <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width initial-scale=1" />
+Today, 28th of July, our CodingDojoCnUa community successfully conducted 6th Coding Dojo. 
+We met at Chernihiv's office of SysIQ, as few times before. 
+The subject of our session was `RomanNumerals` kata - description can be found by http://codingdojo.org/cgi-bin/wiki.pl?KataRomanNumerals[HERE]. 
+Main thing distinguishing this Dojo from previous ones was splitting the attendees into two separate teams 
+that were working on their own without shared _Design Session_. 
+Each team was responsible for figuring out own implementation and eventually produced working code together with unit tests. 
+Both implementation can be found at GitHub
 
-	
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	
-	<title>CodingDojoCnUa #6</title>
+* https://github.com/eshepelyuk/CodingDojoCnUa/tree/master/Dojo6/teamA[Code for TeamA, window='_blank']
+* https://github.com/eshepelyuk/CodingDojoCnUa/tree/master/Dojo6/teamB[Code for TeamB, window='_blank']
 
+== What we've discovered
 
-	<meta name="description" content="Some notes and observations on 6th Coding Dojo by CodingDojoCnUa community.">
-	
-	
-	<meta name="keywords" content="coffeescript, coding dojo, kata">
+First things to mention that team provided completely different solutions to the same problem. 
+Relative simplicity of Kata seemed to help coders to split task into smaller parts thus supporting true incremental development, 
+concentrating on providing small slices of functionality after creating failed test. 
+Unlike previous times there were no attempts to create `God Functions` immediately after start of Dojo. 
+Although longer Design Sessions are essential to make team move faster and effectively with incremental development.
 
-	<link rel="stylesheet" href="/css/main.css">
-	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-	
-	<link rel="canonical" href="http://eshepelyuk.github.io/2012/07/28/codingdojocnua-6.html">
-	<link href="http://eshepelyuk.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="JK's blog Feed">
+Second main observation is that few peoples who don't use TDD on daily basis realized that this approach 
+could significantly affect original design of algorithm and even imposes final design. 
+On retrospective meeting one of us described this impression  
 
-	
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-56082439-1', 'auto');
-ga('send', 'pageview');
-</script>
-
-	
-</head>
-
-
-  <body>
-    <header class="site-header">
-	<div class="wrapper">
-		<a href="https://github.com/eshepelyuk/eshepelyuk.github.io/tree/jekyll"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>   		
-		<a class="site-title" href="/"><i class="fa fa-cube fa-lg">&nbsp;&nbsp;</i>JK's blog</a>	
-
-	</div>
-	<div class="wrapper">
-		<p class="text">Simple blog for some thoughts to be shared. Mostly about Java programming</p>
-	</div>
-	<div class="wrapper">
-		<ul class="site-contact">
-			<li><i class="fa fa-twitter fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://twitter.com/eshepelyuk">@eshepelyuk</a></li>
-			<li>|</li>
-			<li><i class="fa fa-facebook fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://www.facebook.com/evgeny.shepelyuk">evgeny.shepelyuk</a></li>
-			<li>|</li>
-			<li><i class="fa fa-linkedin fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://www.linkedin.com/pub/evgeny-shepelyuk/4/b1/a20">evgeny-shepelyuk</a></li>
-			<li>|</li>
-			<li><i class="fa fa-rss fa-lg text-error"></i>&nbsp;<a target="_blank" class="site-contact" href="http://eshepelyuk.github.io/feed.xml">RSS</a></li>
-		</ul>
-	</div>
-</header>
-
-
-    <div class="page-content">
-      <div class="wrapper">
-        <div class="post">
-
-  <header class="post-header">
-    <h1 class="post-title">CodingDojoCnUa #6</h1>
-    <span class="post-meta"><i class="fa fa-calendar fa-lg"></i>&nbsp;&nbsp;Jul 28, 2012<i class="fa fa-tags fa-lg"></i>&nbsp;coffeescript, coding dojo, kata</span>
-		
-		
-		
-		
-  </header>
-
-  <article class="post-content">
-    <h1>CodingDojoCnUa #6</h1>
-<div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
-<p>Today, 28th of July, our CodingDojoCnUa community successfully conducted 6th Coding Dojo.
-We met at Chernihiv&#8217;s office of SysIQ, as few times before.
-The subject of our session was <code>RomanNumerals</code> kata - description can be found by <a href="http://codingdojo.org/cgi-bin/wiki.pl?KataRomanNumerals">HERE</a>.
-Main thing distinguishing this Dojo from previous ones was splitting the attendees into two separate teams
-that were working on their own without shared <em>Design Session</em>.
-Each team was responsible for figuring out own implementation and eventually produced working code together with unit tests.
-Both implementation can be found at GitHub</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://github.com/eshepelyuk/CodingDojoCnUa/tree/master/Dojo6/teamA" target="_blank">Code for TeamA</a></p>
-</li>
-<li>
-<p><a href="https://github.com/eshepelyuk/CodingDojoCnUa/tree/master/Dojo6/teamB" target="_blank">Code for TeamB</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="what-we-ve-discovered">What we&#8217;ve discovered</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>First things to mention that team provided completely different solutions to the same problem.
-Relative simplicity of Kata seemed to help coders to split task into smaller parts thus supporting true incremental development,
-concentrating on providing small slices of functionality after creating failed test.
-Unlike previous times there were no attempts to create <code>God Functions</code> immediately after start of Dojo.
-Although longer Design Sessions are essential to make team move faster and effectively with incremental development.</p>
-</div>
-<div class="paragraph">
-<p>Second main observation is that few peoples who don&#8217;t use TDD on daily basis realized that this approach
-could significantly affect original design of algorithm and even imposes final design.
-On retrospective meeting one of us described this impression</p>
-</div>
-<div class="quoteblock">
-<blockquote>
+[quote]
 People saw TDD in action.
-</blockquote>
-</div>
-<div class="paragraph">
-<p>3rd and the shortest - <code>CoffeeScript</code> tastes better each time you try it :)</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="what-we-re-gonna-try-next-time">What we&#8217;re gonna try next time ?</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Apparently largest negative issue raised on retro was isolation of members within own team and lack of inter-team communication.
-Attendees suggested various options, even tackle more complicated task than kata,
-like some sort of network game, and go through complete process of application development.</p>
-</div>
-<div class="paragraph">
-<p>But finally we agreed on just to exchange team members in the middle of next Dojo
-to see if this is helpful for coding and / or brings more fun to the event :)</p>
-</div>
-<div class="paragraph">
-<p>Some photos <a href="http://www.facebook.com/media/set/?set=oa.378960365504429&amp;type=1" target="_blank">@Facebook</a></p>
-</div>
-</div>
-</div>
-  </article>
 
-</div>
+3rd and the shortest - `CoffeeScript` tastes better each time you try it :)
 
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-	var disqus_shortname = 'eshepelyukblog'; // required: replace example with your forum shortname
-	var disqus_url = 'http://eshepelyuk.github.io/2012/07/28/codingdojocnua-6.html';
-	
-	/* * * DON'T EDIT BELOW THIS LINE * * */
-	(function() {
-		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+== What we're gonna try next time ? 
 
+Apparently largest negative issue raised on retro was isolation of members within own team and lack of inter-team communication. 
+Attendees suggested various options, even tackle more complicated task than kata, 
+like some sort of network game, and go through complete process of application development.
 
-      </div>
-    </div>
+But finally we agreed on just to exchange team members in the middle of next Dojo 
+to see if this is helpful for coding and / or brings more fun to the event :)
 
-    <footer class="site-footer">
-	<div class="wrapper">
-		<p class="text"><i class="fa fa-gear fa-lg">&nbsp;</i>Powered by <a target="_blank" href="http://pages.github.com/">GitHub Pages</a>, <a target="_blank" href="http://jekyllrb.com">Jekyll</a> and <a target="_blank" href="http://asciidoctor.org/">AsciiDoctor</a></p>
-	</div>	
-</footer>
-
-		
-		
-		
-	</body>
-
-
-
-
-
-</html>
+Some photos http://www.facebook.com/media/set/?set=oa.378960365504429&amp;type=1[@Facebook, window='_blank']
