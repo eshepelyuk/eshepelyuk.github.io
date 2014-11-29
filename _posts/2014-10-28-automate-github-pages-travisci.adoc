@@ -137,7 +137,7 @@ git add -A .
 git commit -a -m "Travis #$TRAVIS_BUILD_NUMBER"
 git push --quiet origin master > /dev/null 2>&1 <1>
 ----
-<1> Hiding all the output from push command, to prevent token leak.
+<1> Hiding all the output from `git push` command, to prevent token leak.
 
 == Run everything
 
