@@ -5,234 +5,431 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 29 Nov 2014 17:47:19 +0000</pubDate>
-    <lastBuildDate>Sat, 29 Nov 2014 17:47:19 +0000</lastBuildDate>
+    <pubDate>Sat, 29 Nov 2014 18:02:24 +0000</pubDate>
+    <lastBuildDate>Sat, 29 Nov 2014 18:02:24 +0000</lastBuildDate>
     <generator>Jekyll v2.5.2</generator>
     
       <item>
-        <title> Testing Jvm Javascript Jasmine Spock Nashorn</title>
-        <description>:imagesdir: /images/2014-11-26
-= Testing JVM server-side JavaScript with Jasmine, Spock and Nashorn
-
-`JavaScript` usage is not limited to client-side code in browser or `NodeJS` powered server-side code.
-Many `JVM` based projects are using it as internal scripting language.
+        <title>Testing JVM server-side JavaScript with Jasmine, Spock and Nashorn</title>
+        <description>&lt;h1&gt;Testing JVM server-side JavaScript with Jasmine, Spock and Nashorn&lt;/h1&gt;
+&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;code&gt;JavaScript&lt;/code&gt; usage is not limited to client-side code in browser or &lt;code&gt;NodeJS&lt;/code&gt; powered server-side code.
+Many &lt;code&gt;JVM&lt;/code&gt; based projects are using it as internal scripting language.
 Testing this sort of functionality is neither straightforward nor standard.
-In this post I intend to demonstrate an approach for testing `JavaScript` in server-side JVM environment
-using mature tools like `Jasmine`, `Spock` and `Nashorn`.
-
-Using JavaScript as scripting engine inside JVM application has significant difference comparing to client-side coding.
-And unfortunately there&#39;s no industrial standard tools nowadays for testing it. 
-
-Regarding existing approaches found in Internet I&#39;d like to highlight following disadvantages::
-* lack of integration with build and _continuous integration_ tools (Maven, Gradle, Jenkins, etc.)
-* insufficient cooperation with IDEs
-** no possibility to run single suite or test from IDE
-** unable to view test execution reports from IDE
-* tight coupling to browser environment
-* no possibility of using customized `JavaScript` executors
-
-As far as I&#39;ve seen most of the projects test their embedded business scripts by calling JS engine runner, 
-passing script under test to it and doing assertion by inspecting side-effects on engine or mocks after script execution.
-
-Those sort of approaches usually have similar drawbacks::
-* hard to stub or mock something in JS code, usually ending up hacking on JS `prototype`
-* need too much orchestration for mocking environment for script
-* hard to organize tests into suites and report test execution errors
-* previous causes creation of custom test suite frameworks for particular project
-* not leveraging existing JavaScript testing tools and frameworks
-
-So, driven by the need for comfortable embedded JavaScript testing in JVM projects I&#39;ve created this sample setup.
-To fulfill our goals next tools will be used.
-
-* `Jasmine` is one of the most known TDD/BDD tools for JavaScript
-* `Spock` is great testing framework for JVM powered by Junit and Groovy
-* `Nashorn` is modern scripting engine introduced in JDK8
-
-== Customized JavaScript runner (Nashorn based)
-
-There&#39;s no need to conform standards in non-browser JS environments, so usually
+In this post I intend to demonstrate an approach for testing &lt;code&gt;JavaScript&lt;/code&gt; in server-side JVM environment
+using mature tools like &lt;code&gt;Jasmine&lt;/code&gt;, &lt;code&gt;Spock&lt;/code&gt; and &lt;code&gt;Nashorn&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Using JavaScript as scripting engine inside JVM application has significant difference comparing to client-side coding.
+And unfortunately there&amp;#8217;s no industrial standard tools nowadays for testing it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Regarding existing approaches found in Internet I&amp;#8217;d like to highlight following disadvantages&lt;/dt&gt;
+&lt;dd&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;lack of integration with build and &lt;em&gt;continuous integration&lt;/em&gt; tools (Maven, Gradle, Jenkins, etc.)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;insufficient cooperation with IDEs&lt;/p&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;no possibility to run single suite or test from IDE&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;unable to view test execution reports from IDE&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;tight coupling to browser environment&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;no possibility of using customized &lt;code&gt;JavaScript&lt;/code&gt; executors&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As far as I&amp;#8217;ve seen most of the projects test their embedded business scripts by calling JS engine runner,
+passing script under test to it and doing assertion by inspecting side-effects on engine or mocks after script execution.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Those sort of approaches usually have similar drawbacks&lt;/dt&gt;
+&lt;dd&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;hard to stub or mock something in JS code, usually ending up hacking on JS &lt;code&gt;prototype&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;need too much orchestration for mocking environment for script&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;hard to organize tests into suites and report test execution errors&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;previous causes creation of custom test suite frameworks for particular project&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;not leveraging existing JavaScript testing tools and frameworks&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;So, driven by the need for comfortable embedded JavaScript testing in JVM projects I&amp;#8217;ve created this sample setup.
+To fulfill our goals next tools will be used.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;Jasmine&lt;/code&gt; is one of the most known TDD/BDD tools for JavaScript&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;Spock&lt;/code&gt; is great testing framework for JVM powered by Junit and Groovy&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;Nashorn&lt;/code&gt; is modern scripting engine introduced in JDK8&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;customized-javascript-runner-nashorn-based&quot;&gt;Customized JavaScript runner (Nashorn based)&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There&amp;#8217;s no need to conform standards in non-browser JS environments, so usually
 developers extend scripting engine with custom functions, built-in variables etc.
-It is extremely important to use exactly the same runner both for production and testing purposes.
-
-Let&#39;s consider we have such customized runner, accepting script name and map of predefined variables as parameters 
-and returning resulting value of the executed script.
-
-[source,java]
-.JavaScriptRunner.java
-----
-public class JavaScriptRunner {
-  public static Object run(String script, Map&lt;String, Object&gt; params) throws Exception {
-    ScriptEngineManager factory = new ScriptEngineManager();
-    ScriptEngine engine = factory.getEngineByName(&quot;nashorn&quot;);
+It is extremely important to use exactly the same runner both for production and testing purposes.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Let&amp;#8217;s consider we have such customized runner, accepting script name and map of predefined variables as parameters
+and returning resulting value of the executed script.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;JavaScriptRunner.java&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;JavaScriptRunner&lt;/span&gt; {
+  &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;Object&lt;/span&gt; run(&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; script, &lt;span class=&quot;predefined-type&quot;&gt;Map&lt;/span&gt;&amp;lt;&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt;, &lt;span class=&quot;predefined-type&quot;&gt;Object&lt;/span&gt;&amp;gt; params) &lt;span class=&quot;directive&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;exception&quot;&gt;Exception&lt;/span&gt; {
+    ScriptEngineManager factory = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; ScriptEngineManager();
+    ScriptEngine engine = factory.getEngineByName(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;nashorn&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;);
     engine.getBindings(ScriptContext.ENGINE_SCOPE).putAll(params);
-    return engine.eval(new InputStreamReader(JavaScriptRunner.class.getResourceAsStream(script))); &lt;1&gt;
+    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; engine.eval(&lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;InputStreamReader&lt;/span&gt;(JavaScriptRunner.class.getResourceAsStream(script))); &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
   }
-}
-----
-&lt;1&gt; script source is searched in classpath.
- 
-== Jasmine setup
-
-To start using `Jasmine` framework we need
-
-* https://github.com/pivotal/jasmine/releases/download/v2.1.2/jasmine-standalone-2.1.2.zip[download Jasmine^] 
-and unpack it to `/jasmine/jasmine-2.1.2` folder in project resources directory
-* custom bootstrap script, since `Jasmine` doesn&#39;t support JVM based platforms
-
-[source, javascript]
-.jasmine2-bootstrap.js
-----
-var loadFromClassPath = function(path) { &lt;1&gt;
-  load(Java.type(&quot;ua.eshepelyuk.blog.nashorn.Jasmine2Specification&quot;).class.getResource(path).toExternalForm());
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;script source is searched in classpath.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;jasmine-setup&quot;&gt;Jasmine setup&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To start using &lt;code&gt;Jasmine&lt;/code&gt; framework we need&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/pivotal/jasmine/releases/download/v2.1.2/jasmine-standalone-2.1.2.zip&quot; target=&quot;_blank&quot;&gt;download Jasmine&lt;/a&gt;
+and unpack it to &lt;code&gt;/jasmine/jasmine-2.1.2&lt;/code&gt; folder in project resources directory&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;custom bootstrap script, since &lt;code&gt;Jasmine&lt;/code&gt; doesn&amp;#8217;t support JVM based platforms&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;jasmine2-bootstrap.js&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;function&quot;&gt;loadFromClassPath&lt;/span&gt; = &lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;(path) { &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
+  load(Java.type(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;ua.eshepelyuk.blog.nashorn.Jasmine2Specification&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;).&lt;span class=&quot;reserved&quot;&gt;class&lt;/span&gt;.getResource(path).toExternalForm());
 };
 
-var window = this;
+&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; window = &lt;span class=&quot;local-variable&quot;&gt;this&lt;/span&gt;;
 
-loadFromClassPath(&quot;/jasmine/jasmine-2.1.2/jasmine.js&quot;);
-loadFromClassPath(&quot;/jasmine/jasmine2-html-stub.js&quot;); &lt;2&gt;
-loadFromClassPath(&quot;/jasmine/jasmine-2.1.2/boot.js&quot;);
-load({script: __jasmineSpec__, name: __jasmineSpecName__}); &lt;3&gt;
+loadFromClassPath(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;/jasmine/jasmine-2.1.2/jasmine.js&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;);
+loadFromClassPath(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;/jasmine/jasmine2-html-stub.js&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;); &lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;(2)&lt;/b&gt;
+loadFromClassPath(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;/jasmine/jasmine-2.1.2/boot.js&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;);
+load({&lt;span class=&quot;key&quot;&gt;script&lt;/span&gt;: __jasmineSpec__, &lt;span class=&quot;key&quot;&gt;name&lt;/span&gt;: __jasmineSpecName__}); &lt;i class=&quot;conum&quot; data-value=&quot;3&quot;&gt;&lt;/i&gt;&lt;b&gt;(3)&lt;/b&gt;
 
-onload(); &lt;4&gt;
+onload(); &lt;i class=&quot;conum&quot; data-value=&quot;4&quot;&gt;&lt;/i&gt;&lt;b&gt;(4)&lt;/b&gt;
 
-jsApiReporter.specs(); &lt;5&gt;
-----
-&lt;1&gt; helper function resolving script path from classpath location.
-&lt;2&gt; `Nashorn` specific code adjusting `Jasmine` for non-browser environments. Not a part of `Jasmine` distribution.
-&lt;3&gt; loading test suite source code, see next section for details.
-&lt;4&gt; faking browser `load` event, that should trigger test suite execution.
-&lt;5&gt; this value will be returned as script result.
-
-== Transform Jasmine report into Spock tests
-
-Having JS executor and bootstrap script for `Jasmine` we could create `JUnit` test 
-to iterate over suite results and check if all are successful. 
+jsApiReporter.specs(); &lt;i class=&quot;conum&quot; data-value=&quot;5&quot;&gt;&lt;/i&gt;&lt;b&gt;(5)&lt;/b&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;helper function resolving script path from classpath location.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;2&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Nashorn&lt;/code&gt; specific code adjusting &lt;code&gt;Jasmine&lt;/code&gt; for non-browser environments. Not a part of &lt;code&gt;Jasmine&lt;/code&gt; distribution.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;3&quot;&gt;&lt;/i&gt;&lt;b&gt;3&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;loading test suite source code, see next section for details.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;4&quot;&gt;&lt;/i&gt;&lt;b&gt;4&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;faking browser &lt;code&gt;load&lt;/code&gt; event, that should trigger test suite execution.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;5&quot;&gt;&lt;/i&gt;&lt;b&gt;5&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;this value will be returned as script result.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;transform-jasmine-report-into-spock-tests&quot;&gt;Transform Jasmine report into Spock tests&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Having JS executor and bootstrap script for &lt;code&gt;Jasmine&lt;/code&gt; we could create &lt;code&gt;JUnit&lt;/code&gt; test
+to iterate over suite results and check if all are successful.
 But it will become a nightmare to understand which particular test had failed and what is the reason of failure.
-What we&#39;d really like to have is ability to represent each `Jasmine` specification as `JUnit` test,
-so any Java tool can pick up and inspect the results. 
-Here why `Spock` could be the answer to the problem, with its
-http://spock-framework.readthedocs.org/en/latest/data_driven_testing.html[Data Driven Testing^]
+What we&amp;#8217;d really like to have is ability to represent each &lt;code&gt;Jasmine&lt;/code&gt; specification as &lt;code&gt;JUnit&lt;/code&gt; test,
+so any Java tool can pick up and inspect the results.
+Here why &lt;code&gt;Spock&lt;/code&gt; could be the answer to the problem, with its
+&lt;a href=&quot;http://spock-framework.readthedocs.org/en/latest/data_driven_testing.html&quot; target=&quot;_blank&quot;&gt;Data Driven Testing&lt;/a&gt;
 that allows developer to declare list of input data and for each item of that dataset new test will be created and executed.
-This is very similar to https://github.com/junit-team/junit/wiki/Parameterized-tests[Parametrized Test] of `Junit`
-but much more powerful implementation.
-
-So the idea will be to consider `Jasmine` test suite results obtained after running bootstrap script
-as array of input data, whose every item will be passed to `Spock` test.
+This is very similar to &lt;a href=&quot;https://github.com/junit-team/junit/wiki/Parameterized-tests&quot;&gt;Parametrized Test&lt;/a&gt; of &lt;code&gt;Junit&lt;/code&gt;
+but much more powerful implementation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;So the idea will be to consider &lt;code&gt;Jasmine&lt;/code&gt; test suite results obtained after running bootstrap script
+as array of input data, whose every item will be passed to &lt;code&gt;Spock&lt;/code&gt; test.
 Then test itself will provide assertion to report successful and failed tests properly, i.e.
-assertion should check status of `Jasmine` specification.
+assertion should check status of &lt;code&gt;Jasmine&lt;/code&gt; specification.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;if status is &lt;code&gt;pending&lt;/code&gt; or &lt;code&gt;passed&lt;/code&gt;, this means specification is either ignored or successful&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;otherwise &lt;code&gt;Spock&lt;/code&gt; test should throw assertion error, populating assertion exception populated with failures messages reported by &lt;code&gt;Jasmine&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;Jasmine2Specification.groovy&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;directive&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;Jasmine2Specification&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;extends&lt;/span&gt; Specification {
+  &lt;span class=&quot;annotation&quot;&gt;@Shared&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; jasmineResults
 
-* if status is `pending` or `passed`, this means specification is either ignored or successful
-* otherwise `Spock` test should throw assertion error, populating assertion exception populated with failures messages reported by `Jasmine`
-
-[source,groovy]
-.Jasmine2Specification.groovy
-----
-abstract class Jasmine2Specification extends Specification {
-  @Shared def jasmineResults
-
-  def setupSpec() {
-    def scriptParams = [
-        &quot;__jasmineSpec__&quot;    : getMetaClass().getMetaProperty(&quot;SPEC&quot;).getProperty(null), &lt;1&gt;
-        &quot;__jasmineSpecName__&quot;: &quot;${this.class.simpleName}.groovy&quot;
+  &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;function&quot;&gt;setupSpec&lt;/span&gt;() {
+    &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; scriptParams = [
+        &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;__jasmineSpec__&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;    : getMetaClass().getMetaProperty(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;SPEC&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;).getProperty(&lt;span class=&quot;predefined-constant&quot;&gt;null&lt;/span&gt;), &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
+        &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;__jasmineSpecName__&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;inline&quot;&gt;&lt;span class=&quot;inline-delimiter&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;local-variable&quot;&gt;this&lt;/span&gt;.class.simpleName&lt;span class=&quot;inline-delimiter&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;.groovy&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
     ]
-    jasmineResults = JavaScriptRunner.run(&quot;/jasmine/jasmine2-bootstrap.js&quot;, scriptParams) &lt;2&gt;
+    jasmineResults = JavaScriptRunner.run(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;/jasmine/jasmine2-bootstrap.js&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;, scriptParams) &lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;(2)&lt;/b&gt;
   }
 
-  def isPassed(def specRes) {specRes.status == &quot;passed&quot; || specRes.status == &quot;pending&quot;}
+  &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;function&quot;&gt;isPassed&lt;/span&gt;(&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; specRes) {specRes.status == &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;passed&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; || specRes.status == &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;pending&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;}
 
-  def specErrorMsg(def specResult) {
+  &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;function&quot;&gt;specErrorMsg&lt;/span&gt;(&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; specResult) {
     specResult.failedExpectations
-	.collect {it.value}.collect {it.stack}.join(&quot;\n\n\n&quot;)
+        .collect {&lt;span class=&quot;local-variable&quot;&gt;it&lt;/span&gt;.value}.collect {&lt;span class=&quot;local-variable&quot;&gt;it&lt;/span&gt;.stack}.join(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;char&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;char&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;char&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)
   }
 
-  @Unroll def &#39;#specName&#39;() {
-    expect:
-      assert isPassed(item), specErrorMsg(item) &lt;3&gt;
-    where:
-      item &lt;&lt; jasmineResults.collect { it.value }
-      specName = (item.status != &quot;pending&quot; ? item.fullName : &quot;IGNORED: $item.fullName&quot;) &lt;4&gt;
+  &lt;span class=&quot;annotation&quot;&gt;@Unroll&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&#39;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;#specName&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;() {
+    &lt;span class=&quot;key&quot;&gt;expect&lt;/span&gt;:
+      &lt;span class=&quot;keyword&quot;&gt;assert&lt;/span&gt; isPassed(item), specErrorMsg(item) &lt;i class=&quot;conum&quot; data-value=&quot;3&quot;&gt;&lt;/i&gt;&lt;b&gt;(3)&lt;/b&gt;
+    &lt;span class=&quot;key&quot;&gt;where&lt;/span&gt;:
+      item &amp;lt;&amp;lt; jasmineResults.collect { &lt;span class=&quot;local-variable&quot;&gt;it&lt;/span&gt;.value }
+      specName = (item.status != &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;pending&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; ? item.fullName : &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;IGNORED: &lt;/span&gt;&lt;span class=&quot;inline&quot;&gt;&lt;span class=&quot;inline-delimiter&quot;&gt;$&lt;/span&gt;item&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;.fullName&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;) &lt;i class=&quot;conum&quot; data-value=&quot;4&quot;&gt;&lt;/i&gt;&lt;b&gt;(4)&lt;/b&gt;
   }
-}
-----
-&lt;1&gt; exposing source code of `Jasmine` suite as __jasmineSpec__ variable, accessible to JS executor.
-&lt;2&gt; actual execution of `Jasmine` suite.
-&lt;3&gt; for each suite result we `assert` either it is succeeded, throwing assertion error with `Jasmine` originated message on 
-failure.
-&lt;4&gt; additional data provider variable to highlight ignored tests.
-
-== Complete example
-
-Let&#39;s create test suite for simple JavaScript function.
-
-[source, javascript]
-.mathUtils.js
-----
-var add = function add(a, b) {
-  return a + b;
-};
-----
-
-Using base class from previous step we could create `Spock` suite containing JavaScript tests.
-To demonstrate all the possibilities of our solution we will create successful, failed and ignored test.
-
-[source,groovy]
-.MathUtilsTest.groovy
-----
-class MathUtilsTest extends Jasmine2Specification {
-    static def SPEC = &quot;&quot;&quot; &lt;1&gt;
-loadFromClassPath(&quot;/js/mathUtils.js&quot;); &lt;2&gt;
-describe(&quot;suite 1&quot;, function() {
-  it(&quot;should pass&quot;, function() {
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;exposing source code of &lt;code&gt;Jasmine&lt;/code&gt; suite as &lt;em&gt;jasmineSpec&lt;/em&gt; variable, accessible to JS executor.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;2&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;actual execution of &lt;code&gt;Jasmine&lt;/code&gt; suite.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;3&quot;&gt;&lt;/i&gt;&lt;b&gt;3&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;for each suite result we &lt;code&gt;assert&lt;/code&gt; either it is succeeded, throwing assertion error with &lt;code&gt;Jasmine&lt;/code&gt; originated message on
+failure.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;4&quot;&gt;&lt;/i&gt;&lt;b&gt;4&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;additional data provider variable to highlight ignored tests.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;complete-example&quot;&gt;Complete example&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Let&amp;#8217;s create test suite for simple JavaScript function.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;mathUtils.js&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;function&quot;&gt;add&lt;/span&gt; = &lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;function&quot;&gt;add&lt;/span&gt;(a, b) {
+  &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; a + b;
+};&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Using base class from previous step we could create &lt;code&gt;Spock&lt;/code&gt; suite containing JavaScript tests.
+To demonstrate all the possibilities of our solution we will create successful, failed and ignored test.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;MathUtilsTest.groovy&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;MathUtilsTest&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;extends&lt;/span&gt; Jasmine2Specification {
+    &lt;span class=&quot;directive&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; SPEC = &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt; &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
+loadFromClassPath(&amp;quot;/js/mathUtils.js&amp;quot;); &lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;(2)&lt;/b&gt;
+describe(&amp;quot;suite 1&amp;quot;, function() {
+  it(&amp;quot;should pass&amp;quot;, function() {
     expect(add(1, 2)).toBe(3);
   });
-  it(&quot;should fail&quot;, function() {
+  it(&amp;quot;should fail&amp;quot;, function() {
     expect(add(1, 2)).toBe(3);
     expect(add(1, 2)).toBe(0);
   });
-  xit(&quot;should be ignored&quot;, function() {
+  xit(&amp;quot;should be ignored&amp;quot;, function() {
     expect(add(1, 2)).toBe(3);
   });
 })
-&quot;&quot;&quot;
-}
-----
-&lt;1&gt; actual code of `Jasmine` suite is represented as a `String` variable.
-&lt;2&gt; loading module under test using function inherited from `jasmine-bootstrap.js`.
-
-.Test results from IntelliJ IDEA
-image::1.png[Test results from IntelliJ IDEA]
-
-== IntelliJ Idea language injection
-
-Although this micro framework should work in all the IDEs the most handy usage of it will be within *IntelliJ IDEA*
-thanks to its https://www.jetbrains.com/idea/help/using-language-injections.html[language injection^].
-The feature allows to embed arbitrary language into file created in different programming language. 
-So we could have JavaScript code block embedded into `Spock` specification written in Groovy.
-
-.Language injection
-image::2.png[Language injection]
-
-== Pros and cons of the solution
-
-Advantages::
-* usage of industry standard testing tools for both languages
-* seamless integration with build tools and continuous integration tools
-* ability to run single suite from IDE
-* run single test from the particular suite, thanks to http://pivotallabs.com/new-key-features-jasmine-2-1/[focused feature of Jasmine^]
-
-Disadvantages::
-* no clean way of detecting particular line of source code in case of test exception
-* a little bit `IntelliJ IDEA` oriented setup
-
-== P.S.
-
-For this sample project I&#39;ve used modern `Nashorn` engine from JDK8.
-But in fact there&#39;s no limitation on this. The same approach was successfully applied for projects using older `Rhino` engine.
-And then again, `Jasmine` is just my personal preference. 
-With additional work code could be adjusted to leverage `Mocha`, `QUnit` and so on.
-
-NOTE: Full project&#39;s code is available at https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCanNashornSpock[My GitHub^]
-</description>
+&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;actual code of &lt;code&gt;Jasmine&lt;/code&gt; suite is represented as a &lt;code&gt;String&lt;/code&gt; variable.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;2&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;loading module under test using function inherited from &lt;code&gt;jasmine-bootstrap.js&lt;/code&gt;.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;/images/2014-11-26/1.png&quot; alt=&quot;Test results from IntelliJ IDEA&quot;&gt;
+&lt;/div&gt;
+&lt;div class=&quot;title&quot;&gt;Figure 1. Test results from IntelliJ IDEA&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;intellij-idea-language-injection&quot;&gt;IntelliJ Idea language injection&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Although this micro framework should work in all the IDEs the most handy usage of it will be within &lt;strong&gt;IntelliJ IDEA&lt;/strong&gt;
+thanks to its &lt;a href=&quot;https://www.jetbrains.com/idea/help/using-language-injections.html&quot; target=&quot;_blank&quot;&gt;language injection&lt;/a&gt;.
+The feature allows to embed arbitrary language into file created in different programming language.
+So we could have JavaScript code block embedded into &lt;code&gt;Spock&lt;/code&gt; specification written in Groovy.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;/images/2014-11-26/2.png&quot; alt=&quot;Language injection&quot;&gt;
+&lt;/div&gt;
+&lt;div class=&quot;title&quot;&gt;Figure 2. Language injection&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;pros-and-cons-of-the-solution&quot;&gt;Pros and cons of the solution&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Advantages&lt;/dt&gt;
+&lt;dd&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;usage of industry standard testing tools for both languages&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;seamless integration with build tools and continuous integration tools&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;ability to run single suite from IDE&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;run single test from the particular suite, thanks to &lt;a href=&quot;http://pivotallabs.com/new-key-features-jasmine-2-1/&quot; target=&quot;_blank&quot;&gt;focused feature of Jasmine&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Disadvantages&lt;/dt&gt;
+&lt;dd&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;no clean way of detecting particular line of source code in case of test exception&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;a little bit &lt;code&gt;IntelliJ IDEA&lt;/code&gt; oriented setup&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;p-s&quot;&gt;P.S.&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;For this sample project I&amp;#8217;ve used modern &lt;code&gt;Nashorn&lt;/code&gt; engine from JDK8.
+But in fact there&amp;#8217;s no limitation on this. The same approach was successfully applied for projects using older &lt;code&gt;Rhino&lt;/code&gt; engine.
+And then again, &lt;code&gt;Jasmine&lt;/code&gt; is just my personal preference.
+With additional work code could be adjusted to leverage &lt;code&gt;Mocha&lt;/code&gt;, &lt;code&gt;QUnit&lt;/code&gt; and so on.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;admonitionblock note&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;i class=&quot;fa icon-note&quot; title=&quot;Note&quot;&gt;&lt;/i&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+Full project&amp;#8217;s code is available at &lt;a href=&quot;https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCanNashornSpock&quot; target=&quot;_blank&quot;&gt;My GitHub&lt;/a&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
         <pubDate>Wed, 26 Nov 2014 00:00:00 +0000</pubDate>
         <link>http://eshepelyuk.github.io/2014/11/26/-testing-jvm-javascript-jasmine-spock-nashorn.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2014/11/26/-testing-jvm-javascript-jasmine-spock-nashorn.html</guid>
@@ -255,38 +452,65 @@ NOTE: Full project&#39;s code is available at https://github.com/eshepelyuk/Code
       </item>
     
       <item>
-        <title>Advanced Jekyll And Asciidoctor</title>
-        <description>:imagesdir: /images/2014-11-06
-= Advanced integration of Jekyll and AsciiDoctor
-
-Using `AsciiDoctor` as markup renderer in `Jekyll` is quite straightforward 
-but there&#39;s some customization gaps not covered in the most of setup guides over the web
-so I&#39;d like to fill them in this post.
-
-This tutorial implies you already having sample Jekyll site created 
-and AsciiDoctor plugin enabled as described in corresponding pages.
-
-* http://jekyllrb.com/docs/installation/[Jekyll installation^]
-* https://github.com/asciidoctor/jekyll-asciidoc[Jekyll-AsciiDoc plugin^]
-
-[WARNING]
-=====
-If you are Windows user you probably will fail while running Jekyll sample site at the first time because of `Yajl` related error. 
-The error caused by default syntax highlighter library `Pygments` that is not working on Windows out of the box.
-To overcome the issue I&#39;ve replaced it with `Coderay` - pure Ruby implementation, by adding a line to Jekyll config.
-[source,yaml]
-._config.yml
-highlighter: coderay
-
-So please keep in mind that this tutorial assumes you are using `Coderay` for highlighting code blocks in AsciiDoctor generated HTML.
-=====
-
-== Sample AsciiDoctor page
-
-Let&#39;s create page `sample.adoc` and put it to root folder of the site.
-
-```
----
+        <title>Advanced integration of Jekyll and AsciiDoctor</title>
+        <description>&lt;h1&gt;Advanced integration of Jekyll and AsciiDoctor&lt;/h1&gt;
+&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Using &lt;code&gt;AsciiDoctor&lt;/code&gt; as markup renderer in &lt;code&gt;Jekyll&lt;/code&gt; is quite straightforward
+but there&amp;#8217;s some customization gaps not covered in the most of setup guides over the web
+so I&amp;#8217;d like to fill them in this post.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This tutorial implies you already having sample Jekyll site created
+and AsciiDoctor plugin enabled as described in corresponding pages.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;http://jekyllrb.com/docs/installation/&quot; target=&quot;_blank&quot;&gt;Jekyll installation&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/asciidoctor/jekyll-asciidoc&quot; target=&quot;_blank&quot;&gt;Jekyll-AsciiDoc plugin&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;admonitionblock warning&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;i class=&quot;fa icon-warning&quot; title=&quot;Warning&quot;&gt;&lt;/i&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you are Windows user you probably will fail while running Jekyll sample site at the first time because of &lt;code&gt;Yajl&lt;/code&gt; related error.
+The error caused by default syntax highlighter library &lt;code&gt;Pygments&lt;/code&gt; that is not working on Windows out of the box.
+To overcome the issue I&amp;#8217;ve replaced it with &lt;code&gt;Coderay&lt;/code&gt; - pure Ruby implementation, by adding a line to Jekyll config.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;_config.yml&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;yaml&quot;&gt;&lt;span class=&quot;key&quot;&gt;highlighter&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;content&quot;&gt;coderay&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;So please keep in mind that this tutorial assumes you are using &lt;code&gt;Coderay&lt;/code&gt; for highlighting code blocks in AsciiDoctor generated HTML.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;sample-asciidoctor-page&quot;&gt;Sample AsciiDoctor page&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Let&amp;#8217;s create page &lt;code&gt;sample.adoc&lt;/code&gt; and put it to root folder of the site.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code&gt;---
 ---
 :layout: page
 = Sample Page
@@ -302,102 +526,117 @@ CAUTION: very important tip
 .sample.rb
 ----
 puts &quot;Hello, World!&quot;
-----
-```
-
-After running Jekyll you should be able to reach the page at http://localhost:4000/sample.html[^].
-Obviously you&#39;d notice quite ugly look and feel and something wrong with generated HTML as well.
-
-image::2.png[]
-
-== Applying default AsciiDoctor stylesheet
-
-AsciiDoctor _gem_ contains default CSS that decorates HTML in quite pretty way.
-Just find file named `asciidoctor-default.css` within _gem_ files,
-e.g. `$RUBY_HOME/lib/ruby/gems/2.1.0/gems/asciidoctor-1.5.1`, 
-put it to `css` folder of the site and add this line to `_includes/head.html` file
-
-[source, html]
-&lt;link rel=&quot;stylesheet&quot; href=&quot;/css/asciidoctor-default.css&quot;&gt;
-
-== Displaying AsciiDoctor icons using FontAwesome
-
-By default AsciiDoctor renders markup icons, like admonitions, etc., using HTML tags and CSS styles relying on external stylesheet and image files.
+----&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;After running Jekyll you should be able to reach the page at &lt;a href=&quot;http://localhost:4000/sample.html&quot; class=&quot;bare&quot; target=&quot;_blank&quot;&gt;http://localhost:4000/sample.html&lt;/a&gt;.
+Obviously you&amp;#8217;d notice quite ugly look and feel and something wrong with generated HTML as well.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;/images/2014-11-06/2.png&quot; alt=&quot;2&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;applying-default-asciidoctor-stylesheet&quot;&gt;Applying default AsciiDoctor stylesheet&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;AsciiDoctor &lt;em&gt;gem&lt;/em&gt; contains default CSS that decorates HTML in quite pretty way.
+Just find file named &lt;code&gt;asciidoctor-default.css&lt;/code&gt; within &lt;em&gt;gem&lt;/em&gt; files,
+e.g. &lt;code&gt;$RUBY_HOME/lib/ruby/gems/2.1.0/gems/asciidoctor-1.5.1&lt;/code&gt;,
+put it to &lt;code&gt;css&lt;/code&gt; folder of the site and add this line to &lt;code&gt;_includes/head.html&lt;/code&gt; file&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;html&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;rel&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;stylesheet&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;href&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;/css/asciidoctor-default.css&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;displaying-asciidoctor-icons-using-fontawesome&quot;&gt;Displaying AsciiDoctor icons using FontAwesome&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;By default AsciiDoctor renders markup icons, like admonitions, etc., using HTML tags and CSS styles relying on external stylesheet and image files.
 But there is no need to keep dedicated images for displaying such icons.
-Instead one could leverage *icon font* concept supported by AsciiDoctor.
-
-`FontAwesome` is default *icon font* library used by AsciiDoctor.
+Instead one could leverage &lt;strong&gt;icon font&lt;/strong&gt; concept supported by AsciiDoctor.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;code&gt;FontAwesome&lt;/code&gt; is default &lt;strong&gt;icon font&lt;/strong&gt; library used by AsciiDoctor.
 It is a dedicated vector font comprising icons images instead of letters,
-thus allowing you to display nice and scalable icons on a web page without need for any PNG/JPG/etc files.
-
-Add font library to your site as described in _BootstrapCDN_ section
-of http://fortawesome.github.io/Font-Awesome/get-started/[FontAwesome Get Started^] guide.
-As for sample Jekyll site you should amend `_includes/head.html`.
-
-[source,html]
-&lt;link href=&quot;http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css&quot; rel=&quot;stylesheet&quot;&gt;
-
-Then enable AsciiDoctor *font icons* support in Jekyll config.
-
-[source,yaml]
-._config.yml
-----
-asciidoctor:
-  attributes:
-    - icons=font
-----
-
-== Turning on Coderay source code highlighting for AsciiDoctor files
-
-NOTE: This entire section can be skipped if you are using `Pygments`.
-
-Since I&#39;m using  `Coderay` as default Jekyll source code highlighting library we should also instruct AsciiDoctor to use it for source code blocks generation.
-This is done by adding couple of additional AsciiDoctor attributes to Jekyll config.
-
-[source,yaml]
-._config.yml
-----
-asciidoctor:
-  attributes:
-    - icons=font
-    - source-highlighter=coderay
-    - coderay-css=style
-----
-
-== The outcome
-
-After performing all the steps described above you will see better looking HTML with all features available in generated HTML
-while accessing http://localhost:4000/sample.html[^].
-
-image::3.png[]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</description>
+thus allowing you to display nice and scalable icons on a web page without need for any PNG/JPG/etc files.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Add font library to your site as described in &lt;em&gt;BootstrapCDN&lt;/em&gt; section
+of &lt;a href=&quot;http://fortawesome.github.io/Font-Awesome/get-started/&quot; target=&quot;_blank&quot;&gt;FontAwesome Get Started&lt;/a&gt; guide.
+As for sample Jekyll site you should amend &lt;code&gt;_includes/head.html&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;html&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;href&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;rel&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;stylesheet&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Then enable AsciiDoctor &lt;strong&gt;font icons&lt;/strong&gt; support in Jekyll config.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;_config.yml&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;yaml&quot;&gt;&lt;span class=&quot;key&quot;&gt;asciidoctor&lt;/span&gt;:
+  &lt;span class=&quot;key&quot;&gt;attributes&lt;/span&gt;:
+    - &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;content&quot;&gt;icons=font&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;turning-on-coderay-source-code-highlighting-for-asciidoctor-files&quot;&gt;Turning on Coderay source code highlighting for AsciiDoctor files&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;admonitionblock note&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;i class=&quot;fa icon-note&quot; title=&quot;Note&quot;&gt;&lt;/i&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+This entire section can be skipped if you are using &lt;code&gt;Pygments&lt;/code&gt;.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Since I&amp;#8217;m using  &lt;code&gt;Coderay&lt;/code&gt; as default Jekyll source code highlighting library we should also instruct AsciiDoctor to use it for source code blocks generation.
+This is done by adding couple of additional AsciiDoctor attributes to Jekyll config.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;_config.yml&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;yaml&quot;&gt;&lt;span class=&quot;key&quot;&gt;asciidoctor&lt;/span&gt;:
+  &lt;span class=&quot;key&quot;&gt;attributes&lt;/span&gt;:
+    - &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;content&quot;&gt;icons=font&lt;/span&gt;&lt;/span&gt;
+    - &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;content&quot;&gt;source-highlighter=coderay&lt;/span&gt;&lt;/span&gt;
+    - &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;content&quot;&gt;coderay-css=style&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;the-outcome&quot;&gt;The outcome&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;After performing all the steps described above you will see better looking HTML with all features available in generated HTML
+while accessing &lt;a href=&quot;http://localhost:4000/sample.html&quot; class=&quot;bare&quot; target=&quot;_blank&quot;&gt;http://localhost:4000/sample.html&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;/images/2014-11-06/3.png&quot; alt=&quot;3&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
         <pubDate>Thu, 06 Nov 2014 00:00:00 +0000</pubDate>
         <link>http://eshepelyuk.github.io/2014/11/06/advanced-jekyll-and-asciidoctor.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2014/11/06/advanced-jekyll-and-asciidoctor.html</guid>
@@ -416,100 +655,154 @@ image::3.png[]
       </item>
     
       <item>
-        <title>Automate Github Pages Travisci</title>
-        <description>:imagesdir: /images/2014-10-28
-= Automate GitHub Pages publishing with Jekyll and Travis CI
-
-Content is a *KING*. Neither fancy CMS nor online WYSYWIG editors are, but content is.
-That&#39;s why `Jekyll` powered  `GitHub Pages` got such a popularity.
-Just push `HTML`, `Liquid`, `Markdown` etc, then files got processed by `Jekyll` 
+        <title>Automate GitHub Pages publishing with Jekyll and Travis CI</title>
+        <description>&lt;h1&gt;Automate GitHub Pages publishing with Jekyll and Travis CI&lt;/h1&gt;
+&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Content is a &lt;strong&gt;KING&lt;/strong&gt;. Neither fancy CMS nor online WYSYWIG editors are, but content is.
+That&amp;#8217;s why &lt;code&gt;Jekyll&lt;/code&gt; powered  &lt;code&gt;GitHub Pages&lt;/code&gt; got such a popularity.
+Just push &lt;code&gt;HTML&lt;/code&gt;, &lt;code&gt;Liquid&lt;/code&gt;, &lt;code&gt;Markdown&lt;/code&gt; etc, then files got processed by &lt;code&gt;Jekyll&lt;/code&gt;
 and the whole site becomes available online in a minute.
-However, if you&#39;d like to use extra `Jekyll` features, for instance `AsciiDoctor`, you should manage site generation yourself.
-This quite boring activity could be simplified by leveraging `Travis CI` continuous integration project.
-
-== Setting up Jekyll
-
-The only precondition is that you have `Jekyll` site already configured using http://bundler.io/[Bundler^] and you can run it locally with
-
-[source]
-bundle exec jekyll serve
-
-== Setting up Travis CI
-
-The whole idea was to make publishing experience of highly customized `Jekyll` project to `GitHub Pages` exactly the same
-as publishing of standard `Jekyll` site. You just push your changes to `git`, wait couple of minutes and refresh the page with new content.
-
-I&#39;m using _User Pages_ approach https://help.github.com/articles/using-jekyll-with-pages/[as described here^]
-so I have two branches for my setup
-
-* `master` for generated static content
-* `jekyll` for markup sources and configuration
-
-The goal is to configure `Travis CI` job to listen for commits on `jekyll` branch, 
-then run `jekyll build` for process markup sources and then push generated content to `master` branch.
-
-=== Enable Hooks
-
-To make `Travis CI` listen for commits and do actual work - we have to enable hooks.
-
-image::2.png[Enable Travis CI hook]
-
-=== Travis CI configuration
-
-Then let&#39;s limit commit trigger to `jekyll` branch only and explicitly configure the script that will be executed after commit detection.
-For this we have to put file `.travis.yml` to the root of `jekyll` branch with following content.
-[source,yaml]
-.+++.travis.yml+++
-----
-language: ruby
-script: &quot;./build.sh&quot; # execute this script on each commit
-branches:
-  only:
-  - jekyll # only take into account `jekyll&#39; branch
-rvm:
-- 2.1.2 # version of `ruby&#39; 
-----
-
-=== Generate and encrypt GitHub token for Travis Ci
-
-Since we&#39;d need to commit and push our changes to other (`master`) branch from within the build script
-it&#39;s mandatory to checkout this branch either using `HTTPS` or `SSH` protocol, as described	https://gist.github.com/grawity/4392747[HERE^]
-Easiest way for us is to clone using `HTTPS` protocol and use  _personal access token_ for authentication. 
-
-* https://help.github.com/articles/creating-an-access-token-for-command-line-use/[How to generate GitHub Token^]
-* Generate GitHub token
-
-image::1.png[Generate GitHub token]
-
-CAUTION: Copy generated token somewhere to be used in the next step.
-
-Putting clear text tokens into script isn&#39;t good idea, but thanks to `travis` command line tool 
-we can encrypt any `name=value` pair and later expose then as environment variables to the build job.
-
-Execute following code in the working directory where `jekyll` branch is cloned to.
-
-[source]
-----
-gem install travis
-travis encrypt GH_TOKEN=&lt;token&gt; --add env.global
-----
-
-The command above should add following lines to your `.travis.yml`.
-[source,yaml]
-----
-env:
-  global:
-    secure: HERE GOES ENCRYPTED STUFF
-----
-
-==== Build script
-
-And finally the build script.
-
-[source]
-.build.sh
-----
-#!/bin/bash
+However, if you&amp;#8217;d like to use extra &lt;code&gt;Jekyll&lt;/code&gt; features, for instance &lt;code&gt;AsciiDoctor&lt;/code&gt;, you should manage site generation yourself.
+This quite boring activity could be simplified by leveraging &lt;code&gt;Travis CI&lt;/code&gt; continuous integration project.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;setting-up-jekyll&quot;&gt;Setting up Jekyll&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The only precondition is that you have &lt;code&gt;Jekyll&lt;/code&gt; site already configured using &lt;a href=&quot;http://bundler.io/&quot; target=&quot;_blank&quot;&gt;Bundler&lt;/a&gt; and you can run it locally with&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code&gt;bundle exec jekyll serve&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;setting-up-travis-ci&quot;&gt;Setting up Travis CI&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The whole idea was to make publishing experience of highly customized &lt;code&gt;Jekyll&lt;/code&gt; project to &lt;code&gt;GitHub Pages&lt;/code&gt; exactly the same
+as publishing of standard &lt;code&gt;Jekyll&lt;/code&gt; site. You just push your changes to &lt;code&gt;git&lt;/code&gt;, wait couple of minutes and refresh the page with new content.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I&amp;#8217;m using &lt;em&gt;User Pages&lt;/em&gt; approach &lt;a href=&quot;https://help.github.com/articles/using-jekyll-with-pages/&quot; target=&quot;_blank&quot;&gt;as described here&lt;/a&gt;
+so I have two branches for my setup&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;master&lt;/code&gt; for generated static content&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;jekyll&lt;/code&gt; for markup sources and configuration&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The goal is to configure &lt;code&gt;Travis CI&lt;/code&gt; job to listen for commits on &lt;code&gt;jekyll&lt;/code&gt; branch,
+then run &lt;code&gt;jekyll build&lt;/code&gt; for process markup sources and then push generated content to &lt;code&gt;master&lt;/code&gt; branch.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;enable-hooks&quot;&gt;Enable Hooks&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To make &lt;code&gt;Travis CI&lt;/code&gt; listen for commits and do actual work - we have to enable hooks.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;/images/2014-10-28/2.png&quot; alt=&quot;Enable Travis CI hook&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;travis-ci-configuration&quot;&gt;Travis CI configuration&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Then let&amp;#8217;s limit commit trigger to &lt;code&gt;jekyll&lt;/code&gt; branch only and explicitly configure the script that will be executed after commit detection.
+For this we have to put file &lt;code&gt;.travis.yml&lt;/code&gt; to the root of &lt;code&gt;jekyll&lt;/code&gt; branch with following content.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;.travis.yml&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;yaml&quot;&gt;&lt;span class=&quot;key&quot;&gt;language&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;content&quot;&gt;ruby&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;key&quot;&gt;script&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;./build.sh&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;comment&quot;&gt;# execute this script on each commit&lt;/span&gt;
+&lt;span class=&quot;key&quot;&gt;branches&lt;/span&gt;:
+  &lt;span class=&quot;key&quot;&gt;only&lt;/span&gt;:
+  - &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;content&quot;&gt;jekyll&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;comment&quot;&gt;# only take into account `jekyll&#39; branch&lt;/span&gt;
+&lt;span class=&quot;key&quot;&gt;rvm&lt;/span&gt;:
+- &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;content&quot;&gt;2.1.2&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;comment&quot;&gt;# version of `ruby&#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;generate-and-encrypt-github-token-for-travis-ci&quot;&gt;Generate and encrypt GitHub token for Travis Ci&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Since we&amp;#8217;d need to commit and push our changes to other (&lt;code&gt;master&lt;/code&gt;) branch from within the build script
+it&amp;#8217;s mandatory to checkout this branch either using &lt;code&gt;HTTPS&lt;/code&gt; or &lt;code&gt;SSH&lt;/code&gt; protocol, as described	&lt;a href=&quot;https://gist.github.com/grawity/4392747&quot; target=&quot;_blank&quot;&gt;HERE&lt;/a&gt;
+Easiest way for us is to clone using &lt;code&gt;HTTPS&lt;/code&gt; protocol and use  &lt;em&gt;personal access token&lt;/em&gt; for authentication.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://help.github.com/articles/creating-an-access-token-for-command-line-use/&quot; target=&quot;_blank&quot;&gt;How to generate GitHub Token&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Generate GitHub token&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;/images/2014-10-28/1.png&quot; alt=&quot;Generate GitHub token&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;admonitionblock caution&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;i class=&quot;fa icon-caution&quot; title=&quot;Caution&quot;&gt;&lt;/i&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+Copy generated token somewhere to be used in the next step.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Putting clear text tokens into script isn&amp;#8217;t good idea, but thanks to &lt;code&gt;travis&lt;/code&gt; command line tool
+we can encrypt any &lt;code&gt;name=value&lt;/code&gt; pair and later expose then as environment variables to the build job.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Execute following code in the working directory where &lt;code&gt;jekyll&lt;/code&gt; branch is cloned to.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code&gt;gem install travis
+travis encrypt GH_TOKEN=&amp;lt;token&amp;gt; --add env.global&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The command above should add following lines to your &lt;code&gt;.travis.yml&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;yaml&quot;&gt;&lt;span class=&quot;key&quot;&gt;env&lt;/span&gt;:
+  &lt;span class=&quot;key&quot;&gt;global&lt;/span&gt;:
+    &lt;span class=&quot;key&quot;&gt;secure&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;content&quot;&gt;HERE GOES ENCRYPTED STUFF&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect3&quot;&gt;
+&lt;h4 id=&quot;build-script&quot;&gt;Build script&lt;/h4&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;And finally the build script.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;build.sh&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code&gt;#!/bin/bash
 
 # only proceed script when started not by pull request (PR)
 if [ $TRAVIS_PULL_REQUEST == &quot;true&quot; ]; then
@@ -518,7 +811,7 @@ if [ $TRAVIS_PULL_REQUEST == &quot;true&quot; ]; then
 fi
 
 # enable error reporting to the console
-set -e 
+set -e
 
 # build site with jekyll, by default to `_site&#39; folder
 jekyll build
@@ -539,26 +832,49 @@ git config user.email &quot;eshepelyuk@gmail.com&quot;
 git config user.name &quot;Evgeny Shepelyuk&quot;
 git add -A .
 git commit -a -m &quot;Travis #$TRAVIS_BUILD_NUMBER&quot;
-git push --quiet origin master &gt; /dev/null 2&gt;&amp;1 &lt;1&gt;
-----
-&lt;1&gt; Hiding all the output from `git push` command, to prevent token leak.
-
-== Run everything
-
-After doing all those steps all you need is to commit and push your `jekyll` branch 
-and then navigate to https://travis-ci.org/eshepelyuk/eshepelyuk.github.io/builds[Travis CI^] build section 
-of your project to monitor your build progress.
-
-== P.S.
-
-I hope this tutorial help you setup own `Jekyll` with less pain. 
-Supposedly described steps could be applied to other static site generators like `Middleman`, `Awestruct` etc.
-
-== Credits
-
-The actual setup and this post was inspired by https://twitter.com/mojavelinux[Dan Allen^] reply to my tweet
-and the code from https://github.com/johncarl81/transfuse/tree/transfuse-jeykll-site[this project^]
-</description>
+git push --quiet origin master &amp;gt; /dev/null 2&amp;gt;&amp;amp;1 &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;Hiding all the output from &lt;code&gt;git push&lt;/code&gt; command, to prevent token leak.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;run-everything&quot;&gt;Run everything&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;After doing all those steps all you need is to commit and push your &lt;code&gt;jekyll&lt;/code&gt; branch
+and then navigate to &lt;a href=&quot;https://travis-ci.org/eshepelyuk/eshepelyuk.github.io/builds&quot; target=&quot;_blank&quot;&gt;Travis CI&lt;/a&gt; build section
+of your project to monitor your build progress.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;p-s&quot;&gt;P.S.&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I hope this tutorial help you setup own &lt;code&gt;Jekyll&lt;/code&gt; with less pain.
+Supposedly described steps could be applied to other static site generators like &lt;code&gt;Middleman&lt;/code&gt;, &lt;code&gt;Awestruct&lt;/code&gt; etc.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;credits&quot;&gt;Credits&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The actual setup and this post was inspired by &lt;a href=&quot;https://twitter.com/mojavelinux&quot; target=&quot;_blank&quot;&gt;Dan Allen&lt;/a&gt; reply to my tweet
+and the code from &lt;a href=&quot;https://github.com/johncarl81/transfuse/tree/transfuse-jeykll-site&quot; target=&quot;_blank&quot;&gt;this project&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
         <pubDate>Tue, 28 Oct 2014 00:00:00 +0000</pubDate>
         <link>http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html</guid>
@@ -577,216 +893,268 @@ and the code from https://github.com/johncarl81/transfuse/tree/transfuse-jeykll-
       </item>
     
       <item>
-        <title>Test Me If You Can 1</title>
-        <description>= Test Me If You Can #1 (Spring Framework)
-
-During my career I often observed people who claim that they are not writing tests because *can&#39;t cover properly* integration between components. 
-Well, I believe most of such people just don&#39;t know some simply techniques or don&#39;t have time to dig them out because of stress at their work place. 
+        <title>Test Me If You Can #1 (Spring Framework)</title>
+        <description>&lt;h1&gt;Test Me If You Can #1 (Spring Framework)&lt;/h1&gt;
+&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;During my career I often observed people who claim that they are not writing tests because &lt;strong&gt;can&amp;#8217;t cover properly&lt;/strong&gt; integration between components.
+Well, I believe most of such people just don&amp;#8217;t know some simply techniques or don&amp;#8217;t have time to dig them out because of stress at their work place.
 The lack of such knowledge results into neglecting of integration tests and thus worse software, more bugs and disappointed customer.
-So I&#39;ve decided to share some practices revealing mystery surrounding integration testing.
-
-== Better integration test for Spring based projects
-
-Tools: `Spring`, `JUnit`, `Mockito`
-
-Imagine the situation with `Spring` based project that&#39;s integrating an external service, e.g. some bank web services. 
-Issues related to writing test cases and running them within CI for such code are usually the same
-
-* price per transaction, each time test executed - customer pays
-* tests requests can be interpreted as suspicious traffic, account blocked - tests failures
-* when using non production environments for tests, it can be unstable - again, tests failures
-
-Usually such problems can be solved by mocking such external service while testing single class that using it, 
-but when it comes to the need for test larger business flow - you need to run your tests again many components 
-and made them managed by your container - `Spring`.
-Luckily `Spring` has great http://static.springsource.org/spring/docs/3.2.x/spring-framework-reference/html/testing.html[test framework^] 
-allowing injection of beans from production configuration, but one needs to mock external services himself. 
-First intention could be creating mocks in `setUp` section of the test and re-inject beans previously injected by `Spring`, but think more about it
-
-WARNING: You&#39;re overriding behavior of container for your test, so there&#39;s no guarantee it will work the same way for real services on real environment.
-
-Instead we have not to mock our external services and then re-inject them into corresponding beans, but *make `Spring` inject mocks in place of particular beans
-, required for our test goals*. Let&#39;s illustrate this with code.
-
-My sample project comprises `BankService` representing external service and `UserBalanceService` - our service working with `BankService`. 
-`UserBalanceService` is quite simple wrapper - just making conversion from `String` to `Double`.
-
-[source,java]
-.BankService.java
-----
-public interface BankService {
-    String getBalanceByEmail(String email);
-}
-----
-
-[source,java]
-.BankServiceImpl.java
-----
-public class BankServiceImpl implements BankService {
-    @Override
-    public String getBalanceByEmail(String email) {
-        throw new UnsupportedOperationException(&quot;Operation failed due to external exception&quot;);
+So I&amp;#8217;ve decided to share some practices revealing mystery surrounding integration testing.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;better-integration-test-for-spring-based-projects&quot;&gt;Better integration test for Spring based projects&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Tools: &lt;code&gt;Spring&lt;/code&gt;, &lt;code&gt;JUnit&lt;/code&gt;, &lt;code&gt;Mockito&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Imagine the situation with &lt;code&gt;Spring&lt;/code&gt; based project that&amp;#8217;s integrating an external service, e.g. some bank web services.
+Issues related to writing test cases and running them within CI for such code are usually the same&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;price per transaction, each time test executed - customer pays&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;tests requests can be interpreted as suspicious traffic, account blocked - tests failures&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;when using non production environments for tests, it can be unstable - again, tests failures&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Usually such problems can be solved by mocking such external service while testing single class that using it,
+but when it comes to the need for test larger business flow - you need to run your tests again many components
+and made them managed by your container - &lt;code&gt;Spring&lt;/code&gt;.
+Luckily &lt;code&gt;Spring&lt;/code&gt; has great &lt;a href=&quot;http://static.springsource.org/spring/docs/3.2.x/spring-framework-reference/html/testing.html&quot; target=&quot;_blank&quot;&gt;test framework&lt;/a&gt;
+allowing injection of beans from production configuration, but one needs to mock external services himself.
+First intention could be creating mocks in &lt;code&gt;setUp&lt;/code&gt; section of the test and re-inject beans previously injected by &lt;code&gt;Spring&lt;/code&gt;, but think more about it&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;admonitionblock warning&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;i class=&quot;fa icon-warning&quot; title=&quot;Warning&quot;&gt;&lt;/i&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+You&amp;#8217;re overriding behavior of container for your test, so there&amp;#8217;s no guarantee it will work the same way for real services on real environment.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Instead we have not to mock our external services and then re-inject them into corresponding beans, but &lt;strong&gt;make &lt;code&gt;Spring&lt;/code&gt; inject mocks in place of particular beans
+, required for our test goals&lt;/strong&gt;. Let&amp;#8217;s illustrate this with code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;My sample project comprises &lt;code&gt;BankService&lt;/code&gt; representing external service and &lt;code&gt;UserBalanceService&lt;/code&gt; - our service working with &lt;code&gt;BankService&lt;/code&gt;.
+&lt;code&gt;UserBalanceService&lt;/code&gt; is quite simple wrapper - just making conversion from &lt;code&gt;String&lt;/code&gt; to &lt;code&gt;Double&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;BankService.java&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;BankService&lt;/span&gt; {
+    &lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; getBalanceByEmail(&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; email);
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;BankServiceImpl.java&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;BankServiceImpl&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;implements&lt;/span&gt; BankService {
+    &lt;span class=&quot;annotation&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; getBalanceByEmail(&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; email) {
+        &lt;span class=&quot;keyword&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;exception&quot;&gt;UnsupportedOperationException&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;Operation failed due to external exception&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;);
     }
-}
-----
-
-[source,java]
-.UserBalanceService.java
-----
-interface UserBalanceService {
-    Double getAccountBalance(String email);
-}
-----
-
-[source,java]
-.UserBalanceServiceImpl.java
-----
-public class UserBalanceServiceImpl implements UserBalanceService {
-    @Autowired
-    private BankService bankService;
-    @Override
-    public Double getAccountBalance(String email) {
-        return Double.valueOf(bankService.getBalanceByEmail(email));
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;UserBalanceService.java&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;type&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;UserBalanceService&lt;/span&gt; {
+    &lt;span class=&quot;predefined-type&quot;&gt;Double&lt;/span&gt; getAccountBalance(&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; email);
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;UserBalanceServiceImpl.java&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;UserBalanceServiceImpl&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;implements&lt;/span&gt; UserBalanceService {
+    &lt;span class=&quot;annotation&quot;&gt;@Autowired&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;private&lt;/span&gt; BankService bankService;
+    &lt;span class=&quot;annotation&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;Double&lt;/span&gt; getAccountBalance(&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; email) {
+        &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;Double&lt;/span&gt;.valueOf(bankService.getBalanceByEmail(email));
     }
-}
-----
-
-And the `Spring` dependency XML configuration wiring everything together
-
-[source,xml]
-.applicationContext.xml
-----
-&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
-       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
-    &lt;bean id=&quot;bankService&quot; class=&quot;ua.eshepelyuk.blog.springtest.springockito.BankServiceImpl&quot;/&gt;
-    &lt;bean id=&quot;userBalanceService&quot; class=&quot;ua.eshepelyuk.blog.springtest.springockito.UserBalanceServiceImpl&quot;/&gt;
-&lt;/beans&gt;
-----
-
-Our test will look like
-
-[source,java]
-.UserBalanceServiceImplTest.java
-----
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = &quot;classpath:/springtest/springockito/applicationContext.xml&quot;)
-public class UserBalanceServiceImplProfileTest {
-    @Autowired
-    private UserBalanceService userBalanceService;
-    @Autowired
-    private BankService bankService;
-    @Test
-    public void shouldReturnMockedBalance() {
-        Double balance = userBalanceService.getAccountBalance(&quot;user@bank.com&quot;);
-        assertEquals(balance, Double.valueOf(123.45D));
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;And the &lt;code&gt;Spring&lt;/code&gt; dependency XML configuration wiring everything together&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;applicationContext.xml&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;preprocessor&quot;&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;beans&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;xmlns&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;http://www.springframework.org/schema/beans&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+       &lt;span class=&quot;attribute-name&quot;&gt;xmlns:xsi&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;http://www.w3.org/2001/XMLSchema-instance&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+       &lt;span class=&quot;attribute-name&quot;&gt;xsi:schemaLocation&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;http://www.springframework.org/schema/beans&lt;/span&gt;
+       &lt;span class=&quot;content&quot;&gt;http://www.springframework.org/schema/beans/spring-beans.xsd&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;&amp;lt;bean&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;id&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;bankService&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;ua.eshepelyuk.blog.springtest.springockito.BankServiceImpl&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;&amp;lt;bean&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;id&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;userBalanceService&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;ua.eshepelyuk.blog.springtest.springockito.UserBalanceServiceImpl&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;/beans&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Our test will look like&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;UserBalanceServiceImplTest.java&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;annotation&quot;&gt;@RunWith&lt;/span&gt;(SpringJUnit4ClassRunner.class)
+&lt;span class=&quot;annotation&quot;&gt;@ContextConfiguration&lt;/span&gt;(locations = &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;classpath:/springtest/springockito/applicationContext.xml&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)
+&lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;UserBalanceServiceImplProfileTest&lt;/span&gt; {
+    &lt;span class=&quot;annotation&quot;&gt;@Autowired&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;private&lt;/span&gt; UserBalanceService userBalanceService;
+    &lt;span class=&quot;annotation&quot;&gt;@Autowired&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;private&lt;/span&gt; BankService bankService;
+    &lt;span class=&quot;annotation&quot;&gt;@Test&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; shouldReturnMockedBalance() {
+        &lt;span class=&quot;predefined-type&quot;&gt;Double&lt;/span&gt; balance = userBalanceService.getAccountBalance(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;user@bank.com&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;);
+        assertEquals(balance, &lt;span class=&quot;predefined-type&quot;&gt;Double&lt;/span&gt;.valueOf(&lt;span class=&quot;float&quot;&gt;123.45D&lt;/span&gt;));
     }
-}
-----
-
-As expected after test run we will have `UnsupportedOperationException`. Our intention is to replace `BankService` with mock and tune its behavior. 
-It&#39;s possible to use `Mockito` directly as factory bean 
-but there&#39;s better alternative - https://bitbucket.org/kubek2k/springockito/wiki/Home[Springockito framework^]. 
-Please take a look before proceed :)
-
-The remaining question is how to instruct `Spring` to inject mocks instead of real beans, 
-Prior to version 3.1 there were no alternatives except creating brand new XML configuration for using it in test. 
-But with introduction of http://blog.springsource.com/2011/02/11/spring-framework-3-1-m1-released[Bean Definition Profiles^]
-we now able to create more elegant solution for this, although we still need separate XML for test purposes. 
-This is how resulting test XML configuration will look like
-[source,xml]
-.testApplicationContext.xml
-----
-&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
-       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-       xmlns:mockito=&quot;http://www.mockito.org/spring/mockito&quot;
-       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.mockito.org/spring/mockito https://bitbucket.org/kubek2k/springockito/raw/tip/springockito/src/main/resources/spring/mockito.xsd&quot;&gt;
-    &lt;import resource=&quot;classpath:/springtest/springockito/applicationContext.xml&quot;/&gt;
-    &lt;beans profile=&quot;springTest&quot;&gt;
-        &lt;mockito:mock id=&quot;bankService&quot; class=&quot;ua.eshepelyuk.blog.springtest.springockito.BankService&quot;/&gt;
-    &lt;/beans&gt;
-&lt;/beans&gt;
-----
-
-And the test modified accordingly.
-[source,java]
-.UserBalanceServiceImplProfileTest.java
-----
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = &quot;classpath:/springtest/springockito/testApplicationContext.xml&quot;)
-@ActiveProfiles(profiles = {&quot;springTest&quot;})
-public class UserBalanceServiceImplProfileTest {
-    @Autowired
-    private UserBalanceService userBalanceService;
-    @Autowired
-    private BankService bankService;
-    @Before
-    public void setUp() throws Exception {
-        Mockito.when(bankService.getBalanceByEmail(&quot;user@bank.com&quot;)).thenReturn(String.valueOf(123.45D));
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;As expected after test run we will have &lt;code&gt;UnsupportedOperationException&lt;/code&gt;. Our intention is to replace &lt;code&gt;BankService&lt;/code&gt; with mock and tune its behavior.
+It&amp;#8217;s possible to use &lt;code&gt;Mockito&lt;/code&gt; directly as factory bean
+but there&amp;#8217;s better alternative - &lt;a href=&quot;https://bitbucket.org/kubek2k/springockito/wiki/Home&quot; target=&quot;_blank&quot;&gt;Springockito framework&lt;/a&gt;.
+Please take a look before proceed :)&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The remaining question is how to instruct &lt;code&gt;Spring&lt;/code&gt; to inject mocks instead of real beans,
+Prior to version 3.1 there were no alternatives except creating brand new XML configuration for using it in test.
+But with introduction of &lt;a href=&quot;http://blog.springsource.com/2011/02/11/spring-framework-3-1-m1-released&quot; target=&quot;_blank&quot;&gt;Bean Definition Profiles&lt;/a&gt;
+we now able to create more elegant solution for this, although we still need separate XML for test purposes.
+This is how resulting test XML configuration will look like&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;testApplicationContext.xml&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;preprocessor&quot;&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;beans&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;xmlns&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;http://www.springframework.org/schema/beans&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+       &lt;span class=&quot;attribute-name&quot;&gt;xmlns:xsi&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;http://www.w3.org/2001/XMLSchema-instance&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+       &lt;span class=&quot;attribute-name&quot;&gt;xmlns:mockito&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;http://www.mockito.org/spring/mockito&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+       &lt;span class=&quot;attribute-name&quot;&gt;xsi:schemaLocation&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&lt;/span&gt;
+       &lt;span class=&quot;content&quot;&gt;http://www.mockito.org/spring/mockito https://bitbucket.org/kubek2k/springockito/raw/tip/springockito/src/main/resources/spring/mockito.xsd&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;&amp;lt;import&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;resource&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;classpath:/springtest/springockito/applicationContext.xml&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;&amp;lt;beans&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;profile&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;springTest&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;tag&quot;&gt;&amp;lt;mockito:mock&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;id&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;bankService&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;ua.eshepelyuk.blog.springtest.springockito.BankService&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;&amp;lt;/beans&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;/beans&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;And the test modified accordingly.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;UserBalanceServiceImplProfileTest.java&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;annotation&quot;&gt;@RunWith&lt;/span&gt;(SpringJUnit4ClassRunner.class)
+&lt;span class=&quot;annotation&quot;&gt;@ContextConfiguration&lt;/span&gt;(locations = &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;classpath:/springtest/springockito/testApplicationContext.xml&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)
+&lt;span class=&quot;annotation&quot;&gt;@ActiveProfiles&lt;/span&gt;(profiles = {&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;springTest&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;})
+&lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;UserBalanceServiceImplProfileTest&lt;/span&gt; {
+    &lt;span class=&quot;annotation&quot;&gt;@Autowired&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;private&lt;/span&gt; UserBalanceService userBalanceService;
+    &lt;span class=&quot;annotation&quot;&gt;@Autowired&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;private&lt;/span&gt; BankService bankService;
+    &lt;span class=&quot;annotation&quot;&gt;@Before&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; setUp() &lt;span class=&quot;directive&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;exception&quot;&gt;Exception&lt;/span&gt; {
+        Mockito.when(bankService.getBalanceByEmail(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;user@bank.com&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)).thenReturn(&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt;.valueOf(&lt;span class=&quot;float&quot;&gt;123.45D&lt;/span&gt;));
     }
-    @Test
-    public void shouldReturnMockedBalance() {
-        Double balance = userBalanceService.getAccountBalance(&quot;user@bank.com&quot;);
-        assertEquals(balance, Double.valueOf(123.45D));
+    &lt;span class=&quot;annotation&quot;&gt;@Test&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; shouldReturnMockedBalance() {
+        &lt;span class=&quot;predefined-type&quot;&gt;Double&lt;/span&gt; balance = userBalanceService.getAccountBalance(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;user@bank.com&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;);
+        assertEquals(balance, &lt;span class=&quot;predefined-type&quot;&gt;Double&lt;/span&gt;.valueOf(&lt;span class=&quot;float&quot;&gt;123.45D&lt;/span&gt;));
     }
-}
-----
-
-You may notice appearance of `setUp` method for setting up the mock behavior and new `@Profile` annotation. 
-The annotation activates our profile `springTest` so bean mocked with `Springockito` will be injected where necessary. 
-On running this the test will pass, because `Spring` injected `Mockito` mock that we&#39;ve configured in test XML and not the external service instance.
-
-== Don&#39;t stop on the way to perfectness
-
-It could be the end of the story be we could still go deeper on the problem. 
-`Springockito` creator has another framework https://bitbucket.org/kubek2k/springockito/wiki/springockito-annotations[Springockito Annotations^]. 
-The framework allows mock injection using annotation within test classes. 
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;You may notice appearance of &lt;code&gt;setUp&lt;/code&gt; method for setting up the mock behavior and new &lt;code&gt;@Profile&lt;/code&gt; annotation.
+The annotation activates our profile &lt;code&gt;springTest&lt;/code&gt; so bean mocked with &lt;code&gt;Springockito&lt;/code&gt; will be injected where necessary.
+On running this the test will pass, because &lt;code&gt;Spring&lt;/code&gt; injected &lt;code&gt;Mockito&lt;/code&gt; mock that we&amp;#8217;ve configured in test XML and not the external service instance.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;don-t-stop-on-the-way-to-perfectness&quot;&gt;Don&amp;#8217;t stop on the way to perfectness&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It could be the end of the story be we could still go deeper on the problem.
+&lt;code&gt;Springockito&lt;/code&gt; creator has another framework &lt;a href=&quot;https://bitbucket.org/kubek2k/springockito/wiki/springockito-annotations&quot; target=&quot;_blank&quot;&gt;Springockito Annotations&lt;/a&gt;.
+The framework allows mock injection using annotation within test classes.
 Please skim read it before proceed :)
-After some modification code of our test will look this way.
-[source, java]
-.UserBalanceServiceImplAnnotationTest
-----
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(loader = SpringockitoContextLoader.class, 
-    locations = &quot;classpath:/springtest/springockito/applicationContext.xml&quot;)
-public class UserBalanceServiceImplAnnotationTest {
-    @Autowired
-    private UserBalanceService userBalanceService;
-    @Autowired
-    @ReplaceWithMock
-    private BankService bankService;
-    @Before
-    public void setUp() throws Exception {
-        Mockito.when(bankService.getBalanceByEmail(&quot;user@bank.com&quot;)).thenReturn(String.valueOf(valueOf(123.45D)));
+After some modification code of our test will look this way.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;UserBalanceServiceImplAnnotationTest&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;annotation&quot;&gt;@RunWith&lt;/span&gt;(SpringJUnit4ClassRunner.class)
+&lt;span class=&quot;annotation&quot;&gt;@ContextConfiguration&lt;/span&gt;(loader = SpringockitoContextLoader.class,
+    locations = &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;classpath:/springtest/springockito/applicationContext.xml&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)
+&lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;UserBalanceServiceImplAnnotationTest&lt;/span&gt; {
+    &lt;span class=&quot;annotation&quot;&gt;@Autowired&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;private&lt;/span&gt; UserBalanceService userBalanceService;
+    &lt;span class=&quot;annotation&quot;&gt;@Autowired&lt;/span&gt;
+    &lt;span class=&quot;annotation&quot;&gt;@ReplaceWithMock&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;private&lt;/span&gt; BankService bankService;
+    &lt;span class=&quot;annotation&quot;&gt;@Before&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; setUp() &lt;span class=&quot;directive&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;exception&quot;&gt;Exception&lt;/span&gt; {
+        Mockito.when(bankService.getBalanceByEmail(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;user@bank.com&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)).thenReturn(&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt;.valueOf(valueOf(&lt;span class=&quot;float&quot;&gt;123.45D&lt;/span&gt;)));
     }
-    @Test
-    public void shouldReturnMockedBalance() {
-        Double balance = userBalanceService.getAccountBalance(&quot;user@bank.com&quot;);
-        assertEquals(balance, valueOf(123.45D));
+    &lt;span class=&quot;annotation&quot;&gt;@Test&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; shouldReturnMockedBalance() {
+        &lt;span class=&quot;predefined-type&quot;&gt;Double&lt;/span&gt; balance = userBalanceService.getAccountBalance(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;user@bank.com&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;);
+        assertEquals(balance, valueOf(&lt;span class=&quot;float&quot;&gt;123.45D&lt;/span&gt;));
     }
-}
-----
-
-Please note that no new XML configuration required. We&#39;re using production XML config and just override single bean using `@ReplaceWithMock` annotation.
-Later we can customize the mock in `setUp` method. 
-
-== P.S.
-`Springockito-annotations` project has one great advantage - it provides test code only based dependency override mechanism. 
-Neither additional XML, nor production code modifications for test purposes. 
-Unlike `springockito-annotations` approach the XML based one makes creation of test specific XML mandatory always. 
-So I strongly recommend using `Springockito-annotations` project for your integration tests, 
-so they won&#39;t affect your production code design and won&#39;t produce additional artifacts - i.e. test XML configuration files.
-
-== P.P.S.
-
-Writing integration tests for Spring is easy ! Project can be found on https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCan1[My GitHub^]
-
-
-</description>
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Please note that no new XML configuration required. We&amp;#8217;re using production XML config and just override single bean using &lt;code&gt;@ReplaceWithMock&lt;/code&gt; annotation.
+Later we can customize the mock in &lt;code&gt;setUp&lt;/code&gt; method.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;p-s&quot;&gt;P.S.&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;code&gt;Springockito-annotations&lt;/code&gt; project has one great advantage - it provides test code only based dependency override mechanism.
+Neither additional XML, nor production code modifications for test purposes.
+Unlike &lt;code&gt;springockito-annotations&lt;/code&gt; approach the XML based one makes creation of test specific XML mandatory always.
+So I strongly recommend using &lt;code&gt;Springockito-annotations&lt;/code&gt; project for your integration tests,
+so they won&amp;#8217;t affect your production code design and won&amp;#8217;t produce additional artifacts - i.e. test XML configuration files.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;p-p-s&quot;&gt;P.P.S.&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Writing integration tests for Spring is easy ! Project can be found on &lt;a href=&quot;https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCan1&quot; target=&quot;_blank&quot;&gt;My GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
         <pubDate>Fri, 28 Jun 2013 00:00:00 +0000</pubDate>
         <link>http://eshepelyuk.github.io/2013/06/28/test-me-if-you-can-1.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2013/06/28/test-me-if-you-can-1.html</guid>
@@ -805,168 +1173,222 @@ Writing integration tests for Spring is easy ! Project can be found on https://g
       </item>
     
       <item>
-        <title>Duck Typing In Java Well Not Exactly</title>
-        <description>= Duck typing in Java ? Well, not exactly
-
-What is it all about ? According to Wikipedia duck typing is
-
-[quote, Wikipedia]
-____
-style of dynamic typing in which an object&#39;s methods and properties determine the valid semantics, 
-rather than its inheritance from a particular class or implementation of a specific interface
-____
-
-In simpler words 
-
-[quote]
+        <title>Duck typing in Java ? Well, not exactly</title>
+        <description>&lt;h1&gt;Duck typing in Java ? Well, not exactly&lt;/h1&gt;
+&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;What is it all about ? According to Wikipedia duck typing is&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;style of dynamic typing in which an object&amp;#8217;s methods and properties determine the valid semantics,
+rather than its inheritance from a particular class or implementation of a specific interface&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;div class=&quot;attribution&quot;&gt;
+&amp;#8212; Wikipedia
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In simpler words&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
 When I see a bird that walks like a duck and swims like a duck and quacks like a duck, I call that bird a duck
-
-In languages with dynamic typing this feature allows creating function that are not checking type of passed object 
-but instead rely on existence of particular methods/properties within it and throws runtime exception when those properties not found. 
-For instance, in `Groovy` we could have a function for printing out info about an entity 
-
-[source,groovy]
-----
-def printEntity = {entity -&gt;
-  println &quot;id: ${entity.id}, name: ${entity.name}&quot;
-}
-----
-
-Let&#39;s say we have following class 
-[source,groovy]
-----
-class Entity {
-  Long id
-  String name
-}
-----
-
-So we can invoke our function
-----
-printEntity(new Entity(id: 10L, name: &#39;MyName1&#39;))
-id: 10, name: MyName1
-----
-
-But the same time we could pass map as argument 
-----
-printEntity([&#39;id&#39;:10L, &#39;name&#39;:&#39;MyName2&#39;])
-id: 10, name: MyName2
-----
-
-Using metaprogramming magic we could write even following
-[source,groovy]
-----
-class Ghost {
- def propertyMissing(String name) {
-  if (name == &#39;id&#39;) {
-   return -1L
-  } else if (name == &#39;name&#39;) {
-   return &quot;StubName&quot;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In languages with dynamic typing this feature allows creating function that are not checking type of passed object
+but instead rely on existence of particular methods/properties within it and throws runtime exception when those properties not found.
+For instance, in &lt;code&gt;Groovy&lt;/code&gt; we could have a function for printing out info about an entity&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; printEntity = {entity -&amp;gt;
+  println &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;id: &lt;/span&gt;&lt;span class=&quot;inline&quot;&gt;&lt;span class=&quot;inline-delimiter&quot;&gt;${&lt;/span&gt;entity.id&lt;span class=&quot;inline-delimiter&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;, name: &lt;/span&gt;&lt;span class=&quot;inline&quot;&gt;&lt;span class=&quot;inline-delimiter&quot;&gt;${&lt;/span&gt;entity.name&lt;span class=&quot;inline-delimiter&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Let&amp;#8217;s say we have following class&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;Entity&lt;/span&gt; {
+  &lt;span class=&quot;predefined-type&quot;&gt;Long&lt;/span&gt; id
+  &lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; name
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;So we can invoke our function&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;printEntity(new Entity(id: 10L, name: &#39;MyName1&#39;))
+id: 10, name: MyName1&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;But the same time we could pass map as argument&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;printEntity([&#39;id&#39;:10L, &#39;name&#39;:&#39;MyName2&#39;])
+id: 10, name: MyName2&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Using metaprogramming magic we could write even following&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;Ghost&lt;/span&gt; {
+ &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;function&quot;&gt;propertyMissing&lt;/span&gt;(&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; name) {
+  &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (name == &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&#39;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;) {
+   &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; -&lt;span class=&quot;integer&quot;&gt;1L&lt;/span&gt;
+  } &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (name == &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&#39;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;) {
+   &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;StubName&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
   }
  }
-}
-----
-
-And we will be still able to call our function
-----
-printEntity(new Ghost())
-id: -1, name: StubName
-----
-
-== Welcome to the real world
-
-Fortunately this concept can be used not only for languages with dynamic typing but for ones with more strict typing model, as `Java`. 
-Wikipedia has good http://en.wikipedia.org/wiki/Duck_typing#In_Java[example, window=&quot;_blank&quot;] of duck typing implementation in `Java`
-using `Proxy` class. 
-
-Well, you&#39;d say, what is the practical usage of this, except feeling oneself the wisest guru :) 
-Let me show some real life task that was solved in Java using _Duck Typing_ technique.
-
-From the beginning we had simple report generator that queries DB of products and outputs id and name of certain entity. 
-
-|====
-|id|name
-
-|123|Phone #1
-|222|Book #2
-|====
-
-But then customer says: 
-[quote]
-____
-I&#39;d like to also have link to the entity detail page at our site. 
-Beautiful, SEO friendly link. Could you do it to me ?
-____
-
-&quot;Sure &quot;, I said. After digging our codebase I&#39;ve discovered cool function `generateSeoUrl()` that does the job. 
-The function takes one argument of type `Entity`, which is interface. 
-So my intention was to observe implementations of `Entity` and try to use one of them for SEO URL creation in the report generator. 
-How surprised was I after discovering that all of them are part of some self made _ORM_ tool 
-and their constructors query DB to get the entire information about product.
-
-So if I were using `Entity` implementations I had to deal with one extra query per row of my report and this is unacceptable 
-since report was comprised of huge number of rows. So I decided to try other approach and implement `Entity` interface, 
-overriding methods that are used by `generateSeoUrl()`. 
-I clicked my IDE shortcut and got surprised again. `Entity` had *50 (!!!)* methods. 
-Well, I already knew that only `getEntityId()` and `getName()` are used by `generateSeoUrl()` function, 
-but then again, having new class with 50 empty methods just to override 2 of them doing useful action seemed not good idea for me. 
-Thus I&#39;ve decided stop trying coding and start to think :) 
-Extend some of the `Entity` implementation to prevent querying DB or copy + paste `generateSeoUrl()` and adopt it for my needs 
-were the options but still it was not beautiful. Especially when I reminded duck typing. 
-I said to myself, we have a function that takes instance of `Entity` but only uses two method of this interface, 
-so to complete my task I need something that looks like `Entity` and able to handle `getEntityId` and `getName()` methods.
-
-Since `entityId` and `name`  were already present in data used for generating my report I could reuse them in my new class to stub data for `getEntityId()` and `getName()`. 
-To achieve duck typing we need to create `Proxy` that also implements `InvocationHandler` interface 
-and static method to retrieve instance of `Proxy`. Final code of my class looks like
-
-[source,java]
-----
-public class ReportEntitySupport implements InvocationHandler {
-    public static Entity newInstance(Long entityId, String name) {
-        return (Entity) Proxy.newProxyInstance(
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;And we will be still able to call our function&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;printEntity(new Ghost())
+id: -1, name: StubName&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;welcome-to-the-real-world&quot;&gt;Welcome to the real world&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Fortunately this concept can be used not only for languages with dynamic typing but for ones with more strict typing model, as &lt;code&gt;Java&lt;/code&gt;.
+Wikipedia has good &lt;a href=&quot;http://en.wikipedia.org/wiki/Duck_typing#In_Java&quot; target=&quot;_blank&quot;&gt;example&lt;/a&gt; of duck typing implementation in &lt;code&gt;Java&lt;/code&gt;
+using &lt;code&gt;Proxy&lt;/code&gt; class.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Well, you&amp;#8217;d say, what is the practical usage of this, except feeling oneself the wisest guru :)
+Let me show some real life task that was solved in Java using &lt;em&gt;Duck Typing&lt;/em&gt; technique.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;From the beginning we had simple report generator that queries DB of products and outputs id and name of certain entity.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table class=&quot;tableblock frame-all grid-all spread&quot;&gt;
+&lt;colgroup&gt;
+&lt;col style=&quot;width: 50%;&quot;&gt;
+&lt;col style=&quot;width: 50%;&quot;&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th class=&quot;tableblock halign-left valign-top&quot;&gt;id&lt;/th&gt;
+&lt;th class=&quot;tableblock halign-left valign-top&quot;&gt;name&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;123&lt;/p&gt;&lt;/td&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;Phone #1&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;222&lt;/p&gt;&lt;/td&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;Book #2&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;But then customer says:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I&amp;#8217;d like to also have link to the entity detail page at our site.
+Beautiful, SEO friendly link. Could you do it to me ?&lt;/p&gt;
+&lt;/div&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&quot;Sure &quot;, I said. After digging our codebase I&amp;#8217;ve discovered cool function &lt;code&gt;generateSeoUrl()&lt;/code&gt; that does the job.
+The function takes one argument of type &lt;code&gt;Entity&lt;/code&gt;, which is interface.
+So my intention was to observe implementations of &lt;code&gt;Entity&lt;/code&gt; and try to use one of them for SEO URL creation in the report generator.
+How surprised was I after discovering that all of them are part of some self made &lt;em&gt;ORM&lt;/em&gt; tool
+and their constructors query DB to get the entire information about product.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;So if I were using &lt;code&gt;Entity&lt;/code&gt; implementations I had to deal with one extra query per row of my report and this is unacceptable
+since report was comprised of huge number of rows. So I decided to try other approach and implement &lt;code&gt;Entity&lt;/code&gt; interface,
+overriding methods that are used by &lt;code&gt;generateSeoUrl()&lt;/code&gt;.
+I clicked my IDE shortcut and got surprised again. &lt;code&gt;Entity&lt;/code&gt; had &lt;strong&gt;50 (!!!)&lt;/strong&gt; methods.
+Well, I already knew that only &lt;code&gt;getEntityId()&lt;/code&gt; and &lt;code&gt;getName()&lt;/code&gt; are used by &lt;code&gt;generateSeoUrl()&lt;/code&gt; function,
+but then again, having new class with 50 empty methods just to override 2 of them doing useful action seemed not good idea for me.
+Thus I&amp;#8217;ve decided stop trying coding and start to think :)
+Extend some of the &lt;code&gt;Entity&lt;/code&gt; implementation to prevent querying DB or copy + paste &lt;code&gt;generateSeoUrl()&lt;/code&gt; and adopt it for my needs
+were the options but still it was not beautiful. Especially when I reminded duck typing.
+I said to myself, we have a function that takes instance of &lt;code&gt;Entity&lt;/code&gt; but only uses two method of this interface,
+so to complete my task I need something that looks like &lt;code&gt;Entity&lt;/code&gt; and able to handle &lt;code&gt;getEntityId&lt;/code&gt; and &lt;code&gt;getName()&lt;/code&gt; methods.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Since &lt;code&gt;entityId&lt;/code&gt; and &lt;code&gt;name&lt;/code&gt;  were already present in data used for generating my report I could reuse them in my new class to stub data for &lt;code&gt;getEntityId()&lt;/code&gt; and &lt;code&gt;getName()&lt;/code&gt;.
+To achieve duck typing we need to create &lt;code&gt;Proxy&lt;/code&gt; that also implements &lt;code&gt;InvocationHandler&lt;/code&gt; interface
+and static method to retrieve instance of &lt;code&gt;Proxy&lt;/code&gt;. Final code of my class looks like&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;ReportEntitySupport&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;InvocationHandler&lt;/span&gt; {
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;Entity&lt;/span&gt; newInstance(&lt;span class=&quot;predefined-type&quot;&gt;Long&lt;/span&gt; entityId, &lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; name) {
+        &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; (&lt;span class=&quot;predefined-type&quot;&gt;Entity&lt;/span&gt;) &lt;span class=&quot;predefined-type&quot;&gt;Proxy&lt;/span&gt;.newProxyInstance(
                 Product.class.getClassLoader(),
                 Product.class.getInterfaces(),
-                new ReportEntitySupport(entityId, name)
+                &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; ReportEntitySupport(entityId, name)
         );
     }
- 
-    private final String name;
-    private final Long entityId;
- 
-    private ReportEntitySupport(Long entityId, String name) {
-        this.name = name;
-        this.entityId = entityId;
+
+    &lt;span class=&quot;directive&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; name;
+    &lt;span class=&quot;directive&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;Long&lt;/span&gt; entityId;
+
+    &lt;span class=&quot;directive&quot;&gt;private&lt;/span&gt; ReportEntitySupport(&lt;span class=&quot;predefined-type&quot;&gt;Long&lt;/span&gt; entityId, &lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; name) {
+        &lt;span class=&quot;local-variable&quot;&gt;this&lt;/span&gt;.name = name;
+        &lt;span class=&quot;local-variable&quot;&gt;this&lt;/span&gt;.entityId = entityId;
     }
- 
-    @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        if (method.getName().equals(&quot;getName&quot;)) {
-            return this.name;
-        } else if (method.getName().equals(&quot;getEntityId&quot;)) {
-            return this.entityId;
+
+    &lt;span class=&quot;annotation&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;Object&lt;/span&gt; invoke(&lt;span class=&quot;predefined-type&quot;&gt;Object&lt;/span&gt; proxy, &lt;span class=&quot;predefined-type&quot;&gt;Method&lt;/span&gt; method, &lt;span class=&quot;predefined-type&quot;&gt;Object&lt;/span&gt;&lt;span class=&quot;type&quot;&gt;[]&lt;/span&gt; args) &lt;span class=&quot;directive&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;Throwable&lt;/span&gt; {
+        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (method.getName().equals(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;getName&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)) {
+            &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;local-variable&quot;&gt;this&lt;/span&gt;.name;
+        } &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (method.getName().equals(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;getEntityId&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;)) {
+            &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;local-variable&quot;&gt;this&lt;/span&gt;.entityId;
         }
-        return null;
+        &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;predefined-constant&quot;&gt;null&lt;/span&gt;;
     }
-}
-----
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;So how to use it ?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Inside my report generator while iterating over &lt;code&gt;ResultSet&lt;/code&gt; I&amp;#8217;m using following&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;predefined-type&quot;&gt;Long&lt;/span&gt; entityId = ...;        &lt;span class=&quot;comment&quot;&gt;//retrieve entityId from ResultSet&lt;/span&gt;
+&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; name = ...;                 &lt;span class=&quot;comment&quot;&gt;//retrieve name from ResultSet&lt;/span&gt;
 
-So how to use it ?
-
-Inside my report generator while iterating over `ResultSet` I&#39;m using following 
-[source,java]
-----
-Long entityId = ...;	//retrieve entityId from ResultSet
-String name = ...; 		//retrieve name from ResultSet
-
-Entity entity = ReportEntitySupport.newIntance(entityId, name);
-String seoUrl = generateSeoUrl(entity);
-...
-----
-
-
-
-</description>
+&lt;span class=&quot;predefined-type&quot;&gt;Entity&lt;/span&gt; entity = ReportEntitySupport.newIntance(entityId, name);
+&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; seoUrl = generateSeoUrl(entity);
+...&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
         <pubDate>Sat, 15 Sep 2012 00:00:00 +0000</pubDate>
         <link>http://eshepelyuk.github.io/2012/09/15/duck-typing-in-java-well-not-exactly.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2012/09/15/duck-typing-in-java-well-not-exactly.html</guid>
@@ -981,49 +1403,73 @@ String seoUrl = generateSeoUrl(entity);
       </item>
     
       <item>
-        <title>Codingdojocnua 6</title>
-        <description>:linkattrs:
-= CodingDojoCnUa #6
-
-Today, 28th of July, our CodingDojoCnUa community successfully conducted 6th Coding Dojo. 
-We met at Chernihiv&#39;s office of SysIQ, as few times before. 
-The subject of our session was `RomanNumerals` kata - description can be found by http://codingdojo.org/cgi-bin/wiki.pl?KataRomanNumerals[HERE]. 
-Main thing distinguishing this Dojo from previous ones was splitting the attendees into two separate teams 
-that were working on their own without shared _Design Session_. 
-Each team was responsible for figuring out own implementation and eventually produced working code together with unit tests. 
-Both implementation can be found at GitHub
-
-* https://github.com/eshepelyuk/CodingDojoCnUa/tree/master/Dojo6/teamA[Code for TeamA, window=&#39;_blank&#39;]
-* https://github.com/eshepelyuk/CodingDojoCnUa/tree/master/Dojo6/teamB[Code for TeamB, window=&#39;_blank&#39;]
-
-== What we&#39;ve discovered
-
-First things to mention that team provided completely different solutions to the same problem. 
-Relative simplicity of Kata seemed to help coders to split task into smaller parts thus supporting true incremental development, 
-concentrating on providing small slices of functionality after creating failed test. 
-Unlike previous times there were no attempts to create `God Functions` immediately after start of Dojo. 
-Although longer Design Sessions are essential to make team move faster and effectively with incremental development.
-
-Second main observation is that few peoples who don&#39;t use TDD on daily basis realized that this approach 
-could significantly affect original design of algorithm and even imposes final design. 
-On retrospective meeting one of us described this impression  
-
-[quote]
+        <title>CodingDojoCnUa #6</title>
+        <description>&lt;h1&gt;CodingDojoCnUa #6&lt;/h1&gt;
+&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Today, 28th of July, our CodingDojoCnUa community successfully conducted 6th Coding Dojo.
+We met at Chernihiv&amp;#8217;s office of SysIQ, as few times before.
+The subject of our session was &lt;code&gt;RomanNumerals&lt;/code&gt; kata - description can be found by &lt;a href=&quot;http://codingdojo.org/cgi-bin/wiki.pl?KataRomanNumerals&quot;&gt;HERE&lt;/a&gt;.
+Main thing distinguishing this Dojo from previous ones was splitting the attendees into two separate teams
+that were working on their own without shared &lt;em&gt;Design Session&lt;/em&gt;.
+Each team was responsible for figuring out own implementation and eventually produced working code together with unit tests.
+Both implementation can be found at GitHub&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/eshepelyuk/CodingDojoCnUa/tree/master/Dojo6/teamA&quot; target=&quot;_blank&quot;&gt;Code for TeamA&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/eshepelyuk/CodingDojoCnUa/tree/master/Dojo6/teamB&quot; target=&quot;_blank&quot;&gt;Code for TeamB&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;what-we-ve-discovered&quot;&gt;What we&amp;#8217;ve discovered&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;First things to mention that team provided completely different solutions to the same problem.
+Relative simplicity of Kata seemed to help coders to split task into smaller parts thus supporting true incremental development,
+concentrating on providing small slices of functionality after creating failed test.
+Unlike previous times there were no attempts to create &lt;code&gt;God Functions&lt;/code&gt; immediately after start of Dojo.
+Although longer Design Sessions are essential to make team move faster and effectively with incremental development.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Second main observation is that few peoples who don&amp;#8217;t use TDD on daily basis realized that this approach
+could significantly affect original design of algorithm and even imposes final design.
+On retrospective meeting one of us described this impression&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;quoteblock&quot;&gt;
+&lt;blockquote&gt;
 People saw TDD in action.
-
-3rd and the shortest - `CoffeeScript` tastes better each time you try it :)
-
-== What we&#39;re gonna try next time ? 
-
-Apparently largest negative issue raised on retro was isolation of members within own team and lack of inter-team communication. 
-Attendees suggested various options, even tackle more complicated task than kata, 
-like some sort of network game, and go through complete process of application development.
-
-But finally we agreed on just to exchange team members in the middle of next Dojo 
-to see if this is helpful for coding and / or brings more fun to the event :)
-
-Some photos http://www.facebook.com/media/set/?set=oa.378960365504429&amp;amp;type=1[@Facebook, window=&#39;_blank&#39;]
-</description>
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;3rd and the shortest - &lt;code&gt;CoffeeScript&lt;/code&gt; tastes better each time you try it :)&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;what-we-re-gonna-try-next-time&quot;&gt;What we&amp;#8217;re gonna try next time ?&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Apparently largest negative issue raised on retro was isolation of members within own team and lack of inter-team communication.
+Attendees suggested various options, even tackle more complicated task than kata,
+like some sort of network game, and go through complete process of application development.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;But finally we agreed on just to exchange team members in the middle of next Dojo
+to see if this is helpful for coding and / or brings more fun to the event :)&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Some photos &lt;a href=&quot;http://www.facebook.com/media/set/?set=oa.378960365504429&amp;amp;type=1&quot; target=&quot;_blank&quot;&gt;@Facebook&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
         <pubDate>Sat, 28 Jul 2012 00:00:00 +0000</pubDate>
         <link>http://eshepelyuk.github.io/2012/07/28/codingdojocnua-6.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2012/07/28/codingdojocnua-6.html</guid>
@@ -1038,65 +1484,87 @@ Some photos http://www.facebook.com/media/set/?set=oa.378960365504429&amp;amp;ty
       </item>
     
       <item>
-        <title>Seleniumwebdriver Tricks Part 3</title>
-        <description>= WebDriver tricks #3
-
-== Intro
-It&#39;s common case for dynamic pages to show / hide some elements basing on user&#39;s actions. 
-But covering them with stable WebDriver tests could be sometimes cumbersome. 
-I&#39;ll try to explain couple of techniques helping to deal with that sort of web pages. 
-
-== Case #1
-First approach I&#39;d like to describe is rendering all the elements on page load but set CSS `display` property to `none` 
-and later set it to empty or `block` to make element visible.
-
-In this case we can&#39;t just check visibility by using `webDriver.findElement(...)` since it will return valid element but we don&#39;t know if it visible or not. 
-Fortunately `WebElement` interface has method `isDisplayed()`, however obvious solution `webDriver.findElement(...).isDisplayed()`
-could be erroneous because JavaScript code that changes element visibility works with delays. 
-To overcome such problems we can use `WebDriverWait` class.
-
-[source,java]
-----
-WebDriverWait webDriverWait = new WebDriverWait(webDriver, 10L);
-WebElement visibleElement = webDriverWait.until(new Function&lt;Webdriver, WebElement&gt;() {
-	@Override
-	public WebElement apply(WebDriver webDriver) {
-		WebElement we = webDriver.findElement(...);
-		return we.isDisplayed() ? we : null;
-	}
-});
-----
-
-The code periodically finds element and checks its visibility. 
-When element exist and visible it will be returned by `until(..)` method.
-To check if element is invisible at the moment we can use similar approach just negating the condition in the function body
-
-== Case #2
-There&#39;s another option for dealing with show/hide certain parts of the page. 
-Your code can create required HTML on the fly while showing and remove elements from DOM while hiding. 
-To check element visibility we can use approach described above. But for checking if the part of the page is not shown to customer 
-we can&#39;t use that because there&#39;s no elements in DOM and if we try to use `findElement(...)` we will get the exception.
-
-Issue could be solved by using `WebDriverWait` `findElements(...)` method that doesn&#39;t throw an exception but return empty list if no elements found. 
-
-[source,java]
-----
-WebDriverWait webDriverWait = new WebDriverWait(webDriver, 10L);
-webDriverWait.until(new Predicate&lt;WebDriver&gt;() {
-	@Override
-	public boolean apply(WebDriver webDriver) {
-		return webDriver.findElements(...).size() == 0;
-	}
-});
-----
-
-Code periodically searches for elements matching criteria and return true when no elements found. 
-
-== P.S.
-
-It could save your time and make your code cleaner if you put code samples from above as static methods into utility class.
-This allows you to easily reuse such functionality while writing WebDriver tests for your pages.
-</description>
+        <title>WebDriver tricks #3</title>
+        <description>&lt;h1&gt;WebDriver tricks #3&lt;/h1&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;intro&quot;&gt;Intro&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It&amp;#8217;s common case for dynamic pages to show / hide some elements basing on user&amp;#8217;s actions.
+But covering them with stable WebDriver tests could be sometimes cumbersome.
+I&amp;#8217;ll try to explain couple of techniques helping to deal with that sort of web pages.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;case-1&quot;&gt;Case #1&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;First approach I&amp;#8217;d like to describe is rendering all the elements on page load but set CSS &lt;code&gt;display&lt;/code&gt; property to &lt;code&gt;none&lt;/code&gt;
+and later set it to empty or &lt;code&gt;block&lt;/code&gt; to make element visible.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In this case we can&amp;#8217;t just check visibility by using &lt;code&gt;webDriver.findElement(&amp;#8230;&amp;#8203;)&lt;/code&gt; since it will return valid element but we don&amp;#8217;t know if it visible or not.
+Fortunately &lt;code&gt;WebElement&lt;/code&gt; interface has method &lt;code&gt;isDisplayed()&lt;/code&gt;, however obvious solution &lt;code&gt;webDriver.findElement(&amp;#8230;&amp;#8203;).isDisplayed()&lt;/code&gt;
+could be erroneous because JavaScript code that changes element visibility works with delays.
+To overcome such problems we can use &lt;code&gt;WebDriverWait&lt;/code&gt; class.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;WebDriverWait webDriverWait = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; WebDriverWait(webDriver, &lt;span class=&quot;integer&quot;&gt;10L&lt;/span&gt;);
+WebElement visibleElement = webDriverWait.until(&lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; Function&amp;lt;Webdriver, WebElement&amp;gt;() {
+        &lt;span class=&quot;annotation&quot;&gt;@Override&lt;/span&gt;
+        &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; WebElement apply(WebDriver webDriver) {
+                WebElement we = webDriver.findElement(...);
+                &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; we.isDisplayed() ? we : &lt;span class=&quot;predefined-constant&quot;&gt;null&lt;/span&gt;;
+        }
+});&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The code periodically finds element and checks its visibility.
+When element exist and visible it will be returned by &lt;code&gt;until(..)&lt;/code&gt; method.
+To check if element is invisible at the moment we can use similar approach just negating the condition in the function body&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;case-2&quot;&gt;Case #2&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;There&amp;#8217;s another option for dealing with show/hide certain parts of the page.
+Your code can create required HTML on the fly while showing and remove elements from DOM while hiding.
+To check element visibility we can use approach described above. But for checking if the part of the page is not shown to customer
+we can&amp;#8217;t use that because there&amp;#8217;s no elements in DOM and if we try to use &lt;code&gt;findElement(&amp;#8230;&amp;#8203;)&lt;/code&gt; we will get the exception.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Issue could be solved by using &lt;code&gt;WebDriverWait&lt;/code&gt; &lt;code&gt;findElements(&amp;#8230;&amp;#8203;)&lt;/code&gt; method that doesn&amp;#8217;t throw an exception but return empty list if no elements found.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;WebDriverWait webDriverWait = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; WebDriverWait(webDriver, &lt;span class=&quot;integer&quot;&gt;10L&lt;/span&gt;);
+webDriverWait.until(&lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;Predicate&lt;/span&gt;&amp;lt;WebDriver&amp;gt;() {
+        &lt;span class=&quot;annotation&quot;&gt;@Override&lt;/span&gt;
+        &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;boolean&lt;/span&gt; apply(WebDriver webDriver) {
+                &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; webDriver.findElements(...).size() == &lt;span class=&quot;integer&quot;&gt;0&lt;/span&gt;;
+        }
+});&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Code periodically searches for elements matching criteria and return true when no elements found.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;p-s&quot;&gt;P.S.&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It could save your time and make your code cleaner if you put code samples from above as static methods into utility class.
+This allows you to easily reuse such functionality while writing WebDriver tests for your pages.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
         <pubDate>Wed, 11 Jul 2012 00:00:00 +0000</pubDate>
         <link>http://eshepelyuk.github.io/2012/07/11/seleniumwebdriver-tricks-part-3.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2012/07/11/seleniumwebdriver-tricks-part-3.html</guid>
@@ -1111,107 +1579,170 @@ This allows you to easily reuse such functionality while writing WebDriver tests
       </item>
     
       <item>
-        <title>Grails Angularjs Coffeescript</title>
-        <description>:imagesdir: /images/2012-07-05
-
-= Grails + AngularJS + CoffeeScript
-
-== Intro
-
-Responsive design is a must for modern web-applications. Today this is attempted to achieve by using JavaScript MVC frameworks.
-But more often than not those frameworks originate from `Rails`, `NodeJS` and other non-Java communities.
-This makes it hard for Java-boys (as me) to jump into. So purpose of this short tutorial is to explain in few easy steps how to start with JS MVC framework and `CoffeeScript` on `Grails`.
-
-In this certain case `AngularJS` is my personal choice taken up after playing around with few other libraries but principles described below should work for other frameworks.
-
-Our intention will be to write one-page application having single input field and what&#39;s typed there is immediately reflected below in span tag.
-
-I&#39;m assuming readers could be unfamiliar with AngularJS, but, still, the application is really simple and should be easy to read.
-
-== Implementation
-
-First let&#39;s create Grails application::
-`grails create-app testApp`
-
-After application is created let&#39;s change folder and all subsequent commands should be executed there::
-`cd testApp`
-
-`Grails` already has plugin that support on-the fly conversion of your `CoffeeScript` files into `JavaScript`. To install it type following::
-`grails install-plugin coffeescript-resources`
-
-After plugin installed we are going to create empty file for our `CoffeeScript` sources::
-`web-app/cs/angularIndex.coffee`
-
-image::2.jpg[]
-
-What&#39;s great about Grails - is the fact that it abounds with plugins. `AngularJS` library can be installed by typing::
-`grails install-plugin angularjs-resources`
-
-Thanks to great `resources`  plugin `JavaScript` files management is quite easy in `Grails`::
-[source,groovy]
-.grails-app/conf/MyResources.groovy
-----
-modules = {
-    angularIndex {
-        dependsOn &#39;angular&#39;
-        resource url: &#39;cs/angularIndex.coffee&#39;
-    }
-}
-----
-
-Code above declares resource for our AngularJS module written in `CoffeeScript`
-
-image::1.jpg[]
-
-Next we need controller to serve starting point HTML with AngularJS module. We can do it with following command::
-`grails create-controller AngularIndex`
-
-Also we need manually create Grails view for index action of our controller.  For this we have to create new file with following content
-[source,html]
-----
-.grails-app/views/angularIndex/index.gsp
-&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;r:require modules=&quot;angularIndex&quot;/&gt;
-    &lt;r:layoutResources/&gt;
-&lt;/head&gt;
-&lt;body ng-app=&quot;MyApp&quot;&gt;
-&lt;div ng-controller=&quot;MyCtrl&quot;&gt;
-    What typed reflected below
- 
-    &lt;input type=&quot;text&quot; ng-model=&quot;myText&quot;/&gt;
- 
-    &lt;span&gt;&lt;b&gt;&lt;/b&gt;&lt;/span&gt;
+        <title>Grails + AngularJS + CoffeeScript</title>
+        <description>&lt;h1&gt;Grails + AngularJS + CoffeeScript&lt;/h1&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;intro&quot;&gt;Intro&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Responsive design is a must for modern web-applications. Today this is attempted to achieve by using JavaScript MVC frameworks.
+But more often than not those frameworks originate from &lt;code&gt;Rails&lt;/code&gt;, &lt;code&gt;NodeJS&lt;/code&gt; and other non-Java communities.
+This makes it hard for Java-boys (as me) to jump into. So purpose of this short tutorial is to explain in few easy steps how to start with JS MVC framework and &lt;code&gt;CoffeeScript&lt;/code&gt; on &lt;code&gt;Grails&lt;/code&gt;.&lt;/p&gt;
 &lt;/div&gt;
-&lt;/body&gt;
-&lt;r:layoutResources/&gt;
-&lt;/html
-----
-Last step is to create AngularJS module in CoffeeScript. For this we have to fill `web-app/cs/angularIndex.coffee` created before with following content::
-[source,coffescript]
-.web-app/cs/angularIndex.coffee
-----
-app = angular.module &quot;MyApp&quot;, []
-app.controller &quot;MyCtrl&quot;, ($scope) -&gt;
-  $scope.myText = &quot;INITIAL&quot;
-----
-Let&#39;s run application::
-`grails run-app`
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In this certain case &lt;code&gt;AngularJS&lt;/code&gt; is my personal choice taken up after playing around with few other libraries but principles described below should work for other frameworks.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Our intention will be to write one-page application having single input field and what&amp;#8217;s typed there is immediately reflected below in span tag.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;I&amp;#8217;m assuming readers could be unfamiliar with AngularJS, but, still, the application is really simple and should be easy to read.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;implementation&quot;&gt;Implementation&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;First let&amp;#8217;s create Grails application&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;&lt;code&gt;grails create-app testApp&lt;/code&gt;&lt;/p&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;After application is created let&amp;#8217;s change folder and all subsequent commands should be executed there&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;&lt;code&gt;cd testApp&lt;/code&gt;&lt;/p&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;&lt;code&gt;Grails&lt;/code&gt; already has plugin that support on-the fly conversion of your &lt;code&gt;CoffeeScript&lt;/code&gt; files into &lt;code&gt;JavaScript&lt;/code&gt;. To install it type following&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;&lt;code&gt;grails install-plugin coffeescript-resources&lt;/code&gt;&lt;/p&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;After plugin installed we are going to create empty file for our &lt;code&gt;CoffeeScript&lt;/code&gt; sources&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;&lt;code&gt;web-app/cs/angularIndex.coffee&lt;/code&gt;&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;/images/2012-07-05/2.jpg&quot; alt=&quot;2&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;What&amp;#8217;s great about Grails - is the fact that it abounds with plugins. &lt;code&gt;AngularJS&lt;/code&gt; library can be installed by typing&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;&lt;code&gt;grails install-plugin angularjs-resources&lt;/code&gt;&lt;/p&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Thanks to great &lt;code&gt;resources&lt;/code&gt;  plugin &lt;code&gt;JavaScript&lt;/code&gt; files management is quite easy in &lt;code&gt;Grails&lt;/code&gt;&lt;/dt&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;grails-app/conf/MyResources.groovy&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;modules = {
+    angularIndex {
+        dependsOn &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&#39;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;angular&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;
+        resource &lt;span class=&quot;key&quot;&gt;url&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&#39;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;cs/angularIndex.coffee&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&#39;&lt;/span&gt;&lt;/span&gt;
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Code above declares resource for our AngularJS module written in &lt;code&gt;CoffeeScript&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;/images/2012-07-05/1.jpg&quot; alt=&quot;1&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Next we need controller to serve starting point HTML with AngularJS module. We can do it with following command&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;&lt;code&gt;grails create-controller AngularIndex&lt;/code&gt;&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Also we need manually create Grails view for index action of our controller.  For this we have to create new file with following content&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;html&quot;&gt;.grails-app/views/angularIndex/index.gsp
+&lt;span class=&quot;doctype&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;&amp;lt;r:require&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;modules&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;angularIndex&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;tag&quot;&gt;&amp;lt;r:layoutResources&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;body&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;ng-app&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;MyApp&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;ng-controller&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;MyCtrl&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;gt;&lt;/span&gt;
+    What typed reflected below
 
-image::3.jpg[]
+    &lt;span class=&quot;tag&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;attribute-name&quot;&gt;ng-model&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;myText&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;/&amp;gt;&lt;/span&gt;
 
-== P.S.
-
-Please notice that setup described above shouldn&#39;t be considered for production usage. 
-You probably need minification, zipping resources, etc - but then again it can be good starting point for research, prototyping and similar activities 
-towards developing modern front-ends. 
-
-=== Links 
-
-* http://angularjs.org/[AngularJS, window=&quot;_blank&quot;]
-* http://coffeescript.org/[CoffeeScript, window=&quot;_blank&quot;]
-* http://grails.org/[Grails, window=&quot;_blank&quot;]</description>
+    &lt;span class=&quot;tag&quot;&gt;&amp;lt;span&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;b&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/b&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;r:layoutResources&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;tag&quot;&gt;&amp;lt;/html&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Last step is to create AngularJS module in CoffeeScript. For this we have to fill &lt;code&gt;web-app/cs/angularIndex.coffee&lt;/code&gt; created before with following content&lt;/dt&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;web-app/cs/angularIndex.coffee&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;coffescript&quot;&gt;app = angular.module &amp;quot;MyApp&amp;quot;, []
+app.controller &amp;quot;MyCtrl&amp;quot;, ($scope) -&amp;gt;
+  $scope.myText = &amp;quot;INITIAL&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Let&amp;#8217;s run application&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;&lt;code&gt;grails run-app&lt;/code&gt;&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;/images/2012-07-05/3.jpg&quot; alt=&quot;3&quot;&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;p-s&quot;&gt;P.S.&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Please notice that setup described above shouldn&amp;#8217;t be considered for production usage.
+You probably need minification, zipping resources, etc - but then again it can be good starting point for research, prototyping and similar activities
+towards developing modern front-ends.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;links&quot;&gt;Links&lt;/h3&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;http://angularjs.org/&quot; target=&quot;_blank&quot;&gt;AngularJS&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;http://coffeescript.org/&quot; target=&quot;_blank&quot;&gt;CoffeeScript&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;http://grails.org/&quot; target=&quot;_blank&quot;&gt;Grails&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
         <pubDate>Thu, 05 Jul 2012 00:00:00 +0000</pubDate>
         <link>http://eshepelyuk.github.io/2012/07/05/grails-angularjs-coffeescript.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2012/07/05/grails-angularjs-coffeescript.html</guid>
@@ -1236,48 +1767,85 @@ towards developing modern front-ends.
       </item>
     
       <item>
-        <title>Codingdojocnua 2 Results</title>
-        <description>= CodingDojoCnUa #2
-
-On 5th of February our small Cherhihiv community made 2nd _CodingDojo_. 
-This time it was dedicated to `JavaScript` programming. 
-We tried to code some _Design Patterns_ in new language. 
-What we attained during 2 two 1 our long session is following patterns implemented
-
-. Singleton, yeah yeah yeah :)
-. Factory method
-. Template method v1 (prototype hierarchy)
-. Template method v2 (runtime meta-programming)
-. Decorator
-
-What we found very good during retrospection is usage of _TimeBox_ policy for changing pilot/co-pilot, 
-we used 7 minutes limited time box and `IntelliJ IDEA` `Pomodoro` plugin was helpful on this.
-
-During programming we all suffered of our Java mindset. 
-Even plain looking into Wikipedia description and attempt to re-implement `Java` code samples in `JavaScript` were damaging our brains :) 
-Lack of interfaces (as in `Java`) and completely different approach of creating class hierarchy slowed down our development speed. 
-Another issue was immense scope of our _Dojo_. Certain targets (patterns) were chosen only at the beginning of session and it was a challenge 
-to create domain object for certain patterns without detailed design session for which we have no time.
-
-== What we decided to do next
-
-. Pick up and implement some Kata to have more certainty on what we wanna achieve
-. Increase time box to 10 minutes, let&#39;s see if helps
-. Get some cookies and drinks to not starve during session :)
-
-== My personal observations
-
-The easiest part was `Jasmine`. This BDD tool was adopted seamlessly by all of us since TDD tools and practices are familiar to us from `Java` world 
-and `Jasmine` is very similar. 
-
-The hardest was start thinking again in higher level OOP terms, not in their equivalents in `Java`. 
-All those interfaces, classes limited to the same named file and other limitation imposed by `Java` were hard to overcome. 
-Considering present of duck typing in JavaScript we get rid of interfaces, abstract classes and class hierarchy at all. 
-Another uncommon point was API concentrated in module not in class as in `Java` it it was also a bit frustrating from the beginning.
-
-But anyway the coolest thing was our success in short and stressful session as well as knowledge obtained. 
-I think attitude to `JavaScript` should change a bit towards paying more respect for this amazing and underestimated language (my IMO though).
-</description>
+        <title>CodingDojoCnUa #2</title>
+        <description>&lt;h1&gt;CodingDojoCnUa #2&lt;/h1&gt;
+&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;On 5th of February our small Cherhihiv community made 2nd &lt;em&gt;CodingDojo&lt;/em&gt;.
+This time it was dedicated to &lt;code&gt;JavaScript&lt;/code&gt; programming.
+We tried to code some &lt;em&gt;Design Patterns&lt;/em&gt; in new language.
+What we attained during 2 two 1 our long session is following patterns implemented&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;olist arabic&quot;&gt;
+&lt;ol class=&quot;arabic&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;Singleton, yeah yeah yeah :)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Factory method&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Template method v1 (prototype hierarchy)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Template method v2 (runtime meta-programming)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Decorator&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;What we found very good during retrospection is usage of &lt;em&gt;TimeBox&lt;/em&gt; policy for changing pilot/co-pilot,
+we used 7 minutes limited time box and &lt;code&gt;IntelliJ IDEA&lt;/code&gt; &lt;code&gt;Pomodoro&lt;/code&gt; plugin was helpful on this.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;During programming we all suffered of our Java mindset.
+Even plain looking into Wikipedia description and attempt to re-implement &lt;code&gt;Java&lt;/code&gt; code samples in &lt;code&gt;JavaScript&lt;/code&gt; were damaging our brains :)
+Lack of interfaces (as in &lt;code&gt;Java&lt;/code&gt;) and completely different approach of creating class hierarchy slowed down our development speed.
+Another issue was immense scope of our &lt;em&gt;Dojo&lt;/em&gt;. Certain targets (patterns) were chosen only at the beginning of session and it was a challenge
+to create domain object for certain patterns without detailed design session for which we have no time.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;what-we-decided-to-do-next&quot;&gt;What we decided to do next&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;olist arabic&quot;&gt;
+&lt;ol class=&quot;arabic&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;Pick up and implement some Kata to have more certainty on what we wanna achieve&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Increase time box to 10 minutes, let&amp;#8217;s see if helps&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Get some cookies and drinks to not starve during session :)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;my-personal-observations&quot;&gt;My personal observations&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The easiest part was &lt;code&gt;Jasmine&lt;/code&gt;. This BDD tool was adopted seamlessly by all of us since TDD tools and practices are familiar to us from &lt;code&gt;Java&lt;/code&gt; world
+and &lt;code&gt;Jasmine&lt;/code&gt; is very similar.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The hardest was start thinking again in higher level OOP terms, not in their equivalents in &lt;code&gt;Java&lt;/code&gt;.
+All those interfaces, classes limited to the same named file and other limitation imposed by &lt;code&gt;Java&lt;/code&gt; were hard to overcome.
+Considering present of duck typing in JavaScript we get rid of interfaces, abstract classes and class hierarchy at all.
+Another uncommon point was API concentrated in module not in class as in &lt;code&gt;Java&lt;/code&gt; it it was also a bit frustrating from the beginning.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;But anyway the coolest thing was our success in short and stressful session as well as knowledge obtained.
+I think attitude to &lt;code&gt;JavaScript&lt;/code&gt; should change a bit towards paying more respect for this amazing and underestimated language (my IMO though).&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
         <pubDate>Mon, 06 Feb 2012 00:00:00 +0000</pubDate>
         <link>http://eshepelyuk.github.io/2012/02/06/codingdojocnua-2-results.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2012/02/06/codingdojocnua-2-results.html</guid>
@@ -1292,52 +1860,102 @@ I think attitude to `JavaScript` should change a bit towards paying more respect
       </item>
     
       <item>
-        <title>Codingdojocnua 2 Agenda And Tools</title>
-        <description>= CodingDojoCnUa #2 agenda and tools
-
-== Intro
-
-On 5th of February we are going to have 2nd _CodingDojo_ meeting dedicated to improve our `JavaScript` skills. 
-The purpose of our gathering will be implementation of design patterns using `JavaScript` language.
-The good list of patterns could be found http://en.wikipedia.org/wiki/Software_design_pattern[Wikipedia page, window=&quot;_blank&quot;].
-Please read the list before meeting :)
-
-Links below are also good starting point for exploring `JavaScript`. 
-At least skim reading of links below is required before Dojo.
-
-* http://bonsaiden.github.com/JavaScript-Garden[JavaScript Garden - General Guide, window=&quot;_blank&quot;]
-* http://www.addyosmani.com/resources/essentialjsdesignpatterns/book[Some Design Patterns already implemented, window=&quot;_blank&quot;] 
-
-== Agenda
-
-We&#39;re going to pair-program using TDD while implementing few of _Software Design Patterns_.
-At our previous retro we&#39;ve chosen to use timeboxing for changing pilot/co-pilot. 
-Let&#39;s consider our participants gonna change every 5-7 minutes.
-
-[cols=&quot;1,3&quot;]
-|===
-|Time|Description
-
-|10:30|Start and intro. Decide what exactly we gonna do, so-called _Design Session_
-|10:50|1st coding session start
-|11:50|Break and _how it&#39;s going_ discussion, maybe lunch ?
-|12:20|2nd _Design Session_
-|12:30|2nd coding session begin
-|13:30|Retro
-|14:00|End
-|===
-
-Exact agenda timings are subject to change depending on our progress during Dojo.
-
-== Tools we gonna use
-
-We will be using `NodeJS` as our `JavaScript`, `Jasmine` as _TDD/BDD_ framework and `IntelliJ IDEA`.
-Although `NodeJS` is rich featured server-side framework we are intended to use it only as JS interpreter.
-More docs could be found at http://nodejs.org[NodeJS, window=&quot;_blank&quot;] 
-
-`Jasmine` _BDD_ framework for testing in `JavaScript`. It has support for test suites, human friendly assertions, 
-basic mocking support so its good choice for beginners like us :). Find more on their https://github.com/pivotal/jasmine/wiki[Docs page, window=&quot;_blank&quot;]
-</description>
+        <title>CodingDojoCnUa #2 agenda and tools</title>
+        <description>&lt;h1&gt;CodingDojoCnUa #2 agenda and tools&lt;/h1&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;intro&quot;&gt;Intro&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;On 5th of February we are going to have 2nd &lt;em&gt;CodingDojo&lt;/em&gt; meeting dedicated to improve our &lt;code&gt;JavaScript&lt;/code&gt; skills.
+The purpose of our gathering will be implementation of design patterns using &lt;code&gt;JavaScript&lt;/code&gt; language.
+The good list of patterns could be found &lt;a href=&quot;http://en.wikipedia.org/wiki/Software_design_pattern&quot; target=&quot;_blank&quot;&gt;Wikipedia page&lt;/a&gt;.
+Please read the list before meeting :)&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Links below are also good starting point for exploring &lt;code&gt;JavaScript&lt;/code&gt;.
+At least skim reading of links below is required before Dojo.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;http://bonsaiden.github.com/JavaScript-Garden&quot; target=&quot;_blank&quot;&gt;JavaScript Garden - General Guide&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.addyosmani.com/resources/essentialjsdesignpatterns/book&quot; target=&quot;_blank&quot;&gt;Some Design Patterns already implemented&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;agenda&quot;&gt;Agenda&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We&amp;#8217;re going to pair-program using TDD while implementing few of &lt;em&gt;Software Design Patterns&lt;/em&gt;.
+At our previous retro we&amp;#8217;ve chosen to use timeboxing for changing pilot/co-pilot.
+Let&amp;#8217;s consider our participants gonna change every 5-7 minutes.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table class=&quot;tableblock frame-all grid-all spread&quot;&gt;
+&lt;colgroup&gt;
+&lt;col style=&quot;width: 25%;&quot;&gt;
+&lt;col style=&quot;width: 75%;&quot;&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th class=&quot;tableblock halign-left valign-top&quot;&gt;Time&lt;/th&gt;
+&lt;th class=&quot;tableblock halign-left valign-top&quot;&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;10:30&lt;/p&gt;&lt;/td&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;Start and intro. Decide what exactly we gonna do, so-called &lt;em&gt;Design Session&lt;/em&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;10:50&lt;/p&gt;&lt;/td&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;1st coding session start&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;11:50&lt;/p&gt;&lt;/td&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;Break and &lt;em&gt;how it&amp;#8217;s going&lt;/em&gt; discussion, maybe lunch ?&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;12:20&lt;/p&gt;&lt;/td&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;2nd &lt;em&gt;Design Session&lt;/em&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;12:30&lt;/p&gt;&lt;/td&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;2nd coding session begin&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;13:30&lt;/p&gt;&lt;/td&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;Retro&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;14:00&lt;/p&gt;&lt;/td&gt;
+&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;End&lt;/p&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Exact agenda timings are subject to change depending on our progress during Dojo.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;tools-we-gonna-use&quot;&gt;Tools we gonna use&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We will be using &lt;code&gt;NodeJS&lt;/code&gt; as our &lt;code&gt;JavaScript&lt;/code&gt;, &lt;code&gt;Jasmine&lt;/code&gt; as &lt;em&gt;TDD/BDD&lt;/em&gt; framework and &lt;code&gt;IntelliJ IDEA&lt;/code&gt;.
+Although &lt;code&gt;NodeJS&lt;/code&gt; is rich featured server-side framework we are intended to use it only as JS interpreter.
+More docs could be found at &lt;a href=&quot;http://nodejs.org&quot; target=&quot;_blank&quot;&gt;NodeJS&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;code&gt;Jasmine&lt;/code&gt; &lt;em&gt;BDD&lt;/em&gt; framework for testing in &lt;code&gt;JavaScript&lt;/code&gt;. It has support for test suites, human friendly assertions,
+basic mocking support so its good choice for beginners like us :). Find more on their &lt;a href=&quot;https://github.com/pivotal/jasmine/wiki&quot; target=&quot;_blank&quot;&gt;Docs page&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
         <pubDate>Sat, 28 Jan 2012 00:00:00 +0000</pubDate>
         <link>http://eshepelyuk.github.io/2012/01/28/codingdojocnua-2-agenda-and-tools.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2012/01/28/codingdojocnua-2-agenda-and-tools.html</guid>

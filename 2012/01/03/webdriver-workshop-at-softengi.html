@@ -1,42 +1,213 @@
-= WebDriver workshop at Softengi, Chernihiv
+<!DOCTYPE html>
+<html>
 
-Today we've been doing small workshop dedicated to learning basics of writing functional test using `WebDriver`
-with couple of guys from Chernihiv's Softengi office. The agenda was quite brief 
+  <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width initial-scale=1" />
 
-. Doing some sort of _Prepared Kata_. It was Google search page example with entering query and clicking suggestions provided.
-. Refactoring of code created
-. Break and retrospection of what had been achieved
-. More coding to complete the task (checking search results returned by Google) 
-. Quick review of successes :)
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	
+	<title>WebDriver workshop at Softengi, Chernihiv</title>
 
-== Lessons learnt
 
-* Hell yeah, I know `Hamcrest` matchers :) and able to use complex combinations of them for assertion, but ...
-* `Hamcrest` matchers are too verbose for complex collection operation, so ...
-* I'd recommend to write `WebDriver` tests using `Groovy`, because it allows better collection processing and other syntax sugar as well
-* http://en.wikipedia.org/wiki/KISS_principle[KISS principle] must be 1st think when designing API. _Architect attitude_ most of the times leads to non required over complication of resulting code.
-* Uncertainty in goals, i.e. tasks definition make people to be bound to pick up very different approaches. 
-Developers need communication and pair working during whole coding process :)
- 
-Unfortunately we were out of time, so planned _CodingDojo_ was not done today. 
-But in general we achieved all planned goals: got hand dirty in WebDriver and understanding basic principles of creating tests.
+	<meta name="description" content="Simple blog for some thoughts to be shared. Mostly about Java programming">
+	
+	
+	<meta name="keywords" content="webdriver, coding dojo">
 
-Below are some of retrospection points after 1st phase of workshop, i.e. _Prepared Kata_.
-Could be helpful to summarize general approaches while creating `WebDriver` tests
+	<link rel="stylesheet" href="/css/main.css">
+	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	
+	<link rel="canonical" href="http://eshepelyuk.github.io/2012/01/03/webdriver-workshop-at-softengi.html">
+	<link href="http://eshepelyuk.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="JK's blog Feed">
 
-* `WebDriver` tests are about loading pages, finding elements in `DOM tree`, generating click or input actions and assert changes to `DOM tree`
-* Usage of `PageObject` pattern is essential for creating robust and readable tests. 
-Pattern improves code re-usability and encapsulation of DOM structure manipulations. 
-After pattern adoption tests tends to turn themselves into classic BDD _given/when/then_ stories.
-* Page or screen should be considered as a set of services provided to a client and `PageObjects` 
-should reflect this by using human readable names for method naming
-* Navigation between pages could be represented as returning new _PageObject_ instances while calling method of initial _PageObject_
-Web pages are having latency feature. One have to wait before asserting changes made to DOM tree. 
-Especially with high usage of `AJAX` one always should consider necessity of delays between performing the action and asserting its outcome
-* Waits should be performed using `WebDriver`'s `FluentWait` and `WebDriverWait` classes, not `Thread.sleep(...)` or similar. 
-This reduces delays while running tests making code waiting only when needed for element to appear
-* Tests should assert changes happened to UI. If there's no changes after some action performed 
-it means either this action is useless and should be removed from screen or screen requires to be adopted for showing a message after action completed
-* Vanilla _TDD (tests before code)_ doesn't work well with `WebDriver` tests, but it’s still playing important part
-* Special build scrips should be created for _Continuous Integration_ of `WebDriver` tests. 
-Scripts should perform checkout, start web server, run tests and stop server
+	
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-56082439-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+	
+</head>
+
+
+  <body>
+    <header class="site-header">
+	<div class="wrapper">
+		<a href="https://github.com/eshepelyuk/eshepelyuk.github.io/tree/jekyll"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>   		
+		<a class="site-title" href="/"><i class="fa fa-cube fa-lg">&nbsp;&nbsp;</i>JK's blog</a>	
+
+	</div>
+	<div class="wrapper">
+		<p class="text">Simple blog for some thoughts to be shared. Mostly about Java programming</p>
+	</div>
+	<div class="wrapper">
+		<ul class="site-contact">
+			<li><i class="fa fa-twitter fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://twitter.com/eshepelyuk">@eshepelyuk</a></li>
+			<li>|</li>
+			<li><i class="fa fa-facebook fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://www.facebook.com/evgeny.shepelyuk">evgeny.shepelyuk</a></li>
+			<li>|</li>
+			<li><i class="fa fa-linkedin fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://www.linkedin.com/pub/evgeny-shepelyuk/4/b1/a20">evgeny-shepelyuk</a></li>
+			<li>|</li>
+			<li><i class="fa fa-rss fa-lg text-error"></i>&nbsp;<a target="_blank" class="site-contact" href="http://eshepelyuk.github.io/feed.xml">RSS</a></li>
+		</ul>
+	</div>
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">WebDriver workshop at Softengi, Chernihiv</h1>
+    <span class="post-meta"><i class="fa fa-calendar fa-lg"></i>&nbsp;&nbsp;Jan 3, 2012<i class="fa fa-tags fa-lg"></i>&nbsp;webdriver, coding dojo</span>
+		
+		
+		
+		
+  </header>
+
+  <article class="post-content">
+    <h1>WebDriver workshop at Softengi, Chernihiv</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Today we&#8217;ve been doing small workshop dedicated to learning basics of writing functional test using <code>WebDriver</code>
+with couple of guys from Chernihiv&#8217;s Softengi office. The agenda was quite brief</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Doing some sort of <em>Prepared Kata</em>. It was Google search page example with entering query and clicking suggestions provided.</p>
+</li>
+<li>
+<p>Refactoring of code created</p>
+</li>
+<li>
+<p>Break and retrospection of what had been achieved</p>
+</li>
+<li>
+<p>More coding to complete the task (checking search results returned by Google)</p>
+</li>
+<li>
+<p>Quick review of successes :)</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="lessons-learnt">Lessons learnt</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Hell yeah, I know <code>Hamcrest</code> matchers :) and able to use complex combinations of them for assertion, but &#8230;&#8203;</p>
+</li>
+<li>
+<p><code>Hamcrest</code> matchers are too verbose for complex collection operation, so &#8230;&#8203;</p>
+</li>
+<li>
+<p>I&#8217;d recommend to write <code>WebDriver</code> tests using <code>Groovy</code>, because it allows better collection processing and other syntax sugar as well</p>
+</li>
+<li>
+<p><a href="http://en.wikipedia.org/wiki/KISS_principle">KISS principle</a> must be 1st think when designing API. <em>Architect attitude</em> most of the times leads to non required over complication of resulting code.</p>
+</li>
+<li>
+<p>Uncertainty in goals, i.e. tasks definition make people to be bound to pick up very different approaches.
+Developers need communication and pair working during whole coding process :)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Unfortunately we were out of time, so planned <em>CodingDojo</em> was not done today.
+But in general we achieved all planned goals: got hand dirty in WebDriver and understanding basic principles of creating tests.</p>
+</div>
+<div class="paragraph">
+<p>Below are some of retrospection points after 1st phase of workshop, i.e. <em>Prepared Kata</em>.
+Could be helpful to summarize general approaches while creating <code>WebDriver</code> tests</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>WebDriver</code> tests are about loading pages, finding elements in <code>DOM tree</code>, generating click or input actions and assert changes to <code>DOM tree</code></p>
+</li>
+<li>
+<p>Usage of <code>PageObject</code> pattern is essential for creating robust and readable tests.
+Pattern improves code re-usability and encapsulation of DOM structure manipulations.
+After pattern adoption tests tends to turn themselves into classic BDD <em>given/when/then</em> stories.</p>
+</li>
+<li>
+<p>Page or screen should be considered as a set of services provided to a client and <code>PageObjects</code>
+should reflect this by using human readable names for method naming</p>
+</li>
+<li>
+<p>Navigation between pages could be represented as returning new <em>PageObject</em> instances while calling method of initial <em>PageObject</em>
+Web pages are having latency feature. One have to wait before asserting changes made to DOM tree.
+Especially with high usage of <code>AJAX</code> one always should consider necessity of delays between performing the action and asserting its outcome</p>
+</li>
+<li>
+<p>Waits should be performed using <code>WebDriver&#8217;s `FluentWait</code> and <code>WebDriverWait</code> classes, not <code>Thread.sleep(&#8230;&#8203;)</code> or similar.
+This reduces delays while running tests making code waiting only when needed for element to appear</p>
+</li>
+<li>
+<p>Tests should assert changes happened to UI. If there&#8217;s no changes after some action performed
+it means either this action is useless and should be removed from screen or screen requires to be adopted for showing a message after action completed</p>
+</li>
+<li>
+<p>Vanilla <em>TDD (tests before code)</em> doesn&#8217;t work well with <code>WebDriver</code> tests, but it’s still playing important part</p>
+</li>
+<li>
+<p>Special build scrips should be created for <em>Continuous Integration</em> of <code>WebDriver</code> tests.
+Scripts should perform checkout, start web server, run tests and stop server</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+  </article>
+
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+	var disqus_shortname = 'eshepelyukblog'; // required: replace example with your forum shortname
+	var disqus_url = 'http://eshepelyuk.github.io/2012/01/03/webdriver-workshop-at-softengi.html';
+	
+	/* * * DON'T EDIT BELOW THIS LINE * * */
+	(function() {
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+	<div class="wrapper">
+		<p class="text"><i class="fa fa-gear fa-lg">&nbsp;</i>Powered by <a target="_blank" href="http://pages.github.com/">GitHub Pages</a>, <a target="_blank" href="http://jekyllrb.com">Jekyll</a> and <a target="_blank" href="http://asciidoctor.org/">AsciiDoctor</a></p>
+	</div>	
+</footer>
+
+		
+		
+		
+	</body>
+
+
+
+
+
+</html>

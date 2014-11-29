@@ -1,96 +1,227 @@
-:imagesdir: /images/2014-10-28
-= Automate GitHub Pages publishing with Jekyll and Travis CI
+<!DOCTYPE html>
+<html>
 
-Content is a *KING*. Neither fancy CMS nor online WYSYWIG editors are, but content is.
-That's why `Jekyll` powered  `GitHub Pages` got such a popularity.
-Just push `HTML`, `Liquid`, `Markdown` etc, then files got processed by `Jekyll` 
+  <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width initial-scale=1" />
+
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	
+	<title>Automate GitHub Pages publishing with Jekyll and Travis CI</title>
+
+
+	<meta name="description" content="Content is a KING. Neither fancy CMS nor online WYSYWIG editors are, but content is.That’s why Jekyll powered  GitHub Pages got such a popularity.Just push HTML, Liquid, Markdown etc, then files got processed by Jekyll and the whole site becomes available online in a minute.However, if you’d like to use extra Jekyll features, for instance AsciiDoctor, you should manage site generation yourself.This quite boring activity could be simplified by leveraging Travis CI continuous integration project.">
+	
+	
+	<meta name="keywords" content="jekyll, github, asciidoctor, travisci, howto">
+
+	<link rel="stylesheet" href="/css/main.css">
+	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	
+	<link rel="canonical" href="http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html">
+	<link href="http://eshepelyuk.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="JK's blog Feed">
+
+	
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-56082439-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+	
+</head>
+
+
+  <body>
+    <header class="site-header">
+	<div class="wrapper">
+		<a href="https://github.com/eshepelyuk/eshepelyuk.github.io/tree/jekyll"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>   		
+		<a class="site-title" href="/"><i class="fa fa-cube fa-lg">&nbsp;&nbsp;</i>JK's blog</a>	
+
+	</div>
+	<div class="wrapper">
+		<p class="text">Simple blog for some thoughts to be shared. Mostly about Java programming</p>
+	</div>
+	<div class="wrapper">
+		<ul class="site-contact">
+			<li><i class="fa fa-twitter fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://twitter.com/eshepelyuk">@eshepelyuk</a></li>
+			<li>|</li>
+			<li><i class="fa fa-facebook fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://www.facebook.com/evgeny.shepelyuk">evgeny.shepelyuk</a></li>
+			<li>|</li>
+			<li><i class="fa fa-linkedin fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://www.linkedin.com/pub/evgeny-shepelyuk/4/b1/a20">evgeny-shepelyuk</a></li>
+			<li>|</li>
+			<li><i class="fa fa-rss fa-lg text-error"></i>&nbsp;<a target="_blank" class="site-contact" href="http://eshepelyuk.github.io/feed.xml">RSS</a></li>
+		</ul>
+	</div>
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Automate GitHub Pages publishing with Jekyll and Travis CI</h1>
+    <span class="post-meta"><i class="fa fa-calendar fa-lg"></i>&nbsp;&nbsp;Oct 28, 2014<i class="fa fa-tags fa-lg"></i>&nbsp;jekyll, github, asciidoctor, travisci, howto</span>
+		
+		
+		
+		
+  </header>
+
+  <article class="post-content">
+    <h1>Automate GitHub Pages publishing with Jekyll and Travis CI</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Content is a <strong>KING</strong>. Neither fancy CMS nor online WYSYWIG editors are, but content is.
+That&#8217;s why <code>Jekyll</code> powered  <code>GitHub Pages</code> got such a popularity.
+Just push <code>HTML</code>, <code>Liquid</code>, <code>Markdown</code> etc, then files got processed by <code>Jekyll</code>
 and the whole site becomes available online in a minute.
-However, if you'd like to use extra `Jekyll` features, for instance `AsciiDoctor`, you should manage site generation yourself.
-This quite boring activity could be simplified by leveraging `Travis CI` continuous integration project.
-
-== Setting up Jekyll
-
-The only precondition is that you have `Jekyll` site already configured using http://bundler.io/[Bundler^] and you can run it locally with
-
-[source]
-bundle exec jekyll serve
-
-== Setting up Travis CI
-
-The whole idea was to make publishing experience of highly customized `Jekyll` project to `GitHub Pages` exactly the same
-as publishing of standard `Jekyll` site. You just push your changes to `git`, wait couple of minutes and refresh the page with new content.
-
-I'm using _User Pages_ approach https://help.github.com/articles/using-jekyll-with-pages/[as described here^]
-so I have two branches for my setup
-
-* `master` for generated static content
-* `jekyll` for markup sources and configuration
-
-The goal is to configure `Travis CI` job to listen for commits on `jekyll` branch, 
-then run `jekyll build` for process markup sources and then push generated content to `master` branch.
-
-=== Enable Hooks
-
-To make `Travis CI` listen for commits and do actual work - we have to enable hooks.
-
-image::2.png[Enable Travis CI hook]
-
-=== Travis CI configuration
-
-Then let's limit commit trigger to `jekyll` branch only and explicitly configure the script that will be executed after commit detection.
-For this we have to put file `.travis.yml` to the root of `jekyll` branch with following content.
-[source,yaml]
-.+++.travis.yml+++
-----
-language: ruby
-script: "./build.sh" # execute this script on each commit
-branches:
-  only:
-  - jekyll # only take into account `jekyll' branch
-rvm:
-- 2.1.2 # version of `ruby' 
-----
-
-=== Generate and encrypt GitHub token for Travis Ci
-
-Since we'd need to commit and push our changes to other (`master`) branch from within the build script
-it's mandatory to checkout this branch either using `HTTPS` or `SSH` protocol, as described	https://gist.github.com/grawity/4392747[HERE^]
-Easiest way for us is to clone using `HTTPS` protocol and use  _personal access token_ for authentication. 
-
-* https://help.github.com/articles/creating-an-access-token-for-command-line-use/[How to generate GitHub Token^]
-* Generate GitHub token
-
-image::1.png[Generate GitHub token]
-
-CAUTION: Copy generated token somewhere to be used in the next step.
-
-Putting clear text tokens into script isn't good idea, but thanks to `travis` command line tool 
-we can encrypt any `name=value` pair and later expose then as environment variables to the build job.
-
-Execute following code in the working directory where `jekyll` branch is cloned to.
-
-[source]
-----
-gem install travis
-travis encrypt GH_TOKEN=<token> --add env.global
-----
-
-The command above should add following lines to your `.travis.yml`.
-[source,yaml]
-----
-env:
-  global:
-    secure: HERE GOES ENCRYPTED STUFF
-----
-
-==== Build script
-
-And finally the build script.
-
-[source]
-.build.sh
-----
-#!/bin/bash
+However, if you&#8217;d like to use extra <code>Jekyll</code> features, for instance <code>AsciiDoctor</code>, you should manage site generation yourself.
+This quite boring activity could be simplified by leveraging <code>Travis CI</code> continuous integration project.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="setting-up-jekyll">Setting up Jekyll</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The only precondition is that you have <code>Jekyll</code> site already configured using <a href="http://bundler.io/" target="_blank">Bundler</a> and you can run it locally with</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>bundle exec jekyll serve</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="setting-up-travis-ci">Setting up Travis CI</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The whole idea was to make publishing experience of highly customized <code>Jekyll</code> project to <code>GitHub Pages</code> exactly the same
+as publishing of standard <code>Jekyll</code> site. You just push your changes to <code>git</code>, wait couple of minutes and refresh the page with new content.</p>
+</div>
+<div class="paragraph">
+<p>I&#8217;m using <em>User Pages</em> approach <a href="https://help.github.com/articles/using-jekyll-with-pages/" target="_blank">as described here</a>
+so I have two branches for my setup</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>master</code> for generated static content</p>
+</li>
+<li>
+<p><code>jekyll</code> for markup sources and configuration</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The goal is to configure <code>Travis CI</code> job to listen for commits on <code>jekyll</code> branch,
+then run <code>jekyll build</code> for process markup sources and then push generated content to <code>master</code> branch.</p>
+</div>
+<div class="sect2">
+<h3 id="enable-hooks">Enable Hooks</h3>
+<div class="paragraph">
+<p>To make <code>Travis CI</code> listen for commits and do actual work - we have to enable hooks.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/images/2014-10-28/2.png" alt="Enable Travis CI hook">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="travis-ci-configuration">Travis CI configuration</h3>
+<div class="paragraph">
+<p>Then let&#8217;s limit commit trigger to <code>jekyll</code> branch only and explicitly configure the script that will be executed after commit detection.
+For this we have to put file <code>.travis.yml</code> to the root of <code>jekyll</code> branch with following content.</p>
+</div>
+<div class="listingblock">
+<div class="title">.travis.yml</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">language</span>: <span class="string"><span class="content">ruby</span></span>
+<span class="key">script</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">./build.sh</span><span class="delimiter">&quot;</span></span> <span class="comment"># execute this script on each commit</span>
+<span class="key">branches</span>:
+  <span class="key">only</span>:
+  - <span class="string"><span class="content">jekyll</span></span> <span class="comment"># only take into account `jekyll' branch</span>
+<span class="key">rvm</span>:
+- <span class="string"><span class="content">2.1.2</span></span> <span class="comment"># version of `ruby'</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="generate-and-encrypt-github-token-for-travis-ci">Generate and encrypt GitHub token for Travis Ci</h3>
+<div class="paragraph">
+<p>Since we&#8217;d need to commit and push our changes to other (<code>master</code>) branch from within the build script
+it&#8217;s mandatory to checkout this branch either using <code>HTTPS</code> or <code>SSH</code> protocol, as described	<a href="https://gist.github.com/grawity/4392747" target="_blank">HERE</a>
+Easiest way for us is to clone using <code>HTTPS</code> protocol and use  <em>personal access token</em> for authentication.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use/" target="_blank">How to generate GitHub Token</a></p>
+</li>
+<li>
+<p>Generate GitHub token</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="/images/2014-10-28/1.png" alt="Generate GitHub token">
+</div>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+Copy generated token somewhere to be used in the next step.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Putting clear text tokens into script isn&#8217;t good idea, but thanks to <code>travis</code> command line tool
+we can encrypt any <code>name=value</code> pair and later expose then as environment variables to the build job.</p>
+</div>
+<div class="paragraph">
+<p>Execute following code in the working directory where <code>jekyll</code> branch is cloned to.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>gem install travis
+travis encrypt GH_TOKEN=&lt;token&gt; --add env.global</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The command above should add following lines to your <code>.travis.yml</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">env</span>:
+  <span class="key">global</span>:
+    <span class="key">secure</span>: <span class="string"><span class="content">HERE GOES ENCRYPTED STUFF</span></span></code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="build-script">Build script</h4>
+<div class="paragraph">
+<p>And finally the build script.</p>
+</div>
+<div class="listingblock">
+<div class="title">build.sh</div>
+<div class="content">
+<pre class="CodeRay highlight"><code>#!/bin/bash
 
 # only proceed script when started not by pull request (PR)
 if [ $TRAVIS_PULL_REQUEST == "true" ]; then
@@ -99,7 +230,7 @@ if [ $TRAVIS_PULL_REQUEST == "true" ]; then
 fi
 
 # enable error reporting to the console
-set -e 
+set -e
 
 # build site with jekyll, by default to `_site' folder
 jekyll build
@@ -120,22 +251,85 @@ git config user.email "eshepelyuk@gmail.com"
 git config user.name "Evgeny Shepelyuk"
 git add -A .
 git commit -a -m "Travis #$TRAVIS_BUILD_NUMBER"
-git push --quiet origin master > /dev/null 2>&1 <1>
-----
-<1> Hiding all the output from `git push` command, to prevent token leak.
+git push --quiet origin master &gt; /dev/null 2&gt;&amp;1 <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Hiding all the output from <code>git push</code> command, to prevent token leak.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="run-everything">Run everything</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>After doing all those steps all you need is to commit and push your <code>jekyll</code> branch
+and then navigate to <a href="https://travis-ci.org/eshepelyuk/eshepelyuk.github.io/builds" target="_blank">Travis CI</a> build section
+of your project to monitor your build progress.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="p-s">P.S.</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>I hope this tutorial help you setup own <code>Jekyll</code> with less pain.
+Supposedly described steps could be applied to other static site generators like <code>Middleman</code>, <code>Awestruct</code> etc.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="credits">Credits</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The actual setup and this post was inspired by <a href="https://twitter.com/mojavelinux" target="_blank">Dan Allen</a> reply to my tweet
+and the code from <a href="https://github.com/johncarl81/transfuse/tree/transfuse-jeykll-site" target="_blank">this project</a></p>
+</div>
+</div>
+</div>
+  </article>
 
-== Run everything
+</div>
 
-After doing all those steps all you need is to commit and push your `jekyll` branch 
-and then navigate to https://travis-ci.org/eshepelyuk/eshepelyuk.github.io/builds[Travis CI^] build section 
-of your project to monitor your build progress.
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+	var disqus_shortname = 'eshepelyukblog'; // required: replace example with your forum shortname
+	var disqus_url = 'http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html';
+	
+	/* * * DON'T EDIT BELOW THIS LINE * * */
+	(function() {
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
-== P.S.
 
-I hope this tutorial help you setup own `Jekyll` with less pain. 
-Supposedly described steps could be applied to other static site generators like `Middleman`, `Awestruct` etc.
+      </div>
+    </div>
 
-== Credits
+    <footer class="site-footer">
+	<div class="wrapper">
+		<p class="text"><i class="fa fa-gear fa-lg">&nbsp;</i>Powered by <a target="_blank" href="http://pages.github.com/">GitHub Pages</a>, <a target="_blank" href="http://jekyllrb.com">Jekyll</a> and <a target="_blank" href="http://asciidoctor.org/">AsciiDoctor</a></p>
+	</div>	
+</footer>
 
-The actual setup and this post was inspired by https://twitter.com/mojavelinux[Dan Allen^] reply to my tweet
-and the code from https://github.com/johncarl81/transfuse/tree/transfuse-jeykll-site[this project^]
+		
+		
+		
+	</body>
+
+
+
+
+
+</html>

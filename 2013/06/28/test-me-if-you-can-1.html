@@ -1,208 +1,377 @@
-= Test Me If You Can #1 (Spring Framework)
+<!DOCTYPE html>
+<html>
 
-During my career I often observed people who claim that they are not writing tests because *can't cover properly* integration between components. 
-Well, I believe most of such people just don't know some simply techniques or don't have time to dig them out because of stress at their work place. 
+  <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width initial-scale=1" />
+
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	
+	<title>Test Me If You Can #1 (Spring Framework)</title>
+
+
+	<meta name="description" content="During my career I often observed people who claim that they are not writing tests because can’t cover properly integration between components. Well, I believe most of such people just don’t know some simply techniques or don’t have time to dig them out because of stress at their work place. The lack of such knowledge results into neglecting of integration tests and thus worse software, more bugs and disappointed customer.So I’ve decided to share some practices revealing mystery surrounding integration testing.">
+	
+	
+	<meta name="keywords" content="java, tdd, spring, mockito, springockito">
+
+	<link rel="stylesheet" href="/css/main.css">
+	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	
+	<link rel="canonical" href="http://eshepelyuk.github.io/2013/06/28/test-me-if-you-can-1.html">
+	<link href="http://eshepelyuk.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="JK's blog Feed">
+
+	
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-56082439-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+	
+</head>
+
+
+  <body>
+    <header class="site-header">
+	<div class="wrapper">
+		<a href="https://github.com/eshepelyuk/eshepelyuk.github.io/tree/jekyll"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>   		
+		<a class="site-title" href="/"><i class="fa fa-cube fa-lg">&nbsp;&nbsp;</i>JK's blog</a>	
+
+	</div>
+	<div class="wrapper">
+		<p class="text">Simple blog for some thoughts to be shared. Mostly about Java programming</p>
+	</div>
+	<div class="wrapper">
+		<ul class="site-contact">
+			<li><i class="fa fa-twitter fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://twitter.com/eshepelyuk">@eshepelyuk</a></li>
+			<li>|</li>
+			<li><i class="fa fa-facebook fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://www.facebook.com/evgeny.shepelyuk">evgeny.shepelyuk</a></li>
+			<li>|</li>
+			<li><i class="fa fa-linkedin fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://www.linkedin.com/pub/evgeny-shepelyuk/4/b1/a20">evgeny-shepelyuk</a></li>
+			<li>|</li>
+			<li><i class="fa fa-rss fa-lg text-error"></i>&nbsp;<a target="_blank" class="site-contact" href="http://eshepelyuk.github.io/feed.xml">RSS</a></li>
+		</ul>
+	</div>
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Test Me If You Can #1 (Spring Framework)</h1>
+    <span class="post-meta"><i class="fa fa-calendar fa-lg"></i>&nbsp;&nbsp;Jun 28, 2013<i class="fa fa-tags fa-lg"></i>&nbsp;java, tdd, spring, mockito, springockito</span>
+		
+		
+		
+		
+  </header>
+
+  <article class="post-content">
+    <h1>Test Me If You Can #1 (Spring Framework)</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>During my career I often observed people who claim that they are not writing tests because <strong>can&#8217;t cover properly</strong> integration between components.
+Well, I believe most of such people just don&#8217;t know some simply techniques or don&#8217;t have time to dig them out because of stress at their work place.
 The lack of such knowledge results into neglecting of integration tests and thus worse software, more bugs and disappointed customer.
-So I've decided to share some practices revealing mystery surrounding integration testing.
-
-== Better integration test for Spring based projects
-
-Tools: `Spring`, `JUnit`, `Mockito`
-
-Imagine the situation with `Spring` based project that's integrating an external service, e.g. some bank web services. 
-Issues related to writing test cases and running them within CI for such code are usually the same
-
-* price per transaction, each time test executed - customer pays
-* tests requests can be interpreted as suspicious traffic, account blocked - tests failures
-* when using non production environments for tests, it can be unstable - again, tests failures
-
-Usually such problems can be solved by mocking such external service while testing single class that using it, 
-but when it comes to the need for test larger business flow - you need to run your tests again many components 
-and made them managed by your container - `Spring`.
-Luckily `Spring` has great http://static.springsource.org/spring/docs/3.2.x/spring-framework-reference/html/testing.html[test framework^] 
-allowing injection of beans from production configuration, but one needs to mock external services himself. 
-First intention could be creating mocks in `setUp` section of the test and re-inject beans previously injected by `Spring`, but think more about it
-
-WARNING: You're overriding behavior of container for your test, so there's no guarantee it will work the same way for real services on real environment.
-
-Instead we have not to mock our external services and then re-inject them into corresponding beans, but *make `Spring` inject mocks in place of particular beans
-, required for our test goals*. Let's illustrate this with code.
-
-My sample project comprises `BankService` representing external service and `UserBalanceService` - our service working with `BankService`. 
-`UserBalanceService` is quite simple wrapper - just making conversion from `String` to `Double`.
-
-[source,java]
-.BankService.java
-----
-public interface BankService {
-    String getBalanceByEmail(String email);
-}
-----
-
-[source,java]
-.BankServiceImpl.java
-----
-public class BankServiceImpl implements BankService {
-    @Override
-    public String getBalanceByEmail(String email) {
-        throw new UnsupportedOperationException("Operation failed due to external exception");
+So I&#8217;ve decided to share some practices revealing mystery surrounding integration testing.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="better-integration-test-for-spring-based-projects">Better integration test for Spring based projects</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Tools: <code>Spring</code>, <code>JUnit</code>, <code>Mockito</code></p>
+</div>
+<div class="paragraph">
+<p>Imagine the situation with <code>Spring</code> based project that&#8217;s integrating an external service, e.g. some bank web services.
+Issues related to writing test cases and running them within CI for such code are usually the same</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>price per transaction, each time test executed - customer pays</p>
+</li>
+<li>
+<p>tests requests can be interpreted as suspicious traffic, account blocked - tests failures</p>
+</li>
+<li>
+<p>when using non production environments for tests, it can be unstable - again, tests failures</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Usually such problems can be solved by mocking such external service while testing single class that using it,
+but when it comes to the need for test larger business flow - you need to run your tests again many components
+and made them managed by your container - <code>Spring</code>.
+Luckily <code>Spring</code> has great <a href="http://static.springsource.org/spring/docs/3.2.x/spring-framework-reference/html/testing.html" target="_blank">test framework</a>
+allowing injection of beans from production configuration, but one needs to mock external services himself.
+First intention could be creating mocks in <code>setUp</code> section of the test and re-inject beans previously injected by <code>Spring</code>, but think more about it</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+You&#8217;re overriding behavior of container for your test, so there&#8217;s no guarantee it will work the same way for real services on real environment.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Instead we have not to mock our external services and then re-inject them into corresponding beans, but <strong>make <code>Spring</code> inject mocks in place of particular beans
+, required for our test goals</strong>. Let&#8217;s illustrate this with code.</p>
+</div>
+<div class="paragraph">
+<p>My sample project comprises <code>BankService</code> representing external service and <code>UserBalanceService</code> - our service working with <code>BankService</code>.
+<code>UserBalanceService</code> is quite simple wrapper - just making conversion from <code>String</code> to <code>Double</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">BankService.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">BankService</span> {
+    <span class="predefined-type">String</span> getBalanceByEmail(<span class="predefined-type">String</span> email);
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">BankServiceImpl.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">BankServiceImpl</span> <span class="directive">implements</span> BankService {
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="predefined-type">String</span> getBalanceByEmail(<span class="predefined-type">String</span> email) {
+        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">UnsupportedOperationException</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Operation failed due to external exception</span><span class="delimiter">&quot;</span></span>);
     }
-}
-----
-
-[source,java]
-.UserBalanceService.java
-----
-interface UserBalanceService {
-    Double getAccountBalance(String email);
-}
-----
-
-[source,java]
-.UserBalanceServiceImpl.java
-----
-public class UserBalanceServiceImpl implements UserBalanceService {
-    @Autowired
-    private BankService bankService;
-    @Override
-    public Double getAccountBalance(String email) {
-        return Double.valueOf(bankService.getBalanceByEmail(email));
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">UserBalanceService.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="type">interface</span> <span class="class">UserBalanceService</span> {
+    <span class="predefined-type">Double</span> getAccountBalance(<span class="predefined-type">String</span> email);
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">UserBalanceServiceImpl.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">UserBalanceServiceImpl</span> <span class="directive">implements</span> UserBalanceService {
+    <span class="annotation">@Autowired</span>
+    <span class="directive">private</span> BankService bankService;
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="predefined-type">Double</span> getAccountBalance(<span class="predefined-type">String</span> email) {
+        <span class="keyword">return</span> <span class="predefined-type">Double</span>.valueOf(bankService.getBalanceByEmail(email));
     }
-}
-----
-
-And the `Spring` dependency XML configuration wiring everything together
-
-[source,xml]
-.applicationContext.xml
-----
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <bean id="bankService" class="ua.eshepelyuk.blog.springtest.springockito.BankServiceImpl"/>
-    <bean id="userBalanceService" class="ua.eshepelyuk.blog.springtest.springockito.UserBalanceServiceImpl"/>
-</beans>
-----
-
-Our test will look like
-
-[source,java]
-.UserBalanceServiceImplTest.java
-----
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:/springtest/springockito/applicationContext.xml")
-public class UserBalanceServiceImplProfileTest {
-    @Autowired
-    private UserBalanceService userBalanceService;
-    @Autowired
-    private BankService bankService;
-    @Test
-    public void shouldReturnMockedBalance() {
-        Double balance = userBalanceService.getAccountBalance("user@bank.com");
-        assertEquals(balance, Double.valueOf(123.45D));
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the <code>Spring</code> dependency XML configuration wiring everything together</p>
+</div>
+<div class="listingblock">
+<div class="title">applicationContext.xml</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="preprocessor">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="tag">&lt;beans</span> <span class="attribute-name">xmlns</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.springframework.org/schema/beans</span><span class="delimiter">&quot;</span></span>
+       <span class="attribute-name">xmlns:xsi</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.w3.org/2001/XMLSchema-instance</span><span class="delimiter">&quot;</span></span>
+       <span class="attribute-name">xsi:schemaLocation</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.springframework.org/schema/beans</span>
+       <span class="content">http://www.springframework.org/schema/beans/spring-beans.xsd</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    <span class="tag">&lt;bean</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bankService</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">ua.eshepelyuk.blog.springtest.springockito.BankServiceImpl</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+    <span class="tag">&lt;bean</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">userBalanceService</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">ua.eshepelyuk.blog.springtest.springockito.UserBalanceServiceImpl</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/beans&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Our test will look like</p>
+</div>
+<div class="listingblock">
+<div class="title">UserBalanceServiceImplTest.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@RunWith</span>(SpringJUnit4ClassRunner.class)
+<span class="annotation">@ContextConfiguration</span>(locations = <span class="string"><span class="delimiter">&quot;</span><span class="content">classpath:/springtest/springockito/applicationContext.xml</span><span class="delimiter">&quot;</span></span>)
+<span class="directive">public</span> <span class="type">class</span> <span class="class">UserBalanceServiceImplProfileTest</span> {
+    <span class="annotation">@Autowired</span>
+    <span class="directive">private</span> UserBalanceService userBalanceService;
+    <span class="annotation">@Autowired</span>
+    <span class="directive">private</span> BankService bankService;
+    <span class="annotation">@Test</span>
+    <span class="directive">public</span> <span class="type">void</span> shouldReturnMockedBalance() {
+        <span class="predefined-type">Double</span> balance = userBalanceService.getAccountBalance(<span class="string"><span class="delimiter">&quot;</span><span class="content">user@bank.com</span><span class="delimiter">&quot;</span></span>);
+        assertEquals(balance, <span class="predefined-type">Double</span>.valueOf(<span class="float">123.45D</span>));
     }
-}
-----
-
-As expected after test run we will have `UnsupportedOperationException`. Our intention is to replace `BankService` with mock and tune its behavior. 
-It's possible to use `Mockito` directly as factory bean 
-but there's better alternative - https://bitbucket.org/kubek2k/springockito/wiki/Home[Springockito framework^]. 
-Please take a look before proceed :)
-
-The remaining question is how to instruct `Spring` to inject mocks instead of real beans, 
-Prior to version 3.1 there were no alternatives except creating brand new XML configuration for using it in test. 
-But with introduction of http://blog.springsource.com/2011/02/11/spring-framework-3-1-m1-released[Bean Definition Profiles^]
-we now able to create more elegant solution for this, although we still need separate XML for test purposes. 
-This is how resulting test XML configuration will look like
-[source,xml]
-.testApplicationContext.xml
-----
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:mockito="http://www.mockito.org/spring/mockito"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.mockito.org/spring/mockito https://bitbucket.org/kubek2k/springockito/raw/tip/springockito/src/main/resources/spring/mockito.xsd">
-    <import resource="classpath:/springtest/springockito/applicationContext.xml"/>
-    <beans profile="springTest">
-        <mockito:mock id="bankService" class="ua.eshepelyuk.blog.springtest.springockito.BankService"/>
-    </beans>
-</beans>
-----
-
-And the test modified accordingly.
-[source,java]
-.UserBalanceServiceImplProfileTest.java
-----
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:/springtest/springockito/testApplicationContext.xml")
-@ActiveProfiles(profiles = {"springTest"})
-public class UserBalanceServiceImplProfileTest {
-    @Autowired
-    private UserBalanceService userBalanceService;
-    @Autowired
-    private BankService bankService;
-    @Before
-    public void setUp() throws Exception {
-        Mockito.when(bankService.getBalanceByEmail("user@bank.com")).thenReturn(String.valueOf(123.45D));
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As expected after test run we will have <code>UnsupportedOperationException</code>. Our intention is to replace <code>BankService</code> with mock and tune its behavior.
+It&#8217;s possible to use <code>Mockito</code> directly as factory bean
+but there&#8217;s better alternative - <a href="https://bitbucket.org/kubek2k/springockito/wiki/Home" target="_blank">Springockito framework</a>.
+Please take a look before proceed :)</p>
+</div>
+<div class="paragraph">
+<p>The remaining question is how to instruct <code>Spring</code> to inject mocks instead of real beans,
+Prior to version 3.1 there were no alternatives except creating brand new XML configuration for using it in test.
+But with introduction of <a href="http://blog.springsource.com/2011/02/11/spring-framework-3-1-m1-released" target="_blank">Bean Definition Profiles</a>
+we now able to create more elegant solution for this, although we still need separate XML for test purposes.
+This is how resulting test XML configuration will look like</p>
+</div>
+<div class="listingblock">
+<div class="title">testApplicationContext.xml</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="preprocessor">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="tag">&lt;beans</span> <span class="attribute-name">xmlns</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.springframework.org/schema/beans</span><span class="delimiter">&quot;</span></span>
+       <span class="attribute-name">xmlns:xsi</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.w3.org/2001/XMLSchema-instance</span><span class="delimiter">&quot;</span></span>
+       <span class="attribute-name">xmlns:mockito</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.mockito.org/spring/mockito</span><span class="delimiter">&quot;</span></span>
+       <span class="attribute-name">xsi:schemaLocation</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd</span>
+       <span class="content">http://www.mockito.org/spring/mockito https://bitbucket.org/kubek2k/springockito/raw/tip/springockito/src/main/resources/spring/mockito.xsd</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    <span class="tag">&lt;import</span> <span class="attribute-name">resource</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">classpath:/springtest/springockito/applicationContext.xml</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+    <span class="tag">&lt;beans</span> <span class="attribute-name">profile</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">springTest</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+        <span class="tag">&lt;mockito:mock</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bankService</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">ua.eshepelyuk.blog.springtest.springockito.BankService</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+    <span class="tag">&lt;/beans&gt;</span>
+<span class="tag">&lt;/beans&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the test modified accordingly.</p>
+</div>
+<div class="listingblock">
+<div class="title">UserBalanceServiceImplProfileTest.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@RunWith</span>(SpringJUnit4ClassRunner.class)
+<span class="annotation">@ContextConfiguration</span>(locations = <span class="string"><span class="delimiter">&quot;</span><span class="content">classpath:/springtest/springockito/testApplicationContext.xml</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@ActiveProfiles</span>(profiles = {<span class="string"><span class="delimiter">&quot;</span><span class="content">springTest</span><span class="delimiter">&quot;</span></span>})
+<span class="directive">public</span> <span class="type">class</span> <span class="class">UserBalanceServiceImplProfileTest</span> {
+    <span class="annotation">@Autowired</span>
+    <span class="directive">private</span> UserBalanceService userBalanceService;
+    <span class="annotation">@Autowired</span>
+    <span class="directive">private</span> BankService bankService;
+    <span class="annotation">@Before</span>
+    <span class="directive">public</span> <span class="type">void</span> setUp() <span class="directive">throws</span> <span class="exception">Exception</span> {
+        Mockito.when(bankService.getBalanceByEmail(<span class="string"><span class="delimiter">&quot;</span><span class="content">user@bank.com</span><span class="delimiter">&quot;</span></span>)).thenReturn(<span class="predefined-type">String</span>.valueOf(<span class="float">123.45D</span>));
     }
-    @Test
-    public void shouldReturnMockedBalance() {
-        Double balance = userBalanceService.getAccountBalance("user@bank.com");
-        assertEquals(balance, Double.valueOf(123.45D));
+    <span class="annotation">@Test</span>
+    <span class="directive">public</span> <span class="type">void</span> shouldReturnMockedBalance() {
+        <span class="predefined-type">Double</span> balance = userBalanceService.getAccountBalance(<span class="string"><span class="delimiter">&quot;</span><span class="content">user@bank.com</span><span class="delimiter">&quot;</span></span>);
+        assertEquals(balance, <span class="predefined-type">Double</span>.valueOf(<span class="float">123.45D</span>));
     }
-}
-----
-
-You may notice appearance of `setUp` method for setting up the mock behavior and new `@Profile` annotation. 
-The annotation activates our profile `springTest` so bean mocked with `Springockito` will be injected where necessary. 
-On running this the test will pass, because `Spring` injected `Mockito` mock that we've configured in test XML and not the external service instance.
-
-== Don't stop on the way to perfectness
-
-It could be the end of the story be we could still go deeper on the problem. 
-`Springockito` creator has another framework https://bitbucket.org/kubek2k/springockito/wiki/springockito-annotations[Springockito Annotations^]. 
-The framework allows mock injection using annotation within test classes. 
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You may notice appearance of <code>setUp</code> method for setting up the mock behavior and new <code>@Profile</code> annotation.
+The annotation activates our profile <code>springTest</code> so bean mocked with <code>Springockito</code> will be injected where necessary.
+On running this the test will pass, because <code>Spring</code> injected <code>Mockito</code> mock that we&#8217;ve configured in test XML and not the external service instance.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="don-t-stop-on-the-way-to-perfectness">Don&#8217;t stop on the way to perfectness</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It could be the end of the story be we could still go deeper on the problem.
+<code>Springockito</code> creator has another framework <a href="https://bitbucket.org/kubek2k/springockito/wiki/springockito-annotations" target="_blank">Springockito Annotations</a>.
+The framework allows mock injection using annotation within test classes.
 Please skim read it before proceed :)
-After some modification code of our test will look this way.
-[source, java]
-.UserBalanceServiceImplAnnotationTest
-----
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(loader = SpringockitoContextLoader.class, 
-    locations = "classpath:/springtest/springockito/applicationContext.xml")
-public class UserBalanceServiceImplAnnotationTest {
-    @Autowired
-    private UserBalanceService userBalanceService;
-    @Autowired
-    @ReplaceWithMock
-    private BankService bankService;
-    @Before
-    public void setUp() throws Exception {
-        Mockito.when(bankService.getBalanceByEmail("user@bank.com")).thenReturn(String.valueOf(valueOf(123.45D)));
+After some modification code of our test will look this way.</p>
+</div>
+<div class="listingblock">
+<div class="title">UserBalanceServiceImplAnnotationTest</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@RunWith</span>(SpringJUnit4ClassRunner.class)
+<span class="annotation">@ContextConfiguration</span>(loader = SpringockitoContextLoader.class,
+    locations = <span class="string"><span class="delimiter">&quot;</span><span class="content">classpath:/springtest/springockito/applicationContext.xml</span><span class="delimiter">&quot;</span></span>)
+<span class="directive">public</span> <span class="type">class</span> <span class="class">UserBalanceServiceImplAnnotationTest</span> {
+    <span class="annotation">@Autowired</span>
+    <span class="directive">private</span> UserBalanceService userBalanceService;
+    <span class="annotation">@Autowired</span>
+    <span class="annotation">@ReplaceWithMock</span>
+    <span class="directive">private</span> BankService bankService;
+    <span class="annotation">@Before</span>
+    <span class="directive">public</span> <span class="type">void</span> setUp() <span class="directive">throws</span> <span class="exception">Exception</span> {
+        Mockito.when(bankService.getBalanceByEmail(<span class="string"><span class="delimiter">&quot;</span><span class="content">user@bank.com</span><span class="delimiter">&quot;</span></span>)).thenReturn(<span class="predefined-type">String</span>.valueOf(valueOf(<span class="float">123.45D</span>)));
     }
-    @Test
-    public void shouldReturnMockedBalance() {
-        Double balance = userBalanceService.getAccountBalance("user@bank.com");
-        assertEquals(balance, valueOf(123.45D));
+    <span class="annotation">@Test</span>
+    <span class="directive">public</span> <span class="type">void</span> shouldReturnMockedBalance() {
+        <span class="predefined-type">Double</span> balance = userBalanceService.getAccountBalance(<span class="string"><span class="delimiter">&quot;</span><span class="content">user@bank.com</span><span class="delimiter">&quot;</span></span>);
+        assertEquals(balance, valueOf(<span class="float">123.45D</span>));
     }
-}
-----
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Please note that no new XML configuration required. We&#8217;re using production XML config and just override single bean using <code>@ReplaceWithMock</code> annotation.
+Later we can customize the mock in <code>setUp</code> method.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="p-s">P.S.</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>Springockito-annotations</code> project has one great advantage - it provides test code only based dependency override mechanism.
+Neither additional XML, nor production code modifications for test purposes.
+Unlike <code>springockito-annotations</code> approach the XML based one makes creation of test specific XML mandatory always.
+So I strongly recommend using <code>Springockito-annotations</code> project for your integration tests,
+so they won&#8217;t affect your production code design and won&#8217;t produce additional artifacts - i.e. test XML configuration files.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="p-p-s">P.P.S.</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Writing integration tests for Spring is easy ! Project can be found on <a href="https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCan1" target="_blank">My GitHub</a></p>
+</div>
+</div>
+</div>
+  </article>
 
-Please note that no new XML configuration required. We're using production XML config and just override single bean using `@ReplaceWithMock` annotation.
-Later we can customize the mock in `setUp` method. 
+</div>
 
-== P.S.
-`Springockito-annotations` project has one great advantage - it provides test code only based dependency override mechanism. 
-Neither additional XML, nor production code modifications for test purposes. 
-Unlike `springockito-annotations` approach the XML based one makes creation of test specific XML mandatory always. 
-So I strongly recommend using `Springockito-annotations` project for your integration tests, 
-so they won't affect your production code design and won't produce additional artifacts - i.e. test XML configuration files.
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+	var disqus_shortname = 'eshepelyukblog'; // required: replace example with your forum shortname
+	var disqus_url = 'http://eshepelyuk.github.io/2013/06/28/test-me-if-you-can-1.html';
+	
+	/* * * DON'T EDIT BELOW THIS LINE * * */
+	(function() {
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
-== P.P.S.
 
-Writing integration tests for Spring is easy ! Project can be found on https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfYouCan1[My GitHub^]
+      </div>
+    </div>
+
+    <footer class="site-footer">
+	<div class="wrapper">
+		<p class="text"><i class="fa fa-gear fa-lg">&nbsp;</i>Powered by <a target="_blank" href="http://pages.github.com/">GitHub Pages</a>, <a target="_blank" href="http://jekyllrb.com">Jekyll</a> and <a target="_blank" href="http://asciidoctor.org/">AsciiDoctor</a></p>
+	</div>	
+</footer>
+
+		
+		
+		
+	</body>
 
 
+
+
+
+</html>
