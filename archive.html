@@ -1,0 +1,18 @@
+---
+layout: page
+---
+<div class="home">
+	{% for post in site.posts %}						
+		{% capture currPostDate %}{{ post.date | date: '%B %Y' }}{% endcapture %}
+		{% capture nextPostDate %}{{ post.next.date | date: '%B %Y' }}{% endcapture %}
+		
+		{% if currPostDate != nextPostDate %}
+				</ul>
+				<h3>{{ currPostDate }}</h3>
+				<ul>
+		{% endif %}
+		
+			<li><h5>{{ post.date | date: "%b %d" }}&nbsp;&nbsp;<a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></h5></li>
+		
+	{% endfor %}
+</div>
