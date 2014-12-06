@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 06 Dec 2014 05:52:05 +0000</pubDate>
-    <lastBuildDate>Sat, 06 Dec 2014 05:52:05 +0000</lastBuildDate>
+    <pubDate>Sat, 06 Dec 2014 06:14:05 +0000</pubDate>
+    <lastBuildDate>Sat, 06 Dec 2014 06:14:05 +0000</lastBuildDate>
     <generator>Jekyll v2.5.2</generator>
     
       <item>
@@ -773,7 +773,7 @@ Copy generated token somewhere to be used in the next step.
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;Putting clear text tokens into script isn&amp;#8217;t good idea, but thanks to &lt;code&gt;travis&lt;/code&gt; command line tool
-we can encrypt any &lt;code&gt;name=value&lt;/code&gt; pair and later expose then as environment variables to the build job.&lt;/p&gt;
+we can encrypt any &lt;code&gt;name=value&lt;/code&gt; pair and later expose them as environment variables to the build job.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;Execute following code in the working directory where &lt;code&gt;jekyll&lt;/code&gt; branch is cloned to.&lt;/p&gt;
