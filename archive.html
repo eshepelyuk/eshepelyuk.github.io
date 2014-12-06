@@ -12,8 +12,7 @@ layout: page
 				<ul>
 		{% endif %}
 		
-			<li><h4>{{ post.date | date: "%b %d" }}&nbsp;&nbsp;<a href="{{ post.url | 
-prepend: site.baseurl }}">{{ post.title }}</a></h4></li>
+			<li><h4>{{ post.date | date: "%b %d" }}&nbsp;&nbsp;<a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></h4></li>
 		
 	{% endfor %}
 </div>
