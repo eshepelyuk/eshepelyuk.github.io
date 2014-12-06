@@ -80,7 +80,7 @@ image::1.png[Generate GitHub token]
 CAUTION: Copy generated token somewhere to be used in the next step.
 
 Putting clear text tokens into script isn't good idea, but thanks to `travis` command line tool 
-we can encrypt any `name=value` pair and later expose then as environment variables to the build job.
+we can encrypt any `name=value` pair and later expose them as environment variables to the build job.
 
 Execute following code in the working directory where `jekyll` branch is cloned to.
 
