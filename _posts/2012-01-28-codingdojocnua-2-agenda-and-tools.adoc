@@ -1,7 +1,6 @@
 ---
 tags:
 - coding dojo
-- howto
 excerpt: false
 ---
 = CodingDojoCnUa #2 agenda and tools
