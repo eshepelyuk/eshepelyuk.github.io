@@ -4,7 +4,7 @@ tags:
 - coding dojo
 - kata
 excerpt: |
-    Some notes and observations on 6th Coding Dojo by [CodingDojoCnUa](https://www.facebook.com/groups/279151628818637/) community.
+    Some notes and observations on 6th Coding Dojo by [CodingDojoCnUa](https://www.facebook.com/groups/279151628818637/){:target="_blank"} community.
 ---
 :linkattrs:
 = CodingDojoCnUa #6
