@@ -2,7 +2,6 @@
 tags:
 - java
 - webdriver
-- howto
 excerpt: false
 ---
 = WebDriver tricks #3

@@ -3,7 +3,6 @@ tags:
 - java
 - webdriver
 - xpath
-- howto
 excerpt: false
 ---
 = WebDriver tricks #1

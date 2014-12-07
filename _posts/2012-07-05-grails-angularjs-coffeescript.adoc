@@ -4,7 +4,6 @@ tags:
 - angularjs
 - coffeescript
 - mvc
-- howto
 - grails
 - web
 - groovy
