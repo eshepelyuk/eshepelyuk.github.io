@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 07 Dec 2014 13:33:29 +0000</pubDate>
-    <lastBuildDate>Sun, 07 Dec 2014 13:33:29 +0000</lastBuildDate>
+    <pubDate>Sun, 07 Dec 2014 13:46:05 +0000</pubDate>
+    <lastBuildDate>Sun, 07 Dec 2014 13:46:05 +0000</lastBuildDate>
     <generator>Jekyll v2.5.2</generator>
     
       <item>
@@ -649,8 +649,6 @@ while accessing &lt;a href=&quot;http://localhost:4000/sample.html&quot; class=&
         
         <category>fontawesome</category>
         
-        <category>howto</category>
-        
         
       </item>
     
@@ -886,8 +884,6 @@ and the code from &lt;a href=&quot;https://github.com/johncarl81/transfuse/tree/
         <category>asciidoctor</category>
         
         <category>travisci</category>
-        
-        <category>howto</category>
         
         
       </item>
