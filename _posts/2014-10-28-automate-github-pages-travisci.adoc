@@ -4,7 +4,6 @@ tags:
 - github
 - asciidoctor
 - travisci
-- howto
 excerpt: |
    Content is a **KING**. Neither fancy CMS nor online WYSYWIG editors are, but content is.
    That's why `Jekyll` powered  `GitHub Pages` got such a popularity.

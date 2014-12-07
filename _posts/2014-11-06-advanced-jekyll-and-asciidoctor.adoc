@@ -4,7 +4,6 @@ tags:
 - asciidoctor
 - coderay
 - fontawesome
-- howto
 excerpt: |
     Using `AsciiDoctor` as markup renderer in `Jekyll` is quite straightforward 
     but there's some customization gaps not covered in the most of setup guides over the web
