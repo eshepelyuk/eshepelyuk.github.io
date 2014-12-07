@@ -4,7 +4,7 @@ tags:
 - coding dojo
 - design pattern
 excerpt: |
-     Some notes and observations on 2nd Coding Dojo by [CodingDojoCnUa](https://www.facebook.com/groups/279151628818637/) community.  
+     Some notes and observations on 2nd Coding Dojo by [CodingDojoCnUa](https://www.facebook.com/groups/279151628818637/){:target="_blank"} community.  
 ---
 = CodingDojoCnUa #2
 
