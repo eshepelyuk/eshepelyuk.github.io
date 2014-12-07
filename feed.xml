@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 07 Dec 2014 13:46:05 +0000</pubDate>
-    <lastBuildDate>Sun, 07 Dec 2014 13:46:05 +0000</lastBuildDate>
+    <pubDate>Sun, 07 Dec 2014 13:51:51 +0000</pubDate>
+    <lastBuildDate>Sun, 07 Dec 2014 13:51:51 +0000</lastBuildDate>
     <generator>Jekyll v2.5.2</generator>
     
       <item>
@@ -1569,8 +1569,6 @@ This allows you to easily reuse such functionality while writing WebDriver tests
         
         <category>webdriver</category>
         
-        <category>howto</category>
-        
         
       </item>
     
@@ -1750,8 +1748,6 @@ towards developing modern front-ends.&lt;/p&gt;
         <category>coffeescript</category>
         
         <category>mvc</category>
-        
-        <category>howto</category>
         
         <category>grails</category>
         
