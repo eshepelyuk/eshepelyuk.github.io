@@ -21,6 +21,3 @@ disqus_shortname: eshepelyukblog
 
 exclude: ['README.adoc', 'Gemfile.lock', 'Gemfile', '*.sh', '*.iml']
 
-gems:
-  - jekyll-asciidoc
-
