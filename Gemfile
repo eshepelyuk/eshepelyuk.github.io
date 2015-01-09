@@ -7,5 +7,5 @@ gem 'asciidoctor', '~> 1.5'
 gem 'coderay', '1.1.0'
 
 group :jekyll_plugins do
-	gem "jekyll-asciidoc"
+	gem "jekyll-asciidoc", '~> 1.0.0'
 end
