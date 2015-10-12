@@ -1,9 +1,0 @@
-= About me
-
-Content is a *KING*. Neither fancy _CMS_ nor online _WYSYWIG_ editors are, but content is.
-That's why `Jekyll` powered  `GitHub Pages` got such a popularity.
-
-== Setting 
-
-Additionally using http://bundler.io/[Bundler^]
-
