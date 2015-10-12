@@ -104,6 +104,8 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 ** Maintaining continuous integration
 ** Release preparation and delivery support
 
+<<<
+
 === Chas XXI Ltd.   
 
 *FreedomInput.com (2008 – 2009) – Bluetooth Keyboard driver, Freedom Keychain GPS 2000 driver and GPS software for BlackBerry phones*
@@ -179,6 +181,8 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 ** REST architecture adoption
 ** Performance analysis and improvements
 ** Legacy codebase support
+
+<<<
 
 *AAA (JAN 2004 – JUN 2004) - Billing and network traffic accounting system*
 
