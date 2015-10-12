@@ -1,0 +1,7 @@
+base:
+  line_height_length: 10.5
+  margin: [0.5in, 0.5in, 0.5in, 0.5in]  
+outline_list:
+  item_spacing: $base_line_height_length / 8
+footer:
+  height: 0
