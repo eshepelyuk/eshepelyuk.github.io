@@ -145,7 +145,7 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * Team: 3 developers.
 * Role: Team Leader, Developer, Build Engineer.
 * Responsibilities
-** Team leading tasks
+** Team leading
 ** Design and implementation of system architecture targetting best performance and scalability results
 ** Memory consumption optimization
 
@@ -201,9 +201,8 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * Role: Developer, Architect, Team leader, Build Engineer, QA.
 * Responsibilities 
 ** REST architecture adoption
-** Development
+** Development and team leading
 ** Performance analysis and improvements
-** Team leading
 
 *Cloncom.com (JAN 2005 – DEC 2008) – E-commerce solution for selling various electronic communications, related services and products*
 
