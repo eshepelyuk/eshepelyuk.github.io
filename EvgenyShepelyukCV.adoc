@@ -2,14 +2,16 @@
 :no-header-footer:
 :notitle:
 :pagenums!:
+:pdf-stylesdir: pdf-theme 
+:pdf-style: eshepelyuk
 
-== Evgeny Shepelyuk
+== EVGENY SHEPELYUK
 
 _Software development professional with 12+ years expirience of creating and delivering software solutions. Concentrated on product quality and continuous improvements in all fields, such as development processes, adopting leading edge technologies, building good team relationship and self-education. Agile engineering practices and development methodologies evangelist._
 
 _Looking for opportunity of obtaining senior technical position in Java based tecnologies project. Interested in distributed, high-load and performance critical applications._
 
-=== QUALIFICATION HIGHLIGHTS
+=== Qualification highlights
 
 * successful development of distributed multi-layer cross-platform applications, with massive integration of external services and providers
 * providing high availability and performance tuning of software solutions including web sites and standalone middleware applications
@@ -19,12 +21,12 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * improving and injecting QA using continuous integration, test automation and TDD / BDD
 * strong communication skills, especially while managing issues between technical and non-technical team members  
 
-=== EDUCATION
+=== Education
 
 * Specialist. Diploma with honors, Department of computer and network systems, Chernihiv State Technological University, 2003
 * Bachelor, Department of computer and network systems, Chernihiv State Technological University, 1998 - 2003  
 
-=== CONTACTS
+=== Contacts
 
 * Language: 	Fluent English, native Ukrainian and Russian.
 * Location: 	Kyiv, Ukraine  
@@ -62,6 +64,12 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * Team: Backend and Frontend development teams, QA team, ~25 people.
 * Role: Backend Developer, Build engineer
 * Responsibilities
+** Creating build process using Gradle, defining plaform release flow
+** Developing and supporting Liferay Portlets
+** Injecting TDD practices and tools
+** Colalborating with architects on defining platform components
+** Support for QA and Frontend teams
+** Creating end-user solutions based on WPL platform
 
 <<<
 
@@ -73,6 +81,12 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * Team: ~7 developers
 * Role: Tech Lead, Team Lead, Developer, Agile practices coach
 * Responsibilities
+** Working close with local and offshore project management
+** Face-to-face communication with customer representative and requirement analysis
+** Architectural solution and their technical implementation
+** Adoption and injection of Agile engineering practices
+** Establishing unit, integration and functional testing of delivered product
+** Coaching team member for adoption of OCP platform
 
 === Luxoft Eastern Europe LLC - UBS Investment Bank
 
@@ -82,6 +96,13 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * Team: 10 distributed scrum teams of ~10 engineers each, PO team consisting of business analysts and subject matter experts, global production support team.
 * Role: Scrum Master, Team Coordinator, Software Architect and Developer
 * Responsibilities
+** Scrum process facilitation and coaching
+** Architectural solution creation and their technical implementation
+** Unit, integration and functional testing. TDD/BDD/ADD adopting and coaching
+** Face-to-face communication with customer and requirement analysis
+** Communication and demonstration of developed software to end-users
+** Maintaining continuos integration
+** Release preperation and delivery support
 
 === Chas XXI Ltd.   
 
@@ -91,16 +112,33 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * Team: 3 Developers.
 * Role: Developer, Architect, QA, Build Engineer.
 * Responsibilities
+** System architecture creation 
+** Interaction with hardware module using Bluetooth
+** Working in background mode as driver
+** Interaction of driver and user modules
+** Adoption and testing of software for all major versions of RIM OS
+** Creating screens for GPS actions as speedometer, compass, lap counter etc
+** Interaction with social media as Facebook and Yahoo
 
 *FreedomInput.com (2008 – 2009) – Bluetooth Keyboard driver for BlackBerry phones*
 
 * Technologies: J2ME, Java, Bluetooth, BlackBerry, RIM API.
 * Role: Developer, Architect, Analyst, QA, Build Engineer.
 * Responsibilities
-** Processing and billing (MAY 2009 – DEC 2009) – layer for different payment systems to provide uniform interface for e-shops and similar projects. 
-** Technologies: REST, Spring, XML, JSON 
-** Team: Business Analyst, Developer 
-** Role: Developer, Architect, Analyst, QA, Build Engineer
+** System architecture creation 
+** Interaction with hardware module using Bluetooth
+** Implementation of custom actions for Bluetooth keyboard shortcuts
+** Working in background mode as driver
+** Adoption and testing of software for all major versions of RIM OS
+
+*Processing and billing (MAY 2009 – DEC 2009) – layer for different payment systems to provide uniform interface for e-shops and similar projects.*
+
+* Technologies: REST, Spring, XML, JSON 
+* Team: Business Analyst, Developer 
+* Role: Developer, Architect, Analyst, QA, Build Engineer
+* Responsibilities
+** Architecture definition 
+** Integration with various electronic payment services 
 
 *Video Streaming Server and Visualization (AUG 2009 – OCT 2009) - HTTP proxy solution  for online video to increase logical bandwidth and number of clients bandwidth using proxying of streams.*
 
@@ -108,13 +146,22 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * Team: Team Leader, Architect, Developer.
 * Role: Team Leader, Developer, Build Engineer.
 * Responsibilities
+** Team leading tasks (communication, estimation, control, planning, code review etc.) 
+** Creating architecture and developement
 
 *RDT600 (AUG 2008 – MAY 2009) - Hardware monitoring and visualization tool RDT600 for SICK AG.*
 
-*Technologies: Java EE (JMS, JSP/JSTL, Stripes), AJAX, DHTML/JavaScript/YUI, Spring (JDBC, Security, AOP, Testing), TDD (TestNG), PostgreSQL 
+* Technologies: Java EE (JMS, JSP/JSTL, Stripes), AJAX, DHTML/JavaScript/YUI, Spring (JDBC, Security, AOP, Testing), TDD (TestNG), PostgreSQL 
 * Team: Project Manager/Business Analyst, 2 Architects/developers, 5 Developers, Testers/QA. 
 * Role: Architect, Team Leader, Developer, DB analyst 
-* Responsibilities: 
+* Responsibilities
+** Team leading tasks (communication, estimation, control, planning, code review etc.) 
+** Creation of system architecture
+** DB structure creation, analysis and optimization
+** DB process improvements to achieve extra performance 
+** YUI/JavaScript framework adoption
+** TDD adoption control and coaching 
+** Data Flow analysis
 
 *Eset.ua (JAN 2008 – SEP 2008) – Distributed peer networking application for distribution files required for ESET company products.*
 
@@ -122,6 +169,9 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * Team: Team leader, Architect, 2 Java Developer. 
 * Role: Team leader,Software consulting, Developer. 
 * Responsibilities
+** Spring Security adoption
+** Creation of system architecture. 
+** Team leading tasks (communication, estimation, control, planning, code review etc.)
 
 *Eset.ua (MAY 2007 – FEB 2008) – business and financial management system for Ukraine branch of ESET.*
 
@@ -129,6 +179,10 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * Team: Team leader. Architect, 3 Java Developer. 
 * Role: Team leader. 
 * Responsibilities 
+** Creation of system architecture. 
+** Adoption of Grails framework
+** Team leading tasks (communication, estimation, control, planning, code review etc.) 
+** UI development
 
 *Prydbay.com (JAN 2007 – DEC 2009) – Online Store of communication topups and online games*
 
@@ -136,6 +190,12 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * Team: 4 developers. 
 * Role: Team leader, System Architect, Developer, Build Engineer
 * Responsibilities 
+** Creation of system architecture. 
+** Team leading tasks (communication, estimation, control, planning, code review etc.) 
+** 50% Development. 
+** External service providers integration. 
+** UI analisys 
+** Performance analysis
 
 *Cloncom.com (APR 2007 – DEC 2007) – High performing RESTful web service providing online product catalogue.* 
 
@@ -143,6 +203,10 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * Team: 2 developers. 
 * Role: Developer, Architect, Team leader, Build Engineer, QA.
 * Responsibilities 
+** REST architecture adoption
+** Development
+** Performance analysis and improvements
+** Team leading tasks
 
 *Cloncom.com (JAN 2005 – DEC 2008) – E-commerce solution for selling various electronic communications, related services and products.*
 
@@ -150,6 +214,13 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * Team: Team leader, 5 Java Developers, 1-2 Designers, 2 Testers/QA, 2 System Administrators. 
 * Role: Team leader, Architect, Project Manager, Developer, QA, Build Engineer
 * Responsibilities 
+** Creation of system architecture 
+** Team leading tasks (communication, estimation, control, planning, code review etc.) 
+** Development
+** Integration of payment systems. (PayPal, Verisign, GlobalCollect etc) 
+** Development bridges between system core and external service providers using custom XML/ HTTP communications and Web Services (WSDL)
+** Integrating with Asterisk and providing IVR solutions for system
+** UI structure and analysis
 
 *Cloncom.com (JAN 2004 – NOV 2004) - IP phone card online store.*
 
@@ -157,6 +228,10 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * Team: 3 developers, HTML Designer. 
 * Role: Developer. 
 * Responsibilities
+** Legacy code support
+** Development
+** Performance improvements
+** Offshore customer communication 
 
 *AAA (JAN 2004 – JUN 2004) - Billing and network traffic accounting system*
 
@@ -174,6 +249,8 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * Team: 4 developers, HTML Designer. 
 * Role: Developer. 
 * Responsibilities
+** UI reporting creation
+** Creating reusable components for UI development
 
 *Mobile Games server (AUG 2003 – DEC 2004)*
 
@@ -181,8 +258,10 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * Team: 3 developers.
 * Role: Developer.
 * Responsibilities
+** Data exchange between cell phone and server. 
+** UI development
 
-=== School of Business 
+=== School of Business LLC
 
 *(AUG 2001 – FEB 2003) - Development and support of automation management and bookeeping systems based on products of 1C/Abbyy company.*
 
@@ -190,3 +269,6 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * Team: 4 developers 
 * Role: Developer, Functional Analyst. 
 * Responsibilities
+** Support of legacy code, development, code reviews
+** Communication with book keeping customer’s team
+** Import/export of business/financial valuable data
