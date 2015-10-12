@@ -21,7 +21,7 @@ git clone https://${GH_TOKEN}@github.com/eshepelyuk/eshepelyuk.github.io.git ../
 cp -R _site/* ../eshepelyuk.github.io.master
 
 # generate CV PDF
-asciidoctor-pdf -a pdf-stylesdir=pdf-theme -a pdf-style=eshepelyuk EvgenyShepelyukCV.adoc -D ../eshepelyuk.github.io.master
+asciidoctor-pdf EvgenyShepelyukCV.adoc -D ../eshepelyuk.github.io.master
 rm -f ../eshepelyuk.github.io.master/EvgenyShepelyukCV.pdfmarks
 
 # commit and push generated content to `master' branch

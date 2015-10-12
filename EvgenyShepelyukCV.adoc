@@ -7,9 +7,9 @@
 
 == EVGENY SHEPELYUK
 
-_Software development professional with 12+ years expirience of creating and delivering software solutions. Concentrated on product quality and continuous improvements in all fields, such as development processes, adopting leading edge technologies, building good team relationship and self-education. Agile engineering practices and development methodologies evangelist._
+_Software development professional with 12+ years experience of creating and delivering software solutions. Concentrated on product quality and continuous improvements in all fields, such as development processes, adopting leading edge technologies, building good team relationship and self-education. Agile engineering practices and development methodologies evangelist._
 
-_Looking for opportunity of obtaining senior technical position in Java based tecnologies project. Interested in distributed, high-load and performance critical applications._
+_Looking for opportunity of obtaining senior technical position in Java based technologies project. Interested in distributed, high-load and performance critical applications._
 
 === Qualification highlights
 
@@ -51,8 +51,8 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 ** Adoption and injection of agile engineering practices
 ** Implementing Global Platform Messaging and Global Platform Card specifications
 ** Maintain project’s reactive and polyglot programming model
-** Collaborating with functional architects and business analyst on defining product architecture
-** Design and implementaion of technical solutions
+** Collaborating with functional architects and business analysts on defining product architecture
+** Design and implementation of technical solutions
 ** Supporting QA team on creating robust testing framework
 ** Facilitating Scrum events and supporting team with Agile processes adoption
 
@@ -67,7 +67,7 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 ** Organizing build process using Gradle, defining release flows
 ** Developing Liferay Portlets
 ** Injecting TDD practices and tools
-** Colalborating with architects on defining platform components
+** Collaborating with architects on defining platform components
 ** Support for QA and Frontend teams
 ** Creating end-user solutions based on WPL platform
 
@@ -101,8 +101,8 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 ** Unit, integration and functional testing. TDD/BDD/ADD adopting and coaching
 ** Face-to-face communication with customer and requirement analysis
 ** Communication and demonstration of developed software to end-users
-** Maintaining continuos integration
-** Release preperation and delivery support
+** Maintaining continuous integration
+** Release preparation and delivery support
 
 === Chas XXI Ltd.   
 
@@ -146,7 +146,7 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * Role: Team Leader, Developer, Build Engineer.
 * Responsibilities
 ** Team leading
-** Design and implementation of system architecture targetting best performance and scalability results
+** Design and implementation of system architecture targeting best performance and scalability results
 ** Memory consumption optimization
 
 *RDT600 (AUG 2008 – MAY 2009) - Hardware monitoring and visualization tool RDT600 for SICK AG*
@@ -194,9 +194,9 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 ** External service providers integration
 ** Performance analysis
 
-*Cloncom.com (APR 2007 – DEC 2007) – High performing RESTful web service providing online product catalogue* 
+*Cloncom.com (APR 2007 – DEC 2007) – High performing RESTful web service providing online product catalog* 
 
-* Technologies: Java SE (Socket, HTTP, Multithreading , Concurrent), Caching (MemCache), REST (Restlet), XML (JAXB). 
+* Technologies: Java SE (Socket, HTTP, Multi-threading , Concurrent), Caching (MemCache), REST (Restlet), XML (JAXB). 
 * Team: 2 developers.
 * Role: Developer, Architect, Team leader, Build Engineer, QA.
 * Responsibilities 
@@ -241,7 +241,7 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * Technologies: IIS, ASP, VBScript, MSSQL, Stored Procedures. 
 * Team: 4 developers, HTML Designer. 
 * Role: Developer. 
-* Responsibilities: Сreating reusable components and reports for UI.
+* Responsibilities: creating reusable components and reports for UI.
 
 *Mobile Games server (AUG 2003 – DEC 2004)*
 
@@ -252,7 +252,7 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 
 === School of Business LLC
 
-*(AUG 2001 – FEB 2003) - Development and support of automation management and bookeeping systems based on products of 1C/Abbyy company*
+*(AUG 2001 – FEB 2003) - Development and support of automation management and bookkeeping systems based on products of 1C/Abbyy company*
 
 * Technologies: 1C reports documents and material exchange with Microsoft products. 
 * Team: 4 developers 
