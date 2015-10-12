@@ -5,9 +5,9 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 12 Oct 2015 05:05:27 +0000</pubDate>
-    <lastBuildDate>Mon, 12 Oct 2015 05:05:27 +0000</lastBuildDate>
-    <generator>Jekyll v2.5.3</generator>
+    <pubDate>Mon, 12 Oct 2015 10:36:53 +0300</pubDate>
+    <lastBuildDate>Mon, 12 Oct 2015 10:36:53 +0300</lastBuildDate>
+    <generator>Jekyll v2.5.2</generator>
     
       <item>
         <title>Testing JVM server-side JavaScript with Jasmine, Spock and Nashorn</title>
@@ -430,7 +430,7 @@ Full project&amp;#8217;s code is available at &lt;a href=&quot;https://github.co
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description>
-        <pubDate>Wed, 26 Nov 2014 00:00:00 +0000</pubDate>
+        <pubDate>Wed, 26 Nov 2014 00:00:00 +0200</pubDate>
         <link>http://eshepelyuk.github.io/2014/11/26/-testing-jvm-javascript-jasmine-spock-nashorn.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2014/11/26/-testing-jvm-javascript-jasmine-spock-nashorn.html</guid>
         
@@ -637,7 +637,7 @@ while accessing &lt;a href=&quot;http://localhost:4000/sample.html&quot; class=&
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description>
-        <pubDate>Thu, 06 Nov 2014 00:00:00 +0000</pubDate>
+        <pubDate>Thu, 06 Nov 2014 00:00:00 +0200</pubDate>
         <link>http://eshepelyuk.github.io/2014/11/06/advanced-jekyll-and-asciidoctor.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2014/11/06/advanced-jekyll-and-asciidoctor.html</guid>
         
@@ -873,7 +873,7 @@ and the code from &lt;a href=&quot;https://github.com/johncarl81/transfuse/tree/
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description>
-        <pubDate>Tue, 28 Oct 2014 00:00:00 +0000</pubDate>
+        <pubDate>Tue, 28 Oct 2014 00:00:00 +0200</pubDate>
         <link>http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html</guid>
         
@@ -1151,7 +1151,7 @@ so they won&amp;#8217;t affect your production code design and won&amp;#8217;t p
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description>
-        <pubDate>Fri, 28 Jun 2013 00:00:00 +0000</pubDate>
+        <pubDate>Fri, 28 Jun 2013 00:00:00 +0300</pubDate>
         <link>http://eshepelyuk.github.io/2013/06/28/test-me-if-you-can-1.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2013/06/28/test-me-if-you-can-1.html</guid>
         
@@ -1385,7 +1385,7 @@ and static method to retrieve instance of &lt;code&gt;Proxy&lt;/code&gt;. Final 
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description>
-        <pubDate>Sat, 15 Sep 2012 00:00:00 +0000</pubDate>
+        <pubDate>Sat, 15 Sep 2012 00:00:00 +0300</pubDate>
         <link>http://eshepelyuk.github.io/2012/09/15/duck-typing-in-java-well-not-exactly.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2012/09/15/duck-typing-in-java-well-not-exactly.html</guid>
         
@@ -1466,7 +1466,7 @@ to see if this is helpful for coding and / or brings more fun to the event :)&lt
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description>
-        <pubDate>Sat, 28 Jul 2012 00:00:00 +0000</pubDate>
+        <pubDate>Sat, 28 Jul 2012 00:00:00 +0300</pubDate>
         <link>http://eshepelyuk.github.io/2012/07/28/codingdojocnua-6.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2012/07/28/codingdojocnua-6.html</guid>
         
@@ -1561,7 +1561,7 @@ This allows you to easily reuse such functionality while writing WebDriver tests
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description>
-        <pubDate>Wed, 11 Jul 2012 00:00:00 +0000</pubDate>
+        <pubDate>Wed, 11 Jul 2012 00:00:00 +0300</pubDate>
         <link>http://eshepelyuk.github.io/2012/07/11/seleniumwebdriver-tricks-part-3.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2012/07/11/seleniumwebdriver-tricks-part-3.html</guid>
         
@@ -1737,7 +1737,7 @@ towards developing modern front-ends.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description>
-        <pubDate>Thu, 05 Jul 2012 00:00:00 +0000</pubDate>
+        <pubDate>Thu, 05 Jul 2012 00:00:00 +0300</pubDate>
         <link>http://eshepelyuk.github.io/2012/07/05/grails-angularjs-coffeescript.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2012/07/05/grails-angularjs-coffeescript.html</guid>
         
@@ -1838,7 +1838,7 @@ I think attitude to &lt;code&gt;JavaScript&lt;/code&gt; should change a bit towa
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description>
-        <pubDate>Mon, 06 Feb 2012 00:00:00 +0000</pubDate>
+        <pubDate>Mon, 06 Feb 2012 00:00:00 +0200</pubDate>
         <link>http://eshepelyuk.github.io/2012/02/06/codingdojocnua-2-results.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2012/02/06/codingdojocnua-2-results.html</guid>
         
@@ -1948,7 +1948,7 @@ basic mocking support so its good choice for beginners like us :). Find more on 
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description>
-        <pubDate>Sat, 28 Jan 2012 00:00:00 +0000</pubDate>
+        <pubDate>Sat, 28 Jan 2012 00:00:00 +0200</pubDate>
         <link>http://eshepelyuk.github.io/2012/01/28/codingdojocnua-2-agenda-and-tools.html</link>
         <guid isPermaLink="true">http://eshepelyuk.github.io/2012/01/28/codingdojocnua-2-agenda-and-tools.html</guid>
         
