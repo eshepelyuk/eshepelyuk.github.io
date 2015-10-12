@@ -75,7 +75,7 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 
 === SysIQ Inc. 
 
-*Telescope.com (NOV 2011 - OCT 2012) - e-commerce portal based on FRY’s (about:blank[www.fry.com)] OCP platform*
+*Telescope.com (NOV 2011 - OCT 2012) - e-commerce portal based on OCP platform*
 
 * Technologies: J2SE, J2EE, Tomcat, JSP, JSTL, MSSQL, Spring, XML, JAXB, WebDriver.
 * Team: ~7 developers
