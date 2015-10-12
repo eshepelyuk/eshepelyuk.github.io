@@ -20,6 +20,9 @@ git clone https://${GH_TOKEN}@github.com/eshepelyuk/eshepelyuk.github.io.git ../
 # copy generated HTML site to `master' branch
 cp -R _site/* ../eshepelyuk.github.io.master
 
+# generate CV PDF
+asciidoctor-pdf -a pdf-stylesdir=pdf-theme -a pdf-style=eshepelyuk EvgenyShepelyukCV.adoc -D ../eshepelyuk.github.io.master
+
 # commit and push generated content to `master' branch
 # since repository was cloned in write mode with token auth - we can push there
 cd ../eshepelyuk.github.io.master
