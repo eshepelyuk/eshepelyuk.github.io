@@ -2,14 +2,16 @@
 :no-header-footer:
 :notitle:
 :pagenums!:
+:pdf-stylesdir: pdf-theme 
+:pdf-style: eshepelyuk
 
-== Evgeny Shepelyuk
+== EVGENY SHEPELYUK
 
 _Software development professional with 12+ years expirience of creating and delivering software solutions. Concentrated on product quality and continuous improvements in all fields, such as development processes, adopting leading edge technologies, building good team relationship and self-education. Agile engineering practices and development methodologies evangelist._
 
 _Looking for opportunity of obtaining senior technical position in Java based tecnologies project. Interested in distributed, high-load and performance critical applications._
 
-=== QUALIFICATION HIGHLIGHTS
+=== Qualification highlights
 
 * successful development of distributed multi-layer cross-platform applications, with massive integration of external services and providers
 * providing high availability and performance tuning of software solutions including web sites and standalone middleware applications
@@ -19,12 +21,12 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * improving and injecting QA using continuous integration, test automation and TDD / BDD
 * strong communication skills, especially while managing issues between technical and non-technical team members  
 
-=== EDUCATION
+=== Education
 
 * Specialist. Diploma with honors, Department of computer and network systems, Chernihiv State Technological University, 2003
 * Bachelor, Department of computer and network systems, Chernihiv State Technological University, 1998 - 2003  
 
-=== CONTACTS
+=== Contacts
 
 * Language: 	Fluent English, native Ukrainian and Russian.
 * Location: 	Kyiv, Ukraine  
