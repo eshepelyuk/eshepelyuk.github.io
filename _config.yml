@@ -19,5 +19,5 @@ asciidoctor:
 
 disqus_shortname: eshepelyukblog
 
-exclude: ['README.adoc', 'Gemfile.lock', 'Gemfile', '*.sh', '*.iml', 'pdf-theme']
+exclude: ['README.adoc', 'Gemfile.lock', 'Gemfile', '*.sh', '*.iml', 'pdf-theme', 'EvgenyShepelyukCV.adoc']
 

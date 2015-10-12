@@ -22,6 +22,7 @@ cp -R _site/* ../eshepelyuk.github.io.master
 
 # generate CV PDF
 asciidoctor-pdf -a pdf-stylesdir=pdf-theme -a pdf-style=eshepelyuk EvgenyShepelyukCV.adoc -D ../eshepelyuk.github.io.master
+rm -f ../eshepelyuk.github.io.master/EvgenyShepelyukCV.pdfmarks
 
 # commit and push generated content to `master' branch
 # since repository was cloned in write mode with token auth - we can push there
