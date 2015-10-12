@@ -19,7 +19,7 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * successful transformation of development teams into self-organizing, cross-functional feature team by adopting and teaching SCRUM software development methodology and other Agile practices
 * hands-on worker attitude both for technical/development activities and management/business analytics activities as well
 * improving and injecting QA using continuous integration, test automation and TDD / BDD
-* strong communication skills, especially while managing issues between technical and non-technical team members  
+* strong communication skills, especially while managing issues between technical and non-technical team members
 
 === Education
 
