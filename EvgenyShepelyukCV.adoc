@@ -44,15 +44,15 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 
 *TSM SP v5 (MAY 2013 - Present) - platform that remotely manages installation and life cycle of NFC services on secure elements (SIM cards, eSE) embedded in mobile devices, collaborating with external systems such as TSM MNO or KMS*
 
-* Technologies: Reactive Programming, AKKA Actors, AKKA Persistence, Scala, Java, Server Side JavaScript, Rhino, Jetty, Servlets, JSP, XML, SOAP, JAX-WS, Groovy, Gradle, Spock, JIRA, Jenkins, Docker, MariaDB, Global Platform, NFC.
-* Team: 3 scrum feature teams, dedicated QA and Integration teams, analysts, ~25 peoples.
+* Technologies: Polyglot Programming, Reactive Programming, AKKA Actors, AKKA Persistence, Scala, Java, Server Side JavaScript, Rhino, Jetty, Servlets, JSP, XML, SOAP, JAX-WS, Groovy, Gradle, Spock, JIRA, Jenkins, Docker, MariaDB, Global Platform, NFC.
+* Team: 3 scrum feature teams, dedicated QA and Integration teams, business analysts, ~25 peoples.
 * Role: Tech Lead, Team Lead, Developer.
 * Responsibilities
 ** Adoption and injection of agile engineering practices
 ** Implementing Global Platform Messaging and Global Platform Card specifications
 ** Maintain project’s reactive and polyglot programming model
 ** Collaborating with functional architects and business analysts on defining product architecture
-** Design and implementation of technical solutions
+** Design and implementation of technical solutions using actor concurrency
 ** Supporting QA team on creating robust testing framework
 ** Facilitating Scrum events and supporting team with Agile processes adoption
 
@@ -152,7 +152,7 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * Role: Team leader, Architect, Developer, Build Engineer
 * Responsibilities 
 ** Design and implementation of system architecture
-** Adoption of Grails framework and Spring Security
+** Adoption of Grails and Spring Security frameworks 
 ** UI development
 ** Team leading
 
