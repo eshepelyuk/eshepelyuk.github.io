@@ -143,6 +143,8 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 ** YUI/JavaScript framework adoption
 ** TDD adoption control and coaching 
 
+<<<
+
 *Eset.ua (MAY 2007 – SEP 2008) – Business and financial management system for Ukraine branch of ESET company. Distributed peer networking application for distribution files required for ESET company products.*
 
 * Technologies: Groovy, Grails, JavaScript, AJAX, Java EE, Spring, JPA, Spring Security, PostgreSQL, REST.
@@ -181,8 +183,6 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 ** REST architecture adoption
 ** Performance analysis and improvements
 ** Legacy codebase support
-
-<<<
 
 *AAA (JAN 2004 – JUN 2004) - Billing and network traffic accounting system*
 
