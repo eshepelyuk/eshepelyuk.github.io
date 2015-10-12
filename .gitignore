@@ -8,3 +8,5 @@ _site/
 bourbon/
 Gemfile.lock
 *.iml
+*.pdf
+*.pdfmarks
