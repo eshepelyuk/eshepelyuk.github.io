@@ -7,9 +7,14 @@ tags:
 - groovy
 - spock
 excerpt: |
-  How to test Akka actors and Akka extensions using Spock and Groovy
+  Tips and tricks for testing AKKA application using Spock and Groovy
 ---
 :imagesdir: /images/_drafts
-= How to test Akka actors and Akka extensions using Spock and Groovy
+
+= Tips and tricks for testing AKKA application using Spock and Groovy
+
+== Mocking AKKA extension
 
 == Groovy language extensions
+
+== Alias for Groovy static import
