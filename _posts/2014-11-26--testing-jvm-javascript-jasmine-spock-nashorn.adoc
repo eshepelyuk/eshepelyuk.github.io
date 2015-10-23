@@ -78,22 +78,22 @@ public class JavaScriptRunner {
 
 To start using `Jasmine` framework we need
 
-* https://github.com/pivotal/jasmine/releases/download/v2.1.2/jasmine-standalone-2.1.2.zip[download Jasmine^] 
-and unpack it to `/jasmine/jasmine-2.1.2` folder in project resources directory
+* `Jasmine` 2.1.3 distribution available as `Maven` artifact from `WebJars` project.
+
 * custom bootstrap script, since `Jasmine` doesn't support JVM based platforms
 
 [source, javascript]
 .jasmine2-bootstrap.js
 ----
 var loadFromClassPath = function(path) { <1>
-  load(Java.type("ua.eshepelyuk.blog.nashorn.Jasmine2Specification").class.getResource(path).toExternalForm());
+  load(Java.type("ua.eshepelyuk.blog.Jasmine2Specification").class.getResource(path).toExternalForm());
 };
 
 var window = this;
 
-loadFromClassPath("/jasmine/jasmine-2.1.2/jasmine.js");
+loadFromClassPath("/META-INF/resources/webjars/jasmine/2.1.3/jasmine.js");
 loadFromClassPath("/jasmine/jasmine2-html-stub.js"); <2>
-loadFromClassPath("/jasmine/jasmine-2.1.2/boot.js");
+loadFromClassPath("/META-INF/resources/webjars/jasmine/2.1.3/boot.js");
 load({script: __jasmineSpec__, name: __jasmineSpecName__}); <3>
 
 onload(); <4>
