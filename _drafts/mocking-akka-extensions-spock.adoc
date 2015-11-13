@@ -7,16 +7,25 @@ tags:
 - groovy
 - spock
 excerpt: |
-  Tips and tricks for testing AKKA application using Spock and Groovy
+  Testing AKKA application with Spock
 ---
 :imagesdir: /images/_drafts
 
-= Tips and tricks for testing AKKA application using Spock and Groovy
+= Testing AKKA application with Spock
+
+== Using actor testkit from Groovy
+
+Actor receives message, adds hello and returns it to sender
+
+code example with test
 
 == Mocking AKKA extension
+
+extension - generatre one of words, hello good bye nice to meet ya, se ya later, etc
+
+actor calls extension for getting the word, prefixes incoming message , returns result
 
 == Groovy language extensions
 
 == Alias for Groovy static import
 
-== Qwerty
