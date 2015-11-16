@@ -7,15 +7,25 @@ tags:
 - groovy
 - spock
 excerpt: |
-  Testing AKKA application with Spock
+  `AKKA` is message-driven and actor model based concurrency toolkit.
+  Although it's written in `Scala`, `AKKA` can be used in any `JVM` based language project.
+  This post tries to fill the gap of missing information how to write good tests in polyglot JVM projects that leverage `AKKA` framework.
 ---
-:imagesdir: /images/_drafts
 
 = Testing AKKA application with Spock
 
-== Using AKKA TestKit from Spock for testing actors
+`AKKA` is message-driven and actor model based concurrency toolkit.
+Although it's written in `Scala`, `AKKA` can be used in any `JVM` based language project.
+This post tries to fill the gap of missing information about writing good tests in polyglot JVM projects that leverage `AKKA` framework.
+In multi language JVM projects my obvious choice of testing tool is `Spock`.
+Powered by `Groovy` and `JUnit`, this tool makes writing tests a much more  fun.
+  
+This article is not intended to be `AKKA` or `Spock` tutorial.
+The audience is assumed to be knowing `Groovy` and `Spock` basics, as well as basics of _actor model concurrency_.
 
-Actor receives message, adds hello and returns it to sender
+== Using AKKA TestKit framework for testing actors
+
+For our purposes let's create a simple actor that receives message, prefixes it with `Hello` and sends the result back to the original sender.
 
 [source,java]
 .HelloActor.java
@@ -28,8 +38,9 @@ public class HelloActor extends UntypedActor {
 }
 ----
 
-Testing is straighforward.
-Java version desribed http://doc.akka.io/docs/akka/snapshot/scala/testing.html[Testing Actor Systems^]
+Testing AKKA actors is quite is straightforward even from non `Scala` project.
+Thanks to great `TestKit` framework described in http://doc.akka.io/docs/akka/snapshot/scala/testing.html[Testing Actor Systems^].
+Simple test can be written as shown below.
 
 [source,groovy]
 .HelloActorTest.groovy
@@ -51,15 +62,17 @@ class HelloActorTest extends Specification {
     }
 }
 ----
-<1> `AutoCleanup` annotation tells `Spock` to cleanup variable after test ends, calling mentioned method
-<2> 2 
-<3> Send a `world` string as a message, passing TestKit `probe` as a message sender
-<4> asserting that `probe` received proper message, i.e. prefixed with `Hello`
+<1> annotation tells `Spock` to _cleanup_ variable after test ends, calling mentioned method, i.e. `shutdown`
+<2> `JavaTestKit` is the core for TestKit framework, providing tools for interacting with actors 
+<3> send a `world` string as a message for the actor, passing `JavaTestKit` instance as a message sender
+<4> asserting that `probe` received back proper message, i.e. prefixed with `Hello`
 
 == Testing AKKA extensions
 
-What is AKKA extension.
-GreetExtension - generates greeting word.
+http://doc.akka.io/docs/akka/snapshot/scala/extending-akka.html[AKKA extensions^] is lightweight and powerful way of extending core AKKA functionality with project specific features.
+Let's enhance our system with possibility of using arbitrary greeting, instead of hard-coded `Hello`.
+For this purpose - we can create AKKA extension, named `GreetExtension`, with single method exposed.
+Calling the method will return random _greeting word_ from predefined list.
 
 [source,java]
 .GreetExtension.java
@@ -70,7 +83,7 @@ public class GreetExtension implements Extension {
 
     private final Random random;
 
-    protected ExtendedActorSystem actorSystem;
+    private final ExtendedActorSystem actorSystem;
 
     public GreetExtension(ExtendedActorSystem actorSystem) {
         this.actorSystem = actorSystem;
@@ -84,10 +97,12 @@ public class GreetExtension implements Extension {
     }
 }
 ----
-<1> 1
-<2> 2
+<1> unique identifier, allowing to obtain extension from `ActorSystem` instance
+<2> randomly pick up any of available _greeting word_
 
-GreetingActor - uses extension to greet.
+For the illustration of AKKA extension usage let's create modified version of `HelloActor` - named `GreetExtensionActor`.
+Its behavior will differ from original by usage of `GreetExtension` to generate a response.
+Actor will ask extension for the _greeting word_, prefix original message with it and then reply to the message's sender.
 
 [source,groovy]
 .GreetExtensionActor.groovy
@@ -100,9 +115,12 @@ public class GreetExtensionActor extends UntypedActor {
 }
 ----
 
-=== Basic usage of AKKA test kit
+=== Using AKKA TestKit for testing AKKA extension aware actors
 
-[source,java]
+We could modify `HelloActorTest.java` test suite for `GreetExtensionActor` in such way.
+
+[source,groovy]
+.GreetExtensionActorTest.groovy
 ----
 def "actor should greet via AKKA extension"() {
     given:
@@ -111,20 +129,28 @@ def "actor should greet via AKKA extension"() {
     helloActor.tell("world", probe.ref)
     then:
     def msg = probe.expectMsgClass(String)
-    msg.endsWith("world") && GreetExtension.GREET_WORDS.any { msg.startsWith(it) }
+    msg.endsWith("world") && GreetExtension.GREET_WORDS.any { msg.startsWith(it) } <1>
 }
 ----
+<1> since prefix is randomly generated - we can't check exact match, instead we're checking that response message is prefixed with one of possible values
 
 === Mocking AKKA extension
 
-[source,java]
+The obvious drawback of test case above is dependency on `GreetExtension` whose behavior is non-deterministic.
+'GreetExtensionActor` can't be tested in isolation and can't be tested with single defined set of input / output values.
+To overcome this - most apparent option is to use mocking and inject mock of `GreetExtension` into actor system.
+Mocking and stubbing are provided by `Spock` but unluckily `AKKA` doesn't provide API to inject arbitrary instance instead of AKKA extension.
+Fortunately, due to `Groovy` nature it is possible to access private members of `ActorSystem`, so we can write a test case with defined input / output and able to mock `GreetExtension` for particular instance of `ActorSystem`.
+
+[source,groovy]
+.GreetExtensionActorTest.groovy
 ----
 def "actor should greet via mocked AKKA extension"() {
     given:
     def helloActor = actorSystem.actorOf(Props.create(GreetExtensionActor))
     and:
     GreetExtension.KEY.get(actorSystem)
-    actorSystem.extensions[GreetExtension.KEY] = Stub(GreetExtension) {
+    actorSystem.extensions[GreetExtension.KEY] = Stub(GreetExtension) { <1>
         greetWord() >> "Bye"
     }
     when:
@@ -133,6 +159,9 @@ def "actor should greet via mocked AKKA extension"() {
     probe.expectMsgClass(String) == "Bye world"
 }
 ----
+<1> _magic here_, accessing internals of actor system, adjusting its value with extension stub
+
+////
 
 === Groovy extension modules
 
@@ -160,7 +189,8 @@ class ActorSystemExtensionModule {
 
 Test case #3
 
-[source,java]
+[source,groovy]
+.GreetExtensionActorTest.groovy
 ----
 def "actor should greet with mocked AKKA extension, using Groovy extension module"() {
     given:
@@ -175,3 +205,7 @@ def "actor should greet with mocked AKKA extension, using Groovy extension modul
     probe.expectMsgClass(String) == "Bye cruel world"
 }
 ----
+
+////
+
+NOTE: Full project's code is available at https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfUCanAkkaSpock[My GitHub^]
