@@ -62,7 +62,7 @@ class HelloActorTest extends Specification {
     }
 }
 ----
-<1> annotation tells `Spock` to _cleanup_ variable after test ends, calling mentioned method, i.e. `shutdown`
+<1> annotation telling `Spock` to _cleanup_ variable after test ends, calling mentioned method, i.e. `shutdown`
 <2> `JavaTestKit` is the core for TestKit framework, providing tools for interacting with actors 
 <3> send a `world` string as a message for the actor, passing `JavaTestKit` instance as a message sender
 <4> asserting that `probe` received back proper message, i.e. prefixed with `Hello`
@@ -110,10 +110,12 @@ Actor will ask extension for the _greeting word_, prefix original message with i
 public class GreetExtensionActor extends UntypedActor {
     @Override
     public void onReceive(Object message) throws Exception {
-        sender().tell(GreetExtension.KEY.apply(context().system()).greetWord() + " " + Objects.toString(message), self());
+        GreetExtension greetExtension = GreetExtension.KEY.apply(context().system()); <1>
+        sender().tell(greetExtension.greetWord() + " " + Objects.toString(message), self());
     }
 }
 ----
+<1> obtain AKKA extension by its identifier
 
 === Using AKKA TestKit for testing AKKA extension aware actors
 
@@ -137,10 +139,11 @@ def "actor should greet via AKKA extension"() {
 === Mocking AKKA extension
 
 The obvious drawback of test case above is dependency on `GreetExtension` whose behavior is non-deterministic.
-'GreetExtensionActor` can't be tested in isolation and can't be tested with single defined set of input / output values.
+`GreetExtensionActor` can't be tested in isolation and can't be tested with single defined set of input / output values.
 To overcome this - most apparent option is to use mocking and inject mock of `GreetExtension` into actor system.
-Mocking and stubbing are provided by `Spock` but unluckily `AKKA` doesn't provide API to inject arbitrary instance instead of AKKA extension.
-Fortunately, due to `Groovy` nature it is possible to access private members of `ActorSystem`, so we can write a test case with defined input / output and able to mock `GreetExtension` for particular instance of `ActorSystem`.
+Mocking and stubbing funtionality is provided by `Spock` itself, but unluckily `AKKA` doesn't provide API to replace AKKA extension with stub instance.
+Fortunately, due to `Groovy` nature it's possible to access private members of `ActorSystem`.
+Using this trick we could manually replace AKKA extension instance with our stub and become able to write a test case with defined input / output.
 
 [source,groovy]
 .GreetExtensionActorTest.groovy
@@ -177,7 +180,7 @@ actorSystem.extensions[GreetExtension.KEY] = Stub(GreetExtension) {
 It would be great if we can extract this into utility method and then use it where needed.
 One of possibility is to use `Groovy` traits and mix the trait into each `Spock` specification class.
 Another option that seems less verbose is to be able to enhance `ActorSystem` with new method that will do the job.
-Luckily, `Groovy` has a way to do it using,  http://www.groovy-lang.org/metaprogramming.html#_extension_modules[Extension Modules^].
+Luckily, `Groovy` has a way to do it using http://www.groovy-lang.org/metaprogramming.html#_extension_modules[Extension Modules^].
 
 We could in runtime add method to any class that will be visible only for tests classes, without affecting production code.
 To enable it we have to put file named `org.codehaus.groovy.runtime.ExtensionModule` into `test/resources/META-INF/services` folder.
@@ -212,7 +215,7 @@ def "actor should greet with mocked AKKA extension, using Groovy extension modul
     given:
     def helloActor = actorSystem.actorOf(Props.create(GreetExtensionActor))
     and:
-    actorSystem.mockAkkaExtension(GreetExtension.KEY, Stub(GreetExtension) {
+    actorSystem.mockAkkaExtension(GreetExtension.KEY, Stub(GreetExtension) { <1>
         greetWord() >> "Bye cruel"
     })
     when:
@@ -221,5 +224,6 @@ def "actor should greet with mocked AKKA extension, using Groovy extension modul
     probe.expectMsgClass(String) == "Bye cruel world"
 }
 ----
+<1> calling method on `ActorSystem` instance, that doesn't exist in `Scala` code, it's added by our `ActorSystemExtensionModule`  
 
 NOTE: Full project's code is available at https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfUCanAkkaSpock[My GitHub^]
