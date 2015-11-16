@@ -161,20 +161,36 @@ def "actor should greet via mocked AKKA extension"() {
 ----
 <1> _magic here_, accessing internals of actor system, adjusting its value with extension stub
 
-////
+=== Extending Actor System functionality using Groovy extension modules
 
-=== Groovy extension modules
+Looking at previous test, the piece of code can be detected, that could be subject of duplication across tests cases.
+The code is used for replacing actual AKKA extension with mock.
 
-http://www.groovy-lang.org/metaprogramming.html#_extension_modules[Groovy Doc^]
+[source,groovy]
+----
+GreetExtension.KEY.get(actorSystem)
+actorSystem.extensions[GreetExtension.KEY] = Stub(GreetExtension) {
+    greetWord() >> "Bye"
+}
+----
 
-`org.codehaus.groovy.runtime.ExtensionModule` in `META-INF/services` 
+It would be great if we can extract this into utility method and then use it where needed.
+One of possibility is to use `Groovy` traits and mix the trait into each `Spock` specification class.
+Another option that seems less verbose is to be able to enhance `ActorSystem` with new method that will do the job.
+Luckily, `Groovy` has a way to do it using,  http://www.groovy-lang.org/metaprogramming.html#_extension_modules[Extension Modules^].
+
+We could in runtime add method to any class that will be visible only for tests classes, without affecting production code.
+To enable it we have to put file named `org.codehaus.groovy.runtime.ExtensionModule` into `test/resources/META-INF/services` folder.
 
 [source,properties]
+.org.codehaus.groovy.runtime.ExtensionModule
 ----
 moduleName = akka-spock-module
 moduleVersion = 1.0
 extensionClasses = ua.eshepelyuk.blog.ActorSystemExtensionModule
 ----
+
+Then we are ready to implement extension module functionality.
 
 [source,groovy]
 .ActorSystemExtensionModule.groovy
@@ -187,7 +203,7 @@ class ActorSystemExtensionModule {
 }
 ----
 
-Test case #3
+So, having `ActorSystem` enhanced with `mockAkkaExtension` method we could finally rewrite test case as below.
 
 [source,groovy]
 .GreetExtensionActorTest.groovy
@@ -205,7 +221,5 @@ def "actor should greet with mocked AKKA extension, using Groovy extension modul
     probe.expectMsgClass(String) == "Bye cruel world"
 }
 ----
-
-////
 
 NOTE: Full project's code is available at https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfUCanAkkaSpock[My GitHub^]
