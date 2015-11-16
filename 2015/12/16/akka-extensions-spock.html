@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width initial-scale=1" />
+
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	
+	<title>Testing AKKA application with Spock</title>
+
+
+	<meta name="description" content="AKKA is message-driven and actor model based concurrency toolkit.Although it’s written in Scala, AKKA can be used in any JVM based language project.This post tries to fill the gap of missing information how to write good tests in polyglot JVM projects that leverage AKKA framework.">
+	
+	
+	<meta name="keywords" content="java, tdd, akka, scala, groovy, spock">
+
+	<link rel="stylesheet" href="/css/main.css">
+	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	
+	<link rel="canonical" href="http://eshepelyuk.github.io/2015/12/16/akka-extensions-spock.html">
+	<link href="http://eshepelyuk.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="JK's blog Feed">
+
+	
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-56082439-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+	
+</head>
+
+
+  <body>
+    <header class="site-header">
+	<div class="wrapper">
+		<a href="https://github.com/eshepelyuk/eshepelyuk.github.io/tree/jekyll"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>   		
+		<a class="site-title" href="/"><i class="fa fa-cube fa-lg">&nbsp;&nbsp;</i>JK's blog</a>	
+
+	</div>
+	<div class="wrapper">
+		<p class="text">Simple blog for some thoughts to be shared. Mostly about Java programming</p>
+	</div>
+	<div class="wrapper">
+		<ul class="site-contact">
+			<li><i class="fa fa-user fa-lg"></i>&nbsp;<a class="site-contact" href="http://eshepelyuk.github.io/about.html">My CV</a></li>
+			<li>|</li>
+			<li><i class="fa fa-twitter fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://twitter.com/eshepelyuk">Twitter</a></li>
+			<li>|</li>
+			<li><i class="fa fa-github fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://github.com/eshepelyuk">GitHub</a></li>
+			<li>|</li>
+			<li><i class="fa fa-facebook fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://www.facebook.com/evgeny.shepelyuk">Facebook</a></li>
+			<li>|</li>
+			<li><i class="fa fa-linkedin fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://www.linkedin.com/pub/evgeny-shepelyuk/4/b1/a20">LinkedIn</a></li>
+			<li>|</li>
+			<li><i class="fa fa-rss fa-lg text-error"></i>&nbsp;<a target="_blank" class="site-contact" href="http://eshepelyuk.github.io/feed.xml">RSS</a></li>
+		</ul>
+	</div>
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Testing AKKA application with Spock</h1>
+    <span class="post-meta"><i class="fa fa-calendar fa-lg"></i>&nbsp;&nbsp;Dec 16, 2015<i class="fa fa-tags fa-lg"></i>&nbsp;java, tdd, akka, scala, groovy, spock</span>
+		
+		
+		
+		
+  </header>
+
+  <article class="post-content">
+    <h1>Testing AKKA application with Spock</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>AKKA</code> is message-driven and actor model based concurrency toolkit.
+Although it&#8217;s written in <code>Scala</code>, <code>AKKA</code> can be used in any <code>JVM</code> based language project.
+This post tries to fill the gap of missing information about writing good tests in polyglot JVM projects that leverage <code>AKKA</code> framework.
+In multi language JVM projects my obvious choice of testing tool is <code>Spock</code>.
+Powered by <code>Groovy</code> and <code>JUnit</code>, this tool makes writing tests a much more  fun.</p>
+</div>
+<div class="paragraph">
+<p>This article is not intended to be <code>AKKA</code> or <code>Spock</code> tutorial.
+The audience is assumed to be knowing <code>Groovy</code> and <code>Spock</code> basics, as well as basics of <em>actor model concurrency</em>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="using-akka-testkit-framework-for-testing-actors">Using AKKA TestKit framework for testing actors</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For our purposes let&#8217;s create a simple actor that receives message, prefixes it with <code>Hello</code> and sends the result back to the original sender.</p>
+</div>
+<div class="listingblock">
+<div class="title">HelloActor.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">HelloActor</span> <span class="directive">extends</span> UntypedActor {
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="type">void</span> onReceive(<span class="predefined-type">Object</span> message) <span class="directive">throws</span> <span class="exception">Exception</span> {
+        sender().tell(<span class="string"><span class="delimiter">&quot;</span><span class="content">Hello </span><span class="delimiter">&quot;</span></span> + Objects.toString(message.toString()), self());
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Testing AKKA actors is quite is straightforward even from non <code>Scala</code> project.
+Thanks to great <code>TestKit</code> framework described in <a href="http://doc.akka.io/docs/akka/snapshot/scala/testing.html" target="_blank">Testing Actor Systems</a>.
+Simple test can be written as shown below.</p>
+</div>
+<div class="listingblock">
+<div class="title">HelloActorTest.groovy</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="type">class</span> <span class="class">HelloActorTest</span> <span class="directive">extends</span> Specification {
+
+    <span class="annotation">@AutoCleanup</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">shutdown</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+    <span class="keyword">def</span> actorSystem = ActorSystem.create()
+
+    <span class="keyword">def</span> probe = <span class="keyword">new</span> JavaTestKit(actorSystem) <i class="conum" data-value="2"></i><b>(2)</b>
+
+    <span class="keyword">def</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">actor should say hello</span><span class="delimiter">&quot;</span></span>() {
+        <span class="key">given</span>:
+        <span class="keyword">def</span> helloActor = actorSystem.actorOf(Props.create(HelloActor))
+        <span class="key">when</span>:
+        helloActor.tell(<span class="string"><span class="delimiter">&quot;</span><span class="content">world</span><span class="delimiter">&quot;</span></span>, probe.ref) <i class="conum" data-value="3"></i><b>(3)</b>
+        <span class="key">then</span>:
+        probe.expectMsgEquals(<span class="string"><span class="delimiter">&quot;</span><span class="content">Hello world</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="4"></i><b>(4)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>annotation telling <code>Spock</code> to <em>cleanup</em> variable after test ends, calling mentioned method, i.e. <code>shutdown</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><code>JavaTestKit</code> is the core for TestKit framework, providing tools for interacting with actors</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>send a <code>world</code> string as a message for the actor, passing <code>JavaTestKit</code> instance as a message sender</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>asserting that <code>probe</code> received back proper message, i.e. prefixed with <code>Hello</code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="testing-akka-extensions">Testing AKKA extensions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="http://doc.akka.io/docs/akka/snapshot/scala/extending-akka.html" target="_blank">AKKA extensions</a> is lightweight and powerful way of extending core AKKA functionality with project specific features.
+Let&#8217;s enhance our system with possibility of using arbitrary greeting, instead of hard-coded <code>Hello</code>.
+For this purpose - we can create AKKA extension, named <code>GreetExtension</code>, with single method exposed.
+Calling the method will return random <em>greeting word</em> from predefined list.</p>
+</div>
+<div class="listingblock">
+<div class="title">GreetExtension.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">GreetExtension</span> <span class="directive">implements</span> Extension {
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> ExtensionKey&lt;GreetExtension&gt; KEY = <span class="keyword">new</span> ExtensionKey&lt;GreetExtension&gt;(GreetExtension.class) {}; <i class="conum" data-value="1"></i><b>(1)</b>
+
+    <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">Random</span> random;
+
+    <span class="directive">private</span> <span class="directive">final</span> ExtendedActorSystem actorSystem;
+
+    <span class="directive">public</span> GreetExtension(ExtendedActorSystem actorSystem) {
+        <span class="local-variable">this</span>.actorSystem = actorSystem;
+        <span class="local-variable">this</span>.random = <span class="keyword">new</span> <span class="predefined-type">Random</span>();
+    }
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">List</span>&lt;<span class="predefined-type">String</span>&gt; GREET_WORDS = <span class="predefined-type">Arrays</span>.asList(<span class="string"><span class="delimiter">&quot;</span><span class="content">Hello</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">Nice to meet you</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">What's up</span><span class="delimiter">&quot;</span></span>);
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> greetWord() {
+        <span class="keyword">return</span> GREET_WORDS.get(random.nextInt(GREET_WORDS.size())); <i class="conum" data-value="2"></i><b>(2)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>unique identifier, allowing to obtain extension from <code>ActorSystem</code> instance</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>randomly pick up any of available <em>greeting word</em></td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>For the illustration of AKKA extension usage let&#8217;s create modified version of <code>HelloActor</code> - named <code>GreetExtensionActor</code>.
+Its behavior will differ from original by usage of <code>GreetExtension</code> to generate a response.
+Actor will ask extension for the <em>greeting word</em>, prefix original message with it and then reply to the message&#8217;s sender.</p>
+</div>
+<div class="listingblock">
+<div class="title">GreetExtensionActor.groovy</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="directive">public</span> <span class="type">class</span> <span class="class">GreetExtensionActor</span> <span class="directive">extends</span> UntypedActor {
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="type">void</span> onReceive(<span class="predefined-type">Object</span> message) <span class="directive">throws</span> <span class="exception">Exception</span> {
+        GreetExtension greetExtension = GreetExtension.KEY.apply(context().system()); <i class="conum" data-value="1"></i><b>(1)</b>
+        sender().tell(greetExtension.greetWord() + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + Objects.toString(message), self());
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>obtain AKKA extension by its identifier</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="using-akka-testkit-for-testing-akka-extension-aware-actors">Using AKKA TestKit for testing AKKA extension aware actors</h3>
+<div class="paragraph">
+<p>We could modify <code>HelloActorTest.java</code> test suite for <code>GreetExtensionActor</code> in such way.</p>
+</div>
+<div class="listingblock">
+<div class="title">GreetExtensionActorTest.groovy</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">def</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">actor should greet via AKKA extension</span><span class="delimiter">&quot;</span></span>() {
+    <span class="key">given</span>:
+    <span class="keyword">def</span> helloActor = actorSystem.actorOf(Props.create(GreetExtensionActor))
+    <span class="key">when</span>:
+    helloActor.tell(<span class="string"><span class="delimiter">&quot;</span><span class="content">world</span><span class="delimiter">&quot;</span></span>, probe.ref)
+    <span class="key">then</span>:
+    <span class="keyword">def</span> msg = probe.expectMsgClass(<span class="predefined-type">String</span>)
+    msg.endsWith(<span class="string"><span class="delimiter">&quot;</span><span class="content">world</span><span class="delimiter">&quot;</span></span>) &amp;&amp; GreetExtension.GREET_WORDS.any { msg.startsWith(<span class="local-variable">it</span>) } <i class="conum" data-value="1"></i><b>(1)</b>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>since prefix is randomly generated - we can&#8217;t check exact match, instead we&#8217;re checking that response message is prefixed with one of possible values</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="mocking-akka-extension">Mocking AKKA extension</h3>
+<div class="paragraph">
+<p>The obvious drawback of test case above is dependency on <code>GreetExtension</code> whose behavior is non-deterministic.
+<code>GreetExtensionActor</code> can&#8217;t be tested in isolation and can&#8217;t be tested with single defined set of input / output values.
+To overcome this - most apparent option is to use mocking and inject mock of <code>GreetExtension</code> into actor system.
+Mocking and stubbing functionality is provided by <code>Spock</code> itself, but unluckily <code>AKKA</code> doesn&#8217;t provide API to replace AKKA extension with stub instance.
+Fortunately, due to <code>Groovy</code> nature it&#8217;s possible to access private members of <code>ActorSystem</code>.
+Using this trick we could manually replace AKKA extension instance with our stub and become able to write a test case with defined input / output.</p>
+</div>
+<div class="listingblock">
+<div class="title">GreetExtensionActorTest.groovy</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">def</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">actor should greet via mocked AKKA extension</span><span class="delimiter">&quot;</span></span>() {
+    <span class="key">given</span>:
+    <span class="keyword">def</span> helloActor = actorSystem.actorOf(Props.create(GreetExtensionActor))
+    <span class="key">and</span>:
+    GreetExtension.KEY.get(actorSystem)
+    actorSystem.extensions[GreetExtension.KEY] = <span class="predefined-type">Stub</span>(GreetExtension) { <i class="conum" data-value="1"></i><b>(1)</b>
+        greetWord() &gt;&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Bye</span><span class="delimiter">&quot;</span></span>
+    }
+    <span class="key">when</span>:
+    helloActor.tell(<span class="string"><span class="delimiter">&quot;</span><span class="content">world</span><span class="delimiter">&quot;</span></span>, probe.ref)
+    <span class="key">then</span>:
+    probe.expectMsgClass(<span class="predefined-type">String</span>) == <span class="string"><span class="delimiter">&quot;</span><span class="content">Bye world</span><span class="delimiter">&quot;</span></span>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><em>magic here</em>, accessing internals of actor system, adjusting its value with extension stub</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="extending-actor-system-functionality-using-groovy-extension-modules">Extending Actor System functionality using Groovy extension modules</h3>
+<div class="paragraph">
+<p>Looking at previous test, the piece of code can be detected, that could be subject of duplication across tests cases.
+The code is used for replacing actual AKKA extension with mock.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">GreetExtension.KEY.get(actorSystem)
+actorSystem.extensions[GreetExtension.KEY] = <span class="predefined-type">Stub</span>(GreetExtension) {
+    greetWord() &gt;&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Bye</span><span class="delimiter">&quot;</span></span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It would be great if we can extract this into utility method and then use it where needed.
+One of possibility is to use <code>Groovy</code> traits and mix the trait into each <code>Spock</code> specification class.
+Another option that seems less verbose is to be able to enhance <code>ActorSystem</code> with new method that will do the job.
+Luckily, <code>Groovy</code> has a way to do it using <a href="http://www.groovy-lang.org/metaprogramming.html#_extension_modules" target="_blank">Extension Modules</a>.</p>
+</div>
+<div class="paragraph">
+<p>We could in runtime add method to any class that will be visible only for tests classes, without affecting production code.
+To enable it we have to put file named <code>org.codehaus.groovy.runtime.ExtensionModule</code> into <code>test/resources/META-INF/services</code> folder.</p>
+</div>
+<div class="listingblock">
+<div class="title">org.codehaus.groovy.runtime.ExtensionModule</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="properties">moduleName = akka-spock-module
+moduleVersion = 1.0
+extensionClasses = ua.eshepelyuk.blog.ActorSystemExtensionModule</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then we are ready to implement extension module functionality.</p>
+</div>
+<div class="listingblock">
+<div class="title">ActorSystemExtensionModule.groovy</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="type">class</span> <span class="class">ActorSystemExtensionModule</span> {
+    <span class="directive">static</span> &lt;T <span class="directive">extends</span> Extension&gt; <span class="type">void</span> mockAkkaExtension(ActorSystem actorSystem, ExtensionId&lt;T&gt; extId, T mock) {
+        extId.get(actorSystem)
+        actorSystem.extensions[extId] = mock
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>So, having <code>ActorSystem</code> enhanced with <code>mockAkkaExtension</code> method we could finally rewrite test case as below.</p>
+</div>
+<div class="listingblock">
+<div class="title">GreetExtensionActorTest.groovy</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy"><span class="keyword">def</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">actor should greet with mocked AKKA extension, using Groovy extension module</span><span class="delimiter">&quot;</span></span>() {
+    <span class="key">given</span>:
+    <span class="keyword">def</span> helloActor = actorSystem.actorOf(Props.create(GreetExtensionActor))
+    <span class="key">and</span>:
+    actorSystem.mockAkkaExtension(GreetExtension.KEY, <span class="predefined-type">Stub</span>(GreetExtension) { <i class="conum" data-value="1"></i><b>(1)</b>
+        greetWord() &gt;&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Bye cruel</span><span class="delimiter">&quot;</span></span>
+    })
+    <span class="key">when</span>:
+    helloActor.tell(<span class="string"><span class="delimiter">&quot;</span><span class="content">world</span><span class="delimiter">&quot;</span></span>, probe.ref)
+    <span class="key">then</span>:
+    probe.expectMsgClass(<span class="predefined-type">String</span>) == <span class="string"><span class="delimiter">&quot;</span><span class="content">Bye cruel world</span><span class="delimiter">&quot;</span></span>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>calling method on <code>ActorSystem</code> instance, that doesn&#8217;t exist in <code>Scala</code> code, it&#8217;s added by our <code>ActorSystemExtensionModule</code></td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Full project&#8217;s code is available at <a href="https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfUCanAkkaSpock" target="_blank">My GitHub</a>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+  </article>
+
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+	var disqus_shortname = 'eshepelyukblog'; // required: replace example with your forum shortname
+	var disqus_url = 'http://eshepelyuk.github.io/2015/12/16/akka-extensions-spock.html';
+	
+	/* * * DON'T EDIT BELOW THIS LINE * * */
+	(function() {
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+	<div class="wrapper">
+		<p class="text">
+			<a href="http://www.javacodegeeks.com/" imageanchor="1"><img alt="Java Code Geeks" src="http://cdn.javacodegeeks.com/wp-content/uploads/2012/12/JavaCodeGeek_Badge.png" title="Java Code Geeks" /></a>
+		</p>
+		<p class="text">
+			<i class="fa fa-gear fa-lg">&nbsp;</i>Powered by <a target="_blank" href="http://pages.github.com/">GitHub Pages</a>, <a target="_blank" href="http://jekyllrb.com">Jekyll</a> and <a target="_blank" href="http://asciidoctor.org/">AsciiDoctor</a>
+		</p>		
+	</div>	
+</footer>
+
+		
+		
+		
+	</body>
+
+
+
+
+
+</html>

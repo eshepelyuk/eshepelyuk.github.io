@@ -5,9 +5,335 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 16 Nov 2015 16:27:27 +0000</pubDate>
-    <lastBuildDate>Mon, 16 Nov 2015 16:27:27 +0000</lastBuildDate>
+    <pubDate>Mon, 16 Nov 2015 16:30:40 +0000</pubDate>
+    <lastBuildDate>Mon, 16 Nov 2015 16:30:40 +0000</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>Testing AKKA application with Spock</title>
+        <description>&lt;h1&gt;Testing AKKA application with Spock&lt;/h1&gt;
+&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;code&gt;AKKA&lt;/code&gt; is message-driven and actor model based concurrency toolkit.
+Although it&amp;#8217;s written in &lt;code&gt;Scala&lt;/code&gt;, &lt;code&gt;AKKA&lt;/code&gt; can be used in any &lt;code&gt;JVM&lt;/code&gt; based language project.
+This post tries to fill the gap of missing information about writing good tests in polyglot JVM projects that leverage &lt;code&gt;AKKA&lt;/code&gt; framework.
+In multi language JVM projects my obvious choice of testing tool is &lt;code&gt;Spock&lt;/code&gt;.
+Powered by &lt;code&gt;Groovy&lt;/code&gt; and &lt;code&gt;JUnit&lt;/code&gt;, this tool makes writing tests a much more  fun.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This article is not intended to be &lt;code&gt;AKKA&lt;/code&gt; or &lt;code&gt;Spock&lt;/code&gt; tutorial.
+The audience is assumed to be knowing &lt;code&gt;Groovy&lt;/code&gt; and &lt;code&gt;Spock&lt;/code&gt; basics, as well as basics of &lt;em&gt;actor model concurrency&lt;/em&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;using-akka-testkit-framework-for-testing-actors&quot;&gt;Using AKKA TestKit framework for testing actors&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;For our purposes let&amp;#8217;s create a simple actor that receives message, prefixes it with &lt;code&gt;Hello&lt;/code&gt; and sends the result back to the original sender.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;HelloActor.java&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;HelloActor&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;extends&lt;/span&gt; UntypedActor {
+    &lt;span class=&quot;annotation&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; onReceive(&lt;span class=&quot;predefined-type&quot;&gt;Object&lt;/span&gt; message) &lt;span class=&quot;directive&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;exception&quot;&gt;Exception&lt;/span&gt; {
+        sender().tell(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;Hello &lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; + Objects.toString(message.toString()), self());
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Testing AKKA actors is quite is straightforward even from non &lt;code&gt;Scala&lt;/code&gt; project.
+Thanks to great &lt;code&gt;TestKit&lt;/code&gt; framework described in &lt;a href=&quot;http://doc.akka.io/docs/akka/snapshot/scala/testing.html&quot; target=&quot;_blank&quot;&gt;Testing Actor Systems&lt;/a&gt;.
+Simple test can be written as shown below.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;HelloActorTest.groovy&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;HelloActorTest&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;extends&lt;/span&gt; Specification {
+
+    &lt;span class=&quot;annotation&quot;&gt;@AutoCleanup&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;shutdown&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;) &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
+    &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; actorSystem = ActorSystem.create()
+
+    &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; probe = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; JavaTestKit(actorSystem) &lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;(2)&lt;/b&gt;
+
+    &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;actor should say hello&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;() {
+        &lt;span class=&quot;key&quot;&gt;given&lt;/span&gt;:
+        &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; helloActor = actorSystem.actorOf(Props.create(HelloActor))
+        &lt;span class=&quot;key&quot;&gt;when&lt;/span&gt;:
+        helloActor.tell(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;world&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;, probe.ref) &lt;i class=&quot;conum&quot; data-value=&quot;3&quot;&gt;&lt;/i&gt;&lt;b&gt;(3)&lt;/b&gt;
+        &lt;span class=&quot;key&quot;&gt;then&lt;/span&gt;:
+        probe.expectMsgEquals(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;Hello world&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;) &lt;i class=&quot;conum&quot; data-value=&quot;4&quot;&gt;&lt;/i&gt;&lt;b&gt;(4)&lt;/b&gt;
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;annotation telling &lt;code&gt;Spock&lt;/code&gt; to &lt;em&gt;cleanup&lt;/em&gt; variable after test ends, calling mentioned method, i.e. &lt;code&gt;shutdown&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;2&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;JavaTestKit&lt;/code&gt; is the core for TestKit framework, providing tools for interacting with actors&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;3&quot;&gt;&lt;/i&gt;&lt;b&gt;3&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;send a &lt;code&gt;world&lt;/code&gt; string as a message for the actor, passing &lt;code&gt;JavaTestKit&lt;/code&gt; instance as a message sender&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;4&quot;&gt;&lt;/i&gt;&lt;b&gt;4&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;asserting that &lt;code&gt;probe&lt;/code&gt; received back proper message, i.e. prefixed with &lt;code&gt;Hello&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;testing-akka-extensions&quot;&gt;Testing AKKA extensions&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;a href=&quot;http://doc.akka.io/docs/akka/snapshot/scala/extending-akka.html&quot; target=&quot;_blank&quot;&gt;AKKA extensions&lt;/a&gt; is lightweight and powerful way of extending core AKKA functionality with project specific features.
+Let&amp;#8217;s enhance our system with possibility of using arbitrary greeting, instead of hard-coded &lt;code&gt;Hello&lt;/code&gt;.
+For this purpose - we can create AKKA extension, named &lt;code&gt;GreetExtension&lt;/code&gt;, with single method exposed.
+Calling the method will return random &lt;em&gt;greeting word&lt;/em&gt; from predefined list.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;GreetExtension.java&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;java&quot;&gt;&lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;GreetExtension&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;implements&lt;/span&gt; Extension {
+
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;final&lt;/span&gt; ExtensionKey&amp;lt;GreetExtension&amp;gt; KEY = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; ExtensionKey&amp;lt;GreetExtension&amp;gt;(GreetExtension.class) {}; &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
+
+    &lt;span class=&quot;directive&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;Random&lt;/span&gt; random;
+
+    &lt;span class=&quot;directive&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;final&lt;/span&gt; ExtendedActorSystem actorSystem;
+
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; GreetExtension(ExtendedActorSystem actorSystem) {
+        &lt;span class=&quot;local-variable&quot;&gt;this&lt;/span&gt;.actorSystem = actorSystem;
+        &lt;span class=&quot;local-variable&quot;&gt;this&lt;/span&gt;.random = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;Random&lt;/span&gt;();
+    }
+
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;List&lt;/span&gt;&amp;lt;&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt;&amp;gt; GREET_WORDS = &lt;span class=&quot;predefined-type&quot;&gt;Arrays&lt;/span&gt;.asList(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;Hello&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;Nice to meet you&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;What&#39;s up&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;);
+
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt; greetWord() {
+        &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; GREET_WORDS.get(random.nextInt(GREET_WORDS.size())); &lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;(2)&lt;/b&gt;
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;unique identifier, allowing to obtain extension from &lt;code&gt;ActorSystem&lt;/code&gt; instance&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;2&quot;&gt;&lt;/i&gt;&lt;b&gt;2&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;randomly pick up any of available &lt;em&gt;greeting word&lt;/em&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;For the illustration of AKKA extension usage let&amp;#8217;s create modified version of &lt;code&gt;HelloActor&lt;/code&gt; - named &lt;code&gt;GreetExtensionActor&lt;/code&gt;.
+Its behavior will differ from original by usage of &lt;code&gt;GreetExtension&lt;/code&gt; to generate a response.
+Actor will ask extension for the &lt;em&gt;greeting word&lt;/em&gt;, prefix original message with it and then reply to the message&amp;#8217;s sender.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;GreetExtensionActor.groovy&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;GreetExtensionActor&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;extends&lt;/span&gt; UntypedActor {
+    &lt;span class=&quot;annotation&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; onReceive(&lt;span class=&quot;predefined-type&quot;&gt;Object&lt;/span&gt; message) &lt;span class=&quot;directive&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;exception&quot;&gt;Exception&lt;/span&gt; {
+        GreetExtension greetExtension = GreetExtension.KEY.apply(context().system()); &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
+        sender().tell(greetExtension.greetWord() + &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt; &lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; + Objects.toString(message), self());
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;obtain AKKA extension by its identifier&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;using-akka-testkit-for-testing-akka-extension-aware-actors&quot;&gt;Using AKKA TestKit for testing AKKA extension aware actors&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We could modify &lt;code&gt;HelloActorTest.java&lt;/code&gt; test suite for &lt;code&gt;GreetExtensionActor&lt;/code&gt; in such way.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;GreetExtensionActorTest.groovy&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;actor should greet via AKKA extension&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;() {
+    &lt;span class=&quot;key&quot;&gt;given&lt;/span&gt;:
+    &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; helloActor = actorSystem.actorOf(Props.create(GreetExtensionActor))
+    &lt;span class=&quot;key&quot;&gt;when&lt;/span&gt;:
+    helloActor.tell(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;world&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;, probe.ref)
+    &lt;span class=&quot;key&quot;&gt;then&lt;/span&gt;:
+    &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; msg = probe.expectMsgClass(&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt;)
+    msg.endsWith(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;world&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;) &amp;amp;&amp;amp; GreetExtension.GREET_WORDS.any { msg.startsWith(&lt;span class=&quot;local-variable&quot;&gt;it&lt;/span&gt;) } &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;since prefix is randomly generated - we can&amp;#8217;t check exact match, instead we&amp;#8217;re checking that response message is prefixed with one of possible values&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;mocking-akka-extension&quot;&gt;Mocking AKKA extension&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The obvious drawback of test case above is dependency on &lt;code&gt;GreetExtension&lt;/code&gt; whose behavior is non-deterministic.
+&lt;code&gt;GreetExtensionActor&lt;/code&gt; can&amp;#8217;t be tested in isolation and can&amp;#8217;t be tested with single defined set of input / output values.
+To overcome this - most apparent option is to use mocking and inject mock of &lt;code&gt;GreetExtension&lt;/code&gt; into actor system.
+Mocking and stubbing functionality is provided by &lt;code&gt;Spock&lt;/code&gt; itself, but unluckily &lt;code&gt;AKKA&lt;/code&gt; doesn&amp;#8217;t provide API to replace AKKA extension with stub instance.
+Fortunately, due to &lt;code&gt;Groovy&lt;/code&gt; nature it&amp;#8217;s possible to access private members of &lt;code&gt;ActorSystem&lt;/code&gt;.
+Using this trick we could manually replace AKKA extension instance with our stub and become able to write a test case with defined input / output.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;GreetExtensionActorTest.groovy&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;actor should greet via mocked AKKA extension&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;() {
+    &lt;span class=&quot;key&quot;&gt;given&lt;/span&gt;:
+    &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; helloActor = actorSystem.actorOf(Props.create(GreetExtensionActor))
+    &lt;span class=&quot;key&quot;&gt;and&lt;/span&gt;:
+    GreetExtension.KEY.get(actorSystem)
+    actorSystem.extensions[GreetExtension.KEY] = &lt;span class=&quot;predefined-type&quot;&gt;Stub&lt;/span&gt;(GreetExtension) { &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
+        greetWord() &amp;gt;&amp;gt; &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;Bye&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+    }
+    &lt;span class=&quot;key&quot;&gt;when&lt;/span&gt;:
+    helloActor.tell(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;world&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;, probe.ref)
+    &lt;span class=&quot;key&quot;&gt;then&lt;/span&gt;:
+    probe.expectMsgClass(&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt;) == &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;Bye world&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;&lt;em&gt;magic here&lt;/em&gt;, accessing internals of actor system, adjusting its value with extension stub&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;extending-actor-system-functionality-using-groovy-extension-modules&quot;&gt;Extending Actor System functionality using Groovy extension modules&lt;/h3&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Looking at previous test, the piece of code can be detected, that could be subject of duplication across tests cases.
+The code is used for replacing actual AKKA extension with mock.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;GreetExtension.KEY.get(actorSystem)
+actorSystem.extensions[GreetExtension.KEY] = &lt;span class=&quot;predefined-type&quot;&gt;Stub&lt;/span&gt;(GreetExtension) {
+    greetWord() &amp;gt;&amp;gt; &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;Bye&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;It would be great if we can extract this into utility method and then use it where needed.
+One of possibility is to use &lt;code&gt;Groovy&lt;/code&gt; traits and mix the trait into each &lt;code&gt;Spock&lt;/code&gt; specification class.
+Another option that seems less verbose is to be able to enhance &lt;code&gt;ActorSystem&lt;/code&gt; with new method that will do the job.
+Luckily, &lt;code&gt;Groovy&lt;/code&gt; has a way to do it using &lt;a href=&quot;http://www.groovy-lang.org/metaprogramming.html#_extension_modules&quot; target=&quot;_blank&quot;&gt;Extension Modules&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;We could in runtime add method to any class that will be visible only for tests classes, without affecting production code.
+To enable it we have to put file named &lt;code&gt;org.codehaus.groovy.runtime.ExtensionModule&lt;/code&gt; into &lt;code&gt;test/resources/META-INF/services&lt;/code&gt; folder.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;org.codehaus.groovy.runtime.ExtensionModule&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;properties&quot;&gt;moduleName = akka-spock-module
+moduleVersion = 1.0
+extensionClasses = ua.eshepelyuk.blog.ActorSystemExtensionModule&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Then we are ready to implement extension module functionality.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;ActorSystemExtensionModule.groovy&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;ActorSystemExtensionModule&lt;/span&gt; {
+    &lt;span class=&quot;directive&quot;&gt;static&lt;/span&gt; &amp;lt;T &lt;span class=&quot;directive&quot;&gt;extends&lt;/span&gt; Extension&amp;gt; &lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; mockAkkaExtension(ActorSystem actorSystem, ExtensionId&amp;lt;T&amp;gt; extId, T mock) {
+        extId.get(actorSystem)
+        actorSystem.extensions[extId] = mock
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;So, having &lt;code&gt;ActorSystem&lt;/code&gt; enhanced with &lt;code&gt;mockAkkaExtension&lt;/code&gt; method we could finally rewrite test case as below.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;title&quot;&gt;GreetExtensionActorTest.groovy&lt;/div&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;actor should greet with mocked AKKA extension, using Groovy extension module&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;() {
+    &lt;span class=&quot;key&quot;&gt;given&lt;/span&gt;:
+    &lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; helloActor = actorSystem.actorOf(Props.create(GreetExtensionActor))
+    &lt;span class=&quot;key&quot;&gt;and&lt;/span&gt;:
+    actorSystem.mockAkkaExtension(GreetExtension.KEY, &lt;span class=&quot;predefined-type&quot;&gt;Stub&lt;/span&gt;(GreetExtension) { &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
+        greetWord() &amp;gt;&amp;gt; &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;Bye cruel&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+    })
+    &lt;span class=&quot;key&quot;&gt;when&lt;/span&gt;:
+    helloActor.tell(&lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;world&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;, probe.ref)
+    &lt;span class=&quot;key&quot;&gt;then&lt;/span&gt;:
+    probe.expectMsgClass(&lt;span class=&quot;predefined-type&quot;&gt;String&lt;/span&gt;) == &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt;Bye cruel world&lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;colist arabic&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;calling method on &lt;code&gt;ActorSystem&lt;/code&gt; instance, that doesn&amp;#8217;t exist in &lt;code&gt;Scala&lt;/code&gt; code, it&amp;#8217;s added by our &lt;code&gt;ActorSystemExtensionModule&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class=&quot;admonitionblock note&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;i class=&quot;fa icon-note&quot; title=&quot;Note&quot;&gt;&lt;/i&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+Full project&amp;#8217;s code is available at &lt;a href=&quot;https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfUCanAkkaSpock&quot; target=&quot;_blank&quot;&gt;My GitHub&lt;/a&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
+        <pubDate>Wed, 16 Dec 2015 00:00:00 +0000</pubDate>
+        <link>http://eshepelyuk.github.io/2015/12/16/akka-extensions-spock.html</link>
+        <guid isPermaLink="true">http://eshepelyuk.github.io/2015/12/16/akka-extensions-spock.html</guid>
+        
+        <category>java</category>
+        
+        <category>tdd</category>
+        
+        <category>akka</category>
+        
+        <category>scala</category>
+        
+        <category>groovy</category>
+        
+        <category>spock</category>
+        
+        
+      </item>
     
       <item>
         <title>Testing JVM server-side JavaScript with Jasmine, Spock and Nashorn</title>
@@ -1846,112 +2172,6 @@ I think attitude to &lt;code&gt;JavaScript&lt;/code&gt; should change a bit towa
         <category>coding dojo</category>
         
         <category>design pattern</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>CodingDojoCnUa #2 agenda and tools</title>
-        <description>&lt;h1&gt;CodingDojoCnUa #2 agenda and tools&lt;/h1&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;intro&quot;&gt;Intro&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;On 5th of February we are going to have 2nd &lt;em&gt;CodingDojo&lt;/em&gt; meeting dedicated to improve our &lt;code&gt;JavaScript&lt;/code&gt; skills.
-The purpose of our gathering will be implementation of design patterns using &lt;code&gt;JavaScript&lt;/code&gt; language.
-The good list of patterns could be found &lt;a href=&quot;http://en.wikipedia.org/wiki/Software_design_pattern&quot; target=&quot;_blank&quot;&gt;Wikipedia page&lt;/a&gt;.
-Please read the list before meeting :)&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Links below are also good starting point for exploring &lt;code&gt;JavaScript&lt;/code&gt;.
-At least skim reading of links below is required before Dojo.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;ulist&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&quot;http://bonsaiden.github.com/JavaScript-Garden&quot; target=&quot;_blank&quot;&gt;JavaScript Garden - General Guide&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&quot;http://www.addyosmani.com/resources/essentialjsdesignpatterns/book&quot; target=&quot;_blank&quot;&gt;Some Design Patterns already implemented&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;agenda&quot;&gt;Agenda&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We&amp;#8217;re going to pair-program using TDD while implementing few of &lt;em&gt;Software Design Patterns&lt;/em&gt;.
-At our previous retro we&amp;#8217;ve chosen to use timeboxing for changing pilot/co-pilot.
-Let&amp;#8217;s consider our participants gonna change every 5-7 minutes.&lt;/p&gt;
-&lt;/div&gt;
-&lt;table class=&quot;tableblock frame-all grid-all spread&quot;&gt;
-&lt;colgroup&gt;
-&lt;col style=&quot;width: 25%;&quot;&gt;
-&lt;col style=&quot;width: 75%;&quot;&gt;
-&lt;/colgroup&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th class=&quot;tableblock halign-left valign-top&quot;&gt;Time&lt;/th&gt;
-&lt;th class=&quot;tableblock halign-left valign-top&quot;&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;10:30&lt;/p&gt;&lt;/td&gt;
-&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;Start and intro. Decide what exactly we gonna do, so-called &lt;em&gt;Design Session&lt;/em&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;10:50&lt;/p&gt;&lt;/td&gt;
-&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;1st coding session start&lt;/p&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;11:50&lt;/p&gt;&lt;/td&gt;
-&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;Break and &lt;em&gt;how it&amp;#8217;s going&lt;/em&gt; discussion, maybe lunch ?&lt;/p&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;12:20&lt;/p&gt;&lt;/td&gt;
-&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;2nd &lt;em&gt;Design Session&lt;/em&gt;&lt;/p&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;12:30&lt;/p&gt;&lt;/td&gt;
-&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;2nd coding session begin&lt;/p&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;13:30&lt;/p&gt;&lt;/td&gt;
-&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;Retro&lt;/p&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;14:00&lt;/p&gt;&lt;/td&gt;
-&lt;td class=&quot;tableblock halign-left valign-top&quot;&gt;&lt;p class=&quot;tableblock&quot;&gt;End&lt;/p&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Exact agenda timings are subject to change depending on our progress during Dojo.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;tools-we-gonna-use&quot;&gt;Tools we gonna use&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;We will be using &lt;code&gt;NodeJS&lt;/code&gt; as our &lt;code&gt;JavaScript&lt;/code&gt;, &lt;code&gt;Jasmine&lt;/code&gt; as &lt;em&gt;TDD/BDD&lt;/em&gt; framework and &lt;code&gt;IntelliJ IDEA&lt;/code&gt;.
-Although &lt;code&gt;NodeJS&lt;/code&gt; is rich featured server-side framework we are intended to use it only as JS interpreter.
-More docs could be found at &lt;a href=&quot;http://nodejs.org&quot; target=&quot;_blank&quot;&gt;NodeJS&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;&lt;code&gt;Jasmine&lt;/code&gt; &lt;em&gt;BDD&lt;/em&gt; framework for testing in &lt;code&gt;JavaScript&lt;/code&gt;. It has support for test suites, human friendly assertions,
-basic mocking support so its good choice for beginners like us :). Find more on their &lt;a href=&quot;https://github.com/pivotal/jasmine/wiki&quot; target=&quot;_blank&quot;&gt;Docs page&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description>
-        <pubDate>Sat, 28 Jan 2012 00:00:00 +0000</pubDate>
-        <link>http://eshepelyuk.github.io/2012/01/28/codingdojocnua-2-agenda-and-tools.html</link>
-        <guid isPermaLink="true">http://eshepelyuk.github.io/2012/01/28/codingdojocnua-2-agenda-and-tools.html</guid>
-        
-        <category>coding dojo</category>
         
         
       </item>
