@@ -141,7 +141,7 @@ def "actor should greet via AKKA extension"() {
 The obvious drawback of test case above is dependency on `GreetExtension` whose behavior is non-deterministic.
 `GreetExtensionActor` can't be tested in isolation and can't be tested with single defined set of input / output values.
 To overcome this - most apparent option is to use mocking and inject mock of `GreetExtension` into actor system.
-Mocking and stubbing funtionality is provided by `Spock` itself, but unluckily `AKKA` doesn't provide API to replace AKKA extension with stub instance.
+Mocking and stubbing functionality is provided by `Spock` itself, but unluckily `AKKA` doesn't provide API to replace AKKA extension with stub instance.
 Fortunately, due to `Groovy` nature it's possible to access private members of `ActorSystem`.
 Using this trick we could manually replace AKKA extension instance with our stub and become able to write a test case with defined input / output.
 
