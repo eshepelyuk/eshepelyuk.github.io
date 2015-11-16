@@ -98,9 +98,39 @@ public class GreetExtensionActor extends UntypedActor {
 }
 ----
 
-=== Simple usage of AKKA test kit
+=== Basic usage of AKKA test kit
 
-=== Mocking AKKA extension with spock
+[source,java]
+----
+def "actor should greet via AKKA extension"() {
+    given:
+    def helloActor = actorSystem.actorOf(Props.create(GreetExtensionActor))
+    when:
+    helloActor.tell("world", probe.ref)
+    then:
+    def msg = probe.expectMsgClass(String)
+    msg.endsWith("world") && GreetExtension.GREET_WORDS.any { msg.startsWith(it) }
+}
+----
+
+=== Mocking AKKA extension
+
+[source,java]
+----
+def "actor should greet via mocked AKKA extension"() {
+    given:
+    def helloActor = actorSystem.actorOf(Props.create(GreetExtensionActor))
+    and:
+    GreetExtension.KEY.get(actorSystem)
+    actorSystem.extensions[GreetExtension.KEY] = Stub(GreetExtension) {
+        greetWord() >> "Bye"
+    }
+    when:
+    helloActor.tell("world", probe.ref)
+    then:
+    probe.expectMsgClass(String) == "Bye world"
+}
+----
 
 === Groovy extension modules
 
@@ -123,5 +153,23 @@ class ActorSystemExtensionModule {
         extId.get(actorSystem)
         actorSystem.extensions[extId] = mock
     }
+}
+----
+
+Test case #3
+
+[source,java]
+----
+def "actor should greet with mocked AKKA extension, using Groovy extension module"() {
+    given:
+    def helloActor = actorSystem.actorOf(Props.create(GreetExtensionActor))
+    and:
+    actorSystem.mockAkkaExtension(GreetExtension.KEY, Stub(GreetExtension) {
+        greetWord() >> "Bye cruel"
+    })
+    when:
+    helloActor.tell("world", probe.ref)
+    then:
+    probe.expectMsgClass(String) == "Bye cruel world"
 }
 ----
