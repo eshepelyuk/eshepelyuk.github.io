@@ -19,7 +19,7 @@ Although it's written in `Scala`, `AKKA` can be used in any `JVM` based language
 This post tries to fill the gap of missing information about writing good tests in polyglot JVM projects that leverage `AKKA` framework.
 In multi language JVM projects my obvious choice of testing tool is `Spock`.
 Powered by `Groovy` and `JUnit`, this tool makes writing tests a much more  fun.
-  
+
 This article is not intended to be `AKKA` or `Spock` tutorial.
 The audience is assumed to be knowing `Groovy` and `Spock` basics, as well as basics of _actor model concurrency_.
 
@@ -63,7 +63,7 @@ class HelloActorTest extends Specification {
 }
 ----
 <1> annotation telling `Spock` to _cleanup_ variable after test ends, calling mentioned method, i.e. `shutdown`
-<2> `JavaTestKit` is the core for TestKit framework, providing tools for interacting with actors 
+<2> `JavaTestKit` is the core for TestKit framework, providing tools for interacting with actors
 <3> send a `world` string as a message for the actor, passing `JavaTestKit` instance as a message sender
 <4> asserting that `probe` received back proper message, i.e. prefixed with `Hello`
 
@@ -110,7 +110,7 @@ Actor will ask extension for the _greeting word_, prefix original message with i
 public class GreetExtensionActor extends UntypedActor {
     @Override
     public void onReceive(Object message) throws Exception {
-        GreetExtension greetExtension = GreetExtension.KEY.apply(context().system()); <1>
+        GreetExtension greetExtension = GreetExtension.KEY.get(context().system()); <1>
         sender().tell(greetExtension.greetWord() + " " + Objects.toString(message), self());
     }
 }
@@ -224,6 +224,6 @@ def "actor should greet with mocked AKKA extension, using Groovy extension modul
     probe.expectMsgClass(String) == "Bye cruel world"
 }
 ----
-<1> calling method on `ActorSystem` instance, that doesn't exist in `Scala` code, it's added by our `ActorSystemExtensionModule`  
+<1> calling method on `ActorSystem` instance, that doesn't exist in `Scala` code, it's added by our `ActorSystemExtensionModule`
 
 NOTE: Full project's code is available at https://github.com/eshepelyuk/CodeForBlog/tree/master/TestMeIfUCanAkkaSpock[My GitHub^]
