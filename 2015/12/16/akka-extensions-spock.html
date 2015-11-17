@@ -216,7 +216,7 @@ Actor will ask extension for the <em>greeting word</em>, prefix original message
 <pre class="CodeRay highlight"><code data-lang="groovy"><span class="directive">public</span> <span class="type">class</span> <span class="class">GreetExtensionActor</span> <span class="directive">extends</span> UntypedActor {
     <span class="annotation">@Override</span>
     <span class="directive">public</span> <span class="type">void</span> onReceive(<span class="predefined-type">Object</span> message) <span class="directive">throws</span> <span class="exception">Exception</span> {
-        GreetExtension greetExtension = GreetExtension.KEY.apply(context().system()); <i class="conum" data-value="1"></i><b>(1)</b>
+        GreetExtension greetExtension = GreetExtension.KEY.get(context().system()); <i class="conum" data-value="1"></i><b>(1)</b>
         sender().tell(greetExtension.greetWord() + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + Objects.toString(message), self());
     }
 }</code></pre>

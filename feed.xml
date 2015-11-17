@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 16 Nov 2015 16:30:40 +0000</pubDate>
-    <lastBuildDate>Mon, 16 Nov 2015 16:30:40 +0000</lastBuildDate>
+    <pubDate>Tue, 17 Nov 2015 16:44:18 +0000</pubDate>
+    <lastBuildDate>Tue, 17 Nov 2015 16:44:18 +0000</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -148,7 +148,7 @@ Actor will ask extension for the &lt;em&gt;greeting word&lt;/em&gt;, prefix orig
 &lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;GreetExtensionActor&lt;/span&gt; &lt;span class=&quot;directive&quot;&gt;extends&lt;/span&gt; UntypedActor {
     &lt;span class=&quot;annotation&quot;&gt;@Override&lt;/span&gt;
     &lt;span class=&quot;directive&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;type&quot;&gt;void&lt;/span&gt; onReceive(&lt;span class=&quot;predefined-type&quot;&gt;Object&lt;/span&gt; message) &lt;span class=&quot;directive&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;exception&quot;&gt;Exception&lt;/span&gt; {
-        GreetExtension greetExtension = GreetExtension.KEY.apply(context().system()); &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
+        GreetExtension greetExtension = GreetExtension.KEY.get(context().system()); &lt;i class=&quot;conum&quot; data-value=&quot;1&quot;&gt;&lt;/i&gt;&lt;b&gt;(1)&lt;/b&gt;
         sender().tell(greetExtension.greetWord() + &lt;span class=&quot;string&quot;&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;content&quot;&gt; &lt;/span&gt;&lt;span class=&quot;delimiter&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt; + Objects.toString(message), self());
     }
 }&lt;/code&gt;&lt;/pre&gt;
