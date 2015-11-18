@@ -1,0 +1,18 @@
+---
+tags:
+- windows
+- linux
+- docker
+- microservice
+- gradle
+excerpt: |
+  Java microservices - Docker images with Gradle
+---
+= Java microservices - Docker images with Gradle
+
+== sample application
+
+* vert.x
+* ratpack
+
+== gradle plugin
