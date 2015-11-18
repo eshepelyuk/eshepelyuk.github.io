@@ -1,0 +1,37 @@
+---
+tags:
+- windows
+- linux
+- bash
+- conemu
+- git
+- docker
+- microservice
+- console
+excerpt: |
+  Java microservices - Docker containers on Windows
+---
+= Java microservices - Docker containers on Windows
+
+Let's create comfort command line environment, then install Docker.
+
+== Installing Git
+
+* not only `git` but `msys2` with `bash` shell and useful `Linux` command line tools.
+ 
+== Installing Conemu
+
+* link to installation guide
+* how to run new consoles in the same window
+* integrate with shell
+
+== Installing Docker and running Docker container
+
+no icons, pure cmd line
+
+* start.sh
+* run test docker image form manual
+
+=== docker-machine
+
+no need to intercat with VirtualBox UI, pure cmd line 
