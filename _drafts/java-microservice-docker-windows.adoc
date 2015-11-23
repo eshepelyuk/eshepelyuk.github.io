@@ -37,6 +37,7 @@ no need to intercat with VirtualBox UI, pure cmd line
 * add to PATH `d:\opt\msys64\usr\bin`
 * link support
 * cache passwords - old version
+* ` git config --global core.autocrlf true`
 
 == Conemu
 
