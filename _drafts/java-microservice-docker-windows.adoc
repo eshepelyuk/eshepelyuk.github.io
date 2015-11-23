@@ -7,31 +7,49 @@ tags:
 - git
 - docker
 - microservice
-- console
+- gradle
 excerpt: |
   Java microservices - Docker containers on Windows
 ---
 = Java microservices - Docker containers on Windows
 
-Let's create comfort command line environment, then install Docker.
-
-== Installing Git
-
-* not only `git` but `msys2` with `bash` shell and useful `Linux` command line tools.
- 
-== Installing Conemu
-
-* link to installation guide
-* how to run new consoles in the same window
-* integrate with shell
+Docker has bundled shell but with git windows.
+Let's create comfort command line environment more complicated way.
 
 == Installing Docker and running Docker container
 
 no icons, pure cmd line
 
+* install, then uninstall `Git`
+** no way to unselect 
+** no way to choose folder
+** doesn't add to PATH
 * start.sh
-* run test docker image form manual
+* run test docker image from manual
 
 === docker-machine
 
 no need to intercat with VirtualBox UI, pure cmd line 
+
+== Msys
+
+* not only `git` but `msys2` with `bash` shell and useful `Linux` command line tools.
+* add to PATH `d:\opt\msys64\usr\bin`
+* link support
+* cache passwords - old version
+
+== Conemu
+
+* link to installation guide
+* how to run new consoles in the same window
+* integrate with shell
+
+== SDKMAN
+
+* hack script replace `-h` to `-d`
+* install `Gradle`
+
+== Gradle
+
+* use plugin to generate project
+* create and run test docker
