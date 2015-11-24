@@ -9,48 +9,81 @@ tags:
 - microservice
 - gradle
 excerpt: |
-  Java microservices - Docker containers on Windows
+  Java microservices - Create and run Docker containers on Windows
 ---
-= Java microservices - Docker containers on Windows
+:imagesdir: /_drafts
 
-Docker has bundled shell but with git windows.
-Let's create comfort command line environment more complicated way.
+= Java microservices - Create and run Docker containers on Windows
 
-== Installing Docker and running Docker container
+== Installing Docker Toolbox and comamnd line environment
 
-no icons, pure cmd line
+////
+.qweqwe
+image::1.png[qweqwe]
+////
 
-* install, then uninstall `Git`
+=== Setup MSYS2
+
+Unlike `Git for Windows` not only `git` but `msys2` with `bash` shell and useful `Linux` command line tools.
+* package manager
+** easy missing tool installation
+** easy autoupgrade
+* symlink support
+
+* Download installer from https://msys2.github.io/ and follow installation instructions
+** destination folder is `d:\opt\msys`
+* add to PATH `d:\opt\msys64\usr\bin`
+
+* Optional Git setup
+** cache passwords - old version
+** `git config --global core.autocrlf true`
+
+=== Setup Docker Toolbox
+
+`Docker Toolbox` has bundled shell but with git windows.
+
+* Download from https://www.docker.com/docker-toolbox
+* Run installer and follow the steps
+** destination folder is `d:\opt\docker`
+** `Kitematic` can be unchecked
+* Uninstall bundled `Git for Windows` 
 ** no way to unselect 
 ** no way to choose folder
 ** doesn't add to PATH
-* start.sh
-* run test docker image from manual
 
-=== docker-machine
+=== Setup ConEmu
 
-no need to intercat with VirtualBox UI, pure cmd line 
+* Download from https://conemu.github.io/
+** Alpha release can be used
+* Run new consoles in the same window
+// image  
+* Integrate with shell
+// Image
 
-== Msys
+=== How to check Docker installation
 
-* not only `git` but `msys2` with `bash` shell and useful `Linux` command line tools.
-* add to PATH `d:\opt\msys64\usr\bin`
-* link support
-* cache passwords - old version
-* ` git config --global core.autocrlf true`
+* Open new console in `ConEmu` with `Ctrl+X`
+* Run `/d/opt/docker/start.sh`
+* Execute `docker run hello-world`
+* Check output
+// image here
 
-== Conemu
+=== docker-machine tool
 
-* link to installation guide
-* how to run new consoles in the same window
-* integrate with shell
+* no need to interact with VirtualBox UI pure cmd line 
+* useful commands
 
-== SDKMAN
+== Create JVM based app running in Docker container
+
+=== SDKMAN
 
 * hack script replace `-h` to `-d`
+
+=== Create and dockerize test JVM application
+
 * install `Gradle`
-
-== Gradle
-
-* use plugin to generate project
-* create and run test docker
+* install `LazyBones`
+* `Gradle` plugin to generate project
+* create main class
+* create `Docker` image
+* run `Docker` image from command line
