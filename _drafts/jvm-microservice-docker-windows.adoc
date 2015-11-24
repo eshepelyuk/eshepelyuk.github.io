@@ -18,21 +18,18 @@ excerpt: |
 [NOTE]
 ====
 Following old habit I tend to avoid installation of tools that are planned to be used from command line to `C:\Program Files\` folder.
-Instead, I'm using `c:\opt`, `d:\usr`, i.e. folder name contains no spaces..
+Instead, I'm using `c:\opt`, `d:\usr`, etc., i.e. folder name without spaces.
 This guide will highlight steps where software is planned to be installed in folder different from `C:\Program Files\`. 
 ====
 
 Glossary::
 
 * _GIT-SCM_ - `Git For Windows` project, located at http://git-scm.com/download/win
-* _Environment variable_ - `Windows` environment variables, in this guide assumed to be managed via _Control Panel_
+* _Environment variable_ - `Windows` environment variables in this guide assumed to be managed via _Control Panel_
 * _Uninstallation_ - delete software via _Control Panel_
 
 == Docker Toolbox and Linux-like command line environment
-////
-.qweqwe
-image::/images/1.png[qweqwe]
-////
+
 === Setup MSYS2
 
 Advantages over http://git-scm.com/[Git for Windows^]::
@@ -60,21 +57,31 @@ Installation steps::
 
 === Setup ConEmu
 
-. Run installer from https://conemu.github.io/ and follow instructions
-. _Alpha_ releases can be used
-* Integrate with `Windows` shell
-// Image of settings
-// Image of result
-* Run new consoles in the same window
-// image of settings
+. Run installer from https://conemu.github.io/ and follow instructions, 
+_alpha_ releases can be used
+
+. Run new consoles in the same window
+
+.qweqwe
+image::/images/1.png[qweqwe]
+. Integrate with `Windows` shell
+
+.qweqwe
+image::1.png[qweqwe]
+
+.qweqwe
+image::/images/2.png[qweqwe]
 
 === How to check Docker software works
 
 . Open new console in `ConEmu` with `Ctrl+X` shortcut
 . Execute `/d/opt/docker/start.sh` from `bash` shell
 . Execute `docker run hello-world` from `bash` shell
-. Check output, it should be similar to following
-// image here
+. Check output, it should looks like below, refer to http://docs.docker.com/windows/step_one/[Docker Guide^] for up to date output.
+
+----
+blah blah
+----
 
 === docker-machine tool
 
