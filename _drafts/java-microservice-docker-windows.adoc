@@ -11,16 +11,14 @@ tags:
 excerpt: |
   Java microservices - Create and run Docker containers on Windows
 ---
-:imagesdir: /_drafts
+:imagesdir: /images/
 
 = Java microservices - Create and run Docker containers on Windows
 
 == Installing Docker Toolbox and comamnd line environment
 
-////
 .qweqwe
 image::1.png[qweqwe]
-////
 
 === Setup MSYS2
 
