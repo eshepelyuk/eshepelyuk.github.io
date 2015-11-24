@@ -1,0 +1,18 @@
+---
+tags:
+- docker
+- microservice
+- gradle
+- vertx
+- ratpack
+- groovy
+- javascript
+- zookeeper
+excerpt: |
+  Java microservices
+---
+= Java microservices
+
+* vert.x
+* ratpack
+* zookeeper

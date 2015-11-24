@@ -1,0 +1,104 @@
+---
+tags:
+- msys2
+- windows
+- conemu
+- docker
+- microservice
+- gradle
+- sdkman
+- lazybones
+excerpt: |
+  Java microservices - Create and run Docker containers on Windows
+---
+:imagesdir: /images
+
+= Java microservices - Create and run Docker containers on Windows
+
+[NOTE]
+====
+Following old habit I tend to avoid installation of tools that are planned to be used from command line to `C:\Program Files\` folder.
+Instead, I'm using `c:\opt`, `d:\usr`, i.e. folder name contains no spaces..
+This guide will highlight steps where software is planned to be installed in folder different from `C:\Program Files\`. 
+====
+
+Glossary::
+
+* _GIT-SCM_ - `Git For Windows` project, located at http://git-scm.com/download/win
+* _Environment variable_ - `Windows` environment variables, in this guide assumed to be managed via _Control Panel_
+* _Uninstallation_ - delete software via _Control Panel_
+
+== Docker Toolbox and Linux-like command line environment
+////
+.qweqwe
+image::/images/1.png[qweqwe]
+////
+=== Setup MSYS2
+
+Advantages over http://git-scm.com/[Git for Windows^]::
+* Built-in package manager `pacman`, ported from `Arch Linux` distributive
+** Installation of specific tools
+** Core autoupgrade from command line
+* Symlink support
+
+Installation steps::
+. Run installer from https://msys2.github.io/ and follow instructions
+. Use `d:\opt\msys` as a destination folder
+. After installation is completed add `d:\opt\msys64\usr\bin` to environment variable `PATH` 
+
+=== Setup Docker Toolbox
+
+`Docker Toolbox` is bundled with _GIT-SCM_, but disallows to configure its parameters.
+////
+* no way to unselect 
+* no way to choose folder
+* doesn't add to PATH
+////
+. Run `Windows` installer from https://www.docker.com/docker-toolbox and follow instructions
+. Use `d:\opt\docker` as a destination folder
+. After installation is completed, _uninstall GIT SCM_
+
+=== Setup ConEmu
+
+. Run installer from https://conemu.github.io/ and follow instructions
+. _Alpha_ releases can be used
+* Integrate with `Windows` shell
+// Image of settings
+// Image of result
+* Run new consoles in the same window
+// image of settings
+
+=== How to check Docker software works
+
+. Open new console in `ConEmu` with `Ctrl+X` shortcut
+. Execute `/d/opt/docker/start.sh` from `bash` shell
+. Execute `docker run hello-world` from `bash` shell
+. Check output, it should be similar to following
+// image here
+
+=== docker-machine tool
+
+* No need to interact with VirtualBox UI pure cmd line 
+* Some useful commands
+
+=== Improve Git experience
+
+If you plan to use `git` for version control then pay attention to steps below, otherwise thise section can be skipped.
+
+* `git config --global core.autocrlf true`
+//* cache passwords - old version
+
+== Create JVM based app running in Docker container
+
+=== Setup SDKMAN
+
+* hack script replace `-h` to `-d`
+
+=== Create and dockerize sample JVM application
+
+* install `Gradle`
+* install `LazyBones`
+* `Gradle` plugin to generate project
+* create main class
+* create `Docker` image
+* run `Docker` image from command line
