@@ -32,7 +32,7 @@ Glossary::
 
 === Setup MSYS2
 
-Advantages over http://git-scm.com/[Git for Windows^]::
+Advantages over _GIT-SCM_::
 * Built-in package manager `pacman`, ported from `Arch Linux` distributive
 ** Installation of specific tools
 ** Core autoupgrade from command line
@@ -41,16 +41,18 @@ Advantages over http://git-scm.com/[Git for Windows^]::
 Installation steps::
 . Run installer from https://msys2.github.io/ and follow instructions
 . Use `d:\opt\msys` as a destination folder
-. After installation is completed add `d:\opt\msys64\usr\bin` to environment variable `PATH` 
+. After installation is completed add `d:\opt\msys\usr\bin` to environment variable `PATH` 
 
 === Setup Docker Toolbox
 
-`Docker Toolbox` is bundled with _GIT-SCM_, but disallows to configure its parameters.
+`Docker Toolbox` is bundled with _GIT-SCM_, but currently it's impossible to configure its parameters.
 ////
 * no way to unselect 
 * no way to choose folder
 * doesn't add to PATH
 ////
+
+Installation steps::
 . Run `Windows` installer from https://www.docker.com/docker-toolbox and follow instructions
 . Use `d:\opt\docker` as a destination folder
 . After installation is completed, _uninstall GIT SCM_
@@ -92,8 +94,20 @@ blah blah
 
 If you plan to use `git` for version control then pay attention to steps below, otherwise thise section can be skipped.
 
-* `git config --global core.autocrlf true`
-//* cache passwords - old version
+Line endings::
+_GIT-SCM_ as well as other sources advice to use `core.autocrlf` equals to `true` while working with `git` on `Windows`.
+Execute command below to set this parameter for all `git` repositories.
+----
+git config --global core.autocrlf true
+----
+
+Password caching::
+Working with remete repositories via HTTP / HTTPS requires entering user name password.
+It's good to use _credentials helper_ that caches passwords, so there no need to type them each time. 
+For `GitHub` it's easy and explained https://help.github.com/articles/caching-your-github-password-in-git/[in this article^].
+But this approach doesnt't fit well with `BitBucket` repositories.
+There's also fresh project https://github.com/Microsoft/Git-Credential-Manager-for-Windows/[Git Credential Manager for Windows^] that works fine both with `GitHub` and `BitBucket`, but currently it can be used only цшер `git` installed via _GIT-SCM_ - https://github.com/Microsoft/Git-Credential-Manager-for-Windows/issues/70[track сorresponding issue^].
+The solution is to use https://gitcredentialstore.codeplex.com/[Git Credential Manager for Windows predecessor^] that works fine with any `git` installation.
 
 == Create JVM based app running in Docker container
 
