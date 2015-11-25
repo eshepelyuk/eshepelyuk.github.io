@@ -30,27 +30,27 @@ Glossary::
 
 == Docker Toolbox and Linux-like command line environment
 
+`Docker Toolbox` is bundled with _GIT-SCM_, but installer has drawbacks
+
+* No possibility to skip _GIT SCM_ installation
+* No possibility to change _GIT SCM_ destination
+* doesn't allow to change its parameters during installation.
+* doesn't `git` and other tools to `PATH` environment variable
+
 === Setup MSYS2
 
 Advantages over _GIT-SCM_::
 * Built-in package manager `pacman`, ported from `Arch Linux` distributive
-** Installation of specific tools
-** Core autoupgrade from command line
+** Possiblitity to install arbitrary tools not included into `msys2` distributive
+** Possibility to upgrade `msys2` core from command line
 * Symlink support
 
 Installation steps::
 . Run installer from https://msys2.github.io/ and follow instructions
 . Use `d:\opt\msys` as a destination folder
-. After installation is completed add `d:\opt\msys\usr\bin` to environment variable `PATH` 
+. After installation is completed add `d:\opt\msys\usr\bin` to `PATH` environment variable
 
 === Setup Docker Toolbox
-
-`Docker Toolbox` is bundled with _GIT-SCM_, but currently it's impossible to configure its parameters.
-////
-* no way to unselect 
-* no way to choose folder
-* doesn't add to PATH
-////
 
 Installation steps::
 . Run `Windows` installer from https://www.docker.com/docker-toolbox and follow instructions
@@ -59,20 +59,25 @@ Installation steps::
 
 === Setup ConEmu
 
-. Run installer from https://conemu.github.io/ and follow instructions, 
-_alpha_ releases can be used
+. Run installer from https://conemu.github.io/ and follow instructions, _alpha_ releases can be used
+
+. Create `bash` task for running `bash` console
++
+.ConEmu task for running msys2 bash settings
+image::1.png[ConEmu task for running msys2 bash settings]
 
 . Run new consoles in the same window
++
+.ConEmu single window settings
+image::2.png[ConEmu single window settings]
 
-.qweqwe
-image::/images/1.png[qweqwe]
 . Integrate with `Windows` shell
-
-.qweqwe
-image::1.png[qweqwe]
-
-.qweqwe
-image::/images/2.png[qweqwe]
++
+.ConEmu shell integration settings
+image::3.png[ConEmu shell integration settings]
++
+.ConEmu shell integration result
+image::4.png[ConEmu shell integration]
 
 === How to check Docker software works
 
@@ -97,16 +102,18 @@ If you plan to use `git` for version control then pay attention to steps below, 
 Line endings::
 _GIT-SCM_ as well as other sources advice to use `core.autocrlf` equals to `true` while working with `git` on `Windows`.
 Execute command below to set this parameter for all `git` repositories.
-----
-git config --global core.autocrlf true
-----
+
+  $ git config --global core.autocrlf true
+
 
 Password caching::
 Working with remete repositories via HTTP / HTTPS requires entering user name password.
 It's good to use _credentials helper_ that caches passwords, so there no need to type them each time. 
 For `GitHub` it's easy and explained https://help.github.com/articles/caching-your-github-password-in-git/[in this article^].
 But this approach doesnt't fit well with `BitBucket` repositories.
-There's also fresh project https://github.com/Microsoft/Git-Credential-Manager-for-Windows/[Git Credential Manager for Windows^] that works fine both with `GitHub` and `BitBucket`, but currently it can be used only цшер `git` installed via _GIT-SCM_ - https://github.com/Microsoft/Git-Credential-Manager-for-Windows/issues/70[track сorresponding issue^].
++
+https://github.com/Microsoft/Git-Credential-Manager-for-Windows/[Git Credential Manager for Windows^] project works fine with both `GitHub` and `BitBucket`, but currently it can be used only with `git` installed via _GIT-SCM_ - https://github.com/Microsoft/Git-Credential-Manager-for-Windows/issues/70[track сorresponding issue^].
++
 The solution is to use https://gitcredentialstore.codeplex.com/[Git Credential Manager for Windows predecessor^] that works fine with any `git` installation.
 
 == Create JVM based app running in Docker container
