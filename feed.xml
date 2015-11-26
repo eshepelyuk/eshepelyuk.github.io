@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 26 Nov 2015 12:05:13 +0000</pubDate>
-    <lastBuildDate>Thu, 26 Nov 2015 12:05:13 +0000</lastBuildDate>
+    <pubDate>Thu, 26 Nov 2015 12:23:07 +0000</pubDate>
+    <lastBuildDate>Thu, 26 Nov 2015 12:23:07 +0000</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -331,6 +331,344 @@ Full project&amp;#8217;s code is available at &lt;a href=&quot;https://github.co
         <category>groovy</category>
         
         <category>spock</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>JVM microservices - how to run Docker containers on Windows</title>
+        <description>&lt;h1&gt;JVM microservices - how to run Docker containers on Windows&lt;/h1&gt;
+&lt;div id=&quot;preamble&quot;&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;em&gt;Microservices&lt;/em&gt; is one of the loudest IT buzzwords, everybody&amp;#8217;s anxious to try it.
+But what &lt;code&gt;Linux&lt;/code&gt; and &lt;code&gt;MacOS&lt;/code&gt; users get for free is not so easy in &lt;code&gt;Windows&lt;/code&gt;.
+This guide shows how to setup &lt;code&gt;Windows&lt;/code&gt; environment for running &lt;code&gt;Docker&lt;/code&gt; containers, as a basis for &lt;em&gt;microservice architecture&lt;/em&gt; projects.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Glossary&lt;/dt&gt;
+&lt;dd&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;GIT-SCM&lt;/em&gt; - &lt;a href=&quot;http://git-scm.com/download/win&quot; target=&quot;_blank&quot;&gt;Git For Windows&lt;/a&gt; project, containing &lt;code&gt;git&lt;/code&gt;, &lt;code&gt;bash&lt;/code&gt; and other &lt;code&gt;Linux&lt;/code&gt; tools&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Environment variables&lt;/em&gt; - &lt;code&gt;Windows&lt;/code&gt; environment variables, assumed to be managed via &lt;em&gt;Control Panel&lt;/em&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;In fact, &lt;code&gt;Docker Toolbox&lt;/code&gt; for &lt;code&gt;Windows&lt;/code&gt; comprises everything for running &lt;code&gt;Docker&lt;/code&gt; containers because it is bundled with &lt;em&gt;GIT-SCM&lt;/em&gt; project. Unfortunately the default installation has few drawbacks&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Impossible to skip bundled &lt;em&gt;GIT SCM&lt;/em&gt; installation, even when newer version already installed&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;No option for changing &lt;em&gt;GIT SCM&lt;/em&gt; destination&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Сommand line tools ain&amp;#8217;t added to &lt;code&gt;PATH&lt;/code&gt; environment variable&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Impossible to configure additional &lt;code&gt;git&lt;/code&gt; parameters unlike in original &lt;em&gt;GIT-SCM&lt;/em&gt; installer&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;To overcome those and to achieve the better environment flexibility, I&amp;#8217;ll explain in this guide a longer way, where all required software will be installed from separate bundles.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;admonitionblock note&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td class=&quot;icon&quot;&gt;
+&lt;i class=&quot;fa icon-note&quot; title=&quot;Note&quot;&gt;&lt;/i&gt;
+&lt;/td&gt;
+&lt;td class=&quot;content&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Following old habit I tend to avoid installation of tools that are planned to be used from command line to &lt;code&gt;C:\Program Files\&lt;/code&gt; folder.
+Instead, I&amp;#8217;m using &lt;code&gt;c:\opt&lt;/code&gt;, &lt;code&gt;d:\usr&lt;/code&gt;, etc., i.e. folder name without spaces.
+This guide will highlight steps where software is planned to be installed in folder different from &lt;code&gt;C:\Program Files\&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;setup-msys2&quot;&gt;Setup MSYS2&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;code&gt;MSYS2&lt;/code&gt; is a basis project for &lt;em&gt;GIT-SCM&lt;/em&gt; and provides advantages over &lt;em&gt;GIT-SCM&lt;/em&gt;,&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Advantages over &lt;em&gt;GIT-SCM&lt;/em&gt;&lt;/dt&gt;
+&lt;dd&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;More command line oriented, not limited to &lt;code&gt;git&lt;/code&gt; usage&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Symbolic link support&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Built-in package manager &lt;code&gt;pacman&lt;/code&gt;, ported from &lt;code&gt;Arch Linux&lt;/code&gt; distributive&lt;/p&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Possibility to install arbitrary tools not included into &lt;code&gt;MSYS2&lt;/code&gt; distributive&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Possibility to upgrade &lt;code&gt;MSYS2&lt;/code&gt; core from command line&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Installation steps&lt;/dt&gt;
+&lt;dd&gt;
+&lt;div class=&quot;olist arabic&quot;&gt;
+&lt;ol class=&quot;arabic&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;Run installer from &lt;a href=&quot;https://msys2.github.io/&quot; class=&quot;bare&quot;&gt;https://msys2.github.io/&lt;/a&gt; and follow instructions&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Use &lt;code&gt;d:\opt\msys&lt;/code&gt; as a destination folder&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;After installation is completed add &lt;code&gt;d:\opt\msys\usr\bin&lt;/code&gt; to &lt;code&gt;PATH&lt;/code&gt; environment variable&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;By default &lt;code&gt;MSYS2&lt;/code&gt; uses own directory for user home, so instead &lt;code&gt;C:\Users\&lt;/code&gt; your home will be located in &lt;code&gt;d:\opt\msys\home&lt;/code&gt; folder.
+This behavior can be overridden by setting environment variable &lt;code&gt;HOME&lt;/code&gt; to preferred value.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect2&quot;&gt;
+&lt;h3 id=&quot;setup-docker-toolbox&quot;&gt;Setup Docker Toolbox&lt;/h3&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Installation steps&lt;/dt&gt;
+&lt;dd&gt;
+&lt;div class=&quot;olist arabic&quot;&gt;
+&lt;ol class=&quot;arabic&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;Run &lt;code&gt;Windows&lt;/code&gt; installer from &lt;a href=&quot;https://www.docker.com/docker-toolbox&quot; class=&quot;bare&quot;&gt;https://www.docker.com/docker-toolbox&lt;/a&gt; and follow instructions&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Use &lt;code&gt;d:\opt\docker&lt;/code&gt; as a destination folder&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;After installation is completed, uninstall &lt;em&gt;GIT SCM&lt;/em&gt; via &lt;em&gt;Control Panel&lt;/em&gt;, we will use &lt;code&gt;MSYS2&lt;/code&gt; installed before&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;setup-conemu&quot;&gt;Setup ConEmu&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;code&gt;MSYS2&lt;/code&gt; provides possibility to run &lt;code&gt;bash&lt;/code&gt; but as soon as you run many consoles you start to get lost in those floating windows. &lt;code&gt;ConEmu&lt;/code&gt; comes to the rescue, providing comfortable tabbed interface for &lt;code&gt;bash&lt;/code&gt; shells along with additional functionality improving command line experience and better integration on`Windows`.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;olist arabic&quot;&gt;
+&lt;ol class=&quot;arabic&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;Run installer from &lt;a href=&quot;https://conemu.github.io/&quot; class=&quot;bare&quot;&gt;https://conemu.github.io/&lt;/a&gt; and follow instructions, &lt;em&gt;alpha&lt;/em&gt; releases can be used&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create &lt;code&gt;ConEmu&lt;/code&gt; task for running &lt;code&gt;bash&lt;/code&gt; console and run it on program startup&lt;/p&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;/images/2015-11-26/1.png&quot; alt=&quot;ConEmu task for running MSYS2&quot;&gt;
+&lt;/div&gt;
+&lt;div class=&quot;title&quot;&gt;Figure 1. ConEmu task for running MSYS2&lt;/div&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create new consoles inside single &lt;code&gt;ConEmu&lt;/code&gt; window&lt;/p&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;/images/2015-11-26/2.png&quot; alt=&quot;ConEmu single window settings&quot;&gt;
+&lt;/div&gt;
+&lt;div class=&quot;title&quot;&gt;Figure 2. ConEmu single window settings&lt;/div&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Integrate with &lt;code&gt;Windows&lt;/code&gt; shell, environment variable &lt;code&gt;CHERE_INVOKING&lt;/code&gt; forces &lt;code&gt;MSYS2&lt;/code&gt; to use current directory as a working directory for new &lt;code&gt;bash&lt;/code&gt; instance&lt;/p&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;/images/2015-11-26/3.png&quot; alt=&quot;ConEmu shell integration settings&quot;&gt;
+&lt;/div&gt;
+&lt;div class=&quot;title&quot;&gt;Figure 3. ConEmu shell integration settings&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;imageblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;img src=&quot;/images/2015-11-26/4.png&quot; alt=&quot;ConEmu shell integration&quot;&gt;
+&lt;/div&gt;
+&lt;div class=&quot;title&quot;&gt;Figure 4. ConEmu shell integration&lt;/div&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;verify-that-everything-works&quot;&gt;Verify that everything  works&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;olist arabic&quot;&gt;
+&lt;ol class=&quot;arabic&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;Start &lt;code&gt;ConEmu&lt;/code&gt; program (should start with &lt;code&gt;bash&lt;/code&gt; console running inside new tab)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Open new console in &lt;code&gt;ConEmu&lt;/code&gt; with &lt;code&gt;Ctrl+X&lt;/code&gt; hotkey, this is just to check &lt;code&gt;Ctrl+X&lt;/code&gt; works&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Go to &lt;code&gt;/d/opt/docker/&lt;/code&gt; folder and run &lt;code&gt;./start.sh&lt;/code&gt; there&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Execute &lt;code&gt;docker run hello-world&lt;/code&gt; command&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Check output, it should looks like below, refer to &lt;a href=&quot;http://docs.docker.com/windows/step_one/&quot; target=&quot;_blank&quot;&gt;Docker Guide&lt;/a&gt; for latest actual information about the output&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;$ docker run hello-world
+
+Hello from Docker.
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the &quot;hello-world&quot; image from the Docker Hub.
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker Hub account:
+ https://hub.docker.com
+
+For more examples and ideas, visit:
+ https://docs.docker.com/userguide/&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;docker-machine-tool&quot;&gt;docker-machine tool&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;code&gt;Docker Toolbox&lt;/code&gt; installs &lt;code&gt;VirtualBox&lt;/code&gt; and creates own VM inside it named &lt;code&gt;default&lt;/code&gt;.
+Although VM management can be performed via &lt;code&gt;VirtualBox&lt;/code&gt; UI, there&amp;#8217;s useful &lt;code&gt;docker-machine&lt;/code&gt; tool.
+It allows to interact with &lt;code&gt;VirtualBox&lt;/code&gt; VM from command line.
+Some useful commands are shown below.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ulist&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;$ docker-machine ls&lt;/code&gt; - list machines and their statuses&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;$ docker-machine stop default&lt;/code&gt; - stop default &lt;code&gt;VirtualBox&lt;/code&gt; VM&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;$ docker-machine start default&lt;/code&gt; - start default &lt;code&gt;VirtualBox&lt;/code&gt; VM&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;$ docker-machine help&lt;/code&gt; - for more information&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;improve-git-experience-on-windows&quot;&gt;Improve Git experience on Windows&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;If you plan to use &lt;code&gt;git&lt;/code&gt; then pay attention to steps below, otherwise this section could be skipped.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;dlist&quot;&gt;
+&lt;dl&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Line endings&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;&lt;em&gt;GIT-SCM&lt;/em&gt; as well as other sources advice to use &lt;code&gt;core.autocrlf&lt;/code&gt; equals to &lt;code&gt;true&lt;/code&gt; while working with &lt;code&gt;git&lt;/code&gt; on &lt;code&gt;Windows&lt;/code&gt;.
+Execute command below to set this parameter for all &lt;code&gt;git&lt;/code&gt; repositories.&lt;/p&gt;
+&lt;div class=&quot;literalblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;$ git config --global core.autocrlf true&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Password caching&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;Working with remote repositories via HTTP / HTTPS requires entering user name password.
+It&amp;#8217;s good to use &lt;em&gt;credentials helper&lt;/em&gt; that caches passwords, so there no need to type them each time.
+For &lt;code&gt;GitHub&lt;/code&gt; it&amp;#8217;s easy and explained &lt;a href=&quot;https://help.github.com/articles/caching-your-github-password-in-git/&quot; target=&quot;_blank&quot;&gt;in this article&lt;/a&gt;.
+But this approach doesn&amp;#8217;t fit well with &lt;code&gt;BitBucket&lt;/code&gt; repositories.&lt;/p&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/Microsoft/Git-Credential-Manager-for-Windows/&quot; target=&quot;_blank&quot;&gt;Git Credential Manager for Windows&lt;/a&gt; project works fine with both &lt;code&gt;GitHub&lt;/code&gt; and &lt;code&gt;BitBucket&lt;/code&gt;, but currently it can be used only with &lt;code&gt;git&lt;/code&gt; installed via &lt;em&gt;GIT-SCM&lt;/em&gt; - &lt;a href=&quot;https://github.com/Microsoft/Git-Credential-Manager-for-Windows/issues/70&quot; target=&quot;_blank&quot;&gt;track сorresponding issue&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;The solution is to use &lt;a href=&quot;https://gitcredentialstore.codeplex.com/&quot; target=&quot;_blank&quot;&gt;Git Credential Manager for Windows predecessor&lt;/a&gt; that works fine with any &lt;code&gt;git&lt;/code&gt; installation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;sect1&quot;&gt;
+&lt;h2 id=&quot;p-s&quot;&gt;P.S.&lt;/h2&gt;
+&lt;div class=&quot;sectionbody&quot;&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This is the first post about &lt;code&gt;JVM&lt;/code&gt; based projects based on microservice architecture, mostly related to &lt;code&gt;Windows&lt;/code&gt; specific features.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Next post will explain how to create and run sample project using environment described in this guide.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;Stay tuned.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
+        <pubDate>Thu, 26 Nov 2015 00:00:00 +0000</pubDate>
+        <link>http://eshepelyuk.github.io/2015/11/26/jvm-microservice-docker-windows.html</link>
+        <guid isPermaLink="true">http://eshepelyuk.github.io/2015/11/26/jvm-microservice-docker-windows.html</guid>
+        
+        <category>windows</category>
+        
+        <category>docker</category>
+        
+        <category>microservice</category>
+        
+        <category>msys2</category>
+        
+        <category>conemu</category>
         
         
       </item>
@@ -2079,99 +2417,6 @@ towards developing modern front-ends.&lt;/p&gt;
         <category>web</category>
         
         <category>groovy</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>CodingDojoCnUa #2</title>
-        <description>&lt;h1&gt;CodingDojoCnUa #2&lt;/h1&gt;
-&lt;div id=&quot;preamble&quot;&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;On 5th of February our small Cherhihiv community made 2nd &lt;em&gt;CodingDojo&lt;/em&gt;.
-This time it was dedicated to &lt;code&gt;JavaScript&lt;/code&gt; programming.
-We tried to code some &lt;em&gt;Design Patterns&lt;/em&gt; in new language.
-What we attained during 2 two 1 our long session is following patterns implemented&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;olist arabic&quot;&gt;
-&lt;ol class=&quot;arabic&quot;&gt;
-&lt;li&gt;
-&lt;p&gt;Singleton, yeah yeah yeah :)&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Factory method&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Template method v1 (prototype hierarchy)&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Template method v2 (runtime meta-programming)&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Decorator&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;What we found very good during retrospection is usage of &lt;em&gt;TimeBox&lt;/em&gt; policy for changing pilot/co-pilot,
-we used 7 minutes limited time box and &lt;code&gt;IntelliJ IDEA&lt;/code&gt; &lt;code&gt;Pomodoro&lt;/code&gt; plugin was helpful on this.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;During programming we all suffered of our Java mindset.
-Even plain looking into Wikipedia description and attempt to re-implement &lt;code&gt;Java&lt;/code&gt; code samples in &lt;code&gt;JavaScript&lt;/code&gt; were damaging our brains :)
-Lack of interfaces (as in &lt;code&gt;Java&lt;/code&gt;) and completely different approach of creating class hierarchy slowed down our development speed.
-Another issue was immense scope of our &lt;em&gt;Dojo&lt;/em&gt;. Certain targets (patterns) were chosen only at the beginning of session and it was a challenge
-to create domain object for certain patterns without detailed design session for which we have no time.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;what-we-decided-to-do-next&quot;&gt;What we decided to do next&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;olist arabic&quot;&gt;
-&lt;ol class=&quot;arabic&quot;&gt;
-&lt;li&gt;
-&lt;p&gt;Pick up and implement some Kata to have more certainty on what we wanna achieve&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Increase time box to 10 minutes, let&amp;#8217;s see if helps&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Get some cookies and drinks to not starve during session :)&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;my-personal-observations&quot;&gt;My personal observations&lt;/h2&gt;
-&lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The easiest part was &lt;code&gt;Jasmine&lt;/code&gt;. This BDD tool was adopted seamlessly by all of us since TDD tools and practices are familiar to us from &lt;code&gt;Java&lt;/code&gt; world
-and &lt;code&gt;Jasmine&lt;/code&gt; is very similar.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;The hardest was start thinking again in higher level OOP terms, not in their equivalents in &lt;code&gt;Java&lt;/code&gt;.
-All those interfaces, classes limited to the same named file and other limitation imposed by &lt;code&gt;Java&lt;/code&gt; were hard to overcome.
-Considering present of duck typing in JavaScript we get rid of interfaces, abstract classes and class hierarchy at all.
-Another uncommon point was API concentrated in module not in class as in &lt;code&gt;Java&lt;/code&gt; it it was also a bit frustrating from the beginning.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;But anyway the coolest thing was our success in short and stressful session as well as knowledge obtained.
-I think attitude to &lt;code&gt;JavaScript&lt;/code&gt; should change a bit towards paying more respect for this amazing and underestimated language (my IMO though).&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description>
-        <pubDate>Mon, 06 Feb 2012 00:00:00 +0000</pubDate>
-        <link>http://eshepelyuk.github.io/2012/02/06/codingdojocnua-2-results.html</link>
-        <guid isPermaLink="true">http://eshepelyuk.github.io/2012/02/06/codingdojocnua-2-results.html</guid>
-        
-        <category>javascript</category>
-        
-        <category>coding dojo</category>
-        
-        <category>design pattern</category>
         
         
       </item>
