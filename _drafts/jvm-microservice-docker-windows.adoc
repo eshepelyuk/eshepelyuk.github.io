@@ -92,11 +92,10 @@ image::4.png[ConEmu shell integration]
 
 == Verify that everything  works
 
-. Start `ConEmu` program, should be started with new tab running `bash` console inside 
+. Start `ConEmu` program (should start with `bash` console running inside new tab)
 . Open new console in `ConEmu` with `Ctrl+X` hotkey, this is just to check `Ctrl+X` works
-. Go to `/d/opt/docker/` folder
-. Execute `./start.sh` command
-. Then run `docker run hello-world`
+. Go to `/d/opt/docker/` folder and run `./start.sh` there
+. Execute `docker run hello-world` command
 . Check output, it should looks like below, refer to http://docs.docker.com/windows/step_one/[Docker Guide^] for latest actual information about the output
 
 ----
