@@ -1,15 +1,15 @@
 ---
 tags:
-- msys2
 - windows
-- conemu
 - docker
 - microservice
+- msys2
+- conemu
 excerpt: |
-  Java microservices - Create and run Docker containers on Windows
+  Java microservices - how to run Docker containers on Windows
 ---
 :imagesdir: /images
-= Java microservices - Create and run Docker containers on Windows
+= Java microservices - how to run Docker containers on Windows
 
 [NOTE]
 ====
