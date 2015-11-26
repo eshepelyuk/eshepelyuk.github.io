@@ -5,9 +5,6 @@ tags:
 - conemu
 - docker
 - microservice
-- gradle
-- sdkman
-- lazybones
 excerpt: |
   Java microservices - Create and run Docker containers on Windows
 ---
@@ -147,17 +144,3 @@ https://github.com/Microsoft/Git-Credential-Manager-for-Windows/[Git Credential 
 +
 The solution is to use https://gitcredentialstore.codeplex.com/[Git Credential Manager for Windows predecessor^] that works fine with any `git` installation.
 
-== Create JVM based app running in Docker container
-
-=== Setup SDKMAN
-
-* hack script replace `-h` to `-d`
-
-=== Create and dockerize sample JVM application
-
-* install `Gradle`
-* install `LazyBones`
-* `Gradle` plugin to generate project
-* create main class
-* create `Docker` image
-* run `Docker` image from command line

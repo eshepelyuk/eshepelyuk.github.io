@@ -1,8 +1,11 @@
 ---
 tags:
+- windows
 - docker
 - microservice
 - gradle
+- sdkman
+- lazybones
 - vertx
 - ratpack
 - groovy
@@ -16,3 +19,18 @@ excerpt: |
 * vert.x
 * ratpack
 * zookeeper
+
+== Create JVM based app running in Docker container
+
+=== Setup SDKMAN
+
+* hack script replace `-h` to `-d`
+
+=== Create and dockerize sample JVM application
+
+* install `Gradle`
+* install `LazyBones`
+* `Gradle` plugin to generate project
+* create main class
+* create `Docker` image
+* run `Docker` image from command line
