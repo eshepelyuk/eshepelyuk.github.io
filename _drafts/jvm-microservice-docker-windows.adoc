@@ -6,10 +6,30 @@ tags:
 - msys2
 - conemu
 excerpt: |
-  Java microservices - how to run Docker containers on Windows
+  _Microservices_ is one of the loudest IT buzzwords, everybody's anxious to try it.
+  But what `Linux` and `MacOS` users get for free is not so easy in `Windows`.
+  This guide shows how to setup `Windows` environment for running `Docker` containers, as a basis for _microservice architecture_ projects.
 ---
-:imagesdir: /images
+:imagesdir: /images/2015-11-28
+
 = Java microservices - how to run Docker containers on Windows
+
+_Microservices_ is one of the loudest IT buzzwords, everybody's anxious to try it.
+But what `Linux` and `MacOS` users get for free is not so easy in `Windows`.
+This guide shows how to setup `Windows` environment for running `Docker` containers, as a basis for _microservice architecture_ projects.
+
+Glossary::
+* _GIT-SCM_ - http://git-scm.com/download/win[Git For Windows^] project, containing `git`, `bash` and other `Linux` tools
+* _Environment variables_ - `Windows` environment variables, assumed to be managed via _Control Panel_
+
+In fact, `Docker Toolbox` for `Windows` comprises everything for running `Docker` containers because it is bundled with _GIT-SCM_ project. Unfortunately the default installation has few drawbacks
+
+* Impossible to skip bundled _GIT SCM_ installation, even when newer version already installed
+* No option for changing _GIT SCM_ destination
+* Сommand line tools ain't added to `PATH` environment variable
+* Impossible to configure additional `git` parameters unlike in original _GIT-SCM_ installer
+
+To overcome those and to achieve the better environment flexibility, I'll explain in this guide a longer way, where all required software will be installed from separate bundles.
 
 [NOTE]
 ====
@@ -18,73 +38,62 @@ Instead, I'm using `c:\opt`, `d:\usr`, etc., i.e. folder name without spaces.
 This guide will highlight steps where software is planned to be installed in folder different from `C:\Program Files\`. 
 ====
 
-Glossary::
+== Setup MSYS2
 
-* _GIT-SCM_ - `Git For Windows` project, located at http://git-scm.com/download/win
-* _Environment variable_ - `Windows` environment variables in this guide assumed to be managed via _Control Panel_
-* _Uninstallation_ - delete software via _Control Panel_
-
-== Docker Toolbox and Linux-like command line environment
-
-//All is contained in Docker Toolbox, but there are drawbacks
-`Docker Toolbox` is bundled with _GIT-SCM_, but installer has such drawbacks
-
-* No possibility to skip _GIT SCM_ installation
-* No possibility to change _GIT SCM_ destination
-* Not adding `git` and other tools to `PATH` environment variable
-
-=== Setup MSYS2
-
-//why Msys2 and not GIT SCM
+`MSYS2` is a basis project for _GIT-SCM_ and provides advantages over _GIT-SCM_,
 
 Advantages over _GIT-SCM_::
+
+* More command line oriented, not limited to `git` usage
+* Symbolic link support
 * Built-in package manager `pacman`, ported from `Arch Linux` distributive
-** Possibility to install arbitrary tools not included into `msys2` distributive
+** Possibility to install arbitrary tools not included into `MSYS2` distributive
 ** Possibility to upgrade `MSYS2` core from command line
-* Symlink support
 
 Installation steps::
+
 . Run installer from https://msys2.github.io/ and follow instructions
 . Use `d:\opt\msys` as a destination folder
 . After installation is completed add `d:\opt\msys\usr\bin` to `PATH` environment variable
 
 By default `MSYS2` uses own directory for user home, so instead `C:\Users\` your home will be located in `d:\opt\msys\home` folder.
-This behaviour can be overridden by setting environment variable `HOME` to preferred value.
+This behavior can be overridden by setting environment variable `HOME` to preferred value.
 
 === Setup Docker Toolbox
 
 Installation steps::
+
 . Run `Windows` installer from https://www.docker.com/docker-toolbox and follow instructions
 . Use `d:\opt\docker` as a destination folder
-. After installation is completed, _uninstall GIT SCM_, we will use `msys2` installed before
+. After installation is completed, uninstall _GIT SCM_ via _Control Panel_, we will use `MSYS2` installed before
 
-=== Setup ConEmu
+== Setup ConEmu
 
-//simple bash window not enough, ConEmu provides multi console, tabbed interface, additional possibilities
+`MSYS2` provides possibility to run `bash` but as soon as you run many consoles you start to get lost in those floating windows. `ConEmu` comes to the rescue, providing comfortable tabbed interface for `bash` shells along with additional functionality improving command line experience and better integration on`Windows`.
 
 . Run installer from https://conemu.github.io/ and follow instructions, _alpha_ releases can be used
-. Create `ConEmu` task for running `bash` console and make it run on program startup
+. Create `ConEmu` task for running `bash` console and run it on program startup
 +
 .ConEmu task for running MSYS2
 image::1.png[ConEmu task for running MSYS2]
 
-. Run new consoles inside single `ConEmu` window
+. Create new consoles inside single `ConEmu` window
 +
 .ConEmu single window settings
 image::2.png[ConEmu single window settings]
 
-. Integrate with `Windows` shell, `CHERE_INVOKING` forces `MSYS` to use current directory as a working directory
+. Integrate with `Windows` shell, environment variable `CHERE_INVOKING` forces `MSYS2` to use current directory as a working directory for new `bash` instance
 +
 .ConEmu shell integration settings
 image::3.png[ConEmu shell integration settings]
 +
-.ConEmu shell integration result
+.ConEmu shell integration
 image::4.png[ConEmu shell integration]
 
-=== Verify that everything  works
+== Verify that everything  works
 
 . Start `ConEmu` program, should be started with new tab running `bash` console inside 
-. Open new console in `ConEmu` with `Ctrl+X` hotkey, this is just to check `Ctrl+X` open
+. Open new console in `ConEmu` with `Ctrl+X` hotkey, this is just to check `Ctrl+X` works
 . Go to `/d/opt/docker/` folder
 . Execute `./start.sh` command
 . Then run `docker run hello-world`
@@ -114,20 +123,24 @@ For more examples and ideas, visit:
  https://docs.docker.com/userguide/
 ----
 
-=== docker-machine tool
+== docker-machine tool
 
-//No need to interact with VirtualBox UI pure cmd line 
+`Docker Toolbox` installs `VirtualBox` and creates own VM inside it named `default`.
+Although VM management can be performed via `VirtualBox` UI, there's useful `docker-machine` tool.
+It allows to interact with `VirtualBox` VM from command line.
+Some useful commands are shown below.
 
-* `docker-machine ls` - list machines and their statuses
-* `docker-machine stop default` - stop default `VirtualBox` VM
-* `docker-machine start default` - start default `VirtualBox` VM
-* `docker-machine help` - more information :)
+* `$ docker-machine ls` - list machines and their statuses
+* `$ docker-machine stop default` - stop default `VirtualBox` VM
+* `$ docker-machine start default` - start default `VirtualBox` VM
+* `$ docker-machine help` - for more information
 
-=== Improve Git experience
+== Improve Git experience on Windows
 
 If you plan to use `git` then pay attention to steps below, otherwise this section could be skipped.
 
 Line endings::
+
 _GIT-SCM_ as well as other sources advice to use `core.autocrlf` equals to `true` while working with `git` on `Windows`.
 Execute command below to set this parameter for all `git` repositories.
 
@@ -135,6 +148,7 @@ Execute command below to set this parameter for all `git` repositories.
 
 
 Password caching::
+
 Working with remote repositories via HTTP / HTTPS requires entering user name password.
 It's good to use _credentials helper_ that caches passwords, so there no need to type them each time. 
 For `GitHub` it's easy and explained https://help.github.com/articles/caching-your-github-password-in-git/[in this article^].
@@ -144,3 +158,7 @@ https://github.com/Microsoft/Git-Credential-Manager-for-Windows/[Git Credential 
 +
 The solution is to use https://gitcredentialstore.codeplex.com/[Git Credential Manager for Windows predecessor^] that works fine with any `git` installation.
 
+== P.S.
+
+This is a first post describing process of building and running JVM microservice project on `Windows`.
+In the next post I will describe how to create and run sample `JVM` based project using environment set up in this guide.
