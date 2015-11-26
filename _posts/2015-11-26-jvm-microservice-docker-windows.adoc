@@ -59,7 +59,7 @@ Installation steps::
 By default `MSYS2` uses own directory for user home, so instead `C:\Users\` your home will be located in `d:\opt\msys\home` folder.
 This behavior can be overridden by setting environment variable `HOME` to preferred value.
 
-=== Setup Docker Toolbox
+== Setup Docker Toolbox
 
 Installation steps::
 
