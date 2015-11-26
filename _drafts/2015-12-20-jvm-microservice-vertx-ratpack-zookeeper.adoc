@@ -10,9 +10,9 @@ tags:
 - javascript
 - zookeeper
 excerpt: |
-  Java microservices
+  JVM microservices
 ---
-= Java microservices
+= JVM microservices
 
 * vert.x
 * ratpack

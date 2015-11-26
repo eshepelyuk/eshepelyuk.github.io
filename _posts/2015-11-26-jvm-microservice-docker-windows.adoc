@@ -10,9 +10,9 @@ excerpt: |
   But what `Linux` and `MacOS` users get for free is not so easy in `Windows`.
   This guide shows how to setup `Windows` environment for running `Docker` containers, as a basis for _microservice architecture_ projects.
 ---
-:imagesdir: /images/2015-11-28
+:imagesdir: /images/2015-11-26
 
-= Java microservices - how to run Docker containers on Windows
+= JVM microservices - how to run Docker containers on Windows
 
 _Microservices_ is one of the loudest IT buzzwords, everybody's anxious to try it.
 But what `Linux` and `MacOS` users get for free is not so easy in `Windows`.
@@ -159,5 +159,8 @@ The solution is to use https://gitcredentialstore.codeplex.com/[Git Credential M
 
 == P.S.
 
-This is a first post describing process of building and running JVM microservice project on `Windows`.
-In the next post I will describe how to create and run sample `JVM` based project using environment set up in this guide.
+This is the first post about `JVM` based projects based on microservice architecture, mostly related to `Windows` specific features.
+
+Next post will explain how to create and run sample project using environment described in this guide.
+
+Stay tuned.

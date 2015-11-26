@@ -8,9 +8,9 @@ tags:
 - lazybones
 - groovy
 excerpt: |
-  Java microservices - Create JVM based app running in Docker container
+  JVM microservices - Create JVM based app running in Docker container
 ---
-= Java microservices - Create JVM based app running in Docker container
+= JVM microservices - Create JVM based app running in Docker container
 
 == Setup SDKMAN
 
