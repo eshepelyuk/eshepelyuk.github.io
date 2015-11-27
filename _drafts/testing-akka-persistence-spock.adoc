@@ -1,0 +1,15 @@
+---
+tags:
+- akka
+- persistence
+- spock
+- groovy
+- tdd
+excerpt: |
+  Testing AKKA persistence with Spock
+---
+= Testing AKKA persistence with Spock
+
+* actor
+* persistence query streams
+* spock

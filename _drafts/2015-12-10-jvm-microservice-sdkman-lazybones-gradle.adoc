@@ -10,16 +10,35 @@ tags:
 excerpt: |
   JVM microservices - Create JVM based app running in Docker container
 ---
+
 = JVM microservices - Create JVM based app running in Docker container
 
 == Setup SDKMAN
 
-* hack script replace `-h` to `-d`
+. Open `bash` console and install `unzip` utility by executing
+  
+  $ pacman -S unzip
+
+. Follow instructions from http://sdkman.io/install.html[their site^] to install `sdkman`
+
+. Open file ` ~/.sdkman/bin/sdkman-init.sh` and find line
+
+  	if [[ -n "${CANDIDATE_NAME}" && -h "${CANDIDATE_DIR}" ]]; then
+
+. Replace it with
+ 
+  	if [[ -n "${CANDIDATE_NAME}" && -d "${CANDIDATE_DIR}" ]]; then
 
 == Create and dockerize sample JVM application
 
-* install `Gradle`
 * install `LazyBones`
+
+  $ sdk install lazybones
+  
+* Install `Gradle`
+  
+  $ sdk install gradle
+
 * `Gradle` plugin to generate project
 * create main class
 * create `Docker` image
