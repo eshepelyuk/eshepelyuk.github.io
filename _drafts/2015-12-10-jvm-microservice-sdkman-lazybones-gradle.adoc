@@ -39,7 +39,16 @@ excerpt: |
   
   $ sdk install gradle
 
+* Generate Gradle project
+
+  $ gradle init --type groovy-library
+
+* Gradle Wrapper is generated
+  
 * `Gradle` plugin to generate project
+
 * create main class
+
 * create `Docker` image
+
 * run `Docker` image from command line
