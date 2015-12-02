@@ -45,10 +45,24 @@ excerpt: |
 
 * Gradle Wrapper is generated
   
-* `Gradle` plugin to generate project
+* Gradle plugin to generate project
 
-* create main class
+* Create main class
 
-* create `Docker` image
+[source,groovy]
+.HelloDocker.groovy
+----
+class HelloDocker {
+    public static void main(String[] args) {
+        println "Hello from Docker"
+    }
+}
+----
 
-* run `Docker` image from command line
+* Gradle plugin for Docker
+
+https://github.com/bmuschko/gradle-docker-plugin
+
+* Create Docker image
+
+* Run Docker image from command line
