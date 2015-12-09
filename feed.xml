@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 02 Dec 2015 14:44:58 +0000</pubDate>
-    <lastBuildDate>Wed, 02 Dec 2015 14:44:58 +0000</lastBuildDate>
+    <pubDate>Wed, 09 Dec 2015 20:36:05 +0000</pubDate>
+    <lastBuildDate>Wed, 09 Dec 2015 20:36:05 +0000</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -452,11 +452,21 @@ This guide will highlight steps where software is planned to be installed in fol
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/dd&gt;
-&lt;/dl&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;HOME directory location&lt;/dt&gt;
+&lt;dd&gt;
 &lt;p&gt;By default &lt;code&gt;MSYS2&lt;/code&gt; uses own directory for user home, so instead &lt;code&gt;C:\Users\&lt;/code&gt; your home will be located in &lt;code&gt;d:\opt\msys\home&lt;/code&gt; folder.
 This behavior can be overridden by setting environment variable &lt;code&gt;HOME&lt;/code&gt; to preferred value.&lt;/p&gt;
+&lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Linux Tools Manuals&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;&lt;code&gt;man&lt;/code&gt; command is not installed by default, but you can enable it using &lt;code&gt;pacman&lt;/code&gt; tool.&lt;/p&gt;
+&lt;div class=&quot;literalblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre&gt;$ pacman -S man-db&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;

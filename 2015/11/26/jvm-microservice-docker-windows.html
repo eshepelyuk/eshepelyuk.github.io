@@ -194,11 +194,21 @@ This guide will highlight steps where software is planned to be installed in fol
 </ol>
 </div>
 </dd>
-</dl>
-</div>
-<div class="paragraph">
+<dt class="hdlist1">HOME directory location</dt>
+<dd>
 <p>By default <code>MSYS2</code> uses own directory for user home, so instead <code>C:\Users\</code> your home will be located in <code>d:\opt\msys\home</code> folder.
 This behavior can be overridden by setting environment variable <code>HOME</code> to preferred value.</p>
+</dd>
+<dt class="hdlist1">Linux Tools Manuals</dt>
+<dd>
+<p><code>man</code> command is not installed by default, but you can enable it using <code>pacman</code> tool.</p>
+<div class="literalblock">
+<div class="content">
+<pre>$ pacman -S man-db</pre>
+</div>
+</div>
+</dd>
+</dl>
 </div>
 </div>
 </div>
