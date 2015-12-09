@@ -395,7 +395,29 @@ But this approach doesn&#8217;t fit well with <code>BitBucket</code> repositorie
 <p>The solution is to use <a href="https://gitcredentialstore.codeplex.com/" target="_blank">Git Credential Manager for Windows predecessor</a> that works fine with any <code>git</code> installation.</p>
 </div>
 </dd>
+<dt class="hdlist1">Branch name in shell promt</dt>
+<dd>
+<p>Add following to your <code>~/.bashrc</code> to display <code>Git</code> branch name in shell promt.</p>
+</dd>
 </dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>. /usr/share/git/completion/git-prompt.sh
+
+PS1='\[\033]0;$MSYSTEM:${PWD//[^[:ascii:]]/?}\007\]'    # set window title
+PS1="$PS1"'\n'                                          # new line
+PS1="$PS1"'\[\033[32m\]'                                # change color to green
+PS1="$PS1"'\u@\h '                                      # user@host&lt;space&gt;
+PS1="$PS1"'\[\033[33m\]'                                # change color to yellow
+PS1="$PS1"'\w'                                          # current working directory
+if test -z "$WINELOADERNOEXEC" ; then
+  PS1="$PS1"'$(__git_ps1)'                              # bash function
+fi
+PS1="$PS1"'\[\033[0m\]'                                 # change color to normal
+PS1="$PS1"$'\n'                                         # new line
+PS1="$PS1"'$ '                                          # prompt: always $</code></pre>
+</div>
 </div>
 </div>
 </div>

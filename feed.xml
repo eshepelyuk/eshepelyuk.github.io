@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 09 Dec 2015 21:07:47 +0000</pubDate>
-    <lastBuildDate>Wed, 09 Dec 2015 21:07:47 +0000</lastBuildDate>
+    <pubDate>Wed, 09 Dec 2015 21:38:35 +0000</pubDate>
+    <lastBuildDate>Wed, 09 Dec 2015 21:38:35 +0000</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -653,7 +653,29 @@ But this approach doesn&amp;#8217;t fit well with &lt;code&gt;BitBucket&lt;/code
 &lt;p&gt;The solution is to use &lt;a href=&quot;https://gitcredentialstore.codeplex.com/&quot; target=&quot;_blank&quot;&gt;Git Credential Manager for Windows predecessor&lt;/a&gt; that works fine with any &lt;code&gt;git&lt;/code&gt; installation.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/dd&gt;
+&lt;dt class=&quot;hdlist1&quot;&gt;Branch name in shell promt&lt;/dt&gt;
+&lt;dd&gt;
+&lt;p&gt;Add following to your &lt;code&gt;~/.bashrc&lt;/code&gt; to display &lt;code&gt;Git&lt;/code&gt; branch name in shell promt.&lt;/p&gt;
+&lt;/dd&gt;
 &lt;/dl&gt;
+&lt;/div&gt;
+&lt;div class=&quot;listingblock&quot;&gt;
+&lt;div class=&quot;content&quot;&gt;
+&lt;pre class=&quot;CodeRay highlight&quot;&gt;&lt;code&gt;. /usr/share/git/completion/git-prompt.sh
+
+PS1=&#39;\[\033]0;$MSYSTEM:${PWD//[^[:ascii:]]/?}\007\]&#39;    # set window title
+PS1=&quot;$PS1&quot;&#39;\n&#39;                                          # new line
+PS1=&quot;$PS1&quot;&#39;\[\033[32m\]&#39;                                # change color to green
+PS1=&quot;$PS1&quot;&#39;\u@\h &#39;                                      # user@host&amp;lt;space&amp;gt;
+PS1=&quot;$PS1&quot;&#39;\[\033[33m\]&#39;                                # change color to yellow
+PS1=&quot;$PS1&quot;&#39;\w&#39;                                          # current working directory
+if test -z &quot;$WINELOADERNOEXEC&quot; ; then
+  PS1=&quot;$PS1&quot;&#39;$(__git_ps1)&#39;                              # bash function
+fi
+PS1=&quot;$PS1&quot;&#39;\[\033[0m\]&#39;                                 # change color to normal
+PS1=&quot;$PS1&quot;$&#39;\n&#39;                                         # new line
+PS1=&quot;$PS1&quot;&#39;$ &#39;                                          # prompt: always $&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
