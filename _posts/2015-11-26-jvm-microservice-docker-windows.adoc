@@ -56,8 +56,16 @@ Installation steps::
 . Use `d:\opt\msys` as a destination folder
 . After installation is completed add `d:\opt\msys\usr\bin` to `PATH` environment variable
 
+HOME directory location::
+
 By default `MSYS2` uses own directory for user home, so instead `C:\Users\` your home will be located in `d:\opt\msys\home` folder.
 This behavior can be overridden by setting environment variable `HOME` to preferred value.
+
+Linux Tools Manuals::
+
+`man` command is not installed by default, but you can enable it using `pacman` tool.
+
+  $ pacman -S man-db
 
 == Setup Docker Toolbox
 
