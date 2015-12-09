@@ -167,6 +167,27 @@ https://github.com/Microsoft/Git-Credential-Manager-for-Windows/[Git Credential 
 +
 The solution is to use https://gitcredentialstore.codeplex.com/[Git Credential Manager for Windows predecessor^] that works fine with any `git` installation.
 
+Branch name in shell promt::
+
+Add following to your `~/.bashrc` to display `Git` branch name in shell promt.
+[source]
+----
+. /usr/share/git/completion/git-prompt.sh
+	
+PS1='\[\033]0;$MSYSTEM:${PWD//[^[:ascii:]]/?}\007\]'    # set window title
+PS1="$PS1"'\n'                                          # new line
+PS1="$PS1"'\[\033[32m\]'                                # change color to green
+PS1="$PS1"'\u@\h '                                      # user@host<space>
+PS1="$PS1"'\[\033[33m\]'                                # change color to yellow
+PS1="$PS1"'\w'                                          # current working directory
+if test -z "$WINELOADERNOEXEC" ; then
+  PS1="$PS1"'$(__git_ps1)'                              # bash function
+fi
+PS1="$PS1"'\[\033[0m\]'                                 # change color to normal
+PS1="$PS1"$'\n'                                         # new line
+PS1="$PS1"'$ '                                          # prompt: always $
+----
+
 == P.S.
 
 This is the first post about `JVM` based projects based on microservice architecture, mostly related to `Windows` specific features.
