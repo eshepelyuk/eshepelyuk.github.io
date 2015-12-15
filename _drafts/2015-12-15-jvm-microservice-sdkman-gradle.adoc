@@ -116,17 +116,23 @@ Customize plugins::
 mainClassName = 'ua.eshepelyuk.blog.Hello' <1>
 
 docker {
-    url = "https://192.168.99.100:2376" <2>
+    url = System.env.DOCKER_HOST.replaceAll("tcp", "https") <2>
     javaApplication {
         tag = "eshepelyuk/hellodockergradle:latest" <3>
     }
 }
 ----
 <1> Entry point for `application` plugin
-<2> Result of `docker-machine url default` command, `tcp` must be replaced to `https`
+<2> Fixing docker machine URL for Java API
 <3> `Docker` image tag name
 
 == Build image and run Docker container
+
+[IMPORTANT]
+====
+Must run `start.sh` script from `Docker` for windows installation before proceed to further steps.
+Please refer to http://eshepelyuk.github.io/2015/11/26/jvm-microservice-docker-windows.html[previous post] for details.
+====
 
 . Execute command to create `Docker` image.
  
