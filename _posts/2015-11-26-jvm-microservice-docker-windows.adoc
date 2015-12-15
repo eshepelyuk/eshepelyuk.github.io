@@ -12,7 +12,7 @@ excerpt: |
 ---
 :imagesdir: /images/2015-11-26
 
-= JVM microservices - how to run Docker containers on Windows
+= JVM microservices - run Docker containers on Windows
 
 _Microservices_ is one of the loudest IT buzzwords, everybody's anxious to try it.
 But what `Linux` and `MacOS` users get for free is not so easy in `Windows`.
@@ -70,8 +70,6 @@ Linux Tools Manuals::
   $ pacman -S man-db
 
 == Setup Docker Toolbox
-
-Installation steps::
 
 . Run `Windows` installer from https://www.docker.com/docker-toolbox and follow instructions
 . Use `d:\opt\docker` as a destination folder
