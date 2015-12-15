@@ -85,30 +85,20 @@ println "Hello from Docker by Groovy and Gradle" <1>
 
 == Enable Docker support for JVM application
 
-Gradle plugin https://github.com/bmuschko/gradle-docker-plugin
+Gradle plugin https://github.com/bmuschko/gradle-docker-plugin[qwe]
 
-. Enable plugin
+Enable plugins::
 +
 [source,groovy]
 ----
-apply plugin: 'groovy'
-apply plugin: 'application'
-apply plugin: 'com.bmuschko.docker-java-application'
-
-buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath "com.bmuschko:gradle-docker-plugin:2.6.1"
-    }
+plugins {
+    id 'groovy'
+    id 'application'
+    id 'com.bmuschko.docker-java-application' version '2.6.1'
 }
-
 ----
 
-. qwe
+Customize::
 +
 [source,groovy]
 ----
@@ -118,7 +108,7 @@ docker {
     url = "https://192.168.99.100:2376" <2>
     javaApplication {
         maintainer = 'Evgeny Shepelyuk "eshepelyuk@gmail.com"'
-        tag = "${project.group}/${applicationName.toLowerCase()}:latest" <3>
+        tag = "eshepelyuk/hellodockergradle:latest" <3>
     }
 }
 ----
@@ -136,13 +126,13 @@ docker {
  
  $ docker images
 
-. Output should include our image `ua.eshepelyuk/hellodockergradle`
+. Output should include our image `eshepelyuk/hellodockergradle`
 +
 ----
 $ docker images
 REPOSITORY                        TAG                 IMAGE ID            CREATED                  VIRTUAL SIZE
 ................
-ua.eshepelyuk/hellodockergradle   latest              451f610b25cc        Less than a second ago   649 MB
+eshepelyuk/hellodockergradle   latest              daa12bd8bb4f        About a minute ago   649 MB
 ...............
 ----
 
