@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 15 Dec 2015 19:52:05 +0000</pubDate>
-    <lastBuildDate>Tue, 15 Dec 2015 19:52:05 +0000</lastBuildDate>
+    <pubDate>Tue, 15 Dec 2015 21:39:23 +0000</pubDate>
+    <lastBuildDate>Tue, 15 Dec 2015 21:39:23 +0000</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -336,8 +336,8 @@ Full project&amp;#8217;s code is available at &lt;a href=&quot;https://github.co
       </item>
     
       <item>
-        <title>JVM microservices - how to run Docker containers on Windows</title>
-        <description>&lt;h1&gt;JVM microservices - how to run Docker containers on Windows&lt;/h1&gt;
+        <title>JVM microservices - run Docker containers on Windows</title>
+        <description>&lt;h1&gt;JVM microservices - run Docker containers on Windows&lt;/h1&gt;
 &lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
@@ -476,10 +476,6 @@ This behavior can be overridden by adjusting &lt;code&gt;/etc/nsswitch.conf&lt;/
 &lt;div class=&quot;sect1&quot;&gt;
 &lt;h2 id=&quot;setup-docker-toolbox&quot;&gt;Setup Docker Toolbox&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
-&lt;div class=&quot;dlist&quot;&gt;
-&lt;dl&gt;
-&lt;dt class=&quot;hdlist1&quot;&gt;Installation steps&lt;/dt&gt;
-&lt;dd&gt;
 &lt;div class=&quot;olist arabic&quot;&gt;
 &lt;ol class=&quot;arabic&quot;&gt;
 &lt;li&gt;
@@ -492,9 +488,6 @@ This behavior can be overridden by adjusting &lt;code&gt;/etc/nsswitch.conf&lt;/
 &lt;p&gt;After installation is completed, uninstall &lt;em&gt;GIT SCM&lt;/em&gt; via &lt;em&gt;Control Panel&lt;/em&gt;, we will use &lt;code&gt;MSYS2&lt;/code&gt; installed before&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/div&gt;
-&lt;/dd&gt;
-&lt;/dl&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
