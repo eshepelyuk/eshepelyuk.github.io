@@ -33,9 +33,7 @@ In new `bash` console execute.
   
  $ pacman -S unzip
 
-. Then install `sdkman`.
-
- $ export SDKMAN_DIR="$HOME/.sdkman" && curl -s get.sdkman.io | bash
+. Follow instructions from http://sdkman.io/install.html[sdkman site^] to install the tool.
 
 . After the installation there can be issues running `sdkman` in `msys2` environment. 
 The reason is explained in corresponding https://github.com/sdkman/sdkman-cli/pull/384[GitHub Issue]
