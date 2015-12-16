@@ -11,7 +11,7 @@ excerpt: |
   The goal of this post is to show quick and easy way of creating new `JVM` project and run it as a `Docker` container on `Windows`.
 ---
 
-= JVM microservices - JVM based application running in Docker container
+= JVM microservices - JVM based application in Docker container
 
 Continuation of `Windows` and `Docker` integration guide.
 The goal of this post is to show quick and easy way of creating new `JVM` project and run it as a `Docker` container on `Windows`.

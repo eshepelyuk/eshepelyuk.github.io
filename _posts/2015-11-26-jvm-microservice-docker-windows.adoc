@@ -186,10 +186,8 @@ PS1="$PS1"$'\n'                                         # new line
 PS1="$PS1"'$ '                                          # prompt: always $
 ----
 
-== P.S.
+== What's next ?
 
 This is the first post about `JVM` based projects based on microservice architecture, mostly related to `Windows` specific features.
 
-Next post will explain how to create and run sample project using environment described in this guide.
-
-Stay tuned.
+http://eshepelyuk.github.io/2015/12/15/jvm-microservice-sdkman-gradle.html[Second post] explains how to create and run sample `JVM` project using environment described in this guide.
