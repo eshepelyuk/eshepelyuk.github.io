@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 16 Dec 2015 14:29:28 +0000</pubDate>
-    <lastBuildDate>Wed, 16 Dec 2015 14:29:28 +0000</lastBuildDate>
+    <pubDate>Wed, 16 Dec 2015 14:37:01 +0000</pubDate>
+    <lastBuildDate>Wed, 16 Dec 2015 14:37:01 +0000</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -336,8 +336,8 @@ Full project&amp;#8217;s code is available at &lt;a href=&quot;https://github.co
       </item>
     
       <item>
-        <title>JVM microservices - JVM based application in Docker container</title>
-        <description>&lt;h1&gt;JVM microservices - JVM based application in Docker container&lt;/h1&gt;
+        <title>JVM microservices - JVM based application as Docker container</title>
+        <description>&lt;h1&gt;JVM microservices - JVM based application as Docker container&lt;/h1&gt;
 &lt;div id=&quot;preamble&quot;&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
