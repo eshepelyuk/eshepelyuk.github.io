@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 16 Dec 2015 06:57:03 +0000</pubDate>
-    <lastBuildDate>Wed, 16 Dec 2015 06:57:03 +0000</lastBuildDate>
+    <pubDate>Wed, 16 Dec 2015 08:14:42 +0000</pubDate>
+    <lastBuildDate>Wed, 16 Dec 2015 08:14:42 +0000</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -673,16 +673,13 @@ PS1=&quot;$PS1&quot;&#39;$ &#39;                                          # prom
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;sect1&quot;&gt;
-&lt;h2 id=&quot;p-s&quot;&gt;P.S.&lt;/h2&gt;
+&lt;h2 id=&quot;what-s-next&quot;&gt;What&amp;#8217;s next ?&lt;/h2&gt;
 &lt;div class=&quot;sectionbody&quot;&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
 &lt;p&gt;This is the first post about &lt;code&gt;JVM&lt;/code&gt; based projects based on microservice architecture, mostly related to &lt;code&gt;Windows&lt;/code&gt; specific features.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Next post will explain how to create and run sample project using environment described in this guide.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;paragraph&quot;&gt;
-&lt;p&gt;Stay tuned.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://eshepelyuk.github.io/2015/12/15/jvm-microservice-sdkman-gradle.html&quot;&gt;Second post&lt;/a&gt; explains how to create and run sample &lt;code&gt;JVM&lt;/code&gt; project using environment described in this guide.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description>
