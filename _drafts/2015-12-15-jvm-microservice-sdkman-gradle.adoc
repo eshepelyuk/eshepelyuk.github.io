@@ -78,8 +78,6 @@ OS:           Windows 8.1 6.3 amd64
 
 . After generation `Library.groovy` and `LibraryTest.groovy` could be removed.
 
-. https://docs.gradle.org/current/userguide/gradle_wrapper.html[Gradle Wrapper] is generated during `gradle init` and only wrapper will be used onward in this guide.
-
 . Create main application class.
 +
 [source,groovy]
@@ -91,14 +89,23 @@ println "Hello from Docker by Groovy and Gradle" <1>
 ----
 <1> declaration of `public static void main` could be omitted in `Groovy`
 
+[NOTE]
+====
+Although `gradle init` generates https://docs.gradle.org/current/userguide/gradle_wrapper.html[Gradle wrapper] scripts, I won't use them in this guide.
+For real-life projects I'd suggest to use wrapper and don't rely on local `Gradle` installation.
+====
+
 == Enable Docker support for project build script
 
-There's no need to deal with `Dockerfile` and related things for creating `Docker` for `Gradle` based project.
+When using `Gradle` you don't need to deal with `Dockerfile` and other things for creating `Docker` image.
 _There're plugins for this :))_
+
+To enable and customize them just add some lines to `build.gradle` as described below.
 
 Enable plugins::
 +
 [source,groovy]
+.build.gradle
 ----
 plugins {
     id 'groovy' 
@@ -106,12 +113,13 @@ plugins {
     id 'com.bmuschko.docker-java-application' version '2.6.1' <2>
 }
 ----
-<1> https://docs.gradle.org/current/userguide/application_plugin.html[Plugin] for building _application_ that can be embedded in `Docker` image
+<1> https://docs.gradle.org/current/userguide/application_plugin.html[Plugin] for building _runnable application_ that can be embedded into `Docker` image
 <2> https://github.com/bmuschko/gradle-docker-plugin[Docker support plugin]
 
 Customize plugins::
 +
 [source,groovy]
+.build.gradle
 ----
 mainClassName = 'ua.eshepelyuk.blog.Hello' <1>
 
@@ -128,7 +136,7 @@ docker {
 
 == Build image and run Docker container
 
-[IMPORTANT]
+[WARNING]
 ====
 Must run `start.sh` script from `Docker` for windows installation before proceed to further steps.
 Please refer to http://eshepelyuk.github.io/2015/11/26/jvm-microservice-docker-windows.html[previous post] for details.
@@ -136,7 +144,7 @@ Please refer to http://eshepelyuk.github.io/2015/11/26/jvm-microservice-docker-w
 
 . Execute command to create `Docker` image.
  
- $ ./gradlew dockerBuildImage
+ $ gradle dockerBuildImage
 
 . Check new image is available by running `docker image`.
 Command output should include new image tagged with `eshepelyuk/hellodockergradle` (setting from `build.gradle`).
@@ -156,4 +164,8 @@ $ docker run eshepelyuk/hellodockergradle
 Hello from Docker by Groovy and Gradle
 ----
 
-NOTE: Full project's code is available at https://github.com/eshepelyuk/CodeForBlog/tree/master/HelloDockerGradle[My GitHub^]
+[NOTE]
+====
+Full project's code is available at https://github.com/eshepelyuk/CodeForBlog/tree/master/HelloDockerGradle[My GitHub^]
+====
+
