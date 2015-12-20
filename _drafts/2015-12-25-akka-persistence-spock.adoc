@@ -10,6 +10,24 @@ excerpt: |
 ---
 = Testing AKKA persistence with Spock
 
-* actor
-* persistence query streams
-* spock
+Quick tutorial about writing non Scala tests for persistence powered akka actors. 
+
+Some words about akka persistence.
+
+== persintent actor in java 
+
+* enable persistence in application.conf
+* actor code
+
+[source, java]
+----
+----
+
+== test with persistence query streams
+
+ assuming using default leveldb journal
+
+== Using in memory journal
+
+* enable journal in tests
+* use particular from test
