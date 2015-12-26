@@ -5,8 +5,8 @@
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
     <link>http://eshepelyuk.github.io/</link>
     <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 26 Dec 2015 08:14:46 +0000</pubDate>
-    <lastBuildDate>Sat, 26 Dec 2015 08:14:46 +0000</lastBuildDate>
+    <pubDate>Sat, 26 Dec 2015 08:22:14 +0000</pubDate>
+    <lastBuildDate>Sat, 26 Dec 2015 08:22:14 +0000</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -77,6 +77,155 @@ This guide shows how to setup &lt;code&gt;Windows&lt;/code&gt; environment for r
         <category>msys2</category>
         
         <category>conemu</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Testing JVM server-side JavaScript with Jasmine, Spock and Nashorn</title>
+        <description>&lt;p&gt;&lt;code&gt;JavaScript&lt;/code&gt; usage is not limited to client-side code in browser or &lt;code&gt;NodeJS&lt;/code&gt; powered server-side code.
+Many &lt;code&gt;JVM&lt;/code&gt; based projects are using it as internal scripting language.
+Testing this sort of functionality is neither straightforward nor standard.
+In this post I intend to demonstrate an approach for testing &lt;code&gt;JavaScript&lt;/code&gt; in server-side JVM environment
+using mature tools like &lt;code&gt;Jasmine&lt;/code&gt;, &lt;code&gt;Spock&lt;/code&gt; and &lt;code&gt;Nashorn&lt;/code&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 26 Nov 2014 00:00:00 +0000</pubDate>
+        <link>http://eshepelyuk.github.io/2014/11/26/-testing-jvm-javascript-jasmine-spock-nashorn.html</link>
+        <guid isPermaLink="true">http://eshepelyuk.github.io/2014/11/26/-testing-jvm-javascript-jasmine-spock-nashorn.html</guid>
+        
+        <category>java</category>
+        
+        <category>nashorn</category>
+        
+        <category>tdd</category>
+        
+        <category>javascript</category>
+        
+        <category>jasmine</category>
+        
+        <category>groovy</category>
+        
+        <category>spock</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Advanced integration of Jekyll and AsciiDoctor</title>
+        <description>&lt;p&gt;Using &lt;code&gt;AsciiDoctor&lt;/code&gt; as markup renderer in &lt;code&gt;Jekyll&lt;/code&gt; is quite straightforward 
+but there’s some customization gaps not covered in the most of setup guides over the web
+so I’d like to fill them in this post.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 06 Nov 2014 00:00:00 +0000</pubDate>
+        <link>http://eshepelyuk.github.io/2014/11/06/advanced-jekyll-and-asciidoctor.html</link>
+        <guid isPermaLink="true">http://eshepelyuk.github.io/2014/11/06/advanced-jekyll-and-asciidoctor.html</guid>
+        
+        <category>jekyll</category>
+        
+        <category>asciidoctor</category>
+        
+        <category>coderay</category>
+        
+        <category>fontawesome</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Automate GitHub Pages publishing with Jekyll and Travis CI</title>
+        <description>&lt;p&gt;Content is a &lt;strong&gt;KING&lt;/strong&gt;. Neither fancy CMS nor online WYSYWIG editors are, but content is.
+That’s why &lt;code&gt;Jekyll&lt;/code&gt; powered  &lt;code&gt;GitHub Pages&lt;/code&gt; got such a popularity.
+Just push &lt;code&gt;HTML&lt;/code&gt;, &lt;code&gt;Liquid&lt;/code&gt;, &lt;code&gt;Markdown&lt;/code&gt; etc, then files got processed by &lt;code&gt;Jekyll&lt;/code&gt; 
+and the whole site becomes available online in a minute.
+However, if you’d like to use extra &lt;code&gt;Jekyll&lt;/code&gt; features, for instance &lt;code&gt;AsciiDoctor&lt;/code&gt;, you should manage site generation yourself.
+This quite boring activity could be simplified by leveraging &lt;code&gt;Travis CI&lt;/code&gt; continuous integration project.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 28 Oct 2014 00:00:00 +0000</pubDate>
+        <link>http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html</link>
+        <guid isPermaLink="true">http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html</guid>
+        
+        <category>jekyll</category>
+        
+        <category>github</category>
+        
+        <category>asciidoctor</category>
+        
+        <category>travisci</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Test Me If You Can #1 (Spring Framework)</title>
+        <description>&lt;p&gt;During my career I often observed people who claim that they are not writing tests because &lt;strong&gt;can’t cover properly&lt;/strong&gt; integration between components. 
+Well, I believe most of such people just don’t know some simply techniques or don’t have time to dig them out because of stress at their work place. 
+The lack of such knowledge results into neglecting of integration tests and thus worse software, more bugs and disappointed customer.
+So I’ve decided to share some practices revealing mystery surrounding integration testing.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 28 Jun 2013 00:00:00 +0000</pubDate>
+        <link>http://eshepelyuk.github.io/2013/06/28/test-me-if-you-can-1.html</link>
+        <guid isPermaLink="true">http://eshepelyuk.github.io/2013/06/28/test-me-if-you-can-1.html</guid>
+        
+        <category>java</category>
+        
+        <category>tdd</category>
+        
+        <category>spring</category>
+        
+        <category>mockito</category>
+        
+        <category>springockito</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Duck typing in Java ? Well, not exactly</title>
+        <description>&lt;p&gt;The post illustrates that some concepts, uncommon for &lt;code&gt;Java&lt;/code&gt;, i.e. &lt;code&gt;Duck typing&lt;/code&gt;
+could be successfully applied for completing real life tasks,
+improving your programming skills and making resulting code more beautiful.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 15 Sep 2012 00:00:00 +0000</pubDate>
+        <link>http://eshepelyuk.github.io/2012/09/15/duck-typing-in-java-well-not-exactly.html</link>
+        <guid isPermaLink="true">http://eshepelyuk.github.io/2012/09/15/duck-typing-in-java-well-not-exactly.html</guid>
+        
+        <category>java</category>
+        
+        <category>groovy</category>
+        
+        <category>duck typing</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>CodingDojoCnUa #6</title>
+        <description>&lt;p&gt;Some notes and observations on 6th Coding Dojo by &lt;a href=&quot;https://www.facebook.com/groups/279151628818637/&quot; target=&quot;_blank&quot;&gt;CodingDojoCnUa&lt;/a&gt; community.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 28 Jul 2012 00:00:00 +0000</pubDate>
+        <link>http://eshepelyuk.github.io/2012/07/28/codingdojocnua-6.html</link>
+        <guid isPermaLink="true">http://eshepelyuk.github.io/2012/07/28/codingdojocnua-6.html</guid>
+        
+        <category>coffeescript</category>
+        
+        <category>coding dojo</category>
+        
+        <category>kata</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>WebDriver tricks #3</title>
+        <description>&lt;p&gt;Handling dynamically shown / hidden DOM elements in &lt;code&gt;WebDriver&lt;/code&gt; tests.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 11 Jul 2012 00:00:00 +0000</pubDate>
+        <link>http://eshepelyuk.github.io/2012/07/11/seleniumwebdriver-tricks-part-3.html</link>
+        <guid isPermaLink="true">http://eshepelyuk.github.io/2012/07/11/seleniumwebdriver-tricks-part-3.html</guid>
+        
+        <category>java</category>
+        
+        <category>webdriver</category>
         
         
       </item>
