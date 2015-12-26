@@ -13,7 +13,7 @@ layout: null
     <generator>Jekyll v{{ jekyll.version }}</generator>
     {% for post in site.posts limit:10 %}
       <item>
-        <title>DD {{ post.title | xml_escape }}</title>
+        <title>{{ post.title | xml_escape }}</title>
         <description>{{ post.excerpt | markdownify | xml_escape }}</description>
         <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
         <link>{{ site.url }}{{ post.url }}</link>
