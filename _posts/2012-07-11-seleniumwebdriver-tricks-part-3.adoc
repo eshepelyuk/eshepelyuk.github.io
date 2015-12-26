@@ -2,7 +2,8 @@
 tags:
 - java
 - webdriver
-excerpt: false
+excerpt: |
+    Handling dynamically shown / hidden DOM elements in `WebDriver` tests.
 ---
 = WebDriver tricks #3
 
