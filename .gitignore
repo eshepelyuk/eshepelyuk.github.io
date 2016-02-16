@@ -1,5 +1,4 @@
 .bundle/
-_site/*
 .DS_Store
 .*.swp
 .idea
@@ -9,3 +8,4 @@ Gemfile.lock
 *.iml
 *.pdf
 *.pdfmarks
+/_site
