@@ -1,4 +1,5 @@
 _site/
+/_site
 .sass_cache/
 Gemfile
 Gemfile.lock
@@ -7,3 +8,4 @@ serve.sh
 .sass-cache/*
 .idea
 *.pdfmarks
+/.sass-cache
