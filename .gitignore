@@ -1,11 +1,10 @@
 .bundle/
-_site/
+_site/*
 .DS_Store
 .*.swp
 .idea
 .sass-cache/
 *~
-bourbon/
 Gemfile.lock
 *.iml
 *.pdf
