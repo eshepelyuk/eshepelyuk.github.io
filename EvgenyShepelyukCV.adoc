@@ -66,6 +66,8 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 ** Supporting QA team on creating robust testing framework
 ** Facilitating Scrum events and supporting team with Agile processes adoption
 
+<<<
+
 === Ciklum - Playtech Inc.
 
 *WPL (OCT 2012 – APR 2013) - platform for creating online gambling web portals (as the company's product)*
@@ -81,8 +83,6 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 ** Support for QA and Frontend teams
 ** Creating end-user solutions based on WPL platform
 
-<<<
-
 === SysIQ Inc. 
 
 *Telescope.com (NOV 2011 - OCT 2012) - e-commerce portal based on OCP platform*
@@ -97,6 +97,8 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 ** Adoption and injection of Agile engineering practices
 ** Establishing unit, integration and functional testing of delivered product
 ** Coaching team member for adoption of OCP platform
+
+<<<
 
 === Luxoft Eastern Europe LLC - UBS Investment Bank
 
@@ -114,8 +116,6 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 ** Maintaining continuous integration
 ** Release preparation and delivery support
 
-<<<
-
 === Chas XXI Ltd.   
 
 *FreedomInput.com (2008 – 2009) – Bluetooth Keyboard driver, Freedom Keychain GPS 2000 driver and GPS software for BlackBerry phones*
@@ -130,6 +130,8 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 ** Interaction of driver and UI modules
 ** Adoption and testing of software for all major versions of RIM OS
 ** Interaction with social media as Facebook and Yahoo
+
+<<<
 
 *Video Streaming Server and Visualization (AUG 2009 – OCT 2009) - HTTP proxy solution for online video to increase logical bandwidth and number of clients bandwidth using proxying of streams*
 
@@ -153,8 +155,6 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 ** YUI/JavaScript framework adoption
 ** TDD adoption control and coaching 
 
-<<<
-
 *Eset.ua (MAY 2007 – SEP 2008) – Business and financial management system for Ukraine branch of ESET company. Distributed peer networking application for distribution files required for ESET company products.*
 
 * Technologies: Groovy, Grails, JavaScript, AJAX, Java EE, Spring, JPA, Spring Security, PostgreSQL, REST.
@@ -165,6 +165,8 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 ** Adoption of Grails and Spring Security frameworks 
 ** UI development
 ** Team leading
+
+<<<
 
 *Prydbay.com (JAN 2007 – DEC 2009) – Online Store of communication topups and online games. Processing and billing layer for different payment systems to provide uniform interface for e-shops and similar projects*
 
@@ -193,6 +195,8 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 ** REST architecture adoption
 ** Performance analysis and improvements
 ** Legacy codebase support
+
+<<<
 
 *AAA (JAN 2004 – JUN 2004) - Billing and network traffic accounting system*
 
