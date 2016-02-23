@@ -118,32 +118,8 @@ In new <code>bash</code> console execute.</p>
 <p>Then install <code>sdkman</code>.</p>
 <div class="literalblock">
 <div class="content">
-<pre>$ export SDKMAN_DIR="$HOME/.sdkman" &amp;&amp; curl -s get.sdkman.io | bash</pre>
+<pre>$ curl -s get.sdkman.io | bash</pre>
 </div>
-</div>
-</li>
-<li>
-<p>After the installation there can be issues running <code>sdkman</code> in <code>msys2</code> environment.
-The reason is explained in corresponding <a href="https://github.com/sdkman/sdkman-cli/pull/384">GitHub Issue</a></p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>To fix it open file <code>~/.sdkman/bin/sdkman-init.sh</code> and find the line.</p>
-<div class="literalblock">
-<div class="content">
-<pre>if [[ -n "${CANDIDATE_NAME}" &amp;&amp; -h "${CANDIDATE_DIR}" ]]; then</pre>
-</div>
-</div>
-</li>
-<li>
-<p>Replace it with.</p>
-<div class="literalblock">
-<div class="content">
-<pre>if [[ -n "${CANDIDATE_NAME}" &amp;&amp; -d "${CANDIDATE_DIR}" ]]; then</pre>
-</div>
-</div>
-</li>
-</ol>
 </div>
 </li>
 <li>
@@ -335,7 +311,7 @@ Please refer to <a href="http://eshepelyuk.github.io/2015/11/26/jvm-microservice
 </div>
 </li>
 <li>
-<p>Check new image is available by running <code>docker image</code>.
+<p>Check new image is available by running <code>docker images</code>.
 Command output should include new image tagged with <code>eshepelyuk/hellodockergradle</code> (setting from <code>build.gradle</code>).</p>
 <div class="listingblock">
 <div class="content">
