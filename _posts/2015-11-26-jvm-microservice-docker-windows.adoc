@@ -24,7 +24,6 @@ Glossary::
 
 In fact, `Docker Toolbox` for `Windows` comprises everything for running `Docker` containers because it is bundled with _GIT-SCM_ project. Unfortunately the default installation has few drawbacks
 
-* Impossible to skip bundled _GIT SCM_ installation, even when newer version already installed
 * No option for changing _GIT SCM_ destination
 * Сommand line tools ain't added to `PATH` environment variable
 * Impossible to configure additional `git` parameters unlike in original _GIT-SCM_ installer

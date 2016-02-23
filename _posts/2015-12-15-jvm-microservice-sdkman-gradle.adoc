@@ -35,18 +35,7 @@ In new `bash` console execute.
 
 . Then install `sdkman`.
 
- $ export SDKMAN_DIR="$HOME/.sdkman" && curl -s get.sdkman.io | bash
-
-. After the installation there can be issues running `sdkman` in `msys2` environment. 
-The reason is explained in corresponding https://github.com/sdkman/sdkman-cli/pull/384[GitHub Issue]
-
-.. To fix it open file `~/.sdkman/bin/sdkman-init.sh` and find the line.
-
- if [[ -n "${CANDIDATE_NAME}" && -h "${CANDIDATE_DIR}" ]]; then
-
-.. Replace it with.
- 
- if [[ -n "${CANDIDATE_NAME}" && -d "${CANDIDATE_DIR}" ]]; then
+ $ curl -s get.sdkman.io | bash
 
 . Now `sdkman` is ready, open new `bash` console and install latest `Gradle` version.
   
@@ -148,7 +137,7 @@ Please refer to http://eshepelyuk.github.io/2015/11/26/jvm-microservice-docker-w
  
  $ gradle dockerBuildImage
 
-. Check new image is available by running `docker image`.
+. Check new image is available by running `docker images`.
 Command output should include new image tagged with `eshepelyuk/hellodockergradle` (setting from `build.gradle`).
 +
 ----
