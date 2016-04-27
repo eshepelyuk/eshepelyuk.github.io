@@ -31,7 +31,7 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * Location: 	Kyiv, Ukraine  
 * Mail: 		mailto:eshepelyuk@gmail.com[eshepelyuk@gmail.com]
 * Skype: 	    link:skype:eshepelyuk?add[eshepelyuk]
-* LinkedIn: 	http://www.linkedin.com/pub/evgeny-shepelyuk/4/b1/a20[http://www.linkedin.com/pub/evgeny-shepelyuk/4/b1/a20]
+* LinkedIn: 	https://www.linkedin.com/in/evgenyshepelyuk[https://www.linkedin.com/in/evgenyshepelyuk]
 * GitHub: 	    https://github.com/eshepelyuk[https://github.com/eshepelyuk]
 * Blog: 		http://eshepelyuk.github.io/[http://eshepelyuk.github.io/]
 
