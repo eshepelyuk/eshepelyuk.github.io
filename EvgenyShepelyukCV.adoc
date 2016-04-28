@@ -7,7 +7,12 @@
 
 == EVGENY SHEPELYUK
 
-_Software development professional, team leader and technical lead  with 12+ years experience of creating and delivering software solutions. Concentrated on product quality and continuous improvements in all fields, such as development processes, adopting leading edge technologies, building good team relationship and self-education. Agile engineering practices and development methodologies evangelist._
+_Software development professional, team leader and technical lead  with 12+ years experience 
+of creating and delivering software solutions. 
+Concentrated on product quality and continuous improvements in all fields, 
+such as development processes, adopting leading edge technologies, 
+building good team relationship and self-education. 
+Agile engineering practices and development methodologies advocate._
 
 _Looking for opportunity of obtaining senior technical position in Java based technologies project. Interested in distributed, high-load and performance critical applications._
 
