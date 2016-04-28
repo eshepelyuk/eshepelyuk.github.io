@@ -92,7 +92,7 @@ This quite boring activity could be simplified by leveraging <code>Travis CI</co
 </div>
 </div>
 <div class="sect1">
-<h2 id="setting-up-jekyll">Setting up Jekyll</h2>
+<h2 id="setting-up-jekyll"><a class="anchor" href="#setting-up-jekyll"></a>Setting up Jekyll</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The only precondition is that you have <code>Jekyll</code> site already configured using <a href="http://bundler.io/" target="_blank">Bundler</a> and you can run it locally with</p>
@@ -105,7 +105,7 @@ This quite boring activity could be simplified by leveraging <code>Travis CI</co
 </div>
 </div>
 <div class="sect1">
-<h2 id="setting-up-travis-ci">Setting up Travis CI</h2>
+<h2 id="setting-up-travis-ci"><a class="anchor" href="#setting-up-travis-ci"></a>Setting up Travis CI</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The whole idea was to make publishing experience of highly customized <code>Jekyll</code> project to <code>GitHub Pages</code> exactly the same
@@ -130,7 +130,7 @@ so I have two branches for my setup</p>
 then run <code>jekyll build</code> for process markup sources and then push generated content to <code>master</code> branch.</p>
 </div>
 <div class="sect2">
-<h3 id="enable-hooks">Enable Hooks</h3>
+<h3 id="enable-hooks"><a class="anchor" href="#enable-hooks"></a>Enable Hooks</h3>
 <div class="paragraph">
 <p>To make <code>Travis CI</code> listen for commits and do actual work - we have to enable hooks.</p>
 </div>
@@ -141,7 +141,7 @@ then run <code>jekyll build</code> for process markup sources and then push gene
 </div>
 </div>
 <div class="sect2">
-<h3 id="travis-ci-configuration">Travis CI configuration</h3>
+<h3 id="travis-ci-configuration"><a class="anchor" href="#travis-ci-configuration"></a>Travis CI configuration</h3>
 <div class="paragraph">
 <p>Then let&#8217;s limit commit trigger to <code>jekyll</code> branch only and explicitly configure the script that will be executed after commit detection.
 For this we have to put file <code>.travis.yml</code> to the root of <code>jekyll</code> branch with following content.</p>
@@ -160,7 +160,7 @@ For this we have to put file <code>.travis.yml</code> to the root of <code>jekyl
 </div>
 </div>
 <div class="sect2">
-<h3 id="generate-and-encrypt-github-token-for-travis-ci">Generate and encrypt GitHub token for Travis Ci</h3>
+<h3 id="generate-and-encrypt-github-token-for-travis-ci"><a class="anchor" href="#generate-and-encrypt-github-token-for-travis-ci"></a>Generate and encrypt GitHub token for Travis Ci</h3>
 <div class="paragraph">
 <p>Since we&#8217;d need to commit and push our changes to other (<code>master</code>) branch from within the build script
 it&#8217;s mandatory to checkout this branch either using <code>HTTPS</code> or <code>SSH</code> protocol, as described	<a href="https://gist.github.com/grawity/4392747" target="_blank">HERE</a>
@@ -217,7 +217,7 @@ travis encrypt GH_TOKEN=&lt;token&gt; --add env.global</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="build-script">Build script</h4>
+<h4 id="build-script"><a class="anchor" href="#build-script"></a>Build script</h4>
 <div class="paragraph">
 <p>And finally the build script.</p>
 </div>
@@ -270,7 +270,7 @@ git push --quiet origin master &gt; /dev/null 2&gt;&amp;1 <i class="conum" data-
 </div>
 </div>
 <div class="sect1">
-<h2 id="run-everything">Run everything</h2>
+<h2 id="run-everything"><a class="anchor" href="#run-everything"></a>Run everything</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>After doing all those steps all you need is to commit and push your <code>jekyll</code> branch
@@ -280,7 +280,7 @@ of your project to monitor your build progress.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="p-s">P.S.</h2>
+<h2 id="p-s"><a class="anchor" href="#p-s"></a>P.S.</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>I hope this tutorial help you setup own <code>Jekyll</code> with less pain.
@@ -289,7 +289,7 @@ Supposedly described steps could be applied to other static site generators like
 </div>
 </div>
 <div class="sect1">
-<h2 id="credits">Credits</h2>
+<h2 id="credits"><a class="anchor" href="#credits"></a>Credits</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The actual setup and this post was inspired by <a href="https://twitter.com/mojavelinux" target="_blank">Dan Allen</a> reply to my tweet

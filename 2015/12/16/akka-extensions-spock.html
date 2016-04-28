@@ -95,7 +95,7 @@ The audience is assumed to be knowing <code>Groovy</code> and <code>Spock</code>
 </div>
 </div>
 <div class="sect1">
-<h2 id="using-akka-testkit-framework-for-testing-actors">Using AKKA TestKit framework for testing actors</h2>
+<h2 id="using-akka-testkit-framework-for-testing-actors"><a class="anchor" href="#using-akka-testkit-framework-for-testing-actors"></a>Using AKKA TestKit framework for testing actors</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>For our purposes let&#8217;s create a simple actor that receives message, prefixes it with <code>Hello</code> and sends the result back to the original sender.</p>
@@ -160,7 +160,7 @@ Simple test can be written as shown below.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="testing-akka-extensions">Testing AKKA extensions</h2>
+<h2 id="testing-akka-extensions"><a class="anchor" href="#testing-akka-extensions"></a>Testing AKKA extensions</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><a href="http://doc.akka.io/docs/akka/snapshot/scala/extending-akka.html" target="_blank">AKKA extensions</a> is lightweight and powerful way of extending core AKKA functionality with project specific features.
@@ -230,7 +230,7 @@ Actor will ask extension for the <em>greeting word</em>, prefix original message
 </table>
 </div>
 <div class="sect2">
-<h3 id="using-akka-testkit-for-testing-akka-extension-aware-actors">Using AKKA TestKit for testing AKKA extension aware actors</h3>
+<h3 id="using-akka-testkit-for-testing-akka-extension-aware-actors"><a class="anchor" href="#using-akka-testkit-for-testing-akka-extension-aware-actors"></a>Using AKKA TestKit for testing AKKA extension aware actors</h3>
 <div class="paragraph">
 <p>We could modify <code>HelloActorTest.java</code> test suite for <code>GreetExtensionActor</code> in such way.</p>
 </div>
@@ -258,7 +258,7 @@ Actor will ask extension for the <em>greeting word</em>, prefix original message
 </div>
 </div>
 <div class="sect2">
-<h3 id="mocking-akka-extension">Mocking AKKA extension</h3>
+<h3 id="mocking-akka-extension"><a class="anchor" href="#mocking-akka-extension"></a>Mocking AKKA extension</h3>
 <div class="paragraph">
 <p>The obvious drawback of test case above is dependency on <code>GreetExtension</code> whose behavior is non-deterministic.
 <code>GreetExtensionActor</code> can&#8217;t be tested in isolation and can&#8217;t be tested with single defined set of input / output values.
@@ -295,7 +295,7 @@ Using this trick we could manually replace AKKA extension instance with our stub
 </div>
 </div>
 <div class="sect2">
-<h3 id="extending-actor-system-functionality-using-groovy-extension-modules">Extending Actor System functionality using Groovy extension modules</h3>
+<h3 id="extending-actor-system-functionality-using-groovy-extension-modules"><a class="anchor" href="#extending-actor-system-functionality-using-groovy-extension-modules"></a>Extending Actor System functionality using Groovy extension modules</h3>
 <div class="paragraph">
 <p>Looking at previous test, the piece of code can be detected, that could be subject of duplication across tests cases.
 The code is used for replacing actual AKKA extension with mock.</p>
