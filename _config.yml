@@ -15,6 +15,7 @@ asciidoctor:
   attributes:
     - icons=font
     - hardbreaks!
+    - sectanchors
     - source-highlighter=coderay
 
 disqus_shortname: eshepelyukblog
