@@ -11,6 +11,11 @@ google_analytics: true
 facebook_share: false
 twitter_share: false 
 
+defaults:
+    -
+      values:
+        layout: "post"
+
 asciidoctor:
   attributes:
     - icons=font
