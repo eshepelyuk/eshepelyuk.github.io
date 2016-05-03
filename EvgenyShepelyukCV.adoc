@@ -7,7 +7,12 @@
 
 == EVGENY SHEPELYUK
 
-_Software development professional, team leader and technical lead  with 12+ years experience of creating and delivering software solutions. Concentrated on product quality and continuous improvements in all fields, such as development processes, adopting leading edge technologies, building good team relationship and self-education. Agile engineering practices and development methodologies evangelist._
+_Software development professional, team leader and technical lead  with 12+ years experience 
+of creating and delivering software solutions. 
+Concentrated on product quality and continuous improvements in all fields, 
+such as development processes, adopting leading edge technologies, 
+building good team relationship and self-education. 
+Agile engineering practices and development methodologies advocate._
 
 _Looking for opportunity of obtaining senior technical position in Java based technologies project. Interested in distributed, high-load and performance critical applications._
 
@@ -31,8 +36,7 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * Location: 	Kyiv, Ukraine  
 * Mail: 		mailto:eshepelyuk@gmail.com[eshepelyuk@gmail.com]
 * Skype: 	    link:skype:eshepelyuk?add[eshepelyuk]
-* Cell: 		link:tel:+380674602542[+38 (067) 460-25-42]
-* LinkedIn: 	http://www.linkedin.com/pub/evgeny-shepelyuk/4/b1/a20[http://www.linkedin.com/pub/evgeny-shepelyuk/4/b1/a20]
+* LinkedIn: 	https://www.linkedin.com/in/evgenyshepelyuk[https://www.linkedin.com/in/evgenyshepelyuk]
 * GitHub: 	    https://github.com/eshepelyuk[https://github.com/eshepelyuk]
 * Blog: 		http://eshepelyuk.github.io/[http://eshepelyuk.github.io/]
 
@@ -203,13 +207,13 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 
 * Technologies: Java EE(Servlet Container, JSF, JSP/JSTL), PostgreSQL.
 * Team: 4 developers.
-* Role: Developer, Architect.
+* Role: Developer.
 * Responsibilities
 ** Architecture analysis
 ** Integration of data from external sources
 ** Web development and JSF adoption
 
-*Mobile Games server (AUG 2003 – DEC 2004)*
+*Mobile Games server (AUG 2003 – DEC 2003)*
 
 * Technologies: Java SE (Network, Sockets), J2ME, MySQL. 
 * Team: 3 developers.
@@ -219,18 +223,7 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 *Newsletter engine (FEB 2003 – JUN 2003) – Corporate offline messaging exchange system*
 
 * Technologies: IIS, ASP, VBScript, MSSQL, Stored Procedures. 
-* Team: 4 developers, HTML Designer. 
+* Team: 5 developers. 
 * Role: Developer. 
 * Responsibilities: creating reusable components and reports for UI.
 
-=== School of Business LLC
-
-*(AUG 2001 – FEB 2003) - Development and support of automation management and bookkeeping systems based on products of 1C/Abbyy company*
-
-* Technologies: 1C reports documents and material exchange with Microsoft products. 
-* Team: 4 developers 
-* Role: Developer, Functional Analyst. 
-* Responsibilities
-** Support of legacy code, development, code reviews
-** Communication with customer’s book keeping team
-** Import/export of business/financial valuable data
