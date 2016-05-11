@@ -1,4 +1,5 @@
 ---
+permalink: /2014/11/26/-testing-jvm-javascript-jasmine-spock-nashorn.html
 tags:
 - java
 - nashorn
