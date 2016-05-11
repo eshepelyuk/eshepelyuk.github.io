@@ -3,7 +3,7 @@ language: ruby
 script: "./build.sh"
 branches:
   only:
-  - jekyll
+  - jekyll3
 rvm:
 - 2.2.3
 env:

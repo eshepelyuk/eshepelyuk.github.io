@@ -8,5 +8,5 @@ gem 'asciidoctor-pdf', '1.5.0.alpha.11'
 gem 'coderay', '1.1.0'
 
 group :jekyll_plugins do
-	gem "jekyll-asciidoc", '1.1.1'
+	gem "jekyll-asciidoc", '1.1.2'
 end
