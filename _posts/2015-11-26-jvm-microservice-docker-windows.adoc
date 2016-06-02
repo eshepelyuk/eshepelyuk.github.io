@@ -22,18 +22,20 @@ Glossary::
 * _GIT-SCM_ - http://git-scm.com/download/win[Git For Windows^] project, containing `git`, `bash` and other `Linux` tools
 * _Environment variables_ - `Windows` environment variables, assumed to be managed via _Control Panel_
 
-In fact, `Docker Toolbox` for `Windows` comprises everything for running `Docker` containers because it is bundled with _GIT-SCM_ project. Unfortunately the default installation has few drawbacks
+In fact, `Docker Toolbox` for `Windows` comprises everything for running `Docker` containers because it is bundled with _GIT-SCM_ project. 
+Unfortunately the default installation has few drawbacks
 
 * No option for changing _GIT SCM_ destination
 * Сommand line tools ain't added to `PATH` environment variable
 * Impossible to configure additional `git` parameters unlike in original _GIT-SCM_ installer
 
-To overcome those and to achieve the better environment flexibility, I'll explain in this guide a longer way, where all required software will be installed from separate bundles.
+To overcome those and to achieve the better environment flexibility, 
+I'll explain in this guide a longer way, where all required software will be installed from separate bundles.
 
 [NOTE]
 ====
 Following old habit I tend to avoid installation of tools that are planned to be used from command line to `C:\Program Files\` folder.
-Instead, I'm using `c:\opt`, `d:\usr`, etc., i.e. folder name without spaces.
+Instead, I'm using `c:\opt`, `d:\usr`, etc., i.e. folder name without spaces. 
 This guide will highlight steps where software is planned to be installed in folder different from `C:\Program Files\`. 
 ====
 
@@ -72,7 +74,7 @@ Linux Tools Manuals::
 
 . Run `Windows` installer from https://www.docker.com/docker-toolbox and follow instructions
 . Use `d:\opt\docker` as a destination folder
-. After installation is completed, uninstall _GIT SCM_ via _Control Panel_, we will use `MSYS2` installed before
+. Uncheck `Git for Windows` checkbox, we will use Linux tools from `MSYS2` installed before
 
 == Setup ConEmu
 
