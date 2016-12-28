@@ -1,0 +1,48 @@
+= Control Jenkins pipeline flow with Git commits
+:page-tags: ['jenkins', 'pipeline', 'git', 'commit', 'continous', 'integration', 'devops']
+:page-excerpt: Putting more flexibility into `Jenkins` pipelines \
+using `Git` commit messages as a control flow, \
+like `GitHub` or `Travis CI` do.
+
+Some eulogies to Jenkins pipelines.
+
+== Sample Jenkins pipeline
+
+. checkout
+. test
+. assemble
+. deploy
+
+[source,groovy]
+.Jenkinsfile
+----
+node('build') {
+    stage('Checkout') {
+        checkout scm
+    }
+
+    stage('Test') {
+        sh './gradlew clean test'
+    }
+
+    stage('Assemble') {
+        sh './gradlew dockerBuildImage'
+    }
+
+    stage('Deploy') {
+        sh '''
+docker tag .... <1>
+docker push .... <2>
+    '''
+    }
+}
+----
+<1> adding Docker tag to recently created image
+<2> push image to public / private registry
+
+== Git Messages
+
+. extract message using git call
+. adding conditions by checking message content
+
+

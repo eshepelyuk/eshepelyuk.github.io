@@ -9,3 +9,5 @@ Gemfile.lock
 *.pdf
 *.pdfmarks
 /_site
+.jekyll-metadata
+

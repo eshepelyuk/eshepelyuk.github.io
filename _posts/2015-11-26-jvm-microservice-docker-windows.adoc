@@ -10,9 +10,8 @@ excerpt: |
   But what `Linux` and `MacOS` users get for free is not so easy in `Windows`.
   This guide shows how to setup `Windows` environment for running `Docker` containers, as a basis for _microservice architecture_ projects.
 ---
-:imagesdir: /images/2015-11-26
-
 = JVM microservices - run Docker containers on Windows
+:imagesdir: /images/2015-11-26
 
 _Microservices_ is one of the loudest IT buzzwords, everybody's anxious to try it.
 But what `Linux` and `MacOS` users get for free is not so easy in `Windows`.
