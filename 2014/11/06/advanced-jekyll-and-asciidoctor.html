@@ -176,7 +176,7 @@ put it to <code>css</code> folder of the site and add this line to <code>_includ
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;link</span> <span class="attribute-name">rel</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">stylesheet</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">/css/asciidoctor-default.css</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="html"><span class="tag">&lt;link</span> <span class="attribute-name">rel</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">stylesheet</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">{{ </span><span class="delimiter">&quot;</span></span><span class="error">/</span><span class="attribute-name">css</span><span class="error">/</span><span class="attribute-name">asciidoctor-default.css</span><span class="error">&quot;</span> <span class="error">|</span> <span class="attribute-name">prepend:</span> <span class="attribute-name">site.baseurl</span> <span class="error">}</span><span class="error">}</span><span class="error">&quot;</span><span class="tag">&gt;</span></code></pre>
 </div>
 </div>
 </div>
