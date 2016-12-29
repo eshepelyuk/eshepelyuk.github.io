@@ -46,3 +46,33 @@ docker push .... <2>
 . adding conditions by checking message content
 
 
+[source,groovy]
+.Jenkinsfile
+----
+node('build') {
+    stage('Checkout') {
+        checkout scm
+        env.GIT_COMMIT_MESSAGE = sh returnStdout: true, script: 'git log --oneline -1' <1>       
+    }
+
+    stage('Test') {
+        if (!env.GIT_COMMIT_MESSAGE.contains("[skip test]")) {
+            sh './gradlew clean test'
+        }
+    }
+
+    stage('Assemble') {
+        sh './gradlew dockerBuildImage'
+    }
+
+    stage('Deploy') {
+        if (!env.GIT_COMMIT_MESSAGE.contains("[skip deploy]")) {
+            sh '''
+docker tag .... <1>
+docker push .... <2>
+    '''
+        }
+    }
+}
+----
+<1> call `git` command to retrieve message of the latest commit
