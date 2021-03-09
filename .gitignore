@@ -11,4 +11,4 @@ Gemfile.lock
 /_site
 .jekyll-metadata
 .jekyll-cache
-
+_config_dev.yml
