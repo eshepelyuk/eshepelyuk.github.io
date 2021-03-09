@@ -1,2 +1,2 @@
-Source code for `Jekyll` and `AsciiDoctor` powered http://eshepelyuk.github.io[JK's blog]
+Source code for `Jekyll` and `AsciiDoctor` powered https://eshepelyuk.github.io[JK's blog]
 
