@@ -2,7 +2,7 @@
 layout: page
 ---
 
-icon:file-pdf-o[size=2x] 
-link:EvgenyShepelyukCV.pdf[Download my CV as PDF]
+icon:file-pdf-o[size=2x]
+link:IevgeniiShepeliukCV.pdf[Download my CV as PDF]
 
-include::EvgenyShepelyukCV.adoc[]
+include::IevgeniiShepeliukCV.adoc[]

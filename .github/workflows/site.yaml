@@ -19,7 +19,7 @@ jobs:
         set -x
         bundle install
         bundle exec jekyll build
-        asciidoctor-pdf ./EvgenyShepelyukCV.adoc -D _site
+        asciidoctor-pdf ./*CV.adoc -D _site
     - uses: actions/upload-artifact@v2
       with:
         name: "site"
