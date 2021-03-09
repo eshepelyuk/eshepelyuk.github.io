@@ -24,11 +24,6 @@ jobs:
       with:
         name: "site"
         path: "_site"
-    # - run: asciidoctor-pdf ./EvgenyShepelyukCV.adoc
-    # - uses: actions/upload-artifact@v2
-    #   with:
-    #     name: "cv"
-    #     path: "./EvgenyShepelyukCV.pdf"
 
   publish_site:
     name: Publish site
@@ -42,8 +37,7 @@ jobs:
       with:
         name: "site"
         path: .
-    - run: git status && git diff
-    # - uses: actions-js/push@master
-    #   with:
-    #     github_token: ${{ secrets.GITHUB_TOKEN }}
-    #     branch: master
+    - uses: actions-js/push@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: master
