@@ -42,7 +42,7 @@ jobs:
       with:
         name: "site"
         path: .
-    - run: git status
+    - run: git status && git diff
     # - uses: actions-js/push@master
     #   with:
     #     github_token: ${{ secrets.GITHUB_TOKEN }}
