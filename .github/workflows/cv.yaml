@@ -1,4 +1,4 @@
-name: publish cv
+name: publish blog
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
       - jekyll
 
 jobs:
-  build_pdf:
-    name: Build PDF
+  build_site:
+    name: Build site
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
@@ -30,19 +30,20 @@ jobs:
     #     name: "cv"
     #     path: "./EvgenyShepelyukCV.pdf"
 
-  # push_pdf:
-  #   name: Push PDF
-  #   runs-on: ubuntu-18.04
-  #   needs: build_pdf
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #     with:
-  #       ref: master
-  #   - uses: actions/download-artifact@v2
-  #     with:
-  #       name: "cv"
-  #       path: .
-  #   - uses: actions-js/push@master
-  #     with:
-  #       github_token: ${{ secrets.GITHUB_TOKEN }}
-  #       branch: master
+  publish_site:
+    name: Publish site
+    runs-on: ubuntu-18.04
+    needs: build_site
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: master
+    - uses: actions/download-artifact@v2
+      with:
+        name: "site"
+        path: .
+    - run: git status
+    # - uses: actions-js/push@master
+    #   with:
+    #     github_token: ${{ secrets.GITHUB_TOKEN }}
+    #     branch: master
