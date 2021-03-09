@@ -2,9 +2,7 @@
 title: JK's blog
 email: eshepelyk@gmail.com
 description: Simple blog for some thoughts to be shared. Mostly about Java programming
-baseurl: "http://eshepelyuk.github.io"
-twitter_username: eshepelyuk
-github_username:  eshepelyuk
+baseurl: "https://eshepelyuk.github.io"
 
 google_analytics: true
 
