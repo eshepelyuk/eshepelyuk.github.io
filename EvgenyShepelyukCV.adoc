@@ -5,16 +5,17 @@
 :pdf-stylesdir: pdf-theme 
 :pdf-style: eshepelyuk
 
-== EVGENY SHEPELYUK
+== IEVGENII SHEPELIUK
 
-_Software development professional, team leader and technical lead  with 12+ years experience 
+_Software development professional, team leader and technical lead  with 15+ years experience
 of creating and delivering software solutions. 
 Concentrated on product quality and continuous improvements in all fields, 
-such as development processes, adopting leading edge technologies, 
+such as software development, infrastructure operations, adopting leading edge technologies,
 building good team relationship and self-education. 
-Agile engineering practices and development methodologies advocate._
+Agile engineering practices and development methodologies advocate. OSS enthusiast and contributor._
 
-_Looking for opportunity of obtaining senior technical position in Java based technologies project. Interested in distributed, high-load and performance critical applications._
+_Looking for opportunity of obtaining senior technical position in Java based technologies project.
+Interested in distributed, high-load and performance critical applications._
 
 === Qualification highlights
 
@@ -44,6 +45,36 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 
 == PROFESSIONAL EXPERIENCE and PROJECT DETAILS
 
+=== New Age Solutions Ukraine LLC
+
+*HRZN iGaming Platform - cloud native, microservice based, reactive,
+event driven iGaming platform delivering high performance and resilient products to iGaming operators,
+including operational, analytical and infrastructure solutions.*
+
+* *Technologies*: Microservice Architecture, Event Driven Architecture, Reactive Programming, Scala,
+AKKA (actors, http, cluster, gRPC, streams), PostgreSQL, ElasticSearch, Confluent Platform,
+Kafka, Alpakka Kafka, KSQL, Avro, Docker, GitOps, Kubernetes, Kubernetes operators, Helm, Terraform,
+Open Policy Agent, Prometheus, Grafana, Python, Jenkins, Gradle, AWS(EC2, RDS), Gatling, Asciidoctor, PlantUML.
+* *Team*: 4 dev teams, Data team, QA team, BA team, Infrastructure team, ~ 60 people.
+* *Role*: Solution Architect, Software Architect, Principal Software Engineer.
+* *Responsibilities*:
+** Provide strategic input for technology investments to design, prototype and develop platform reference architecture.
+** Evaluate and build microservice and event driven approaches to the product technology stack.
+** Injecting DevOps culture, maximizing collaboration between business development, software development and infrastructure teams.
+** Establishing SLDC for the entire platform.
+** Design and improve CI/CD tools, processes and procedures.
+** Create automated solutions and tools to support software and infrastructure development, release and delivery processes.
+** Working closely with QA team to maintain continuous regression testing and ensure end-to-end quality.
+** Helping infrastructure team to establish automated monitoring and alerting for early problem detection.
+** Adopting and driving cloud native technologies, especially Kubernetes, API Gateway, ingress traffic routing etc.
+** Participating in platform pre sales, creating technical proposal documentation for the clients.
+** Collaborate with platform customers and business team to provide the most useful product usage options to satisfy business needs.
+** Incorporating requirements and features into technical solution design.
+** Evaluate options for new IT solutions and services, making emphasis on OSS products.
+** Embrace OSS culture within company and help teams contributing to OSS products.
+
+<<<
+
 === Infopulse Ukraine LLC
 
 *SMS SH (DEC 2015 - FEB 2016) - SMS blacklisting and routing service for mobile operator Golan Telecom*
@@ -51,7 +82,7 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * Technologies: Reactive Programming, Scala, AKKA Actors, AKKA Http, REST, JMS, Apache Camel, Groovy, Gradle, Spock, JIRA, Jenkins, Docker, Cassandra
 * Team: 4 developers, BA
 * Role: Team Lead, Architect, Developer
-* Responsibilities
+* Responsibilities:
 ** Team Leading and customer communication tasks
 ** Implementing design to achieve low latency and scalability
 ** Throughput measurement and optimization
@@ -62,7 +93,7 @@ _Looking for opportunity of obtaining senior technical position in Java based te
 * Technologies: Polyglot Programming, Reactive Programming, AKKA Actors, AKKA Persistence, Scala, Java, Server Side JavaScript, Rhino, Jetty, Servlets, JSP, XML, SOAP, JAX-WS, Groovy, Gradle, Spock, JIRA, Jenkins, Docker, MariaDB, Global Platform, NFC.
 * Team: 3 scrum feature teams, dedicated QA and Integration teams, business analysts, ~25 peoples.
 * Role: Tech Lead, Team Lead, Developer.
-* Responsibilities
+* Responsibilities:
 ** Adoption and injection of agile engineering practices
 ** Implementing Global Platform Messaging and Global Platform Card specifications
 ** Maintain project’s reactive and polyglot programming model
