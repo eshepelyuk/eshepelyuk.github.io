@@ -15,8 +15,12 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: 2.5
-    - run: gem install asciidoctor-pdf -v 1.5.3
-    - run: asciidoctor-pdf --version
+    - run: gem install asciidoctor-pdf -v 1.5.4
+    - run: asciidoctor-pdf ./EvgenyShepelyukCV.adoc
+    - uses: actions/upload-artifact@v2
+      with:
+        name: "cv"
+        path: "./EvgenyShepelyukCV.pdf"
 
   # push_pdf:
   #   name: Push PDF
