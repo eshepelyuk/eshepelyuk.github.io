@@ -15,33 +15,34 @@ jobs:
       with:
         ruby-version: 2.5
     - run: |
-      set -e
-      set -x
-      bundle install
-      bundle exec jekyll build
+        set -e
+        set -x
+        bundle install
+        bundle exec jekyll build
+        asciidoctor-pdf ./EvgenyShepelyukCV.adoc -D _site
     - uses: actions/upload-artifact@v2
       with:
         name: "site"
         path: "_site"
-    - run: asciidoctor-pdf ./EvgenyShepelyukCV.adoc
-    - uses: actions/upload-artifact@v2
-      with:
-        name: "cv"
-        path: "./EvgenyShepelyukCV.pdf"
+    # - run: asciidoctor-pdf ./EvgenyShepelyukCV.adoc
+    # - uses: actions/upload-artifact@v2
+    #   with:
+    #     name: "cv"
+    #     path: "./EvgenyShepelyukCV.pdf"
 
-  push_pdf:
-    name: Push PDF
-    runs-on: ubuntu-18.04
-    needs: build_pdf
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        ref: master
-    - uses: actions/download-artifact@v2
-      with:
-        name: "cv"
-        path: .
-    - uses: actions-js/push@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: master
+  # push_pdf:
+  #   name: Push PDF
+  #   runs-on: ubuntu-18.04
+  #   needs: build_pdf
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #     with:
+  #       ref: master
+  #   - uses: actions/download-artifact@v2
+  #     with:
+  #       name: "cv"
+  #       path: .
+  #   - uses: actions-js/push@master
+  #     with:
+  #       github_token: ${{ secrets.GITHUB_TOKEN }}
+  #       branch: master
