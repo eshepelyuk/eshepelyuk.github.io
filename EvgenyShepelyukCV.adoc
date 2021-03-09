@@ -7,22 +7,24 @@
 
 == IEVGENII SHEPELIUK
 
-_Software development professional, team leader and technical lead  with 15+ years experience
-of creating and delivering software solutions. 
+_Software development professional, team leader and technical lead
+with 15+ years experience of creating and delivering software solutions.
 Concentrated on product quality and continuous improvements in all fields, 
-such as software development, infrastructure operations, adopting leading edge technologies,
+including software development, infrastructure operations, adopting leading edge technologies,
 building good team relationship and self-education. 
 Agile engineering practices and development methodologies advocate. OSS enthusiast and contributor._
 
-_Looking for opportunity of obtaining senior technical position in Java based technologies project.
-Interested in distributed, high-load and performance critical applications._
+_Looking for opportunity of obtaining senior technical position, preferably in JVM based software project.
+Interested in distributed, high-load and performance critical applications.
+A major advantage will be working for a relatively small team dedicated to the project,
+understanding their goals and facing or planning distinguishable technological challenges._
 
 === Qualification highlights
 
 * successful development of distributed multi-layer cross-platform applications, with massive integration of external services and providers
 * providing high availability and performance tuning of software solutions including web sites and standalone middleware applications
 * deadline management and project completion on time including startups, legacy application migration and unfinished third-party projects
-* successful transformation of development teams into self-organizing, cross-functional feature team by adopting and teaching SCRUM software development methodology and other Agile practices
+* successful transformation of development teams into self-organizing, cross-functional feature team by adopting and teaching Agile practices and DevOps culture
 * hands-on worker attitude both for technical/development activities and management/business analytics activities as well
 * improving and injecting QA using continuous integration, test automation and TDD / BDD
 * strong communication skills, especially while managing issues between technical and non-technical team members
@@ -51,13 +53,13 @@ Interested in distributed, high-load and performance critical applications._
 event driven iGaming platform delivering high performance and resilient products to iGaming operators,
 including operational, analytical and infrastructure solutions.*
 
-* *Technologies*: Microservice Architecture, Event Driven Architecture, Reactive Programming, Scala,
+* Technologies: Microservice Architecture, Event Driven Architecture, Reactive Programming, Scala,
 AKKA (actors, http, cluster, gRPC, streams), PostgreSQL, ElasticSearch, Confluent Platform,
 Kafka, Alpakka Kafka, KSQL, Avro, Docker, GitOps, Kubernetes, Kubernetes operators, Helm, Terraform,
 Open Policy Agent, Prometheus, Grafana, Python, Jenkins, Gradle, AWS(EC2, RDS), Gatling, Asciidoctor, PlantUML.
-* *Team*: 4 dev teams, Data team, QA team, BA team, Infrastructure team, ~ 60 people.
-* *Role*: Solution Architect, Software Architect, Principal Software Engineer.
-* *Responsibilities*:
+* Team: 4 dev teams, Data team, QA team, BA team, Infrastructure team, ~ 60 people.
+* Role: Solution Architect, Software Architect, Principal Software Engineer.
+* Responsibilities:
 ** Provide strategic input for technology investments to design, prototype and develop platform reference architecture.
 ** Evaluate and build microservice and event driven approaches to the product technology stack.
 ** Injecting DevOps culture, maximizing collaboration between business development, software development and infrastructure teams.
@@ -152,7 +154,7 @@ Open Policy Agent, Prometheus, Grafana, Python, Jenkins, Gradle, AWS(EC2, RDS), 
 ** Maintaining continuous integration
 ** Release preparation and delivery support
 
-=== Chas XXI Ltd.   
+=== Chas XXI Ltd.  (2003 - 2009)
 
 *FreedomInput.com (2008 – 2009) – Bluetooth Keyboard driver, Freedom Keychain GPS 2000 driver and GPS software for BlackBerry phones*
 
