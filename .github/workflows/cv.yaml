@@ -1,0 +1,24 @@
+name: publish cv
+
+on:
+  push:
+    branches:
+      - jekyll
+
+jobs:
+  build_pdf:
+    name: Build PDF
+    runs-on: ubuntu-18.04
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.4
+    - run: gem install asciidoctor-pdf --prerelease -v 1.5.0.alpha.13
+    - run: asciidoctor-pdf --version
+
+  # push_pdf:
+  #   name: Push PDF
+  #   runs-on: ubuntu-18.04
+  #   needs: build_pdf
