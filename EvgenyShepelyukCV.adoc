@@ -155,9 +155,9 @@ providing means to process, clear and settle stock exchange trades, manage their
 ** Maintaining continuous integration
 ** Release preparation and delivery support
 
-=== Chas XXI Ltd.  (2003 - 2009)
+=== Soft Industry LLC  (2003 - 2009)
 
-Roles: Team Leader, Developer, Build Engineer, Architect, QA, Build Engineer.
+Roles: Team Lead, Developer, Build Engineer, Tech Lead, Architect.
 
 Various projects, including:
 

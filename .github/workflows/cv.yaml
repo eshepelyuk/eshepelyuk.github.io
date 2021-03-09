@@ -14,7 +14,15 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: 2.5
-    - run: gem install asciidoctor-pdf -v 1.5.4
+    - run: |
+      set -e
+      set -x
+      bundle install
+      bundle exec jekyll build
+    - uses: actions/upload-artifact@v2
+      with:
+        name: "site"
+        path: "_site"
     - run: asciidoctor-pdf ./EvgenyShepelyukCV.adoc
     - uses: actions/upload-artifact@v2
       with:

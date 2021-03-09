@@ -10,4 +10,5 @@ Gemfile.lock
 *.pdfmarks
 /_site
 .jekyll-metadata
+.jekyll-cache
 

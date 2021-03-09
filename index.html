@@ -5,7 +5,7 @@ layout: page
   <ul class="post-list">
 	{% for post in site.posts %}
 		<li>
-			<h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+			<h2><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></h2>
 			{% include post-meta.html post=post %}		
 		
 		{% if post.excerpt %}
