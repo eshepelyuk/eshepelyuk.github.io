@@ -140,7 +140,8 @@ Open Policy Agent, Prometheus, Grafana, Python, Jenkins, Gradle, AWS(EC2, RDS), 
 
 === Luxoft Eastern Europe LLC - UBS Investment Bank
 
-*SSENG Clearing & Settlement (2009 – 2011) – Middleware and FrontEnd software for stock exchange market, providing means to process, clear and settle stock exchange trades, manage their lifecycle, gather reports and datas about status of trades as well as integration with external banking systems*
+*SSENG Clearing & Settlement (2009 – 2011) – Middleware and FrontEnd software for stock exchange market,
+providing means to process, clear and settle stock exchange trades, manage their lifecycle and gather reports*
 
 * Technologies: J2EE, RMI, AOP, Spring, JMS, Oracle, GWT, GXT, AJAX, JSON, Groovy, Grails, WebDriver, Junit, Hibernate.
 * Team: 10 distributed scrum teams of ~10 engineers each, PO team consisting of business analysts and subject matter experts, global production support team.
@@ -156,107 +157,22 @@ Open Policy Agent, Prometheus, Grafana, Python, Jenkins, Gradle, AWS(EC2, RDS), 
 
 === Chas XXI Ltd.  (2003 - 2009)
 
-*FreedomInput.com (2008 – 2009) – Bluetooth Keyboard driver, Freedom Keychain GPS 2000 driver and GPS software for BlackBerry phones*
+Roles: Team Leader, Developer, Build Engineer, Architect, QA, Build Engineer.
 
-* Technologies: J2ME, Bluetooth, RIM API, GPS, HTTP, REST.
-* Team: 3 Developers.
-* Role: Developer, Architect, QA, Build Engineer.
-* Responsibilities
-** Design and implementation of system architecture
-** Interaction with hardware modules using Bluetooth
-** Working in background mode as driver
-** Interaction of driver and UI modules
-** Adoption and testing of software for all major versions of RIM OS
-** Interaction with social media as Facebook and Yahoo
+Various projects, including:
 
-<<<
-
-*Video Streaming Server and Visualization (AUG 2009 – OCT 2009) - HTTP proxy solution for online video to increase logical bandwidth and number of clients bandwidth using proxying of streams*
-
-* Technologies: Spring, REST, Restlet, HTTP/MIME parsing. 
-* Team: 3 developers.
-* Role: Team Leader, Developer, Build Engineer.
-* Responsibilities
-** Team leading
-** Design and implementation of system architecture targeting best performance and scalability results
-** Memory consumption optimization
-
-*RDT600 (AUG 2008 – MAY 2009) - Hardware monitoring and visualization tool RDT600 for SICK AG*
-
-* Technologies: Java EE (JMS, JSP/JSTL, Stripes), AJAX, DHTML/JavaScript/YUI, Spring (JDBC, Security, AOP, Testing), TDD (TestNG), PostgreSQL 
-* Team: Project Manager/Business Analyst, 2 Architects/developers, 5 Developers, Testers/QA. 
-* Role: Architect, Team Leader, Developer, DB analyst 
-* Responsibilities
-** Team leading
-** Design and implementation of system architecture
-** DB structure creation, analysis and optimization to achieve extra performance 
-** YUI/JavaScript framework adoption
-** TDD adoption control and coaching 
-
-*Eset.ua (MAY 2007 – SEP 2008) – Business and financial management system for Ukraine branch of ESET company. Distributed peer networking application for distribution files required for ESET company products.*
-
-* Technologies: Groovy, Grails, JavaScript, AJAX, Java EE, Spring, JPA, Spring Security, PostgreSQL, REST.
-* Team: 4 Developers.
-* Role: Team leader, Architect, Developer, Build Engineer
-* Responsibilities 
-** Design and implementation of system architecture
-** Adoption of Grails and Spring Security frameworks 
-** UI development
-** Team leading
-
-<<<
-
-*Prydbay.com (JAN 2007 – DEC 2009) – Online Store of communication topups and online games. Processing and billing layer for different payment systems to provide uniform interface for e-shops and similar projects*
-
-* Technologies: Java EE, REST, Spring, JDBC, PostgreSQL, Grails, Groovy, XML, JSON. 
-* Team: 4 developers. 
-* Role: Team leader, Architect, Developer, Build Engineer
-* Responsibilities 
-** Design and implementation of system architecture. 
-** Team leading
-** Grails framework adoption and coaching
-** External service providers integration
-** Performance analysis
-** Integration with various electronic payment services 
-
-*Cloncom.com (JAN 2005 – DEC 2008) – E-commerce solution for selling electronic communications topups, related services and products. High performing RESTful API service providing cached product catalog. Legacy platform rewrite.*
-
-* Technologies: Java EE (Servlet Container, JMS, JSP/JSTL), JAX-WS, Java SE (Threading, Sockets, Concurrent Programming), Spring (IoC, AOP), JPA, PostgreSQL, HTML, JavaScript, JSON, REST, PostgreSQL, OSCache, MemCache, REST, XML, JAXB. 
-* Team: Distributed team comprised of 6 Developers, 2 Designers, 2 QA, 2 System Administrators. 
-* Role: Team leader, Architect, Developer, QA, Build Engineer.
-* Responsibilities 
-** Design and implementation of system architecture 
-** Team leading, offshore customer and team members communication 
-** Integration of payment systems. (PayPal, Verisign, GlobalCollect etc) 
-** Development bridges between system core and external service providers using custom XML/ HTTP communications and Web Services (SOAP)
-** Integrating with Asterisk and providing IVR solutions
-** REST architecture adoption
-** Performance analysis and improvements
-** Legacy codebase support
-
-<<<
-
-*AAA (JAN 2004 – JUN 2004) - Billing and network traffic accounting system*
-
-* Technologies: Java EE(Servlet Container, JSF, JSP/JSTL), PostgreSQL.
-* Team: 4 developers.
-* Role: Developer.
-* Responsibilities
-** Architecture analysis
-** Integration of data from external sources
-** Web development and JSF adoption
-
-*Mobile Games server (AUG 2003 – DEC 2003)*
-
-* Technologies: Java SE (Network, Sockets), J2ME, MySQL. 
-* Team: 3 developers.
-* Role: Developer.
-* Responsibilities: Data exchange between cell phone and server, UI development.
-
-*Newsletter engine (FEB 2003 – JUN 2003) – Corporate offline messaging exchange system*
-
-* Technologies: IIS, ASP, VBScript, MSSQL, Stored Procedures. 
-* Team: 5 developers. 
-* Role: Developer. 
-* Responsibilities: creating reusable components and reports for UI.
-
+* FreedomInput.com (2008 – 2009) – Bluetooth Keyboard driver, Freedom Keychain GPS 2000 driver
+and GPS software for BlackBerry phones.
+* Video Streaming Server and Visualization (AUG 2009 – OCT 2009) -
+HTTP proxy solution for online video to increase logical bandwidth and number of clients bandwidth using proxying of streams.
+* RDT600 (AUG 2008 – MAY 2009) - Hardware monitoring and visualization tool RDT600 for SICK AG.
+* Eset.ua (MAY 2007 – SEP 2008) – Business and financial management system
+for Ukraine branch of ESET company. Distributed peer networking application for distribution files required for ESET company products.
+* Prydbay.com (JAN 2007 – DEC 2009) – Online Store of communication topups and online games.
+Processing and billing layer for different payment systems to provide uniform interface for e-shops
+and similar projects.
+* Cloncom.com (JAN 2005 – DEC 2008) – E-commerce solution for selling electronic communications topups,
+related services and products. High performing RESTful API service providing cached product catalog. Legacy platform rewrite.
+* AAA (JAN 2004 – JUN 2004) - Billing and network traffic accounting system.
+* Mobile Games server (AUG 2003 – DEC 2003).
+* Newsletter engine (FEB 2003 – JUN 2003) – Corporate offline messaging exchange system.
