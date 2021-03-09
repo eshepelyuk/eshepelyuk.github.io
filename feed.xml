@@ -3,10 +3,10 @@
   <channel>
     <title>JK's blog</title>
     <description>Simple blog for some thoughts to be shared. Mostly about Java programming</description>
-    <link>http://eshepelyuk.github.io/</link>
-    <atom:link href="http://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 29 Dec 2016 08:03:55 +0000</pubDate>
-    <lastBuildDate>Thu, 29 Dec 2016 08:03:55 +0000</lastBuildDate>
+    <link>https://eshepelyuk.github.io/</link>
+    <atom:link href="https://eshepelyuk.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Tue, 09 Mar 2021 16:35:51 +0000</pubDate>
+    <lastBuildDate>Tue, 09 Mar 2021 16:35:51 +0000</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -16,8 +16,8 @@ Although it’s written in &lt;code class=&quot;highlighter-rouge&quot;&gt;Scala
 This post tries to fill the gap of missing information how to write good tests in polyglot JVM projects that leverage &lt;code class=&quot;highlighter-rouge&quot;&gt;AKKA&lt;/code&gt; framework.&lt;/p&gt;
 </description>
         <pubDate>Wed, 16 Dec 2015 00:00:00 +0000</pubDate>
-        <link>http://eshepelyuk.github.io/2015/12/16/akka-extensions-spock.html</link>
-        <guid isPermaLink="true">http://eshepelyuk.github.io/2015/12/16/akka-extensions-spock.html</guid>
+        <link>https://eshepelyuk.github.io/2015/12/16/akka-extensions-spock.html</link>
+        <guid isPermaLink="true">https://eshepelyuk.github.io/2015/12/16/akka-extensions-spock.html</guid>
         
         <category>java</category>
         
@@ -40,8 +40,8 @@ This post tries to fill the gap of missing information how to write good tests i
 The goal of this post is to show quick and easy way of creating new &lt;code class=&quot;highlighter-rouge&quot;&gt;JVM&lt;/code&gt; project and run it as a &lt;code class=&quot;highlighter-rouge&quot;&gt;Docker&lt;/code&gt; container on &lt;code class=&quot;highlighter-rouge&quot;&gt;Windows&lt;/code&gt;.&lt;/p&gt;
 </description>
         <pubDate>Tue, 15 Dec 2015 00:00:00 +0000</pubDate>
-        <link>http://eshepelyuk.github.io/2015/12/15/jvm-microservice-sdkman-gradle.html</link>
-        <guid isPermaLink="true">http://eshepelyuk.github.io/2015/12/15/jvm-microservice-sdkman-gradle.html</guid>
+        <link>https://eshepelyuk.github.io/2015/12/15/jvm-microservice-sdkman-gradle.html</link>
+        <guid isPermaLink="true">https://eshepelyuk.github.io/2015/12/15/jvm-microservice-sdkman-gradle.html</guid>
         
         <category>windows</category>
         
@@ -65,8 +65,8 @@ But what &lt;code class=&quot;highlighter-rouge&quot;&gt;Linux&lt;/code&gt; and 
 This guide shows how to setup &lt;code class=&quot;highlighter-rouge&quot;&gt;Windows&lt;/code&gt; environment for running &lt;code class=&quot;highlighter-rouge&quot;&gt;Docker&lt;/code&gt; containers, as a basis for &lt;em&gt;microservice architecture&lt;/em&gt; projects.&lt;/p&gt;
 </description>
         <pubDate>Thu, 26 Nov 2015 00:00:00 +0000</pubDate>
-        <link>http://eshepelyuk.github.io/2015/11/26/jvm-microservice-docker-windows.html</link>
-        <guid isPermaLink="true">http://eshepelyuk.github.io/2015/11/26/jvm-microservice-docker-windows.html</guid>
+        <link>https://eshepelyuk.github.io/2015/11/26/jvm-microservice-docker-windows.html</link>
+        <guid isPermaLink="true">https://eshepelyuk.github.io/2015/11/26/jvm-microservice-docker-windows.html</guid>
         
         <category>windows</category>
         
@@ -90,8 +90,8 @@ In this post I intend to demonstrate an approach for testing &lt;code class=&quo
 using mature tools like &lt;code class=&quot;highlighter-rouge&quot;&gt;Jasmine&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Spock&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Nashorn&lt;/code&gt;.&lt;/p&gt;
 </description>
         <pubDate>Wed, 26 Nov 2014 00:00:00 +0000</pubDate>
-        <link>http://eshepelyuk.github.io/2014/11/26/-testing-jvm-javascript-jasmine-spock-nashorn.html</link>
-        <guid isPermaLink="true">http://eshepelyuk.github.io/2014/11/26/-testing-jvm-javascript-jasmine-spock-nashorn.html</guid>
+        <link>https://eshepelyuk.github.io/2014/11/26/-testing-jvm-javascript-jasmine-spock-nashorn.html</link>
+        <guid isPermaLink="true">https://eshepelyuk.github.io/2014/11/26/-testing-jvm-javascript-jasmine-spock-nashorn.html</guid>
         
         <category>java</category>
         
@@ -117,8 +117,8 @@ but there’s some customization gaps not covered in the most of setup guides ov
 so I’d like to fill them in this post.&lt;/p&gt;
 </description>
         <pubDate>Thu, 06 Nov 2014 00:00:00 +0000</pubDate>
-        <link>http://eshepelyuk.github.io/2014/11/06/advanced-jekyll-and-asciidoctor.html</link>
-        <guid isPermaLink="true">http://eshepelyuk.github.io/2014/11/06/advanced-jekyll-and-asciidoctor.html</guid>
+        <link>https://eshepelyuk.github.io/2014/11/06/advanced-jekyll-and-asciidoctor.html</link>
+        <guid isPermaLink="true">https://eshepelyuk.github.io/2014/11/06/advanced-jekyll-and-asciidoctor.html</guid>
         
         <category>jekyll</category>
         
@@ -141,8 +141,8 @@ However, if you’d like to use extra &lt;code class=&quot;highlighter-rouge&quo
 This quite boring activity could be simplified by leveraging &lt;code class=&quot;highlighter-rouge&quot;&gt;Travis CI&lt;/code&gt; continuous integration project.&lt;/p&gt;
 </description>
         <pubDate>Tue, 28 Oct 2014 00:00:00 +0000</pubDate>
-        <link>http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html</link>
-        <guid isPermaLink="true">http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html</guid>
+        <link>https://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html</link>
+        <guid isPermaLink="true">https://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html</guid>
         
         <category>jekyll</category>
         
@@ -163,8 +163,8 @@ The lack of such knowledge results into neglecting of integration tests and thus
 So I’ve decided to share some practices revealing mystery surrounding integration testing.&lt;/p&gt;
 </description>
         <pubDate>Fri, 28 Jun 2013 00:00:00 +0000</pubDate>
-        <link>http://eshepelyuk.github.io/2013/06/28/test-me-if-you-can-1.html</link>
-        <guid isPermaLink="true">http://eshepelyuk.github.io/2013/06/28/test-me-if-you-can-1.html</guid>
+        <link>https://eshepelyuk.github.io/2013/06/28/test-me-if-you-can-1.html</link>
+        <guid isPermaLink="true">https://eshepelyuk.github.io/2013/06/28/test-me-if-you-can-1.html</guid>
         
         <category>java</category>
         
@@ -186,8 +186,8 @@ could be successfully applied for completing real life tasks,
 improving your programming skills and making resulting code more beautiful.&lt;/p&gt;
 </description>
         <pubDate>Sat, 15 Sep 2012 00:00:00 +0000</pubDate>
-        <link>http://eshepelyuk.github.io/2012/09/15/duck-typing-in-java-well-not-exactly.html</link>
-        <guid isPermaLink="true">http://eshepelyuk.github.io/2012/09/15/duck-typing-in-java-well-not-exactly.html</guid>
+        <link>https://eshepelyuk.github.io/2012/09/15/duck-typing-in-java-well-not-exactly.html</link>
+        <guid isPermaLink="true">https://eshepelyuk.github.io/2012/09/15/duck-typing-in-java-well-not-exactly.html</guid>
         
         <category>java</category>
         
@@ -203,8 +203,8 @@ improving your programming skills and making resulting code more beautiful.&lt;/
         <description>&lt;p&gt;Some notes and observations on 6th Coding Dojo by &lt;a href=&quot;https://www.facebook.com/groups/279151628818637/&quot; target=&quot;_blank&quot;&gt;CodingDojoCnUa&lt;/a&gt; community.&lt;/p&gt;
 </description>
         <pubDate>Sat, 28 Jul 2012 00:00:00 +0000</pubDate>
-        <link>http://eshepelyuk.github.io/2012/07/28/codingdojocnua-6.html</link>
-        <guid isPermaLink="true">http://eshepelyuk.github.io/2012/07/28/codingdojocnua-6.html</guid>
+        <link>https://eshepelyuk.github.io/2012/07/28/codingdojocnua-6.html</link>
+        <guid isPermaLink="true">https://eshepelyuk.github.io/2012/07/28/codingdojocnua-6.html</guid>
         
         <category>coffeescript</category>
         
@@ -220,8 +220,8 @@ improving your programming skills and making resulting code more beautiful.&lt;/
         <description>&lt;p&gt;Handling dynamically shown / hidden DOM elements in &lt;code class=&quot;highlighter-rouge&quot;&gt;WebDriver&lt;/code&gt; tests.&lt;/p&gt;
 </description>
         <pubDate>Wed, 11 Jul 2012 00:00:00 +0000</pubDate>
-        <link>http://eshepelyuk.github.io/2012/07/11/seleniumwebdriver-tricks-part-3.html</link>
-        <guid isPermaLink="true">http://eshepelyuk.github.io/2012/07/11/seleniumwebdriver-tricks-part-3.html</guid>
+        <link>https://eshepelyuk.github.io/2012/07/11/seleniumwebdriver-tricks-part-3.html</link>
+        <guid isPermaLink="true">https://eshepelyuk.github.io/2012/07/11/seleniumwebdriver-tricks-part-3.html</guid>
         
         <category>java</category>
         

@@ -17,11 +17,11 @@
 	
 	<meta name="keywords" content="jekyll, github, asciidoctor, travisci">
 
-	<link rel="stylesheet" href="/css/main.css">
-	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://eshepelyuk.github.io/css/main.css">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 	
-	<link rel="canonical" href="http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html">
-	<link href="http://eshepelyuk.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="JK's blog Feed">
+	<link rel="canonical" href="https://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html">
+	<link href="https://eshepelyuk.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="JK's blog Feed">
 
 	
 <script>
@@ -41,7 +41,7 @@ ga('send', 'pageview');
     <header class="site-header">
 	<div class="wrapper">
 		<a href="https://github.com/eshepelyuk/eshepelyuk.github.io/tree/jekyll"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>   		
-		<a class="site-title" href="/"><i class="fa fa-cube fa-lg">&nbsp;&nbsp;</i>JK's blog</a>	
+		<a class="site-title" href="https://eshepelyuk.github.io/"><i class="fa fa-cube fa-lg">&nbsp;&nbsp;</i>JK's blog</a>	
 
 	</div>
 	<div class="wrapper">
@@ -49,17 +49,15 @@ ga('send', 'pageview');
 	</div>
 	<div class="wrapper">
 		<ul class="site-contact">
-			<li><i class="fa fa-user fa-lg"></i>&nbsp;<a class="site-contact" href="/about.html">My CV</a></li>
+            <li><i class="fa fa-user fa-lg"></i>&nbsp;<a class="site-contact" href="https://eshepelyuk.github.io/about.html">My CV</a></li>
 			<li>|</li>
 			<li><i class="fa fa-twitter fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://twitter.com/eshepelyuk">Twitter</a></li>
 			<li>|</li>
 			<li><i class="fa fa-github fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://github.com/eshepelyuk">GitHub</a></li>
 			<li>|</li>
-			<li><i class="fa fa-facebook fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://www.facebook.com/evgeny.shepelyuk">Facebook</a></li>
+			<li><i class="fa fa-linkedin fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://www.linkedin.com/in/evgenyshepelyuk">LinkedIn</a></li>
 			<li>|</li>
-			<li><i class="fa fa-linkedin fa-lg"></i>&nbsp;<a target="_blank" class="site-contact" href="https://www.linkedin.com/pub/evgeny-shepelyuk/4/b1/a20">LinkedIn</a></li>
-			<li>|</li>
-			<li><i class="fa fa-rss fa-lg text-error"></i>&nbsp;<a target="_blank" class="site-contact" href="/feed.xml">RSS</a></li>
+            <li><i class="fa fa-rss fa-lg text-error"></i>&nbsp;<a target="_blank" class="site-contact" href="https://eshepelyuk.github.io/feed.xml">RSS</a></li>
 		</ul>
 	</div>
 </header>
@@ -72,10 +70,6 @@ ga('send', 'pageview');
   <header class="post-header">
     <h1 class="post-title">Automate GitHub Pages publishing with Jekyll and Travis CI</h1>
     <span class="post-meta"><i class="fa fa-calendar fa-lg"></i>&nbsp;&nbsp;Oct 28, 2014<i class="fa fa-tags fa-lg"></i>&nbsp;jekyll, github, asciidoctor, travisci</span>
-		
-		
-		
-		
   </header>
 
   <article class="post-content">
@@ -95,7 +89,7 @@ This quite boring activity could be simplified by leveraging <code>Travis CI</co
 <h2 id="setting-up-jekyll"><a class="anchor" href="#setting-up-jekyll"></a>Setting up Jekyll</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The only precondition is that you have <code>Jekyll</code> site already configured using <a href="http://bundler.io/" target="_blank">Bundler</a> and you can run it locally with</p>
+<p>The only precondition is that you have <code>Jekyll</code> site already configured using <a href="http://bundler.io/" target="_blank" rel="noopener">Bundler</a> and you can run it locally with</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -112,7 +106,7 @@ This quite boring activity could be simplified by leveraging <code>Travis CI</co
 as publishing of standard <code>Jekyll</code> site. You just push your changes to <code>git</code>, wait couple of minutes and refresh the page with new content.</p>
 </div>
 <div class="paragraph">
-<p>I&#8217;m using <em>User Pages</em> approach <a href="https://help.github.com/articles/using-jekyll-with-pages/" target="_blank">as described here</a>
+<p>I&#8217;m using <em>User Pages</em> approach <a href="https://help.github.com/articles/using-jekyll-with-pages/" target="_blank" rel="noopener">as described here</a>
 so I have two branches for my setup</p>
 </div>
 <div class="ulist">
@@ -163,13 +157,13 @@ For this we have to put file <code>.travis.yml</code> to the root of <code>jekyl
 <h3 id="generate-and-encrypt-github-token-for-travis-ci"><a class="anchor" href="#generate-and-encrypt-github-token-for-travis-ci"></a>Generate and encrypt GitHub token for Travis Ci</h3>
 <div class="paragraph">
 <p>Since we&#8217;d need to commit and push our changes to other (<code>master</code>) branch from within the build script
-it&#8217;s mandatory to checkout this branch either using <code>HTTPS</code> or <code>SSH</code> protocol, as described	<a href="https://gist.github.com/grawity/4392747" target="_blank">HERE</a>
+it&#8217;s mandatory to checkout this branch either using <code>HTTPS</code> or <code>SSH</code> protocol, as described	<a href="https://gist.github.com/grawity/4392747" target="_blank" rel="noopener">HERE</a>
 Easiest way for us is to clone using <code>HTTPS</code> protocol and use  <em>personal access token</em> for authentication.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use/" target="_blank">How to generate GitHub Token</a></p>
+<p><a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use/" target="_blank" rel="noopener">How to generate GitHub Token</a></p>
 </li>
 <li>
 <p>Generate GitHub token</p>
@@ -227,8 +221,8 @@ travis encrypt GH_TOKEN=&lt;token&gt; --add env.global</code></pre>
 <pre class="CodeRay highlight"><code>#!/bin/bash
 
 # only proceed script when started not by pull request (PR)
-if [ $TRAVIS_PULL_REQUEST == "true" ]; then
-  echo "this is PR, exiting"
+if [ $TRAVIS_PULL_REQUEST == &quot;true&quot; ]; then
+  echo &quot;this is PR, exiting&quot;
   exit 0
 fi
 
@@ -250,10 +244,10 @@ cp -R _site/* ../eshepelyuk.github.io.master
 # commit and push generated content to `master' branch
 # since repository was cloned in write mode with token auth - we can push there
 cd ../eshepelyuk.github.io.master
-git config user.email "eshepelyuk@gmail.com"
-git config user.name "Evgeny Shepelyuk"
+git config user.email &quot;eshepelyuk@gmail.com&quot;
+git config user.name &quot;Evgeny Shepelyuk&quot;
 git add -A .
-git commit -a -m "Travis #$TRAVIS_BUILD_NUMBER"
+git commit -a -m &quot;Travis #$TRAVIS_BUILD_NUMBER&quot;
 git push --quiet origin master &gt; /dev/null 2&gt;&amp;1 <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
 </div>
@@ -274,7 +268,7 @@ git push --quiet origin master &gt; /dev/null 2&gt;&amp;1 <i class="conum" data-
 <div class="sectionbody">
 <div class="paragraph">
 <p>After doing all those steps all you need is to commit and push your <code>jekyll</code> branch
-and then navigate to <a href="https://travis-ci.org/eshepelyuk/eshepelyuk.github.io/builds" target="_blank">Travis CI</a> build section
+and then navigate to <a href="https://travis-ci.org/eshepelyuk/eshepelyuk.github.io/builds" target="_blank" rel="noopener">Travis CI</a> build section
 of your project to monitor your build progress.</p>
 </div>
 </div>
@@ -292,8 +286,8 @@ Supposedly described steps could be applied to other static site generators like
 <h2 id="credits"><a class="anchor" href="#credits"></a>Credits</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The actual setup and this post was inspired by <a href="https://twitter.com/mojavelinux" target="_blank">Dan Allen</a> reply to my tweet
-and the code from <a href="https://github.com/johncarl81/transfuse/tree/transfuse-jeykll-site" target="_blank">this project</a></p>
+<p>The actual setup and this post was inspired by <a href="https://twitter.com/mojavelinux" target="_blank" rel="noopener">Dan Allen</a> reply to my tweet
+and the code from <a href="https://github.com/johncarl81/transfuse/tree/transfuse-jeykll-site" target="_blank" rel="noopener">this project</a></p>
 </div>
 </div>
 </div>
@@ -302,19 +296,19 @@ and the code from <a href="https://github.com/johncarl81/transfuse/tree/transfus
 </div>
 
 <div id="disqus_thread"></div>
-<script type="text/javascript">
-	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-	var disqus_shortname = 'eshepelyukblog'; // required: replace example with your forum shortname
-	var disqus_url = 'http://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html';
-	
-	/* * * DON'T EDIT BELOW THIS LINE * * */
-	(function() {
-		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	})();
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://eshepelyuk.github.io/2014/10/28/automate-github-pages-travisci.html';
+        this.page.identifier = '/2014/10/28/automate-github-pages-travisci';
+    };
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://eshepelyukblog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 
       </div>
@@ -331,13 +325,6 @@ and the code from <a href="https://github.com/johncarl81/transfuse/tree/transfus
 	</div>	
 </footer>
 
-		
-		
-		
 	</body>
-
-
-
-
 
 </html>
