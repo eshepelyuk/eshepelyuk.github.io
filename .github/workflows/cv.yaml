@@ -22,7 +22,21 @@ jobs:
         name: "cv"
         path: "./EvgenyShepelyukCV.pdf"
 
-  # push_pdf:
-  #   name: Push PDF
-  #   runs-on: ubuntu-18.04
-  #   needs: build_pdf
+  push_pdf:
+    name: Push PDF
+    runs-on: ubuntu-18.04
+    needs: build_pdf
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: master
+      - uses: actions/download-artifact@v2
+        id: download
+        with:
+          name: "cv"
+          path: .
+      - run: git status
+      # - uses: actions-js/push@master
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     branch: master
