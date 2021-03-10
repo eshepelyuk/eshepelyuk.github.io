@@ -48,7 +48,7 @@ understanding their goals and facing or planning distinguishable technological c
 
 == PROFESSIONAL EXPERIENCE and PROJECT DETAILS
 
-=== New Age Solutions Ukraine LLC
+=== New Age Solutions Ukraine LLC (JUN 2016 - FEB 2021)
 
 *HRZN iGaming Platform - cloud native, microservice based, reactive,
 event driven iGaming platform delivering high performance and resilient products to iGaming operators,
@@ -79,7 +79,7 @@ Python, Jenkins, Gradle, AWS(EC2, RDS), Gatling, Asciidoctor, PlantUML.
 
 <<<
 
-=== Infopulse Ukraine LLC
+=== Infopulse Ukraine LLC (MAY 2013 - FEB 2016)
 
 *SMS SH (DEC 2015 - FEB 2016) - SMS blacklisting and routing service for mobile operator Golan Telecom*
 
@@ -108,9 +108,9 @@ Python, Jenkins, Gradle, AWS(EC2, RDS), Gatling, Asciidoctor, PlantUML.
 
 <<<
 
-=== Ciklum - Playtech Inc.
+=== Ciklum - Playtech Inc. (OCT 2012 – APR 2013)
 
-*WPL (OCT 2012 – APR 2013) - platform for creating online gambling web portals (as the company's product)*
+*WPL - platform for creating online gambling web portals (as the company's product)*
 
 * Technologies: J2SE, J2EE, Tomcat, JSON, Portlets, Liferay, MySQL, Spring, XML, JAXB, WebDriver, Groovy, Spock, Gradle, Jenkins
 * Team: Backend and Frontend development teams, QA team, ~25 people.
@@ -123,9 +123,9 @@ Python, Jenkins, Gradle, AWS(EC2, RDS), Gatling, Asciidoctor, PlantUML.
 ** Support for QA and Frontend teams
 ** Creating end-user solutions based on WPL platform
 
-=== SysIQ Inc. 
+=== SysIQ Inc. (NOV 2011 - OCT 2012)
 
-*Telescope.com (NOV 2011 - OCT 2012) - e-commerce portal based on OCP platform*
+*Telescope.com - e-commerce portal based on OCP platform*
 
 * Technologies: J2SE, J2EE, Tomcat, JSP, JSTL, MSSQL, Spring, XML, JAXB, WebDriver.
 * Team: ~7 developers
