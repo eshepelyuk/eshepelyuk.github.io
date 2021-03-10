@@ -56,7 +56,7 @@ including operational, analytical and infrastructure solutions.*
 * Technologies: Microservice Architecture, Event Driven Architecture, Reactive Programming, Scala,
 AKKA (actors, http, cluster, gRPC, streams), PostgreSQL, ElasticSearch, Confluent Platform,
 Kafka, Alpakka Kafka, KSQL, Avro, Docker, GitOps, Kubernetes, Kubernetes operators, Helm,
-Open Policy Agent, Prometheus, Grafana, Consul, Hashcorp Vault,
+Open Policy Agent, Prometheus, Grafana, Consul, Hashicorp Vault,
 Python, Jenkins, Gradle, AWS(EC2, RDS), Gatling, Asciidoctor, PlantUML.
 * Team: 4 dev teams, Data team, QA team, BA team, Infrastructure team, ~ 60 people.
 * Role: Solution Architect, Software Architect, Principal Software Engineer.
