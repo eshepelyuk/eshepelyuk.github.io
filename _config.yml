@@ -1,7 +1,7 @@
 # Site settings
 title: JK's blog
 email: eshepelyk@gmail.com
-description: Simple blog for some thoughts to be shared. Mostly about Java programming
+description: A place for some thoughts to be shared. Mostly about IT.
 baseurl: "https://eshepelyuk.github.io"
 
 google_analytics: true
@@ -15,5 +15,5 @@ asciidoctor:
 
 disqus_shortname: eshepelyukblog
 
-exclude: ['README.adoc', 'Gemfile.lock', 'Gemfile', '*.sh', '*.iml', 'pdf-theme', 'EvgenyShepelyukCV.adoc']
+exclude: ['README.adoc', 'Gemfile.lock', 'Gemfile', '*.sh', '*.iml', 'pdf-theme', 'IevgeniiShepeliukCV.adoc']
 
